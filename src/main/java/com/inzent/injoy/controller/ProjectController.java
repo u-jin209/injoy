@@ -5,14 +5,13 @@ import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/project/")
 public class ProjectController {
     private ProjectService projectService;
     private UserService userService;
@@ -21,12 +20,11 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/addMember", method = RequestMethod.GET)
-    @ResponseBody
-    public List<UserDTO> addMember(){
+    @GetMapping("addMember")
+    public String addMember(Model model){
         List<UserDTO> userList = userService.selectAll();
-        System.out.printf(userList.toString());
-        return userList;
+        model.addAttribute("users", userList);
+        return "addMember";
     }
 
 
