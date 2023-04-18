@@ -24,7 +24,19 @@ public class ProjectController {
     public String addMember(Model model){
         List<UserDTO> userList = userService.selectAll();
         model.addAttribute("users", userList);
-        return "addMember";
+        return "/project/addMember";
+    }
+
+    @GetMapping("newProject")
+    public String newProject(Model model){
+
+        return "/project/newProject";
+    }
+
+    @GetMapping("projectList")
+    public String projectList(Model model){
+
+        return "/project/projectList";
     }
 
 
