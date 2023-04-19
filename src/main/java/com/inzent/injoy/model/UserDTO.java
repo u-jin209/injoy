@@ -11,4 +11,6 @@ public class UserDTO {
 
     //이것을 추가했습니다.
     private String Cherry;
+    private String Cherry2;
+
 }
