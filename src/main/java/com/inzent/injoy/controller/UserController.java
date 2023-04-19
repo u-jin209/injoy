@@ -55,4 +55,9 @@ public class UserController {
             return "user/register";
         }
     }
+
+    @GetMapping("userInfo")
+    public String userInfo(){
+        return "user/userInfo";
+    }
 }

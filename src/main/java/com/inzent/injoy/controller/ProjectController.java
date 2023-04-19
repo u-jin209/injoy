@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/project/")
+@RequestMapping("/project")
 public class ProjectController {
-    private ProjectService projectService;
+
     private UserService userService;
 
     public ProjectController(UserService userService){
@@ -22,8 +22,7 @@ public class ProjectController {
 
     @GetMapping("addMember")
     public String addMember(Model model){
-        List<UserDTO> userList = userService.selectAll();
-        model.addAttribute("users", userList);
+
         return "/project/addMember";
     }
 
