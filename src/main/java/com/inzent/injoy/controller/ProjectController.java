@@ -32,11 +32,15 @@ public class ProjectController {
 
         return "/project/newProject";
     }
+    @GetMapping("newProjectMain")
+    public String newProjectMain(Model model){
 
-    @GetMapping("projectList")
-    public String projectList(Model model){
+        return "/project/newProjectMain";
+    }
+    @GetMapping("myProject")
+    public String myProject(Model model){
 
-        return "/project/projectList";
+        return "/project/myProject";
     }
 
 

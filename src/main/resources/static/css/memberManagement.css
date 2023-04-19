@@ -240,9 +240,10 @@ input.minusBtn{
 .project{
 
     margin: 22px;
-    width: 75%;
-
-    border-radius: 70%;
+    width: 175px;
+    height: 150px;
+    background-color: #E6E6E6;
+    border-radius: 15%;
     overflow: hidden;
     object-fit: cover;
     flex: fit-content;
