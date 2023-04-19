@@ -1,0 +1,51 @@
+ul {
+    list-style-type: none;
+    background-color: #001542;
+    width: 15%;
+    padding: 0;
+    margin:0;
+    top:30px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    float: left;
+
+}
+
+li {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+li img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20%;
+    width : 50%;
+}
+
+li button {
+    width: 80%;
+    margin: auto;
+    display: inline-block;
+    color: black !important;
+    background-color: white !important;
+}
+
+li a {
+    text-decoration: none;
+    display: block;
+    color: #3064B3;
+    padding: 8px 15px 8px 15px;
+    font-weight: bold;
+}
+
+li a.job {
+    background-color: #3064B3;
+    color: #000;
+}
+
+li a:hover:not(.job) {
+    background-color: #333;
+    color: #fff;
+}
