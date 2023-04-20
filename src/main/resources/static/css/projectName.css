@@ -1,0 +1,16 @@
+.visitButton {
+    margin: auto;
+    display: inline-block;
+    color: white;
+    background-color: #FFB30D !important;
+    --bs-btn-bg: #FFB30D ;
+    --bs-btn-border-color : #FFB30D ;
+    --bs-btn-hover-bg : #ffb200;
+    --bs-btn-hover-border-color : #ffb200;
+    --bs-btn-active-bg : #ffb200;
+    --bs-btn-active-border-color : #ffb200;
+    --bs-btn-disabled-bg : #FFB30D;
+    --bs-btn-disabled-border-color : #FFB30D ;
+    border-radius: 5px;
+
+}

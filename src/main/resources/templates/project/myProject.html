@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org" lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>myProject</title>
+
+
+    <!-- 내 css  -->
+    <link rel="stylesheet" href="/css/memberManagement.css">
+
+
+
+
+</head>
+
+
+
+<body>
+<div layout:fragment="content">
+
+    <div class="container" style="content-align: center; padding: 2%">
+        <div class="title"> 내 프로젝트</div>
+        <div class="row">
+            <div class="col-md-3 " th:each="p : ${projectList}" style="float: left">
+                <div class="project" >
+                    <div>
+                        <button class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-star" viewBox="0 0 16 16">
+                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                            </svg>
+                        </button>
+
+                    <div class="subTitle"  th:text="${p.getProjectName()}"></div>
+
+
+                        <button class="btn"  type="button"  data-toggle="modal" data-target="#memberModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-people-fill" viewBox="0 0 16 16">
+                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">참여중인 맴버</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body scrollDiv" style="height: 500px;overflow-y: scroll  ">
+                    <div class="row mt-5 mb-5" style="justify-content: center; ">
+                        <div class="col-md-10">
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="/img/moru.jpg" class="member" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body" style="text-align: left">
+                                            <h5 class="card-title">포테토</h5>
+                                            <p class="card-text">모루카.</p>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="/img/moru.jpg" class="member" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body" style="text-align: left">
+                                            <h5 class="card-title">포테토</h5>
+                                            <p class="card-text">모루카.</p>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="/img/moru.jpg" class="member" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body" style="text-align: left">
+                                            <h5 class="card-title">포테토</h5>
+                                            <p class="card-text">모루카.</p>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="/img/moru.jpg" class="member" alt="...">
+                                    </div>
+                                    <div class="col-md-8 mt-3">
+                                        <div class="card-body" style="text-align: left">
+                                            <h5 class="card-title">포테토</h5>
+                                            <p class="card-text">모루카.</p>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+
+
+
+</html>

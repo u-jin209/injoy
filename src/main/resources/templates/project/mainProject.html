@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/projectLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+</head>
+<body layout:fragment="projectContent">
+<ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
+    <li class="nav-item">
+        <div class="nav-link disabled"></div>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+           aria-controls="home-tab-pane" aria-selected="true">홈</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="task-tab" data-bs-toggle="tab" data-bs-target="#task-tab-pane"
+           aria-controls="task-tab-pane" aria-selected="false">업무</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="kanban-tab" data-bs-toggle="tab" data-bs-target="#kanban-tab-pane"
+           aria-controls="kanban-tab-pane" aria-selected="false">칸반보드</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-tab-pane"
+           aria-controls="schedule-tab-pane" aria-selected="false">캘린더</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
+           aria-controls="member-tab-pane" aria-selected="false">멤버관리</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div th:insert="~{/project/projectHome :: homeContent}"></div>
+    </div>
+    <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="0">
+        <div th:insert="~{/project/taskPage :: taskContent}"></div>
+    </div>
+    <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="0">
+        <div th:insert="~{/project/kanban :: kanbanContent}"></div>
+    </div>
+    <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="0">
+        .ddee2255464r..
+    </div>
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="0">.ghhhhh..</div>
+</div>
+</body>
+</html>

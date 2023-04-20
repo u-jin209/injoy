@@ -33,7 +33,7 @@ public class UserController {
             return "redirect:/board/showAll/1";   //페이지 url까지 바꿔줌
         } else {
             model.addAttribute("message", "로그인 정보를 다시 확인해주세요.");
-            return "index";
+            return "test";
         }
     }
     @GetMapping("logInPage")
@@ -54,5 +54,10 @@ public class UserController {
             model.addAttribute("message", "중복된 아이디로 가입하실  수 없습니다.");
             return "user/register";
         }
+    }
+
+    @GetMapping("userInfo")
+    public String userInfo(){
+        return "user/userInfo";
     }
 }
