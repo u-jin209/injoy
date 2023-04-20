@@ -10,11 +10,11 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
-<th:block th:replace="/fragment/header :: headFragment"></th:block>
+<th:block th:replace="~{/fragment/header :: headFragment}"></th:block>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2" style="padding-right: 0; padding-left: 0; width: 15%">
-            <div th:replace="/fragment/sideBar :: sideBarFragment"></div>
+            <div th:replace="~{/fragment/sideBar :: sideBarFragment}"></div>
         </div>
         <div class="col">
             <div layout:fragment="content"></div>

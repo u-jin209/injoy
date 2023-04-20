@@ -11,6 +11,18 @@ public class HomeController {
         return "test";
 
     }
+
+    @GetMapping("/project")
+    public String showProject() {
+        return "project/mainPage";
+
+    }
+
+    @GetMapping("/kanbanBoard")
+    public String showKanban() {
+        return "project/kanban";
+
+    }
 }
 
 
