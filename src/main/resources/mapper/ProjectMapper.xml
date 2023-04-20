@@ -3,7 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProjectMapper">
-    <select id="selectAll" resultType="ProjectDTO">
-        SELECT * FROM injoy.project
+    <select id="selectAll" parameterType="int" resultType="ProjectDTO">
+        SELECT * FROM injoy.project where "creatorUserId"=#{id}
     </select>
+    <insert id="insert" parameterType="ProjectDTO">
+        insert into injoy.project("projectName","explanation","creatorUserId")
+        values (#{projectName},#{explanation},#{creatorUserId})
+    </insert>
 </mapper>
