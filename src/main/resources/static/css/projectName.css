@@ -2,6 +2,7 @@
     margin: auto;
     display: inline-block;
     color: white;
+    background-color: #FFB30D !important;
     --bs-btn-bg: #FFB30D ;
     --bs-btn-border-color : #FFB30D ;
     --bs-btn-hover-bg : #ffb200;
