@@ -22,5 +22,9 @@ public class ProjectService {
         return session.selectList(NAMESPACE + ".selectAll");
     }
 
+    public void insert(ProjectDTO projectDTO){
+         session.insert(NAMESPACE+".insert", projectDTO);
+    }
+
 
 }

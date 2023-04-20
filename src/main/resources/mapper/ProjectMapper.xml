@@ -6,4 +6,8 @@
     <select id="selectAll" resultType="ProjectDTO">
         SELECT * FROM injoy.project
     </select>
+    <insert id="insert" parameterType="ProjectDTO">
+        insert into injoy.project("projectName","explanation","creatorUserId")
+        values (#{projectName},#{explanation},#{creatorUserId})
+    </insert>
 </mapper>
