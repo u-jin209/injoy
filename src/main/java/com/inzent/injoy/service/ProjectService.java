@@ -17,9 +17,9 @@ public class ProjectService {
     }
 
 
-    public List<ProjectDTO> selectAll(){
+    public List<ProjectDTO> selectAll(int id){
 
-        return session.selectList(NAMESPACE + ".selectAll");
+        return session.selectList(NAMESPACE + ".selectAll", id);
     }
 
     public void insert(ProjectDTO projectDTO){

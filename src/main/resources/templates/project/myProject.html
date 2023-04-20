@@ -24,8 +24,8 @@
     <div class="container" style="content-align: center; padding: 2%">
         <div class="title"> 내 프로젝트</div>
         <div class="row">
-            <div class="col-md-3 " style="float: left">
-                <div class="project">
+            <div class="col-md-3 " th:each="p : ${projectList}" style="float: left">
+                <div class="project" >
                     <div>
                         <button class="btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -34,7 +34,7 @@
                             </svg>
                         </button>
 
-                    <div class="subTitle">프로젝트 이름</div>
+                    <div class="subTitle"  th:text="${p.getProjectName()}"></div>
 
 
                         <button class="btn"  type="button"  data-toggle="modal" data-target="#memberModal">
