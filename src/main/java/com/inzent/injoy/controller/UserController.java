@@ -33,7 +33,7 @@ public class UserController {
             return "redirect:/board/showAll/1";   //페이지 url까지 바꿔줌
         } else {
             model.addAttribute("message", "로그인 정보를 다시 확인해주세요.");
-            return "index";
+            return "test";
         }
     }
     @GetMapping("logInPage")

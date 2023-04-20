@@ -37,6 +37,7 @@ ul {
     margin: auto;
     display: inline-block;
     color: black !important;
+    background-color: #3064B3;
     --bs-btn-bg: white;
     --bs-btn-border-color : white;
     --bs-btn-hover-bg : #c3c3c3;
