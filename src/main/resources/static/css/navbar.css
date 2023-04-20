@@ -1,5 +1,5 @@
 .nav-underline{
-    --bs-nav-underline-gap : 2rem;
+    --bs-nav-underline-gap : 2rem !important;
 }
 
 .nav-link{

@@ -8,15 +8,16 @@
 <head>
     <title></title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}"/>
 </head>
 <body>
 <th:block th:replace="~{/fragment/header :: headFragment}"></th:block>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-2" style="padding-right: 0; padding-left: 0; width: 15%">
+        <div class="col-1 sidebar" style=" ">
             <div th:replace="~{/fragment/sideBar :: sideBarFragment}"></div>
         </div>
-        <div class="col">
+        <div class="col-11 content" style="padding-right: 0; padding-left: 0; ">
             <div layout:fragment="content"></div>
         </div>
     </div>
