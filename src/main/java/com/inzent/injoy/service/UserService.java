@@ -61,11 +61,6 @@ public class UserService implements UserDetailsService {
         session.update(NAMESPACE + ".update", userDTO);
     }
 
-//    public void update(UserDTO attempt) {
-//        session.update(NAMESPACE + ".update", attempt);
-//    }
-//    public void delete(int id){
-//        session.delete(NAMESPACE + ".delete", id);
-//    }
 
 }
+

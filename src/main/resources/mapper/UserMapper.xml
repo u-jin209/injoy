@@ -4,29 +4,30 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.UserMapper">
 
-    <select id="auth" parameterType="userDTO" resultType="userDTO">
-        SELECT * FROM public.user
+
+    <select id="auth" parameterType="UserDTO" resultType="UserDTO">
+        SELECT * FROM injoy.user
         WHERE username = #{username}
         AND
         password = #{password}
     </select>
 
-    <select id="validate" parameterType="string" resultType="userDTO">
-        SELECT * FROM public.user
+    <select id="validate" parameterType="string" resultType="UserDTO">
+        SELECT * FROM injoy.user
         WHERE username = #{username}
     </select>
 
-    <insert id="register" parameterType="userDTO">
-        INSERT INTO public.user(username, password)
+    <insert id="register" parameterType="UserDTO">
+        INSERT INTO injoy.user(username, password)
         VALUES(#{username},#{password})
     </insert>
 
-    <select id="selectAll" resultType="userDTO">
-        SELECT * FROM public.user
+    <select id="selectAll" resultType="UserDTO">
+        SELECT * FROM injoy.user
     </select>
 
-    <update id="update" parameterType="userDTO">
-        UPDATE public.user
+    <update id="update" parameterType="UserDTO">
+        UPDATE injoy.user
         SET
         password = #{password},
         nickname = #{nickname}
