@@ -77,9 +77,18 @@
 }
 .title{
     margin: 30px 0px 30px 0px;
+    font-size: xx-large;
     font-weight: bold;
     color: #303030;
 }
+.subTitle {
+    margin: 20px 20px 20px 10px;
+    font-size: medium;
+    font-weight: bold;
+    color: #303030;
+
+}
+
 .member{
 
 
@@ -117,10 +126,25 @@ input.minusBtn{
     border: none;
 
 }
+.btn-orange:hover{
+    background-color: #3064B3 ;
+    color: #fff;
+    border-radius: 12px;
+    border: none;
+}
 .btn-gray{
     background-color: #E6E6E6;
     color: #fff;;
     border-radius: 12px;
+    border: none;
+}
+.btn-white:hover{
+    background-color: #FFB30D ;
+    color: #fff;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
     border: none;
 }
 .btn-blue{
@@ -130,6 +154,15 @@ input.minusBtn{
     border: none;
     min-height: 50px;
     max-width: 300px;
+}
+.btn-white:hover{
+    background-color: #FFB30D ;
+    color: #fff;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
+    border: none;
 }
 .my-hr2 {
     border: 0;
@@ -219,14 +252,15 @@ input.minusBtn{
 .memberInfo{
 
     color: #303030;
-    background: #E6E6E6;
+    background: #fff;
     text-align: -webkit-center;
-    border: 1px solid #303030 ;
+    border: 1px solid #CCCCCC ;
     width: 500px;
     height: 80px;
     align-items: center;
     margin: 10px 0px 10px 0px;
     border-radius: 15px;
+    box-shadow: 5px 5px #E6E6E6;
 
 }
 
@@ -234,6 +268,7 @@ input.minusBtn{
     height: 250px;
     width: 250px;
     border: 1px solid #E6E6E6 ;
+    margin-bottom: 3%;
 }
 
 
