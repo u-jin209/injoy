@@ -7,7 +7,7 @@
         SELECT * FROM injoy.project where "creatorUserId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
-        insert into injoy.project("projectName","explanation","creatorUserId")
-        values (#{projectName},#{explanation},#{creatorUserId})
+        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode")
+        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode})
     </insert>
 </mapper>

@@ -61,6 +61,8 @@ public class UserService implements UserDetailsService {
         session.update(NAMESPACE + ".update", userDTO);
     }
 
-
+    public void updateInfo(UserDTO userDTO) {
+        session.update(NAMESPACE + ".updateInfo", userDTO);
+    }
 }
 

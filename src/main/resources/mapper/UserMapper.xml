@@ -35,4 +35,20 @@
         id=#{id}
     </update>
 
+    <select id="selectOne" parameterType="int" resultType="UserDTO">
+        SELECT * FROM injoy.user where id=#{id}
+    </select>
+
+    <update id="updateInfo" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        name = #{name},
+        "phoneNumber" = #{phoneNumber},
+        "condition" = #{condition},
+        "profilePhoto" =#{profilePhoto},
+        email = #{email}
+        WHERE
+        id=#{id}
+    </update>
+
 </mapper>

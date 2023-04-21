@@ -3,21 +3,15 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.ProjectDTO;
 
-import java.net.http.HttpRequest;
 import java.util.UUID;
 
 import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/project")
@@ -36,6 +30,11 @@ public class ProjectController {
 
         return "/project/addMember";
     }
+    @GetMapping("joinProject")
+    public String joinProject(Model model) {
+
+        return "joinProject";
+    }
 
     @GetMapping("newProject")
     public String newProject(Model model) {
@@ -50,8 +49,17 @@ public class ProjectController {
     }
 
     @GetMapping("myProject")
+
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null){
+
+
+            return "/user/logIn";
+        }
+
         model.addAttribute("projectList",projectService.selectAll(login.getUserDTO().getId()));
+
         return "/project/myProject";
     }
 
@@ -67,7 +75,7 @@ public class ProjectController {
 
         projectService.insert(projectDTO);
 
-        return "redirect:/";
+        return "redirect:/project/myProject";
     }
 
 
