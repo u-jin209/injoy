@@ -6,10 +6,10 @@
 }
 
 
-ul {
+.sidebar_ul {
     list-style-type: none;
     background-color: #001542;
-    width: 15%;
+    width: 8.8%;
     padding: 0;
     margin:0;
     top:30px;
@@ -29,7 +29,7 @@ ul {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 20%;
-    width : 50%;
+    width : 60%;
 }
 
 .sidebar_li .projectButton {
@@ -37,6 +37,7 @@ ul {
     margin: auto;
     display: inline-block;
     color: black !important;
+    background-color: white;
     --bs-btn-bg: white;
     --bs-btn-border-color : white;
     --bs-btn-hover-bg : #c3c3c3;

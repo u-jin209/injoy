@@ -1,7 +1,7 @@
 .writeBox{
     width: 60%;
     overflow: hidden;
-    margin: 15px 0;
+    margin: 15px 30px;
     border : 1px solid #777;
     border-radius: 6px;
     background-color: white;
@@ -52,4 +52,8 @@
     float: left;
     font-size: 14px;
     color: #555;
+}
+
+.modal-content{
+    height: 80%;
 }
