@@ -9,4 +9,9 @@ import lombok.Data;
     String explanation;
     String managerApproval;
     int creatorUserId;
+
+
+    int projectMemberId;
+    int userId;
+    String authority;
 }

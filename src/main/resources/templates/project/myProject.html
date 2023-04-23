@@ -37,7 +37,8 @@
 
 
             <div class="col-md-3 " th:each="p : ${projectList}" style="float: left">
-                <div class="project" >
+
+                <div class="project" th:onclick="|location.href='/project/${p.getProjectId()}'|" >
                     <div>
                         <button class="btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -205,6 +206,11 @@
            }
 
         }
+
+        function goProject(projectId){
+            location.herf = "/project/"+projectId;
+        }
+
         /*]]>*/
     </script>
 

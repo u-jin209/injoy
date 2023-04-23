@@ -5,7 +5,9 @@ import com.inzent.injoy.model.ProjectDTO;
 
 import java.util.UUID;
 
+import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
+import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,10 +21,13 @@ public class ProjectController {
 
     private UserService userService;
     private ProjectService projectService;
+    private ProjectMemberService projectMemberService;
 
-    public ProjectController(UserService userService, ProjectService projectService) {
+
+    public ProjectController(UserService userService, ProjectService projectService,ProjectMemberService projectMemberService) {
         this.userService = userService;
         this.projectService = projectService;
+        this.projectMemberService = projectMemberService;
     }
 
     @GetMapping("addMember")
@@ -30,6 +35,18 @@ public class ProjectController {
 
         return "/project/addMember";
     }
+
+    @PostMapping("insertMember")
+    public String insertMember(Model model, ProjectMemberDTO projectMemberDTO) {
+
+
+        projectMemberService.insert(projectMemberDTO);
+
+
+
+        return "/project/addMember";
+    }
+
     @GetMapping("joinProject")
     public String joinProject(Model model) {
 

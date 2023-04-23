@@ -6,6 +6,12 @@
     <select id="selectAll" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project where "creatorUserId"=#{id}
     </select>
+    <select id="selectProject" parameterType="int" resultType="ProjectDTO">
+        SELECT * FROM injoy.project p
+        inner join injoy."projectMember" m
+        on p."projectId" = m."projectId"
+        where p."projectId"=#{id}
+    </select>
     <insert id="insert" parameterType="ProjectDTO">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode")
         values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode})

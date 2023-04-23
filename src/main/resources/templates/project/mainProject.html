@@ -45,9 +45,11 @@
         <div th:insert="~{/project/kanban :: kanbanContent}"></div>
     </div>
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
-        .ddee2255464r..
+
     </div>
-    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">.ghhhhh..</div>
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
+        <div th:insert="~{/project/addMember :: addMemberContent (${project})}" ></div>
+    </div>
 </div>
 </body>
 </html>

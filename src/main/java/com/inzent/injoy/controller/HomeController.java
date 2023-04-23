@@ -1,22 +1,31 @@
 package com.inzent.injoy.controller;
+import com.inzent.injoy.service.ProjectService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
 public class HomeController {
-
+    private ProjectService projectService;
+    public HomeController(ProjectService projectService)
+    {
+        this.projectService = projectService;
+    }
     @GetMapping("/")
     public String test() {
         return "test";
 
     }
 
-    @GetMapping("/project")
-    public String showProject() {
+    @GetMapping("/project/{projectId}")
+    public String showProject(Model model , @PathVariable int projectId) {
+        System.out.println("project :"+projectService.selectProject(projectId));
+        model.addAttribute("project",projectService.selectProject(projectId));
+
         return "project/mainProject";
 
     }
