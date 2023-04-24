@@ -9,11 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/member/")
 public class ProjectMemberController {
-    private  final ProjectMemberService memberService;
-    private final ProjectService projectService;
+    private  ProjectMemberService memberService;
+    private  ProjectService projectService;
 
     public ProjectMemberController(ProjectMemberService memberService, ProjectService projectService){
         this.memberService = memberService;
@@ -50,10 +53,32 @@ public class ProjectMemberController {
     }
     @ResponseBody
     @GetMapping("delete")
-    public String delete(Model model, int id){
+    public String delete(Model model, int userId){
 
-        System.out.println("id: " + id);
-        memberService.delete(id);
+        memberService.delete(userId);
         return "redirect:history.go(-1)";
     }
+
+
+    @ResponseBody
+    @GetMapping("approve")
+    public String approve(Model model, Integer userId , Integer projectId){
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
+        map.put("userId", userId);
+        map.put("projectId",projectId);
+
+
+        System.out.println("approve 실행 @@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@userId :" + map.get("userId"));
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@projectId :" + map.get("projectId"));
+        System.out.println("@@@@@@@@@@@@ memberService.selectOne(userId): " + memberService.selectOne(map) );
+
+        ProjectMemberDTO origin = memberService.selectOne(map);
+        origin.setAuthority("MEMBER");
+        memberService.update(origin);
+        return "redirect:history.go(-1)";
+    }
+
 }

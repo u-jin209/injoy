@@ -26,10 +26,15 @@ public class HomeController {
 
     @GetMapping("/project/{projectId}")
     public String showProject(Model model , @PathVariable int projectId) {
-        System.out.println("project :"+projectService.selectProject(projectId));
+
+
+
+//      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("projectList",projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
+        model.addAttribute("waitList", memberService.selectWait(projectId));
 
+//      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";
 
