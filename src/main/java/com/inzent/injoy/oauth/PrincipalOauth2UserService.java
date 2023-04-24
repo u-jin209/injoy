@@ -7,6 +7,7 @@ import com.inzent.injoy.oauth.provider.GoogleUserInfo;
 import com.inzent.injoy.oauth.provider.KakaoUserInfo;
 import com.inzent.injoy.oauth.provider.OAuth2UserInfo;
 import com.inzent.injoy.service.UserService;
+import jakarta.jws.soap.SOAPBinding;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,8 +48,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		Map<String, String> params = new HashMap<>();
 		params.put("provider", provider);
 		params.put("providerId", providerId);
-		Optional<UserDTO> userDTO = session.selectOne(NAMESPACE+".findOauthUser",params);
-		return userDTO;
+		UserDTO userDTO = session.selectOne(NAMESPACE+".findOauthUser",params);
+		Optional<UserDTO> user = Optional.ofNullable(userDTO);
+		return user;
 	}
 
 	public boolean validate(String username){
@@ -82,13 +84,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //				userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 //		Optional<UserDTO> userOptional = userService.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 		Optional<UserDTO> userOptional = findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
-
 		UserDTO userDTO;
-		if (userOptional != null && userOptional.isPresent()) {
+//		if (userOptional != null && userOptional.isPresent()) {
+		if (userOptional.isPresent()) {
 			userDTO = userOptional.get();
-			// user가 존재하면 update 해주기
-			userDTO.setEmail(oAuth2UserInfo.getEmail());
-			register(userDTO);
+//			// user가 존재하면 update 해주기
+//			userDTO.setEmail(oAuth2UserInfo.getEmail());
+//			register(userDTO);
 //			userService.register(userDTO);
 //			userRepository.save(userDTO);
 		} else {
