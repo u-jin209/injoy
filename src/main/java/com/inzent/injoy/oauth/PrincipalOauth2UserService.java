@@ -73,7 +73,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 		} else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
 			System.out.println("카카오 로그인 요청~~");
-			oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes().get("response"));
+			System.out.println(oAuth2User.getAttributes());
+//			oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes().get("response"));
 		} else {
 			System.out.println("우리는 구글과 카카오만 지원해요 ㅎㅎ");
 		}
