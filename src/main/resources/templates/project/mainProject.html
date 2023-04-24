@@ -48,7 +48,8 @@
 
     </div>
     <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
-        <div th:insert="~{/project/addMember :: addMemberContent (${project})}" ></div>
+        <div th:replace="~{/project/addMember :: addMemberContent(${projectList}, ${memberList})}" ></div>
+
     </div>
 </div>
 </body>

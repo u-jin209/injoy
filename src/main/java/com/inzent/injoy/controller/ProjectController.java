@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/project")
 public class ProjectController {
 
-    private UserService userService;
-    private ProjectService projectService;
-    private ProjectMemberService projectMemberService;
+    private  final UserService userService;
+    private  final ProjectService projectService;
+    private final ProjectMemberService projectMemberService;
 
 
     public ProjectController(UserService userService, ProjectService projectService,ProjectMemberService projectMemberService) {
@@ -36,21 +36,11 @@ public class ProjectController {
         return "/project/addMember";
     }
 
-    @PostMapping("insertMember")
-    public String insertMember(Model model, ProjectMemberDTO projectMemberDTO) {
-
-
-        projectMemberService.insert(projectMemberDTO);
-
-
-
-        return "/project/addMember";
-    }
 
     @GetMapping("joinProject")
     public String joinProject(Model model) {
 
-        return "joinProject";
+        return "/project/joinProject";
     }
 
     @GetMapping("newProject")
@@ -85,14 +75,14 @@ public class ProjectController {
 
 
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
-        System.out.println("id : "+login.getUserDTO().getId());
-        System.out.println("username : "+login.getUserDTO().getUsername());
-        System.out.println("id : "+login.getUserDTO());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
 
         projectService.insert(projectDTO);
 
-        return "redirect:/project/myProject";
+
+
+
+        return "redirect:/member/insert/-1";
     }
 
 

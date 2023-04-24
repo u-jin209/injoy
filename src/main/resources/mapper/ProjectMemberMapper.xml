@@ -3,12 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProjectMemberMapper">
-    <select id="selectAll" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.projectMember where "projectId"=#{projectId}
+    <select id="selectMember" parameterType="int" resultType="projectMemberDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."user" u
+        on m."userId" = u."id"
+        where "projectId"=#{projectId}
     </select>
     <insert id="insert" parameterType="projectMemberDTO" >
-        insert into injoy.projectMember( "projectId",  "userId", "authority")
+        insert into injoy."projectMember"( "projectId",  "userId", "authority")
         values ( #{projectId},  #{userId}, #{authority})
     </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from injoy."projectMember"
+        where "userId" = #{userId}
+    </delete>
 
 </mapper>
