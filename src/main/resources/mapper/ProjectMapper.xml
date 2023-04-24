@@ -4,16 +4,24 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProjectMapper">
     <select id="selectAll" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.project where "creatorUserId"=#{id}
+        SELECT * FROM injoy.project P
+        inner join injoy."projectMember" m
+        on p."projectId" = m."projectId"
+
+        where "creatorUserId"=#{id} and "userId" =#{id}
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project p
-        inner join injoy."projectMember" m
-        on p."projectId" = m."projectId"
         where p."projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode")
         values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode})
     </insert>
+
+<!--    최근생성된 프로젝트 id 반환-->
+    <select id="selectLastId" resultType="int">
+        SELECT "projectId" FROM injoy.project
+        order by "projectId" DESC LIMIT 1;
+    </select>
 </mapper>

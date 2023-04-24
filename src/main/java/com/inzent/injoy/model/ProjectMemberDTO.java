@@ -8,4 +8,12 @@ import lombok.Data;
     int userId;
     String authority;
 
+
+    //조인시 유저 정보
+    private String name;
+    private String phoneNumber;
+    private String email;
+
+
+
 }

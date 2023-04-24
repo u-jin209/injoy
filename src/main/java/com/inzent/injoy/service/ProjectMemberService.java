@@ -17,10 +17,10 @@ public class ProjectMemberService {
     }
 
 
-    public List<ProjectMemberDTO> selectAll(int id){
+    public List<ProjectMemberDTO> selectMember(int id){
 
-        System.out.println("서비스 selectList" + session.selectList(NAMESPACE + ".selectAll", id));
-        return session.selectList(NAMESPACE + ".selectAll", id);
+        System.out.println("서비스 selectMember" + session.selectList(NAMESPACE + ".selectMember", id));
+        return session.selectList(NAMESPACE + ".selectMember", id);
     }
 
     public void insert(ProjectMemberDTO projectMemberDTO){
