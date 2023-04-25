@@ -18,6 +18,11 @@
     </select>
 
     <insert id="register" parameterType="UserDTO">
+        INSERT INTO injoy.user(username, password,email,name,role,phonenumber,crtndate,profilephoto,organid,provider,providerid,emailverified)
+        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified})
+    </insert>
+
+    <insert id="authRegister" parameterType="UserDTO">
         INSERT INTO injoy.user(username, password)
         VALUES(#{username},#{password})
     </insert>
@@ -50,5 +55,10 @@
         WHERE
         id=#{id}
     </update>
+
+    <select id="findOauthUser" parameterType="map" resultType="UserDTO">
+        SELECT * FROM injoy.user
+        WHERE provider = #{provider} AND providerid = #{providerId}
+    </select>
 
 </mapper>

@@ -4,7 +4,6 @@ package com.inzent.injoy.service;
 
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
     private final String NAMESPACE = "mapper.UserMapper";
@@ -42,6 +45,14 @@ public class UserService implements UserDetailsService {
         }else {
             return false;
         }
+    }
+
+    public Optional<UserDTO> findByProviderAndProviderId(String provider, String providerId){
+        Map<String, String> params = new HashMap<>();
+        params.put("provider", provider);
+        params.put("providerId", providerId);
+        Optional<UserDTO> userDTO = session.selectOne(NAMESPACE+".findOauthUser",params);
+        return userDTO;
     }
 
     @Override

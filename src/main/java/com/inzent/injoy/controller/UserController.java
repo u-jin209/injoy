@@ -45,7 +45,6 @@ public class UserController {
     }
     @GetMapping("register")
     public String showRegister() {
-        System.out.println(userService.selectAll());
         return "user/register";
     }
 
