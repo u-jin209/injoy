@@ -33,6 +33,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //	@Autowired
 //	UserService userService;
 	// userRequest 는 code를 받아서 accessToken을 응답 받은 객체
+
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
@@ -68,6 +69,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
 		OAuth2UserInfo oAuth2UserInfo = null;
+		System.out.println(userRequest);
+		System.out.println(userRequest.getClientRegistration().getRegistrationId());
 		if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
 			System.out.println("구글 로그인 요청~~");
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
