@@ -34,8 +34,10 @@ public class ProjectMemberService {
          session.delete(NAMESPACE+".delete", userId);
     }
 
-    public List<UserDTO> searchUser(int projectId){
-        return session.selectList(NAMESPACE+".searchUser",projectId);
+    public List<ProjectMemberDTO> searchUser(ProjectMemberDTO memberDTO){
+
+        System.out.println("service 에서 search user :" + session.selectList(NAMESPACE+".searchUser",memberDTO) );
+        return session.selectList(NAMESPACE+".searchUser",memberDTO);
     }
 
     public List<ProjectMemberDTO> selectWait(int projectId){

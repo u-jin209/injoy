@@ -2,6 +2,7 @@ package com.inzent.injoy.controller;
 import com.google.gson.JsonObject;
 import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
+import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.ListResourceBundle;
 import java.util.Map;
 
 @Controller
@@ -70,15 +73,24 @@ public class ProjectMemberController {
         map.put("projectId",projectId);
 
 
-        System.out.println("approve 실행 @@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@userId :" + map.get("userId"));
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@projectId :" + map.get("projectId"));
-        System.out.println("@@@@@@@@@@@@ memberService.selectOne(userId): " + memberService.selectOne(map) );
-
         ProjectMemberDTO origin = memberService.selectOne(map);
         origin.setAuthority("MEMBER");
         memberService.update(origin);
         return "redirect:history.go(-1)";
+    }
+
+    @ResponseBody
+    @GetMapping("search")
+    public List<ProjectMemberDTO> searchUser(String keyword, int projectId){
+
+        ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+        memberDTO.setKeyword(keyword);
+        memberDTO.setProjectId(projectId);
+
+        System.out.println("@@@@@@@@@@keyword :" +keyword);
+        System.out.println("@@@@@@@@@@projectId :" +projectId);
+        System.out.printf("@@@@@@@@@@@@@@@ memberService.searchUser(memberDTO) : "+  memberService.searchUser(memberDTO));
+        return memberService.searchUser(memberDTO);
     }
 
 }

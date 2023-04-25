@@ -18,8 +18,8 @@
     </select>
 
     <insert id="register" parameterType="UserDTO">
-        INSERT INTO injoy.user(username, password,email,name,role,phonenumber,crtndate,profilephoto,organid,provider,providerid,emailverified)
-        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified})
+        INSERT INTO injoy.user(username, password,name,role)
+        VALUES(#{username},#{password},#{name},#{role})
     </insert>
 
     <insert id="authRegister" parameterType="UserDTO">

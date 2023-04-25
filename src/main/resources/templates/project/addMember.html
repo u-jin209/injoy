@@ -2,7 +2,7 @@
 
 <html
         xmlns:th="http://www.thymeleaf.org" xmlns:lth="http://www.thymeleaf.org" lang="ko"
-        th:fragment="addMemberContent(projectList, memberList, waitList)">
+        th:fragment="addMemberContent(project, memberList, waitList)">
 <head>
     <meta charset="utf-8">
 
@@ -10,33 +10,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-    />
-
-
-
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <!-- 내 css  -->
     <link rel="stylesheet" href="/css/memberManagement.css">
+    <script th:src="@{/js/project/addMember.js}" defer></script>
 </head>
 <body>
 
 
 <div class="container" style="content-align: center ;padding: 50px;background-color: #ffffff">
-    <th:block th:fragment="${projectList}"></th:block>
+    <th:block th:fragment="${project}"></th:block>
 
     <h5 class="title"> 회원검색 </h5>
     <div class="row" style="justify-content: space-evenly;">
         <div class="search col-md-6">
-            <input type="text" placeholder="검색어 입력">
-            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+            <input type="text" placeholder="검색어 입력" id="searchKeyword" th:onkeyup="|enter(${project.projectId})|" />
+            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" th:onclick="|searchUser(${project.projectId})|" >
 
         </div>
 
         <div class="col-md-2" style="text-align: center;">
-            <button class="btn-orange" id="code" th:value="${projectList[0].invitationCode}" th:onclick="copyCode()">
+            <button class="btn-orange" id="code" th:value="${project.invitationCode}" th:onclick="copyCode()">
                 초대코드복사
             </button>
         </div>
@@ -48,51 +45,9 @@
         <h5 class="title"> 검색 결과 </h5>
         <div class="searchBack">
             <div class="row mt-5 mb-5" style="justify-content: center; ">
-                <div class="col-md-6">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="/img/moru.jpg" class="member" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body" style="text-align: left">
-                                    <h5 class="card-title">포테토</h5>
-                                    <p class="card-text">모루카.</p>
-                                    <div style="text-align: end">
-
-                                        <button class="btn-blue">
-                                            초대
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                <div class="col-md-6" id="searchDivMain">
 
 
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="/img/moru.jpg" class="member" alt="...">
-                            </div>
-                            <div class="col-md-8 mt-3">
-                                <div class="card-body" style="text-align: left">
-                                    <h5 class="card-title">포테토</h5>
-                                    <p class="card-text">모루카.</p>
-                                    <div style="text-align: end">
-
-                                        <button class="btn-blue">
-                                            초대
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -211,161 +166,6 @@
 
 
 </div>
-
-<script type="text/javascript">
-    /*<![CDATA[*/
-    function copyCode() {
-
-        const code = document.getElementById("code");
-        window.navigator.clipboard.writeText(code.value).then(() => {
-            // 복사가 완료되면 호출된다.
-            Swal.fire({
-                title: "초대코드 복사 완료",
-                icon: "success"
-            });
-        });
-    };
-
-    function deleteUser(userId,option) {
-
-        const data = {
-            "userId": userId
-        }
-
-        if(option ==1){
-            Swal.fire({
-
-                title: '멤버를 삭제 하시겠습니까?',
-                text: '확인을 누르면 삭제됩니다.',
-                icon: 'warning',
-
-
-                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-                cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-                confirmButtonText: '삭제', // confirm 버튼 텍스트 지정
-
-            }).then(result => {
-                // 만약 Promise리턴을 받으면,
-                if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-
-                    $.ajax({
-                        url: "/member/delete",
-                        data: data,
-                        type: "GET",
-                    }).done(function () {
-
-                        const userDiv = document.getElementById("user" + userId);
-
-                        userDiv.remove();
-
-                        Swal.fire({
-                            title: "삭제되었습니다.",
-                            icon: "success"
-                        });
-                    });
-                }
-            });
-        }else if(option ==2 ){
-            Swal.fire({
-
-                title: '승인을 거절 하시겠습니까?',
-                text: '확인을 누르면 거절됩니다.',
-                icon: 'warning',
-
-
-                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-                cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-                confirmButtonText: '거절', // confirm 버튼 텍스트 지정
-
-            }).then(result => {
-                // 만약 Promise리턴을 받으면,
-                if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-
-                    $.ajax({
-                        url: "/member/delete",
-                        data: data,
-                        type: "GET",
-                    }).done(function () {
-
-                        const userDiv = document.getElementById("user" + userId);
-
-                        userDiv.remove();
-
-                        Swal.fire({
-                            title: "거절되었습니다.",
-                            icon: "success"
-                        });
-                    });
-                }
-            });
-        }
-
-
-
-
-    };
-
-
-
-    function approveUser(userId,projectId) {
-
-        const data = {
-            "userId": userId,
-            "projectId": projectId
-        }
-
-
-        Swal.fire({
-            title: '승인 하시겠습니까?',
-            text: '확인을 누르면 승인됩니다.',
-            icon: 'warning',
-
-            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
-
-        }).then(result => {
-            // 만약 Promise리턴을 받으면,
-            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-
-                $.ajax({
-                    url: "/member/approve",
-                    data: data,
-                    type: "GET",
-                }).done(function () {
-
-                    const waitDiv = document.getElementById("user" + userId);
-                    const plusBtn = document.getElementById("plus"+userId);
-
-                    plusBtn.style.display="none";
-
-
-                    const newDiv = document.createElement('div').appendChild(waitDiv);
-
-                    document.getElementById('field').appendChild(newDiv);
-
-
-
-                    // waitDiv.remove();
-
-
-                });
-            }
-        });
-
-
-    };
-
-
-    /*]]>*/
-
-</script>
 
 
 </body>
