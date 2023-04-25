@@ -1,5 +1,27 @@
 /*<![CDATA[*/
 
+
+
+$('.filtering').slick({
+    slidesToShow: 4,
+    slidesToScroll: 4
+});
+
+var filtered = false;
+
+$('.js-filter').on('click', function(){
+    if (filtered === false) {
+        $('.filtering').slick('slickFilter',':even');
+        $(this).text('Unfilter Slides');
+        filtered = true;
+    } else {
+        $('.filtering').slick('slickUnfilter');
+        $(this).text('Filter Slides');
+        filtered = false;
+    }
+});
+
+
 function copyCode() {
 
     const code = document.getElementById("code");
@@ -161,59 +183,79 @@ function searchUser(projectId){
 
     const keyword = document.getElementById('searchKeyword').value;
 
-    const data = {
-        "keyword": keyword,
-        "projectId": projectId
+    if(keyword != ""){
+        const data = {
+            "keyword": keyword,
+            "projectId": projectId
+        }
+        $('#searchDivMain').empty();
+
+
+        $.ajax({
+            type: 'GET',
+            url : "/member/search",
+            data : data,
+            success : function(result){
+
+
+                console.log("ssss");
+
+
+
+                if(result.length>=1){
+                    const searchDiv = document.getElementById("searchResult");
+                    searchDiv.style.display = "";
+
+
+                    result.forEach(function(item) {
+                        $(document).ready(function () {
+                            console.log("item", item);
+
+
+
+                            $('#searchDivMain').append(
+                                " <div class='card mb-3' style='max-width: 540px;'>" +
+                                "<div class = 'row g-0'>" +
+                                "<div class='col-md-4'>" +
+                                " <img src='" +item.username+"' class='member' alt='...'>"+
+                                "</div>"+
+                                "<div class='col-md-8'>"+
+                                "<div class='card-body' style='text-align: left'>"+
+                                "<h5 class='card-title'>"+item.username+"</h5>"+
+                                "<p class='card-text'>"+item.name+"</p>"+
+                                "<div style='text-align: end'>"+
+                                "<button class='btn-blue' style='width: 50px;'> 초대 </button>"+
+
+                                "</div>"+
+
+                                "</div>"+
+                                "</div>"+
+                                "</div>"+
+                                "</div>"
+                            );
+                        });
+
+                    })
+
+                }else{
+                    const searchDiv = document.getElementById("searchResult");
+                    searchDiv.style.display = "none";
+
+                    Swal.fire({
+                        title: "검색 결과가 없습니다.",
+                        icon: "question"
+                    });
+                }
+            }
+        })
+    }else{
+        Swal.fire({
+            title: "검색어를 입력해 주세요",
+            icon: "warning"
+        });
     }
 
-    $.ajax({
-        type: 'GET',
-        url : "/member/search",
-        data : data,
-        success : function(result){
 
-            const searchDiv = document.getElementById("searchResult");
-            searchDiv.style.display = "";
-
-            console.log("ssss");
-
-
-
-            if(result.length>=1){
-                $('#searchDivMain').empty();
-                result.forEach(function(item) {
-                    $(document).ready(function () {
-                        console.log("item", item);
-
-
-
-                        $('#searchDivMain').append(
-                            " <div class='card mb-3' style='max-width: 540px;'>" +
-                                "<div class = 'row g-0'>" +
-                                    "<div class='col-md-4'>" +
-                                        " <img src='" +item.username+"' class='member' alt='...'>"+
-                                    "</div>"+
-                                    "<div class='col-md-8'>"+
-                                        "<div class='card-body' style='text-align: left'>"+
-                                            "<h5 class='card-title'>"+item.username+"</h5>"+
-                                            "<p class='card-text'>"+item.name+"</p>"+
-                                            "<div style='text-align: end'>"+
-                                                "<button class='btn-blue'> 초대 </button>"+
-
-                                            "</div>"+
-
-                                        "</div>"+
-                                    "</div>"+
-                                "</div>"+
-                            "</div>"
-                        );
-                    });
-
-                })
-
-            }
-        }
-    })
 
 }
 

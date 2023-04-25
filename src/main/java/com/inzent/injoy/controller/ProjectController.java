@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.ProjectDTO;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.inzent.injoy.model.ProjectMemberDTO;
@@ -85,5 +86,11 @@ public class ProjectController {
         return "redirect:/member/insert/-1";
     }
 
+    @ResponseBody
+    @GetMapping("search")
+    public List<ProjectDTO> searchProject(String keyword){
 
+
+        return projectService.searchProject(keyword);
+    }
 }

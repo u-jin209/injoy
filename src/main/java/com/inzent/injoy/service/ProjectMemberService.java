@@ -42,6 +42,7 @@ public class ProjectMemberService {
 
     public List<ProjectMemberDTO> selectWait(int projectId){
 
+        System.out.println("waitList : "+session.selectList(NAMESPACE + ".selectWait", projectId) );
         return session.selectList(NAMESPACE + ".selectWait", projectId);
     }
 

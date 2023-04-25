@@ -87,9 +87,6 @@ public class ProjectMemberController {
         memberDTO.setKeyword(keyword);
         memberDTO.setProjectId(projectId);
 
-        System.out.println("@@@@@@@@@@keyword :" +keyword);
-        System.out.println("@@@@@@@@@@projectId :" +projectId);
-        System.out.printf("@@@@@@@@@@@@@@@ memberService.searchUser(memberDTO) : "+  memberService.searchUser(memberDTO));
         return memberService.searchUser(memberDTO);
     }
 

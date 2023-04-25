@@ -14,6 +14,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+
     <!-- 내 css  -->
     <link rel="stylesheet" href="/css/memberManagement.css">
     <script th:src="@{/js/project/addMember.js}" defer></script>
@@ -22,6 +29,10 @@
 
 
 <div class="container" style="content-align: center ;padding: 50px;background-color: #ffffff">
+
+
+
+
     <th:block th:fragment="${project}"></th:block>
 
     <h5 class="title"> 회원검색 </h5>
@@ -33,12 +44,14 @@
         </div>
 
         <div class="col-md-2" style="text-align: center;">
-            <button class="btn-orange" id="code" th:value="${project.invitationCode}" th:onclick="copyCode()">
+            <button class="btn-orange" style="width: 120px;height: 50px;font-size: inherit;" id="code" th:value="${project.invitationCode}" th:onclick="copyCode()">
                 초대코드복사
             </button>
         </div>
 
     </div>
+
+
 
 
     <div id="searchResult" style="display: none">
@@ -75,21 +88,13 @@
             <div class="row g-2" style="justify-content: center">
                 <h1 th:fragment="${memberList}" ></h1>
                 <div class="col-md-6" th:each=" member : ${memberList}" th:id="'user'+${member.userId}" name="member">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row ">
+                    <div class="card mb-3" style="max-width: 540px; height: 100%;">
+                        <div class="row " style=" overflow: overlay;">
                             <div class="col-md-4">
                                 <img src="/img/moru.jpg" class="member" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-
-
-<!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"-->
-<!--                                         viewBox="0 0 576 512" th:if="${member.authority.toString.equals('MANAGER')} ">-->
-<!--                                        &lt;!&ndash;! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. &ndash;&gt;-->
-<!--                                        <path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6H426.6c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/></svg>-->
-<!--                                    </svg>-->
-
 
                                     <i class="fa-solid fa-crown" style="color: #ffb30d;" th:if="${member.authority.toString.equals('MANAGER')} "></i>
                                     <h5 class="card-title mt-1" th:text="${member.name}"></h5>
@@ -121,12 +126,22 @@
 
 
         <h5 class="title"> 참여대기 회원 </h5>
+        <h1 th:fragment="${waitList}"></h1>
+
+        <div class="card"  style="min-height: 300px;padding: 150px; text-align: center;" th:if="${waitList.size} == 0 ">
+            <h1 class="projectTitle">승인 대기중인 회원이 없습니다</h1>
+
+
+        </div>
+
+
+
         <div class="scrollDiv">
             <div class="row g-2" style="justify-content: center">
-                <h1 th:fragment="${waitList}"></h1>
+
                 <div class="col-md-6"  th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}" name="wait" >
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
+                    <div class="card mb-3" style="max-width: 540px; height: 100%;">
+                        <div class="row g-0" style=" overflow: overlay;">
                             <div class="col-md-4">
                                 <img src="/img/moru.jpg" class="member" alt="...">
                             </div>

@@ -24,4 +24,14 @@
         SELECT "projectId" FROM injoy.project
         order by "projectId" DESC LIMIT 1;
     </select>
+
+
+
+    <select id="searchProject"  parameterType="String" resultType="ProjectDTO">
+        SELECT * FROM injoy."project"
+        where "projectName" LIKE CONCAT('%', #{keyword}, '%')
+        or "invitationCode" LIKE CONCAT('%', #{keyword}, '%')
+
+    </select>
+
 </mapper>

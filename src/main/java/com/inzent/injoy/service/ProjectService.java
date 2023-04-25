@@ -2,9 +2,12 @@ package com.inzent.injoy.service;
 
 
 import com.inzent.injoy.model.ProjectDTO;
+import com.inzent.injoy.model.ProjectMemberDTO;
+import javassist.compiler.ast.Keyword;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 @Service
@@ -36,4 +39,8 @@ public class ProjectService {
     }
 
 
+    public List<ProjectDTO> searchProject(String keyword) {
+
+        return session.selectList(NAMESPACE+".searchProject", keyword);
+    }
 }

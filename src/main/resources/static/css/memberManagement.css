@@ -15,6 +15,14 @@
     font-style: normal;
 }
 
+
+.scrollDiv{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 400px;
+    text-align: -webkit-center;
+}
+
 /* 아래의 모든 코드는 영역::코드로 사용 */
 .scrollDiv::-webkit-scrollbar {
     width: 10px;  /* 스크롤바의 너비 */
@@ -30,6 +38,7 @@
 
 .scrollDiv::-webkit-scrollbar-track {
     background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+
 }
 
 
@@ -255,12 +264,6 @@ input.minusBtn{
 
 }
 
-.scrollDiv{
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 400px;
-    text-align: -webkit-center;
-}
 
 .memberInfo{
 
