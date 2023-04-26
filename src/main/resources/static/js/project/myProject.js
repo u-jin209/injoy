@@ -4,7 +4,9 @@
 function memberList(value) {
     console.log(value.id)
     const projectId = value.id
-
+    $('#url').click (function (){
+        location.href="/project/"+projectId;
+    });
 
     $('#modalList').empty();
 
@@ -65,6 +67,7 @@ function bookMark(projectId, userId) {
     const starfill = document.getElementById("starFill"+projectId);
 
 
+
     if (star.style.display == "unset") {
 
 
@@ -86,5 +89,7 @@ function bookMark(projectId, userId) {
 
 }
 
-
+function goProject(value){
+    console.log(value.id)
+}
 /*]]>*/
