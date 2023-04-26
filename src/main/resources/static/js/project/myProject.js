@@ -5,6 +5,8 @@ function memberList(value) {
     console.log(value.id)
     const projectId = value.id
     $('#url').click (function (){
+        localStorage.setItem('selectedTab','member-tab')
+        localStorage.setItem('selectedPane', '#member-tab-pane')
         location.href="/project/"+projectId;
     });
 
