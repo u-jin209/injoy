@@ -18,8 +18,8 @@
     </select>
 
     <insert id="register" parameterType="UserDTO">
-        INSERT INTO injoy.user(username, password,name,role)
-        VALUES(#{username},#{password},#{name},#{role})
+        INSERT INTO injoy.user("username","password","email","name","role","phoneNumber","crtnDate","profilePhoto","organId","provider","providerId","emailVerified")
+        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified})
     </insert>
 
     <insert id="authRegister" parameterType="UserDTO">
@@ -58,7 +58,7 @@
 
     <select id="findOauthUser" parameterType="map" resultType="UserDTO">
         SELECT * FROM injoy.user
-        WHERE provider = #{provider} AND providerid = #{providerId}
+        WHERE "provider" = #{provider} AND "providerId" = #{providerId}
     </select>
 
 </mapper>

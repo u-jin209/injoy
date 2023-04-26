@@ -1,8 +1,8 @@
 package com.inzent.injoy.config;
 
+
 import com.inzent.injoy.oauth.PrincipalOauth2UserService;
 import jakarta.servlet.DispatcherType;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,23 +10,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import static org.springframework.security.config.Customizer.withDefaults;
-
-
-//import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
@@ -54,4 +48,6 @@ public class SpringSecurityConfig {
 
         return http.build();
     }
+
 }
+

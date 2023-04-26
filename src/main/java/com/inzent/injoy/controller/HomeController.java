@@ -1,12 +1,12 @@
 package com.inzent.injoy.controller;
-import com.fasterxml.jackson.annotation.JsonAlias;
+
 import com.inzent.injoy.model.BoardDTO;
+import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
-import com.inzent.injoy.model.UserCustomDetails;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,18 +14,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Iterator;
 
 
@@ -101,7 +96,9 @@ public class HomeController {
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";
+
     }
+
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal UserCustomDetails principal) {
@@ -113,7 +110,6 @@ public class HomeController {
             GrantedAuthority auth = iter.next();
             System.out.println(auth.getAuthority());
         }
-
         return "유저 페이지입니다.";
     }
 

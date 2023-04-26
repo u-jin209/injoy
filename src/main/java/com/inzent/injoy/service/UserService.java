@@ -40,19 +40,12 @@ public class UserService implements UserDetailsService {
     public boolean register(UserDTO attempt){
         if (validate(attempt.getUsername())) {
             attempt.setPassword(passwordEncoder.encode(attempt.getPassword()));
+            attempt.setRole("ROLE_USER");
             session.insert(NAMESPACE + ".register", attempt);
             return true;
         }else {
             return false;
         }
-    }
-
-    public Optional<UserDTO> findByProviderAndProviderId(String provider, String providerId){
-        Map<String, String> params = new HashMap<>();
-        params.put("provider", provider);
-        params.put("providerId", providerId);
-        Optional<UserDTO> userDTO = session.selectOne(NAMESPACE+".findOauthUser",params);
-        return userDTO;
     }
 
     @Override
