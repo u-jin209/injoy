@@ -1,10 +1,13 @@
 package com.inzent.injoy.controller;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.BoardDTO;
 import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.model.UserCustomDetails;
+import com.inzent.injoy.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -91,6 +94,7 @@ public class HomeController {
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";
+
     }
 
     @GetMapping("/user")
@@ -103,7 +107,6 @@ public class HomeController {
             GrantedAuthority auth = iter.next();
             System.out.println(auth.getAuthority());
         }
-
         return "유저 페이지입니다.";
     }
 
