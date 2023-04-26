@@ -40,12 +40,12 @@ public class SpringSecurityConfig {
                         .loginProcessingUrl("/login-process")    // [B] submit 받을 url
                         .usernameParameter("username")    // [C] submit할 아이디
                         .passwordParameter("password")    // [D] submit할 비밀번호
-                        .defaultSuccessUrl("/project", true)
+                        .defaultSuccessUrl("/project/myProject", true)
                         .permitAll()
                 )
                 .oauth2Login(login -> login
                         .loginPage("/user/logInPage") //적어줘야 소셜로그인창 띄워줌
-                        .defaultSuccessUrl("/project")
+                        .defaultSuccessUrl("/project/myProject")
                         .userInfoEndpoint()
                         .userService(principalOauth2UserService)    //로그인후 토큰+사용자 프로필정보 후처리를 위함
                 )

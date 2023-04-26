@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="taskContent">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="taskContent(project)">
 <head>
     <meta charset="UTF-8">
     <title>INJOY</title>
@@ -13,6 +13,7 @@
 </head>
 <body>
 <div class="container-fluid">
+    <input class="projectIdInput" type="hidden" th:value="${project?.projectId}" th:if="${project?.projectId} ne null"/>
     <div class="row">
         <div class="col">
             <input id="searchTask" class="searchInput form-control" type="search"
@@ -53,7 +54,7 @@
                                     <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
                                     <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
-                                <button class="btn processBtn requestBtn">요청</button>
+                                <button id="requestBtn" class="btn processBtn requestBtn">요청</button>
                                 <button class="btn processBtn progressBtn">진행</button>
                                 <button class="btn processBtn feedBackBtn">피드백</button>
                                 <button class="btn processBtn finishBtn">완료</button>
@@ -78,7 +79,8 @@
                                  class="bi bi-paperclip" viewBox="0 0 16 16">
                                 <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
                             </svg>
-                            <button type="button" class="btn " style="background-color: #001542; color: white">등록
+                            <button type="button" class="btn taskAddButton"
+                                    style="background-color: #001542; color: white">등록
                             </button>
                         </div>
                     </div>
@@ -92,8 +94,8 @@
     <table class="table table-bordered text-center">
         <thead>
         <tr style="text-align: center">
-            <th style="width: 300px">업무명</th>
-            <th style="width: 150px">상태</th>
+            <th style="width: 400px">업무명</th>
+            <th style="width: 100px">상태</th>
             <th style="width: 80px">우선순위</th>
             <th style="width: 100px">담당자</th>
             <th style="width: 100px">시작일</th>
@@ -105,16 +107,80 @@
         </thead>
         <tbody>
         <tr>
-            <td>업무1</td>
-            <td>요청</td>
-            <td>
-                -
+            <td class="titleTd">
+                <span>업무1</span>
+                <div class="inputTaskTitle row" style="padding-left: 51px">
+                    <input class="col form-control" type="text" th:value="업무" style="height: 29px; width: 200px;"/>
+                    <a class="ml-3 col detail">상세보기</a>
+                </div>
+
             </td>
-            <td>-</td>
-            <td>시작</td>
-            <td>마감</td>
+            <td class="processTd" id="processTd" style="position: relative;">
+                <button class="btn changeBtn mb-1" style="background-color: #00B2FF">요청</button>
+
+                <div class="btn_ul" id="btn_ul">
+                    <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: -5px">
+                        <li>
+                            <button class="btn changeBtn mb-1" style="background-color: #00B2FF">요청</button>
+                        </li>
+                        <li>
+                            <button class="btn changeBtn mb-1" style="background-color: #00B01C">진행</button>
+                        </li>
+                        <li>
+                            <button class="btn changeBtn mb-1" style="background-color: #FD7900">피드백</button>
+                        </li>
+                        <li>
+                            <button class="btn changeBtn mb-1" style="background-color: #402A9D;">완료</button>
+                        </li>
+                        <li>
+                            <button class="btn changeBtn" style="background-color: #777777">보류</button>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+
+            <td class="priorityTd" style="position: relative;">
+                <div class="priority_ul" id="priority_ul">
+                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: -3px">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-exclamation-octagon-fill" viewBox="0 0 16 16">
+                                <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                            긴급
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="orange" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                            </svg>
+                            높음
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-dash" viewBox="0 0 16 16">
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                            </svg>
+                            보통
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="dark-violet" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                            </svg>
+                            낮음
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                            </svg>
+                            없음
+                        </li>
+                    </ul>
+                </div>
+            </td>
+            <td class="managerTd">-</td>
+            <td class="startDate"><input type="date"/></td>
+            <td class="endDate"><input type="date"/></td>
             <td>등록</td>
             <td>4</td>
+            <td></td>
         </tr>
         </tbody>
     </table>

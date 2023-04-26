@@ -1,12 +1,10 @@
 package com.inzent.injoy.controller;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.BoardDTO;
 import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.model.UserCustomDetails;
-import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,17 +12,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Iterator;
 
@@ -88,11 +81,8 @@ public class HomeController {
     @GetMapping("/project/{projectId}")
     public String showProject(Model model , @PathVariable int projectId) {
 
-        List<BoardDTO> boardList = boardService.selectAll(1);
+        List<BoardDTO> boardList = boardService.selectAll(projectId);
         model.addAttribute("boardList", boardList);
-
-
-
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("projectList", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
