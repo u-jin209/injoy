@@ -19,11 +19,20 @@ public class ProjectService {
 
     public List<ProjectDTO> selectAll(int id){
 
+        System.out.println("서비스 selectList" + session.selectList(NAMESPACE + ".selectAll", id));
         return session.selectList(NAMESPACE + ".selectAll", id);
     }
+    public List<ProjectDTO> selectProject(int id){
 
+        System.out.println("서비스 selectProject" + session.selectList(NAMESPACE + ".selectProject", id));
+        return session.selectList(NAMESPACE + ".selectProject", id);
+    }
     public void insert(ProjectDTO projectDTO){
          session.insert(NAMESPACE+".insert", projectDTO);
+    }
+
+    public int selectLastId(){
+        return session.selectOne(NAMESPACE+".selectLastId");
     }
 
 

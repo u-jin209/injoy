@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ProjectMemberMapper">
+    <select id="selectMember" parameterType="int" resultType="projectMemberDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."user" u
+        on m."userId" = u."id"
+        where "projectId"=#{projectId} and "authority" != 'REQUEST'
+    </select>
+
+    <select id="selectOne" parameterType="hashmap" resultType="ProjectMemberDTO">
+        SELECT * FROM injoy."projectMember"
+        where "projectId" = #{projectId} and "userId" = #{userId}
+    </select>
+
+    <select id="searchUser"  resultType="userDTO">
+        SELECT * FROM injoy."user" u
+        left join (SELECT "userId" FROM injoy."projectMember" where "projectId"=#{projectId}) m
+        on u."id" = m."userId"
+        where m."userId" IS NULL
+
+    </select>
+
+    <select id="selectWait" parameterType="int" resultType="projectMemberDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."user" u
+        on m."userId" = u."id"
+        where "projectId"=#{projectId} and "authority" = 'REQUEST'
+    </select>
+
+    <insert id="insert" parameterType="projectMemberDTO" >
+        insert into injoy."projectMember"( "projectId",  "userId", "authority")
+        values ( #{projectId},  #{userId}, #{authority})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from injoy."projectMember"
+        where "userId" = #{userId}
+    </delete>
+
+    <update id="update" parameterType="projectMemberDTO">
+        update injoy."projectMember"
+        set "authority"= #{authority}
+        where "userId" =#{userId}
+    </update>
+</mapper>

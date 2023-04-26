@@ -3,38 +3,44 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.ProjectDTO;
 
-import java.net.http.HttpRequest;
 import java.util.UUID;
 
+import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.model.UserDTO;
+import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
 
-    private UserService userService;
-    private ProjectService projectService;
+    private  final UserService userService;
+    private  final ProjectService projectService;
+    private final ProjectMemberService projectMemberService;
 
-    public ProjectController(UserService userService, ProjectService projectService) {
+
+    public ProjectController(UserService userService, ProjectService projectService,ProjectMemberService projectMemberService) {
         this.userService = userService;
         this.projectService = projectService;
+        this.projectMemberService = projectMemberService;
     }
 
     @GetMapping("addMember")
     public String addMember(Model model) {
 
         return "/project/addMember";
+    }
+
+
+    @GetMapping("joinProject")
+    public String joinProject(Model model) {
+
+        return "/project/joinProject";
     }
 
     @GetMapping("newProject")
@@ -50,8 +56,17 @@ public class ProjectController {
     }
 
     @GetMapping("myProject")
+
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null){
+
+
+            return "/user/logIn";
+        }
+
         model.addAttribute("projectList",projectService.selectAll(login.getUserDTO().getId()));
+
         return "/project/myProject";
     }
 
@@ -60,14 +75,14 @@ public class ProjectController {
 
 
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
-        System.out.println("id : "+login.getUserDTO().getId());
-        System.out.println("username : "+login.getUserDTO().getUsername());
-        System.out.println("id : "+login.getUserDTO());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
 
         projectService.insert(projectDTO);
 
-        return "redirect:/";
+
+
+
+        return "redirect:/member/insert/-1";
     }
 
 

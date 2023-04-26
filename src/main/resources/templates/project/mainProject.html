@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <script src="/js/project/mainProject.js" defer></script>
 </head>
 <body layout:fragment="projectContent">
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
@@ -13,40 +14,43 @@
         <div class="nav-link disabled"></div>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+        <a class="nav-link mainNav" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
            aria-controls="home-tab-pane" aria-selected="true">홈</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="task-tab" data-bs-toggle="tab" data-bs-target="#task-tab-pane"
+        <a class="nav-link mainNav" id="task-tab" data-bs-toggle="tab" data-bs-target="#task-tab-pane"
            aria-controls="task-tab-pane" aria-selected="false">업무</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="kanban-tab" data-bs-toggle="tab" data-bs-target="#kanban-tab-pane"
+        <a class="nav-link mainNav" id="kanban-tab" data-bs-toggle="tab" data-bs-target="#kanban-tab-pane"
            aria-controls="kanban-tab-pane" aria-selected="false">칸반보드</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-tab-pane"
+        <a class="nav-link mainNav" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-tab-pane"
            aria-controls="schedule-tab-pane" aria-selected="false">캘린더</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
+        <a class="nav-link mainNav" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
            aria-controls="member-tab-pane" aria-selected="false">멤버관리</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-        <div th:insert="~{/project/projectHome :: homeContent}"></div>
+    <div class="tab-pane" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div th:replace="~{/project/projectHome :: homeContent(${boardList},'444')}"></div>
     </div>
-    <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="0">
+    <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="1">
         <div th:insert="~{/project/taskPage :: taskContent}"></div>
     </div>
-    <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="0">
+    <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="2">
         <div th:insert="~{/project/kanban :: kanbanContent}"></div>
     </div>
-    <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="0">
-        .ddee2255464r..
+    <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
+
     </div>
-    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="0">.ghhhhh..</div>
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
+        <div th:replace="~{/project/addMember :: addMemberContent(${projectList}, ${memberList}, ${waitList})}" ></div>
+
+    </div>
 </div>
 </body>
 </html>
