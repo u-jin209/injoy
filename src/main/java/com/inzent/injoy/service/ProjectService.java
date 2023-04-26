@@ -23,6 +23,7 @@ public class ProjectService {
     public List<ProjectDTO> selectAll(int id){
 
 
+        System.out.println("selectAll 맴버 있나 확인하기 !!!!!!!!!!! : "+ session.selectList(NAMESPACE + ".selectAll", id));
         return session.selectList(NAMESPACE + ".selectAll", id);
     }
     public ProjectDTO selectProject(int id){

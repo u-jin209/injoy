@@ -15,4 +15,6 @@ import lombok.Data;
     private int projectMemberId;
     private int userId;
     private String authority;
+
+    private int bookMarkId;
 }

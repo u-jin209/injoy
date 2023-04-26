@@ -209,6 +209,10 @@ input.minusBtn{
     height: 50px;
     border: none;
 }
+
+.btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
+
+
 .scroll{
     verflow-y: scroll;
     overflow-x: hidden;

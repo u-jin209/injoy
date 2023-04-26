@@ -7,8 +7,9 @@
         SELECT * FROM injoy.project P
         inner join injoy."projectMember" m
         on p."projectId" = m."projectId"
-
-        where "creatorUserId"=#{id} and "userId" =#{id}
+        left join injoy."bookMark" b
+        on p."projectId" = b."projectId"
+        where "creatorUserId"=#{id} and m."userId" =#{id}
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project

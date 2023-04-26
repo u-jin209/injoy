@@ -182,13 +182,14 @@ function searchUser(projectId){
     console.log("aaaaaaaaaaa");
 
     const keyword = document.getElementById('searchKeyword').value;
+    $('#searchDivMain').empty();
 
     if(keyword != ""){
         const data = {
             "keyword": keyword,
             "projectId": projectId
         }
-        $('#searchDivMain').empty();
+
 
 
         $.ajax({
@@ -249,6 +250,8 @@ function searchUser(projectId){
             }
         })
     }else{
+        const searchDiv = document.getElementById("searchResult");
+        searchDiv.style.display = "none";
         Swal.fire({
             title: "검색어를 입력해 주세요",
             icon: "warning"

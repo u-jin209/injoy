@@ -18,21 +18,24 @@
 <body>
 <div layout:fragment="content">
 
-    <div class="container" style="content-align: center ;padding: 50px;">
-        <h1 class="projectTitle"> 프로젝트 검색 </h1>
+    <div class="container" style="content-align: center ;padding: 50px;    height: 897px;">
+        <div id="margin" style="margin-top: 150px;">
+            <h1 class="projectTitle"> 프로젝트 검색 </h1>
 
 
-        <div class="row" style="justify-content: space-evenly;margin-top: 100px;height: 100px">
-            <div class="search col-md-10">
-                <input type="text" placeholder="검색어 입력" id="searchProject" th:onkeyup="|searchProject()|" />
-                <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" th:onclick="|searchProject()|" >
+            <div class="row" style="justify-content: space-evenly;margin-top: 100px;height: 100px">
+                <div class="search col-md-10 ">
+                    <input  type="text" placeholder="검색어 입력" id="searchProject" th:onkeyup="|searchProject()|" />
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" th:onclick="|searchProject()|" >
+
+
+                </div>
+
 
 
             </div>
-
-
-
         </div>
+
 
 
         <div id="searchResult" style="display: none">
@@ -75,11 +78,14 @@
 
             const keyword = document.getElementById('searchProject').value;
 
+
+            $('#searchDivMain').empty()
+
             if(keyword != ""){
                 const data = {
                     "keyword": keyword
                 }
-                $('#searchDivMain').empty();
+
 
 
                 $.ajax({
@@ -96,6 +102,8 @@
                         if(result.length>=1){
                             const searchDiv = document.getElementById("searchResult");
                             searchDiv.style.display = "";
+                            const margin= document.getElementById("margin");
+                            margin.style.marginTop ="0px";
 
 
                             result.forEach(function(item) {
@@ -140,6 +148,8 @@
                     }
                 })
             }else{
+                const searchDiv = document.getElementById("searchResult");
+                searchDiv.style.display = "none";
                 Swal.fire({
                     title: "검색어를 입력해 주세요",
                     icon: "warning"

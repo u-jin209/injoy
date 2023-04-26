@@ -32,26 +32,26 @@ public class ProjectController {
     }
 
     @GetMapping("addMember")
-    public String addMember(Model model) {
+    public String addMember( ) {
 
         return "/project/addMember";
     }
 
 
     @GetMapping("joinProject")
-    public String joinProject(Model model) {
+    public String joinProject( ) {
 
         return "/project/joinProject";
     }
 
     @GetMapping("newProject")
-    public String newProject(Model model) {
+    public String newProject( ) {
 
         return "/project/newProject";
     }
 
     @GetMapping("newProjectMain")
-    public String newProjectMain(Model model) {
+    public String newProjectMain( ) {
 
         return "/project/newProjectMain";
     }
