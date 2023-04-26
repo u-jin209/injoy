@@ -32,7 +32,7 @@ function copyCode() {
             icon: "success"
         });
     });
-};
+}
 
 function deleteUser(userId,option) {
 
@@ -115,7 +115,7 @@ function deleteUser(userId,option) {
 
 
 
-};
+}
 
 
 
@@ -168,10 +168,10 @@ function approveUser(userId,projectId) {
     });
 
 
-};
+}
 
 function enter(projectId){
-    console.log("enter")
+
     if(window.event.keyCode == 13){
         searchUser(projectId);
     }
@@ -179,7 +179,7 @@ function enter(projectId){
 
 function searchUser(projectId){
 
-    console.log("aaaaaaaaaaa");
+
 
     const keyword = document.getElementById('searchKeyword').value;
     $('#searchDivMain').empty();
@@ -199,7 +199,7 @@ function searchUser(projectId){
             success : function(result){
 
 
-                console.log("ssss");
+
 
 
 
@@ -210,7 +210,6 @@ function searchUser(projectId){
 
                     result.forEach(function(item) {
                         $(document).ready(function () {
-                            console.log("item", item);
 
 
 

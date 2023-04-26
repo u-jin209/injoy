@@ -67,7 +67,7 @@ public class ProjectMemberController {
     @GetMapping("approve")
     public String approve(Model model, Integer userId , Integer projectId){
 
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
 
         map.put("userId", userId);
         map.put("projectId",projectId);
@@ -89,5 +89,15 @@ public class ProjectMemberController {
 
         return memberService.searchUser(memberDTO);
     }
+
+    @ResponseBody
+    @GetMapping("selectMember")
+    public List<ProjectMemberDTO> selectMember(int projectId){
+
+
+        System.out.println("@##########SelecrMember : "+projectId);
+        return memberService.selectMember(projectId);
+    }
+
 
 }
