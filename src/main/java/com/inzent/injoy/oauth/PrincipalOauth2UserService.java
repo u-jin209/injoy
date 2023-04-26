@@ -4,10 +4,9 @@ package com.inzent.injoy.oauth;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.oauth.provider.GoogleUserInfo;
-import com.inzent.injoy.oauth.provider.KakaoUserInfo;
+import com.inzent.injoy.oauth.provider.NaverUserInfo;
 import com.inzent.injoy.oauth.provider.OAuth2UserInfo;
-import com.inzent.injoy.service.UserService;
-import jakarta.jws.soap.SOAPBinding;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,14 +23,10 @@ import java.util.Optional;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-//	@Autowired
-//	private UserRepository userRepository;
 	private final String NAMESPACE = "mapper.UserMapper";
 	@Autowired
 	private SqlSession session;
 	private BCryptPasswordEncoder passwordEncoder;
-//	@Autowired
-//	UserService userService;
 	// userRequest 는 code를 받아서 accessToken을 응답 받은 객체
 
 	@Override
@@ -72,31 +67,25 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		System.out.println(userRequest);
 		System.out.println(userRequest.getClientRegistration().getRegistrationId());
 		if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-			System.out.println("구글 로그인 요청~~");
+			System.out.println("구글 로그인 요청");
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-		} else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
-			System.out.println("카카오 로그인 요청~~");
+		}
+//		else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
+//			System.out.println("카카오 로그인 요청");
+//			System.out.println(oAuth2User.getAttributes());
+//		}
+		else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+			System.out.println("네이버 로그인 요청");
 			System.out.println(oAuth2User.getAttributes());
-//			oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes().get("response"));
+			oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
 		} else {
-			System.out.println("우리는 구글과 카카오만 지원해요 ㅎㅎ");
+			System.out.println("구글과 네이버만 지원");
 		}
 
-		//System.out.println("oAuth2UserInfo.getProvider() : " + oAuth2UserInfo.getProvider());
-		//System.out.println("oAuth2UserInfo.getProviderId() : " + oAuth2UserInfo.getProviderId());
-//		Optional<UserDTO> userOptional =
-//				userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
-//		Optional<UserDTO> userOptional = userService.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 		Optional<UserDTO> userOptional = findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 		UserDTO userDTO;
-//		if (userOptional != null && userOptional.isPresent()) {
 		if (userOptional.isPresent()) {
 			userDTO = userOptional.get();
-//			// user가 존재하면 update 해주기
-//			userDTO.setEmail(oAuth2UserInfo.getEmail());
-//			register(userDTO);
-//			userService.register(userDTO);
-//			userRepository.save(userDTO);
 		} else {
 			// user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
 			userDTO = UserDTO.builder()
@@ -107,7 +96,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.providerId(oAuth2UserInfo.getProviderId())
 					.build();
 			register(userDTO);
-//			userService.register(userDTO);
 		}
 
 		return new UserCustomDetails(userDTO, oAuth2User.getAttributes());
