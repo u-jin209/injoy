@@ -20,10 +20,10 @@
         <p class="login_txt">로그인</p>
         <form action="/login-process" method="post">
             <label class="label_text" for="username">이메일</label>
-            <input class="input_box" id="username" name="username" type="email" placeholder=" 이메일을 입력해 주세요."
+            <input class="input_box" id="username" name="username" type="email" placeholder=" 이메일을 입력해 주세요." required
                    style="margin-bottom: 20px">
             <label class="label_text" for="password">비밀번호</label>
-            <input id="password" name="password" type="password" placeholder=" 영문,숫자,특수문자 조합 8자 이상 (필수)"
+            <input id="password" name="password" type="password" placeholder=" 영문,숫자,특수문자 조합 8자 이상 (필수)" required
                    style="margin-bottom: 10px">
             <div style="display: flex; justify-content: end">
                 <a href="#" style="font-size: 14px">비밀번호 찾기→</a>
@@ -40,7 +40,7 @@
         <div class="naver_btn"><img class="social_logo" src="/img/naver-logo.png" style="width: 30px;height: 30px"> <a
                 href="/oauth2/authorization/naver">Naver 로그인</a></div>
         <hr>
-        <p class="register_txt">Injoy가 처음이신가요? <a href="/user/register'" style="text-decoration: underline">회원가입</a></p>
+        <p class="register_txt">Injoy가 처음이신가요? <a href="/user/register" style="text-decoration: underline">회원가입</a></p>
     </div>
 </div>
 

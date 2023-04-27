@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.PanelUI;
 
 @Controller
 @RequestMapping("/user/")
@@ -51,9 +50,10 @@ public class UserController {
     @PostMapping("register")
     public String register(UserDTO attempt, Model model) {
         if(userService.register(attempt)){
-            return "redirect:/";
+            return "redirect:/user/logInPage";
         }else{
-            model.addAttribute("message", "중복된 아이디로 가입하실  수 없습니다.");
+            model.addAttribute("script", "<script>swal.fire('이미 해당 email로 가입된 아이디가 존재합니다.')</script>");
+
             return "user/register";
         }
     }
