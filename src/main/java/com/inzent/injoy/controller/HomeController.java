@@ -46,7 +46,11 @@ public class HomeController {
 
     }
 
+    @GetMapping("/imgTest")
+    public String imgTest(Model model){
 
+        return "user/imgTest";
+    }
     @GetMapping("/orange")
     public String orange(Model model){
 
