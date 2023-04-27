@@ -94,15 +94,17 @@
     color: white !important;
 }
 
-tr:hover td {
-    background: rgba(48, 100, 179, 0.51);
+td {
+    vertical-align: middle !important;
+}
+
+tr:hover td{
+    background: rgba(48, 100, 179, 0.51) !important;
     color:#FFFFFF;
 }
 
 td:hover {
-    font-weight: bold;
     border: 3px solid #3064B3 !important;
-
 }
 
 .detail {
@@ -136,7 +138,7 @@ td:hover {
 
 .button_priority{
     z-index: 1;
-    padding: 9px 13px;
+    padding: 9px 8px;
     background-color: white;
     border: 1px solid #777777;
     box-shadow: 2px 2px 6px rgb(0 0 0 / 15%);
@@ -147,4 +149,137 @@ td:hover {
 
 .button_priority li{
     color: black !important;
+}
+
+.priorityBtn {
+    border : none !important;
+    background-color: white !important;
+    font-size: 15px!important;
+}
+
+.startDate:hover{
+    background-color: transparent !important;
+}
+
+.endDate:hover{
+    background-color: transparent !important;
+}
+
+tr:hover td>#startDate{
+    color: white !important;
+    background-color: transparent !important;
+}
+
+tr:hover td>#endDate{
+    color: white !important;
+    background-color: transparent !important;
+}
+
+#startDate{
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+    height: 50px !important;
+}
+
+#endDate{
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+    height: 50px !important;
+}
+
+td:hover > #startDate:hover {
+    background-color: rgba(48, 100, 179, 0.51) !important;
+    color: white !important;
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+}
+
+td:hover > #endDate:hover  {
+    background-color: rgba(48, 100, 179, 0.51) !important;
+    color: white !important;
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+
+.managerDiv {
+    position: absolute;
+    width: 280px;
+    height: 360px;
+    background-color: white;
+    border : 1px solid #777777;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 6px rgb(0, 0,0, .15);
+    border-radius: 6px;
+    z-index: 6;
+}
+
+.managerSearch {
+    position: relative;
+    margin :0 10px 10px;
+    padding:10px 10px 0;
+}
+
+.memberList {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    height: 270px;
+}
+
+.memberUl{
+    min-height: 170px;
+    -webkit-box-flex: 1;
+    flex: 1;
+    height: auto;
+    max-height: 270px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.memberUl ul {
+    list-style: none;
+    color: black !important;
+    padding-left:  0;
+}
+
+.memberLi {
+    padding: 0 20px;
+    width: 100%;
+    height: 61px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
 }

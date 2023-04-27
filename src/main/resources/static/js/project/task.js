@@ -7,7 +7,6 @@ $(document).ready(function (){
     $('.inputTaskTitle').hide()
     $('.btn_ul').hide()
     $('.priority_ul').hide()
-
 })
 $(function (){
 
@@ -16,6 +15,8 @@ $(function (){
         const btnValue = $(this).text();
         addTask(btnValue)
     })
+
+    // 업무명 js
 
     $('.titleTd').on('mouseover', function (){
         $('.inputTaskTitle').show()
@@ -27,6 +28,8 @@ $(function (){
         $(this).find('span').show()
     })
 
+    // 진행상황 버튼 JS
+
     $('.processTd').click(function (){
         if ($('.btn_ul').css('display')==='block'){
             $('.btn_ul').css('display', 'none')
@@ -36,14 +39,7 @@ $(function (){
 
     })
 
-
-    document.addEventListener('click', function(e) {
-        let container = document.getElementById('btn_ul');
-        let td = document.getElementById('processTd');
-        if (!container.contains(e.target) && !td.contains(e.target)) {
-            container.style.display = 'none';
-        }
-    });
+    // 우선순위 버튼
 
     $('.priorityTd').click(function (){
         if ($('.priority_ul').css('display')==='block'){
@@ -54,24 +50,32 @@ $(function (){
 
     })
 
+    //날짜 이벤트
+    let start = document.getElementById('startDate')
+    let end = document.getElementById('endDate');
 
-    // $(document).mousedown(function( e ) {
-    //     if ($(".btn_ul").show()) {
-    //         $(".btn_ul").each(function () {
-    //             var l_position = $(this).offset();
-    //             l_position.right = parseInt(l_position.left) + ($(this).width());
-    //             l_position.bottom = parseInt(l_position.top) + parseInt($(this).height());
-    //
-    //             if ((l_position.left <= e.pageX && e.pageX <= l_position.right)
-    //                 && (l_position.top <= e.pageY && e.pageY <= l_position.bottom)) {
-    //             } else {
-    //                 $(this).hide();
-    //             }
-    //         });
-    //         $(this).hide()
-    //     }
-    // })
+    $('#startDate').prop("min", new Date().toISOString().split("T")[0])
 
+    start.addEventListener('change', function() {
+        if (start.value)
+            end.min = start.value;
+    }, false)
+
+    end.addEventListener('change', function (){
+        if (end.value)
+            start.max = end.value;
+    }, false)
+
+    // td 공통 부분
+
+    document.addEventListener('click', function(e) {
+        let container = document.getElementById('btn_ul');
+        let process_td = document.getElementById('processTd');
+        let priority_td = document.getElementById('priorityTd')
+        if (!container.contains(e.target) && !process_td.contains(e.target)) {
+            container.style.display = 'none';
+        }
+    });
 
 
 
