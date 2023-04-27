@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProjectService {
@@ -40,8 +41,18 @@ public class ProjectService {
     }
 
 
-    public List<ProjectDTO> searchProject(String keyword) {
+    public List<ProjectDTO> searchProject(Map<String, Object> map) {
 
-        return session.selectList(NAMESPACE+".searchProject", keyword);
+        return session.selectList(NAMESPACE+".searchProject", map );
+    }
+
+    public ProjectDTO searchInviteCode(Map<String, Object> map) {
+
+        return session.selectOne(NAMESPACE+".searchInviteCode",map);
+    }
+
+    public List<ProjectDTO> selectWaitProject(int userId){
+
+        return session.selectList(NAMESPACE + ".selectWaitProject", userId);
     }
 }

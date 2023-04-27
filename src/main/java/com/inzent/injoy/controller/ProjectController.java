@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.ProjectDTO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,38 +21,41 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/project")
 public class ProjectController {
 
-    private  final UserService userService;
-    private  final ProjectService projectService;
+    private final UserService userService;
+    private final ProjectService projectService;
     private final ProjectMemberService projectMemberService;
 
 
-    public ProjectController(UserService userService, ProjectService projectService,ProjectMemberService projectMemberService) {
+    public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
     }
 
     @GetMapping("addMember")
-    public String addMember( ) {
+    public String addMember() {
 
         return "/project/addMember";
     }
 
 
     @GetMapping("joinProject")
-    public String joinProject( ) {
+    public String joinProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
+        System.out.println("projectMemberService.selectWaitProject(login.getUserDTO().getId()): " + projectService.selectWaitProject(login.getUserDTO().getId()));
+
+        model.addAttribute("waitList", projectService.selectWaitProject(login.getUserDTO().getId()));
         return "/project/joinProject";
     }
 
     @GetMapping("newProject")
-    public String newProject( ) {
+    public String newProject() {
 
         return "/project/newProject";
     }
 
     @GetMapping("newProjectMain")
-    public String newProjectMain( ) {
+    public String newProjectMain() {
 
         return "/project/newProjectMain";
     }
@@ -60,13 +64,13 @@ public class ProjectController {
 
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
-        if (login == null){
+        if (login == null) {
 
 
             return "/user/logIn";
         }
 
-        model.addAttribute("projectList",projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
 
         return "/project/myProject";
     }
@@ -81,16 +85,38 @@ public class ProjectController {
         projectService.insert(projectDTO);
 
 
-
-
         return "redirect:/member/insert/-1";
     }
 
     @ResponseBody
     @GetMapping("search")
-    public List<ProjectDTO> searchProject(String keyword){
+    public List<ProjectDTO> searchProject(@AuthenticationPrincipal UserCustomDetails login, String keyword) {
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", login.getUserDTO().getId());
+        map.put("keyword", keyword);
 
 
-        return projectService.searchProject(keyword);
+        return projectService.searchProject(map);
     }
+
+    @ResponseBody
+    @GetMapping("inviteCode")
+    public ProjectDTO searchInviteCode(@AuthenticationPrincipal UserCustomDetails login, String keyword) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", login.getUserDTO().getId());
+        map.put("keyword", keyword);
+        System.out.println("==================================================");
+        System.out.checkError();
+        System.out.println("ProjectController.searchInviteCode >> " + keyword);
+        System.out.println("ProjectController.searchInviteCode >> " + login.getUserDTO().getId());
+
+
+        System.out.println(" projectService.searchInviteCode(map) : " + projectService.searchInviteCode(map));
+
+        return projectService.searchInviteCode(map);
+    }
+
 }

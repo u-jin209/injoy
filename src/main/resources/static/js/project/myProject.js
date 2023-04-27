@@ -38,6 +38,7 @@ function memberList(value) {
                         "</div>" +
                         "<div class='col-md-8'>" +
                         "<div class='card-body' style='text-align: left'>" +
+                        "<i class='fa-solid fa-crown' style='color: #ffb30d;' th:if=${"+ item.authority +".toString.equals('MANAGER')} '></i>"+
                         "<h5 class='card-title'>" + item.name + "</h5>" +
                         "<p class='card-text'>" + item.username + "</p>" +
                         "</div>" +
@@ -92,6 +93,8 @@ function bookMark(projectId, userId) {
 }
 
 function goProject(value){
-    console.log(value.id)
+    localStorage.setItem('selectedTab','home-tab')
+    localStorage.setItem('selectedPane', '#home-tab-pane')
+    location.href="/project/"+value.id;
 }
 /*]]>*/

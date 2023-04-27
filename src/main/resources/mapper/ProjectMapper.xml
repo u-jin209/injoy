@@ -28,11 +28,33 @@
 
 
 
-    <select id="searchProject"  parameterType="String" resultType="ProjectDTO">
-        SELECT * FROM injoy."project"
-        where "projectName" LIKE CONCAT('%', #{keyword}, '%')
-        or "invitationCode" LIKE CONCAT('%', #{keyword}, '%')
+    <select id="searchProject"  parameterType="hashmap" resultType="ProjectDTO">
+        SELECT * FROM injoy."project" p
+        left join
+        (SELECT "projectId" FROM injoy."projectMember"
+        where "userId"= #{userId}) m
+        on p."projectId" = m."projectId"
+        where m."projectId" IS NULL
+        and "projectName" LIKE CONCAT('%', #{keyword}, '%')
 
+    </select>
+
+
+    <select id="searchInviteCode"  parameterType="hashmap" resultType="ProjectDTO">
+        SELECT * FROM injoy."project" p
+        left join
+        (SELECT "projectId" FROM injoy."projectMember" where "userId"= #{userId}) m
+        on p."projectId" = m."projectId"
+        where m."projectId" IS NULL
+        and "invitationCode"= #{keyword}
+
+    </select>
+
+    <select id="selectWaitProject"  parameterType="int" resultType="projectDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."project" p
+        on m."projectId" = p."projectId"
+        where "userId" = #{userId} and "authority"= 'REQUEST'
     </select>
 
 </mapper>

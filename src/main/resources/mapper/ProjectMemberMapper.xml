@@ -17,7 +17,8 @@
 
     <select id="searchUser"  parameterType="ProjectMemberDTO" resultType="projectMemberDTO">
         SELECT * FROM injoy."user" u
-        left join (SELECT "userId" FROM injoy."projectMember" where "projectId"=#{projectId}) m
+        left join (SELECT "userId" FROM injoy."projectMember"
+        where "projectId"=#{projectId}) m
         on u."id" = m."userId"
         where m."userId" IS NULL
         and "username" LIKE CONCAT('%', #{keyword}, '%')
@@ -28,12 +29,16 @@
 
     </select>
 
-    <select id="selectWait" parameterType="int" resultType="projectMemberDTO">
+    <select id="selectWaitMember" parameterType="int" resultType="projectMemberDTO">
         SELECT * FROM injoy."projectMember" m
         inner join injoy."user" u
         on m."userId" = u."id"
         where "projectId"=#{projectId} and "authority" = 'REQUEST'
     </select>
+
+
+
+
 
     <insert id="insert" parameterType="projectMemberDTO" >
         insert into injoy."projectMember"( "projectId",  "userId", "authority")

@@ -51,7 +51,7 @@ public class ProjectMemberController {
             memberService.insert(memberDTO);
 
 
-            return "redirect:history.go(-1)";
+            return "redirect:/project/joinProject";
         }
     }
     @ResponseBody
@@ -95,7 +95,6 @@ public class ProjectMemberController {
     public List<ProjectMemberDTO> selectMember(int projectId){
 
 
-        System.out.println("@##########SelecrMember : "+projectId);
         return memberService.selectMember(projectId);
     }
 

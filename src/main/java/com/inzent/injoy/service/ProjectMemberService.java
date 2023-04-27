@@ -40,11 +40,13 @@ public class ProjectMemberService {
         return session.selectList(NAMESPACE+".searchUser",memberDTO);
     }
 
-    public List<ProjectMemberDTO> selectWait(int projectId){
+    public List<ProjectMemberDTO> selectWaitMember(int projectId){
 
-        System.out.println("waitList : "+session.selectList(NAMESPACE + ".selectWait", projectId) );
-        return session.selectList(NAMESPACE + ".selectWait", projectId);
+        return session.selectList(NAMESPACE + ".selectWaitMember", projectId);
     }
+
+
+
 
     public ProjectMemberDTO selectOne(Map<String, Object> map){
 

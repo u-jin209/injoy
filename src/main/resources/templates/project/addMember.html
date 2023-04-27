@@ -28,7 +28,7 @@
 <body>
 
 
-<div class="container" style="content-align: center ;padding: 50px;background-color: #ffffff">
+<div class="container" style="content-align: center ;background-color: #ffffff">
 
 
 
@@ -89,7 +89,7 @@
                 <h1 th:fragment="${memberList}" ></h1>
                 <div class="col-md-6" th:each=" member : ${memberList}" th:id="'user'+${member.userId}" name="member">
                     <div class="card mb-3" style="max-width: 540px; height: 100%;">
-                        <div class="row " style=" overflow: overlay;">
+                        <div class="row " >
                             <div class="col-md-4">
                                 <img src="/img/moru.jpg" class="member" alt="...">
                             </div>
@@ -141,7 +141,7 @@
 
                 <div class="col-md-6"  th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}" name="wait" >
                     <div class="card mb-3" style="max-width: 540px; height: 100%;">
-                        <div class="row g-0" style=" overflow: overlay;">
+                        <div class="row g-0" >
                             <div class="col-md-4">
                                 <img src="/img/moru.jpg" class="member" alt="...">
                             </div>

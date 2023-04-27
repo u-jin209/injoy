@@ -91,7 +91,7 @@ public class HomeController {
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
-        model.addAttribute("waitList", memberService.selectWait(projectId));
+        model.addAttribute("waitList", memberService.selectWaitMember(projectId));
 
 //      < /addMember에 들어가는 파라미터값들  >
 
