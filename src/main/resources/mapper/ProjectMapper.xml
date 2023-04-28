@@ -9,7 +9,7 @@
         on p."projectId" = m."projectId"
         left join injoy."bookMark" b
         on p."projectId" = b."projectId"
-        where "creatorUserId"=#{id} and m."userId" =#{id}
+        where  m."userId" =#{id}  and "authority" != 'REQUEST'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project

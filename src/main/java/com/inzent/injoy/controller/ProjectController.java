@@ -48,6 +48,15 @@ public class ProjectController {
         return "/project/joinProject";
     }
 
+
+    @ResponseBody
+    @GetMapping("waitList")
+    public List<ProjectDTO> waitList(@AuthenticationPrincipal UserCustomDetails login) {
+
+
+        return projectService.selectWaitProject(login.getUserDTO().getId());
+    }
+
     @GetMapping("newProject")
     public String newProject() {
 
