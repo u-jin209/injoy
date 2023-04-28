@@ -43,8 +43,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String test() {
-        return "test";
-
+        return "/user/login";
     }
 
 
