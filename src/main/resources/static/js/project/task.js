@@ -7,6 +7,7 @@ $(document).ready(function (){
     $('.inputTaskTitle').hide()
     $('.btn_ul').hide()
     $('.priority_ul').hide()
+    $('.managerDiv').hide()
 })
 $(function (){
 
@@ -18,64 +19,100 @@ $(function (){
 
     // 업무명 js
 
-    $('.titleTd').on('mouseover', function (){
-        $('.inputTaskTitle').show()
+    let tasktr = $('.taskTr')
+    let titleTd = tasktr.find('.titleTd')
+    let processTd = tasktr.find('.processTd')
+    let priorityTd = tasktr.find('.priorityTd')
+    let managerTd = tasktr.find('.managerTd')
+
+    titleTd.mouseover( function (){
+        $(this).find('.inputTaskTitle').show()
         $(this).find('span').hide()
     })
 
-    $('.titleTd').on('mouseout', function (){
-        $('.inputTaskTitle').hide()
+    titleTd.mouseout(function (){
+        $(this).find('.inputTaskTitle').hide()
         $(this).find('span').show()
     })
 
-    // 진행상황 버튼 JS
+    // 진행 이벤트
 
-    $('.processTd').click(function (){
-        if ($('.btn_ul').css('display')==='block'){
-            $('.btn_ul').css('display', 'none')
+    processTd.click(function (){
+        let btnUl = $(this).find('.btn_ul')
+        if (btnUl.css('display')==='block'){
+            btnUl.css('display', 'none')
         } else {
-            $('.btn_ul').css('display', 'block')
+            btnUl.css('display', 'block')
+            btnUl.find('.changeBtn').click( function(e) {
+                // 프로세스 값 변경 ajax
+                console.log(tasktr)
+                console.log(tasktr.text())
+                let formData = {
+                    taskId : tasktr.find('#taskId').text(),
+                    process : $(this).text()
+                }
+                $.ajax({
+                    url : '/task/updateProcess',
+                    type: 'post',
+                    data : formData,
+                    success : () => {
+                    }
+                })
+            })
         }
 
     })
 
+
+
     // 우선순위 버튼
 
-    $('.priorityTd').click(function (){
-        if ($('.priority_ul').css('display')==='block'){
-            $('.priority_ul').css('display', 'none')
+    priorityTd.click( function (){
+        let priority_ul  = $(this).find('.priority_ul');
+        if (priority_ul.css('display') === 'block'){
+            priority_ul.css('display', 'none')
         } else {
-            $('.priority_ul').css('display', 'block')
+            priority_ul.css('display', 'block')
+        }
+
+    })
+
+    //담당자 이벤트
+    managerTd.click( function (){
+        let managerDiv = $(this).find('.managerDiv')
+        if (managerDiv.css('display')==='block'){
+            managerDiv.css('display', 'none')
+        } else {
+            managerDiv.css('display', 'block')
         }
 
     })
 
     //날짜 이벤트
-    let start = document.getElementById('startDate')
-    let end = document.getElementById('endDate');
+    let start = tasktr.find('#startDate')
+    let end = tasktr.find('#endDate');
 
-    $('#startDate').prop("min", new Date().toISOString().split("T")[0])
+    start.prop("min", new Date().toISOString().split("T")[0])
 
-    start.addEventListener('change', function() {
+    start.on('change', function() {
         if (start.value)
             end.min = start.value;
     }, false)
 
-    end.addEventListener('change', function (){
+    end.on('change', function (){
         if (end.value)
             start.max = end.value;
     }, false)
 
     // td 공통 부분
 
-    document.addEventListener('click', function(e) {
-        let container = document.getElementById('btn_ul');
-        let process_td = document.getElementById('processTd');
-        let priority_td = document.getElementById('priorityTd')
-        if (!container.contains(e.target) && !process_td.contains(e.target)) {
-            container.style.display = 'none';
-        }
-    });
+    // document.addEventListener('click', function(e) {
+    //     let container = document.getElementById('btn_ul');
+    //     let process_td = document.getElementById('processTd');
+    //     if (!container.contains(e.target) && !process_td.contains(e.target)) {
+    //         container.style.display = 'none';
+    //     }
+    // });
 
 
 

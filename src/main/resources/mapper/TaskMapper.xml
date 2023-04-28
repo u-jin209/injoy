@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TaskMapper">
+    <select id="selectAll" parameterType="int"  resultType="TaskDTO">
+        SELECT * FROM injoy.task
+        INNER JOIN injoy.user
+        ON "user"."id" = "task"."authorUserId"
+        where "projectId" = #{projectId}
+        ORDER BY "crtDate" DESC
+    </select>
+    <insert id="insert" parameterType="TaskDTO">
+        INSERT INTO injoy.task("taskId", "authorUserId", title, content, "projectId", "startDate", "closingDate", "fileId", process, progress, "managerId", priority)
+        VALUES (#{authorUserId}, #{title}, #{content}, #{projectId}, #{startDate}, #{closingDate}, #{fileId}, #{process}, #{progress}, #{managerId}, #{priority})
+    </insert>
+    <update id="updateProcess" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "process" = #{process}
+        WHERE "taskId" = #{taskId}
+    </update>
+</mapper>
