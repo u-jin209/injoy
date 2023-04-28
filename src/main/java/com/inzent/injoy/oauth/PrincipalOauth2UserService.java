@@ -91,6 +91,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			userDTO = UserDTO.builder()
 					.username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
 					.email(oAuth2UserInfo.getEmail())
+					.name(oAuth2UserInfo.getName())
 					.role("ROLE_USER")
 					.provider(oAuth2UserInfo.getProvider())
 					.providerId(oAuth2UserInfo.getProviderId())
