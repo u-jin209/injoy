@@ -28,13 +28,13 @@
                 <div class="row" style="justify-content: center;">
 
 
-                    <div id="profile_container" class="userImg"><img id="profile" class="userImg" src="/img/user.jpg">
+                    <div id="profile_container" class="userImg"><img id="profile" class="userImg"th:src="@{${user.profilePhoto}}", onerror=this.src="/img/user.jpg">
                     </div>
                 </div>
 
                 <div class="row" style="justify-content: center;">
                     <div class="task-tooltip" style=" text-align: center; min-width: 250px;   min-height: 30px;">
-                        <div th:text="${user.getCondition()}"></div>
+                        <div th:text="${user.condition}"></div>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="/user/updateInfo" method="post">
+                <form action="/user/updateInfo" method="post" onsubmit=""   enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -130,13 +130,17 @@
 
 
                                         <div id="image_container" class="userImg"><img id="image-show" class="userImg"
-                                                                                       src="/img/user.jpg">
+                                                                                       th:src="@{${user.profilePhoto}}",onerror=this.src="/img/user.jpg">
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
-                                        <input style="    text-align-last: center;" type="file" id="image"
+                                        <input style="  text-align-last: center;" type="file" id="profileImg"
+                                               name="profileImg"
                                                accept="image/*"
-                                               onchange="setThumbnail(event);"/>
+                                               onchange="toBase64(event);"/>
+<!--                                        <input type="file" class="real-upload" accept="image/*" -->
+<!--                                               id="mainImgInput" name="mainFile">-->
+
                                     </div>
                                     <div class="row contentText"> 상태</div>
                                     <div class="row mb-5" style="justify-content: center;">
@@ -253,6 +257,31 @@
             };
 
             reader.readAsDataURL(event.target.files[0]);
+        }
+
+
+
+
+        function toBase64(event) {
+            var reader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = function(event) {
+                var base64 = event.target.result;// img -> base64
+                var img = document.getElementById("image-show")
+                img.setAttribute("src", base64);
+
+                const profilePhoto = document.getElementById("profilePhoto")
+                profilePhoto.setAttribute("value", base64.toString())
+
+            };
+        }
+
+
+        function submitOk(){
+            Swal.fire({
+                title: "수정 완료되었습니다 ",
+                icon: "success"
+            });
         }
     </script>
 

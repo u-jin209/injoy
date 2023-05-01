@@ -26,6 +26,7 @@ function memberList(value) {
 
             result.forEach(function (item) {
 
+
                 $(document).ready(function () {
                     console.log("item", item);
 
@@ -34,7 +35,7 @@ function memberList(value) {
                         "<div class='card mb-3' style='max-width: 540px;'>" +
                         "<div class='row g-0'>" +
                         "<div class='col-md-4'>" +
-                        "<img src='/img/moru.jpg' class='member' alt='...'>" +
+                        "<img class='member'   src='"+ item.profilePhoto +"' , onerror=this.src='/img/moru.jpg'>" +
                         "</div>" +
                         "<div class='col-md-8'>" +
                         "<div class='card-body' style='text-align: left'>" +

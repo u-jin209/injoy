@@ -1,6 +1,47 @@
 window.onload = function () {
     printWaitProject()
+    // $(document).ready(function () {
+    //     console.log("22222222222")
+    //     $('.slider responsive').slick({
+    //         dots: true,
+    //         infinite: false,
+    //         speed: 300,
+    //         slidesToShow: 4,
+    //         slidesToScroll: 4,
+    //         responsive: [
+    //             {
+    //                 breakpoint: 1024,
+    //                 settings: {
+    //                     slidesToShow: 3,
+    //                     slidesToScroll: 3,
+    //                     infinite: true,
+    //                     dots: true
+    //                 }
+    //             },
+    //             {
+    //                 breakpoint: 600,
+    //                 settings: {
+    //                     slidesToShow: 2,
+    //                     slidesToScroll: 2
+    //                 }
+    //             },
+    //             {
+    //                 breakpoint: 480,
+    //                 settings: {
+    //                     slidesToShow: 1,
+    //                     slidesToScroll: 1
+    //                 }
+    //             }
+    //             // You can unslick at a given breakpoint now by adding:
+    //             // settings: "unslick"
+    //             // instead of a settings object
+    //         ]
+    //     });
+    // });
+
+
 }
+
 
 function setDisabled(value) {
 
@@ -20,7 +61,7 @@ function enter(value) {
 
 
         if (value.id == 'searchProject') {
-            searchProject();
+            searchProject(0);
         } else {
             searchInviteCode();
         }
@@ -42,7 +83,6 @@ function searchProject() {
             "keyword": keyword
         }
 
-
         $.ajax({
             type: 'GET',
             url: "/project/search",
@@ -60,6 +100,7 @@ function searchProject() {
 
 
                             $('#searchDivMain').append(
+
                                 " <div class='card mb-3' style='max-width: 540px;'>" +
                                 "<div class = 'row g-0'>" +
                                 "<div class='col-md-4'>" +
@@ -78,11 +119,14 @@ function searchProject() {
                                 "</div>" +
                                 "</div>" +
                                 "</div>"
+
                             );
 
                         });
 
                     })
+
+
 
                 } else {
                     const searchDiv = document.getElementById("searchResult");
@@ -108,6 +152,28 @@ function searchProject() {
     document.getElementById("searchInviteCode").disabled = false;
 
 }
+
+
+// function pageNation(option){
+//     if(option == -1){
+//         const previous = document.getElementById("previousBtn").name
+//         if (previous == 0){
+//             Swal.fire({
+//                 title: "가장 첫 페이지 입니다",
+//                 icon: "warning"
+//             });
+//         }else{
+//
+//             document.getElementById("previousBtn").name = previous-2;
+//             searchProject(previous-2);
+//         }
+//
+//
+//     }else if(option == 1) {
+//
+//
+//     }
+// }
 
 function searchInviteCode() {
 
@@ -233,7 +299,7 @@ function enterProject(option) {
 function printWaitProject() {
 
     const data = {
-        "massage" : "wait"
+        "massage": "wait"
     }
     $.ajax({
         type: 'GET',
@@ -242,7 +308,7 @@ function printWaitProject() {
         success: function (result) {
 
             console.log("waitLLLLLLs")
-            console.log("result : " +result)
+            console.log("result : " + result)
             $('#projectContainer').empty()
 
 
@@ -255,7 +321,7 @@ function printWaitProject() {
                         noneWait.style.display = "none";
 
                         $('#projectContainer').append(
-                            " <div class='col-md-3' >"+
+                            " <div class='col-md-3' >" +
                             "<div class='project' style='padding: 10px 20px 10px 20px'>" +
                             "<div class='row'>" +
                             "<div style='float: left;'>" +
@@ -263,7 +329,7 @@ function printWaitProject() {
                             "<div class='explanationText'>" + item.explanation + "</div>" +
                             "</div>" +
                             "</div>" +
-                            "</div>"+
+                            "</div>" +
                             "</div>"
                         );
 
@@ -271,12 +337,11 @@ function printWaitProject() {
 
                 })
 
-            }else {
+            } else {
                 $('#noneWait').append(
-                    "<div class='card' style='min-height: 300px;padding: 150px; text-align: center;'>"+
-                        "<h1 class='projectTitle'>승인 대기중인 프로젝트가 없습니다</h1>"+
+                    "<div class='card' style='min-height: 300px;padding: 150px; text-align: center;'>" +
+                    "<h1 class='projectTitle'>승인 대기중인 프로젝트가 없습니다</h1>" +
                     "</div>"
-
                 );
             }
 

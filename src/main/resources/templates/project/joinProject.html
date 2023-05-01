@@ -10,8 +10,13 @@
     <title>YOU#</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- Slick 불러오기 -->
+    <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
 
     <script th:src="@{/js/project/joinProject.js}" defer></script>
     <!-- 내 css  -->
@@ -54,13 +59,13 @@
                 </div>
 
                 <div class="mb-5">
-                    <button class="btn-orange">
+                    <button class="btn-orange" id="previousBtn" name="0" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
                              class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                             <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                         </svg>
                     </button>
-                    <button class="btn-orange">
+                    <button class="btn-orange" id="nextBtn" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
                              class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                             <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>

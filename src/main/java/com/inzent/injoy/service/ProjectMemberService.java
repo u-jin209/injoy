@@ -21,7 +21,7 @@ public class ProjectMemberService {
 
     public List<ProjectMemberDTO> selectMember(int id){
 
-        System.out.println("서비스 selectMember" + session.selectList(NAMESPACE + ".selectMember", id));
+
         return session.selectList(NAMESPACE + ".selectMember", id);
     }
 
@@ -36,7 +36,7 @@ public class ProjectMemberService {
 
     public List<ProjectMemberDTO> searchUser(ProjectMemberDTO memberDTO){
 
-        System.out.println("service 에서 search user :" + session.selectList(NAMESPACE+".searchUser",memberDTO) );
+
         return session.selectList(NAMESPACE+".searchUser",memberDTO);
     }
 

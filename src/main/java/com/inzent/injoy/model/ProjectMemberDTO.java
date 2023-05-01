@@ -13,6 +13,7 @@ import lombok.Data;
     private String name;
     private String phoneNumber;
     private String email;
+    private String profilePhoto;
 
     //search용 정보
 

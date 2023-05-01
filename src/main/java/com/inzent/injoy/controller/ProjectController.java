@@ -41,9 +41,6 @@ public class ProjectController {
 
     @GetMapping("joinProject")
     public String joinProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
-
-        System.out.println("projectMemberService.selectWaitProject(login.getUserDTO().getId()): " + projectService.selectWaitProject(login.getUserDTO().getId()));
-
         model.addAttribute("waitList", projectService.selectWaitProject(login.getUserDTO().getId()));
         return "/project/joinProject";
     }
@@ -105,7 +102,6 @@ public class ProjectController {
 
         map.put("userId", login.getUserDTO().getId());
         map.put("keyword", keyword);
-
 
         return projectService.searchProject(map);
     }
