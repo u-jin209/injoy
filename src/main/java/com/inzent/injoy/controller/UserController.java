@@ -2,6 +2,7 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
+import com.inzent.injoy.service.EmailService;
 import com.inzent.injoy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,10 +20,14 @@ public class UserController {
 
     private final  UserService userService;
 
+    private final EmailService emailService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
+
 
     //로그인
     @PostMapping("auth")
@@ -48,12 +53,14 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public String register(UserDTO attempt, Model model) {
+    public String register(UserDTO attempt, Model model) throws Exception {
         if(userService.register(attempt)){
-            return "redirect:/user/logInPage";
+            String code = emailService.sendSimpleMessage(attempt.getUsername());
+            model.addAttribute("email", attempt.getUsername());
+            model.addAttribute("code", code);
+            return "user/emailVerify";
         }else{
             model.addAttribute("script", "<script>swal.fire('이미 해당 email로 가입된 아이디가 존재합니다.')</script>");
-
             return "user/register";
         }
     }

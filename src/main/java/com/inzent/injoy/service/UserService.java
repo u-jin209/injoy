@@ -41,6 +41,7 @@ public class UserService implements UserDetailsService {
         if (validate(attempt.getUsername())) {
             attempt.setPassword(passwordEncoder.encode(attempt.getPassword()));
             attempt.setRole("ROLE_USER");
+            attempt.setEmailVerified(false);
             session.insert(NAMESPACE + ".register", attempt);
             return true;
         }else {
