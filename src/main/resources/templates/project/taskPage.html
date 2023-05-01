@@ -9,7 +9,7 @@
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
     <link th:href="@{/css/project/task.css}" rel="stylesheet"/>
-    <script src="/js/project/task.js" defer></script>
+    <script th:inline="javascript" src="/js/project/task.js" defer></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -38,7 +38,7 @@
                             <span class="modal-title mr-2" id="addTaskModalLabel" style="font-weight: bold">
                                 업무 작성 |
                             </span>
-                            <span>프로젝트명</span>
+                            <span th:text="${project.projectName}"></span>
 
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -108,7 +108,7 @@
         <tbody>
         <tr class="taskTr" th:each="task : ${taskList}">
             <td class="titleTd">
-                <span th:text="${task.title}"></span>
+                <span class="titleTask-view" th:text="${task.title}"></span>
                 <div class="inputTaskTitle row" style="padding-left: 51px">
                     <input class="col form-control" type="text" th:value="업무" style="height: 29px; width: 200px;"/>
                     <a class="ml-3 col detail">상세보기</a>
@@ -193,7 +193,9 @@
                     </ul>
                 </div>
             </td>
-            <td class="managerTd" style="position: relative">-
+            <td class="managerTd" style="position: relative">
+                <div th:text="${task.managerId}" th:if="${task.managerId ne 0}"></div>
+                <div th:if="${task.managerId eq 0}">-</div>
                 <div class="managerDiv" style="top: 50px; transform: none; left: -90px">
                     <div class="managerSearch">
                         <div class="searchManagerIcon">
@@ -277,9 +279,11 @@
                 </div>
             </td>
             <td class="startDate p-0">
+                <div th:text="${task.startDate}"></div>
                 <input id="startDate" data-placeholder="-" required aria-required="true" type="date"/>
             </td>
             <td class="endDate p-0">
+                <div th:text="${task.closingDate}"></div>
                 <input id="endDate" data-placeholder="-" required aria-required="true" type="date"/>
             </td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>

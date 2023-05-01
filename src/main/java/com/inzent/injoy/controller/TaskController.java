@@ -32,19 +32,19 @@ public class TaskController {
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
 
         taskService.insert(taskDTO);
-        return "/project/projectHome";
+
+        return "redirect:/project/projectHome";
     }
 
     @PostMapping("updateProcess")
-    public String updateProcess(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
+    public String updateProcess(TaskDTO taskDTO){
         System.out.println(taskDTO);
-        if (login.getUserDTO().getId() == taskDTO.getAuthorUserId()){
-            System.out.println("controller");
-            taskService.updateProcess(taskDTO);
-            System.out.println("end");
-        }
+        System.out.println("controller");
+        taskService.updateProcess(taskDTO);
 
-        return "/project/taskPage";
+        System.out.println("end");
+
+        return "redirect:/project/taskPage";
     }
 
 }

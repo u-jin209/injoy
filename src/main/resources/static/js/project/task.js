@@ -39,23 +39,26 @@ $(function (){
 
     processTd.click(function (){
         let btnUl = $(this).find('.btn_ul')
+        let taskId = $(this).closest('tr').find('#taskId').text();
+        let taskTitle = $(this).closest('tr').find('.titleTask-view').text();
         if (btnUl.css('display')==='block'){
             btnUl.css('display', 'none')
         } else {
             btnUl.css('display', 'block')
             btnUl.find('.changeBtn').click( function(e) {
                 // 프로세스 값 변경 ajax
-                console.log(tasktr)
-                console.log(tasktr.text())
                 let formData = {
-                    taskId : tasktr.find('#taskId').text(),
-                    process : $(this).text()
+                    taskId : taskId,
+                    process : $(this).text(),
+                    projectId: $('.projectIdInput').val(),
+                    title : taskTitle,
                 }
                 $.ajax({
                     url : '/task/updateProcess',
                     type: 'post',
                     data : formData,
                     success : () => {
+                        location.reload()
                     }
                 })
             })
