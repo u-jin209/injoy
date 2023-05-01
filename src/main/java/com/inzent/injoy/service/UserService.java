@@ -65,6 +65,13 @@ public class UserService implements UserDetailsService {
     public void update(UserDTO userDTO) {
         session.update(NAMESPACE + ".update", userDTO);
     }
+    public void updateEmailVerified(UserDTO userDTO) {
+        session.update(NAMESPACE + ".updateEmailVerified", userDTO);
+    }
+
+    public UserDTO findByUsername(String username){
+        return session.selectOne(NAMESPACE + ".selectOneByUsername",username);
+    }
 
     public void updateInfo(UserDTO userDTO) {
         session.update(NAMESPACE + ".updateInfo", userDTO);

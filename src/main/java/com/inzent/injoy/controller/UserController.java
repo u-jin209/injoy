@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -64,7 +65,14 @@ public class UserController {
             return "user/register";
         }
     }
-
+    @PostMapping("emailVerify")
+    public String emailVerify(@RequestParam String username){
+        System.out.println(username);
+        UserDTO userDTO = userService.findByUsername(username);
+        userDTO.setEmailVerified(true);
+        userService.updateEmailVerified(userDTO);
+        return "/user/team";
+    }
     @GetMapping("userInfo")
     public String userInfo(@AuthenticationPrincipal UserCustomDetails login, Model model){
 
