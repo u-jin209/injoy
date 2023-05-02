@@ -38,6 +38,11 @@ public class ProjectController {
         return "/project/addMember";
     }
 
+    @GetMapping("team")
+    public String team() {
+
+        return "/project/team";
+    }
 
     @GetMapping("joinProject")
     public String joinProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {

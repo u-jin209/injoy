@@ -22,7 +22,7 @@
 
 
     <!-- 내 css  -->
-    <link rel="stylesheet" href="/css/memberManagement.css">
+    <link rel="stylesheet" href="/css/injoyMain.css">
     <script th:src="@{/js/project/addMember.js}" defer></script>
 </head>
 <body>
@@ -56,31 +56,17 @@
 
     <div id="searchResult" style="display: none">
         <h5 class="title"> 검색 결과 </h5>
-        <div class="searchBack">
-            <div class="row mt-5 mb-5" style="justify-content: center; ">
-                <div class="col-md-6" id="searchDivMain">
+        <div class="scrollDiv">
+            <div class="searchBack">
+                <div class="row mt-5 mb-5" style="justify-content: center; ">
+                    <div class="col-md-6" id="searchDivMain">
 
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-5">
-                <button class="btn-orange">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
-                         class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-                    </svg>
-                </button>
-                <button class="btn-orange">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
-                         class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                    </svg>
-                </button>
             </div>
-
         </div>
-
     </div>
     <div>
         <h5 class="title"> 참여중인 회원 </h5>
