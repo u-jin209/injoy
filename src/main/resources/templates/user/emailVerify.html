@@ -89,7 +89,7 @@
     </div>
     <button class="verify_btn" onclick="emailVerify()">인증하기</button>
     <div>
-        <p style="margin-top: 35px">이메일을 받지 못하셨나요? <a href="#">다시 시도해주세요.</a></p>
+        <p style="margin-top: 35px">이메일을 받지 못하셨나요? <a th:href="@{/user/reMail(email = ${email})}">다시 시도해주세요.</a></p>
     </div>
 </div>
 <div th:utext="${script}"></div>

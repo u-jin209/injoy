@@ -6,14 +6,12 @@ import com.inzent.injoy.service.EmailService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.email.EmailVerifyService;
 import com.inzent.injoy.service.email.PasswordFindService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/user/")
 public class UserController {
 
-    private final  UserService userService;
+    private final UserService userService;
 
 //    private final EmailService emailService;
 
@@ -30,12 +28,11 @@ public class UserController {
     private final PasswordFindService passwordFindService;
 
     @Autowired
-    public UserController(UserService userService,EmailVerifyService emailVerifyService,PasswordFindService passwordFindService) {
+    public UserController(UserService userService, EmailVerifyService emailVerifyService, PasswordFindService passwordFindService) {
         this.userService = userService;
         this.emailVerifyService = emailVerifyService;
         this.passwordFindService = passwordFindService;
     }
-
 
     //로그인
     @PostMapping("auth")
@@ -51,13 +48,17 @@ public class UserController {
             return "test";
         }
     }
+
     @GetMapping("findPassword")
-    public String findPassword(){
-        return "user/findPassword";}
+    public String findPassword() {
+        return "user/findPassword";
+    }
+
     @GetMapping("logInPage")
-    public String moveLogInPage(){
+    public String moveLogInPage() {
         return "user/logIn";
     }
+
     @GetMapping("register")
     public String showRegister() {
         return "user/register";
@@ -65,19 +66,33 @@ public class UserController {
 
     @PostMapping("register")
     public String register(UserDTO attempt, Model model) throws Exception {
-        if(userService.register(attempt)){
+        if (userService.register(attempt)) {
             String code = emailVerifyService.sendSimpleMessage(attempt.getUsername());
             model.addAttribute("email", attempt.getUsername());
             model.addAttribute("code", code);
             model.addAttribute("script", "<script>swal.fire({text:'이메일로 인증번호를 발송했습니다.',confirmButtonText:'확인',confirmButtonColor:'#3085d6'})</script>");
             return "user/emailVerify";
-        }else{
+        } else {
             model.addAttribute("script", "<script>swal.fire({text:'이미 해당 email로 가입된 아이디가 존재합니다.',confirmButtonColor: '#3085d6'})</script>");
             return "user/register";
         }
     }
+
+    @GetMapping("reMail")
+    public String reMail(HttpServletRequest req, Model model) throws Exception {
+        String email = req.getParameter("email");
+        System.out.println("email = " + email);
+        String code = emailVerifyService.sendSimpleMessage(email);
+        System.out.println("code = " + code);
+        model.addAttribute("email", email);
+        model.addAttribute("code", code);
+        model.addAttribute("script", "<script>swal.fire({text:'이메일로 인증번호를 발송했습니다.',confirmButtonText:'확인',confirmButtonColor:'#3085d6'})</script>");
+        return "user/emailVerify";
+
+    }
+
     @PostMapping("emailVerify")
-    public String emailVerify(@RequestParam String username){
+    public String emailVerify(@RequestParam String username) {
         UserDTO userDTO = userService.findByUsername(username);
         userDTO.setEmailVerified(true);
         userService.updateEmailVerified(userDTO);
@@ -85,40 +100,36 @@ public class UserController {
     }
 
     @PostMapping("passwordFind")
-    public String passwordFind(@RequestParam String email,Model model) throws Exception {
+    public String passwordFind(@RequestParam String email, Model model) throws Exception {
         UserDTO userDTO = userService.findByUsername(email);
         System.out.println(userDTO);
-        if(userDTO != null){
+        if (userDTO != null) {
             String newPwd = passwordFindService.sendSimpleMessage(email);
-            userService.updatePassword(userDTO,newPwd);
+            userService.updatePassword(userDTO, newPwd);
             model.addAttribute("script", "<script>swal.fire({text:'임시 비밀번호를 이메일로 발급하였습니다.',confirmButtonText:'확인',confirmButtonColor:'#3085d6'})</script>");
             return "user/logIn";
-        }else{
+        } else {
             model.addAttribute("script", "<script>swal.fire({text:'해당 아이디가 존재하지 않습니다.',confirmButtonText:'확인',confirmButtonColor:'#3085d6'})</script>");
             return "user/findPassword";
         }
     }
+
     @GetMapping("userInfo")
-    public String userInfo(@AuthenticationPrincipal UserCustomDetails login, Model model){
+    public String userInfo(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
         UserDTO user = login.getUserDTO();
-        System.out.printf("user"+user);
-        model.addAttribute("user",user);
-
-
+        System.out.printf("user" + user);
+        model.addAttribute("user", user);
         return "user/userInfo";
     }
 
-
     @PostMapping("updateInfo")
-    public String updateInfo(@AuthenticationPrincipal UserCustomDetails login,UserDTO userDTO){
-
+    public String updateInfo(@AuthenticationPrincipal UserCustomDetails login, UserDTO userDTO) {
         UserDTO origin = login.getUserDTO();
         origin.setName(userDTO.getName());
         origin.setPhoneNumber(userDTO.getPhoneNumber());
         origin.setEmail(userDTO.getEmail());
         origin.setCondition(userDTO.getCondition());
-
 
         userService.updateInfo(origin);
 
