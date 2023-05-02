@@ -1,23 +1,59 @@
-$(document).ready(function (){
-    $('.taskAddButton').click(function (){
-        $('#requestBtn').trigger("click")
-        $('.requestBtn').focus()
+$(document).ready(function () {
+
+    $('.currentBtn').each(function () {
+        switch ($(this).text()) {
+            case '요청' :
+                $(this).css('background-color', '#00B2FF');
+                break;
+            case '진행' :
+                $(this).css('background-color', '#00B01C');
+                break
+            case '피드백' :
+                $(this).css('background-color', '#FD7900');
+                break;
+            case '완료' :
+                $(this).css('background-color', '#402A9D');
+                break;
+            case '보류' :
+                $(this).css('background-color', '#777777');
+                break;
+
+        }
     })
+
 
     $('.inputTaskTitle').hide()
     $('.btn_ul').hide()
     $('.priority_ul').hide()
     $('.managerDiv').hide()
 })
-$(function (){
+$(function () {
+    $('.taskTitle').change(function () {
 
-    $('.processBtn').click(function (){
+        let taskId = $(this).closest('tr').find('#taskId').text();
+        // 타이틀 값 변경 ajax
+        let formData = {
+            taskId: taskId,
+            title: $(this).val(),
+        }
+        $.ajax({
+            url: '/task/updateTitle',
+            type: 'post',
+            data: formData,
+            success: () => {
+                $(this).load(location.href + ' '+ $(this))
+            }
+        })
+
+
+    })
+    $('.taskProcessBtn').click(function () {
         console.log($(this).text())
         const btnValue = $(this).text();
-        addTask(btnValue)
+        addTaskTab(btnValue)
     })
 
-    // 업무명 js
+// 업무명 js
 
     let tasktr = $('.taskTr')
     let titleTd = tasktr.find('.titleTd')
@@ -25,40 +61,67 @@ $(function (){
     let priorityTd = tasktr.find('.priorityTd')
     let managerTd = tasktr.find('.managerTd')
 
-    titleTd.mouseover( function (){
+    titleTd.mouseover(function () {
         $(this).find('.inputTaskTitle').show()
         $(this).find('span').hide()
     })
 
-    titleTd.mouseout(function (){
+    titleTd.mouseout(function () {
         $(this).find('.inputTaskTitle').hide()
         $(this).find('span').show()
     })
 
-    // 진행 이벤트
+// 진행 이벤트
 
-    processTd.click(function (){
+    processTd.click(function () {
         let btnUl = $(this).find('.btn_ul')
         let taskId = $(this).closest('tr').find('#taskId').text();
-        let taskTitle = $(this).closest('tr').find('.titleTask-view').text();
-        if (btnUl.css('display')==='block'){
+
+        if (btnUl.css('display') === 'block') {
             btnUl.css('display', 'none')
         } else {
             btnUl.css('display', 'block')
-            btnUl.find('.changeBtn').click( function(e) {
+            btnUl.find('.changeBtn').click(function (e) {
                 // 프로세스 값 변경 ajax
                 let formData = {
-                    taskId : taskId,
-                    process : $(this).text(),
-                    projectId: $('.projectIdInput').val(),
-                    title : taskTitle,
+                    taskId: taskId,
+                    process: $(this).text(),
                 }
                 $.ajax({
-                    url : '/task/updateProcess',
+                    url: '/task/updateProcess',
                     type: 'post',
-                    data : formData,
-                    success : () => {
-                        location.reload()
+                    data: formData,
+                    success: () => {
+                        document.location.reload()
+                    }
+                })
+            })
+        }
+    })
+
+
+// 우선순위 버튼
+
+    priorityTd.click(function () {
+        let priority_ul = $(this).find('.priority_ul');
+        let taskId = $(this).closest('tr').find('#taskId').text();
+
+        if (priority_ul.css('display') === 'block') {
+            priority_ul.css('display', 'none')
+        } else {
+            priority_ul.css('display', 'block')
+            priority_ul.find('.priorityBtn').click(function (e) {
+                // 프로세스 값 변경 ajax
+                let formData = {
+                    taskId: taskId,
+                    priority: $(this).find('.priorityText').text(),
+                }
+                $.ajax({
+                    url: '/task/updatePriority',
+                    type: 'post',
+                    data: formData,
+                    success: () => {
+                        document.location.reload()
                     }
                 })
             })
@@ -66,24 +129,10 @@ $(function (){
 
     })
 
-
-
-    // 우선순위 버튼
-
-    priorityTd.click( function (){
-        let priority_ul  = $(this).find('.priority_ul');
-        if (priority_ul.css('display') === 'block'){
-            priority_ul.css('display', 'none')
-        } else {
-            priority_ul.css('display', 'block')
-        }
-
-    })
-
-    //담당자 이벤트
-    managerTd.click( function (){
+//담당자 이벤트
+    managerTd.click(function () {
         let managerDiv = $(this).find('.managerDiv')
-        if (managerDiv.css('display')==='block'){
+        if (managerDiv.css('display') === 'block') {
             managerDiv.css('display', 'none')
         } else {
             managerDiv.css('display', 'block')
@@ -91,50 +140,65 @@ $(function (){
 
     })
 
-    //날짜 이벤트
+//날짜 이벤트
     let start = tasktr.find('#startDate')
     let end = tasktr.find('#endDate');
 
     start.prop("min", new Date().toISOString().split("T")[0])
 
-    start.on('change', function() {
+    start.on('change', function () {
         if (start.value)
             end.min = start.value;
     }, false)
 
-    end.on('change', function (){
+    end.on('change', function () {
         if (end.value)
             start.max = end.value;
     }, false)
 
-    // td 공통 부분
+    $('#startDate').change(function (){
+        $(this).closest('tr').find('#endDate').attr('min',$(this).val())
+        let taskId = $(this).closest('tr').find('#taskId').text();
+        let formData = {
+            taskId: taskId,
+            startDate: $(this).val(),
+        }
+        $.ajax({
+            url: '/task/updateStartDate',
+            type: 'post',
+            data: formData,
+            success: () => {
+                document.location.reload()
+            }
+        })
 
-    // document.addEventListener('click', function(e) {
-    //     let container = document.getElementById('btn_ul');
-    //     let process_td = document.getElementById('processTd');
-    //     if (!container.contains(e.target) && !process_td.contains(e.target)) {
-    //         container.style.display = 'none';
-    //     }
-    // });
+    })
 
+// td 공통 부분
 
-
+// document.addEventListener('click', function(e) {
+//     let container = document.getElementById('btn_ul');
+//     let process_td = document.getElementById('processTd');
+//     if (!container.contains(e.target) && !process_td.contains(e.target)) {
+//         container.style.display = 'none';
+//     }
+// });
 })
 
-function addTask(btnValue){
-    $('.taskAddButton').click(function (){
+function addTaskTab(btnValue) {
+    $('.taskAddButton').click(function () {
         let formData = {
-            projectId : $('.projectIdInput').val(),
-            title : $('#taskTitle').val(),
-            content : $('.writeContent').val(),
-            process : btnValue,
-            managerId : $('#managerId').val(),
+            projectId: $('.projectIdInput').val(),
+            title: $('#taskAddTitle').val(),
+            content: $('.writeTaskContent').val(),
+            process: btnValue,
+            managerId: $('#managerId').val(),
 
 
         }
 
         $.ajax({
-            url: '/task/write',
+            url: '/task/taskPageWrite',
             data: formData,
             type: 'post',
             success: ((message) => {

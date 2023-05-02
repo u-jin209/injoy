@@ -10,6 +10,7 @@
             crossorigin="anonymous"></script>
     <link th:href="@{/css/project/task.css}" rel="stylesheet"/>
     <script th:inline="javascript" src="/js/project/task.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -44,8 +45,8 @@
                         </div>
                         <div class="modal-body text-start">
                             <div>
-                                <input id="taskTitle" placeholder="제목을 입력하세요" style=""/>
-                                <label for="taskTitle"></label>
+                                <input id="taskAddTitle" placeholder="제목을 입력하세요"/>
+                                <label for="taskAddTitle"></label>
                             </div>
                             <div class="mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -54,11 +55,11 @@
                                     <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
                                     <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
-                                <button id="requestBtn" class="btn processBtn requestBtn">요청</button>
-                                <button class="btn processBtn progressBtn">진행</button>
-                                <button class="btn processBtn feedBackBtn">피드백</button>
-                                <button class="btn processBtn finishBtn">완료</button>
-                                <button class="btn processBtn holdBtn">보류</button>
+                                <button id="requestBtn" class="btn taskProcessBtn requestBtn">요청</button>
+                                <button class="btn taskProcessBtn progressBtn">진행</button>
+                                <button class="btn taskProcessBtn feedBackBtn">피드백</button>
+                                <button class="btn taskProcessBtn finishBtn">완료</button>
+                                <button class="btn taskProcessBtn holdBtn">보류</button>
                             </div>
                             <div class="mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -70,7 +71,7 @@
                             <hr/>
                             <div>
                                 <label>
-                                    <textarea class="writeContent" placeholder="내용을 입력하세요."></textarea>
+                                    <textarea class="writeTaskContent" placeholder="내용을 입력하세요."></textarea>
                                 </label>
                             </div>
                         </div>
@@ -109,14 +110,14 @@
         <tr class="taskTr" th:each="task : ${taskList}">
             <td class="titleTd">
                 <span class="titleTask-view" th:text="${task.title}"></span>
-                <div class="inputTaskTitle row" style="padding-left: 51px">
-                    <input class="col form-control" type="text" th:value="업무" style="height: 29px; width: 200px;"/>
-                    <a class="ml-3 col detail">상세보기</a>
+                <div class="inputTaskTitle row" style="padding-left:51px">
+                    <input class="col form-control taskTitle" type="text" th:value="${task.title}" style="height: 29px; width: 250px;"/>
+                    <a class="ml-3 col detail text-end">상세보기</a>
                 </div>
 
             </td>
             <td class="processTd" id="processTd" style="position: relative;">
-                <div class="currentProcess" th:text="${task.process}"></div>
+                <button class="btn currentBtn" th:text="${task.process}"></button>
 
                 <div class="btn_ul" id="btn_ul">
                     <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: -5px">
@@ -140,7 +141,8 @@
             </td>
 
             <td class="priorityTd" style="position: relative;">
-                <div th:text="${task.priority}"></div>
+                <div th:text="${task.priority}" th:if="${task.priority ne '없음'}"></div>
+                <div th:if="${task.priority}== '없음' or ${task.priority} == null">-</div>
                 <div class="priority_ul" id="priority_ul">
                     <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: -1px">
                         <li class="mb-1">
@@ -149,7 +151,7 @@
                                      class="bi bi-exclamation-octagon-fill" viewBox="0 0 16 16">
                                     <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                                 </svg>
-                                긴급
+                                <span class="priorityText">긴급</span>
                             </button>
                         </li>
                         <li class="mb-1">
@@ -159,7 +161,7 @@
                                     <path fill-rule="evenodd"
                                           d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
                                 </svg>
-                                높음
+                                <span class="priorityText">높음</span>
                             </button>
                         </li>
                         <li class="mb-1">
@@ -168,7 +170,7 @@
                                      class="bi bi-dash" viewBox="0 0 16 16">
                                     <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
                                 </svg>
-                                보통
+                                <span class="priorityText">보통</span>
                             </button>
                         </li>
                         <li class="mb-1">
@@ -178,7 +180,7 @@
                                     <path fill-rule="evenodd"
                                           d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                 </svg>
-                                낮음
+                                <span class="priorityText">낮음</span>
                             </button>
                         </li>
                         <li>
@@ -187,7 +189,7 @@
                                      class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                                 </svg>
-                                없음
+                                <span class="priorityText">없음</span>
                             </button>
                         </li>
                     </ul>
@@ -279,12 +281,10 @@
                 </div>
             </td>
             <td class="startDate p-0">
-                <div th:text="${task.startDate}"></div>
-                <input id="startDate" data-placeholder="-" required aria-required="true" type="date"/>
+                <input id="startDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
             </td>
             <td class="endDate p-0">
-                <div th:text="${task.closingDate}"></div>
-                <input id="endDate" data-placeholder="-" required aria-required="true" type="date"/>
+                <input id="endDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"/>
             </td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
             <td><span id="taskId" th:text="${task.taskId}"></span></td>

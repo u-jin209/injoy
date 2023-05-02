@@ -71,6 +71,24 @@
     font-weight: bold;
 }
 
+#taskTitle {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 60px;
+}
+
+#taskTitle::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.writeContent {
+    width: 434px;
+    min-height: 200px;
+    border: none;
+}
+
 #scheduleTitle {
     border: none;
     border-bottom: 1px solid rgba(0,0,0, 0.5);

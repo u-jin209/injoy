@@ -10,13 +10,32 @@
         where "projectId" = #{projectId}
         ORDER BY "crtDate" DESC
     </select>
+    <select id="selectOne" parameterType="int"  resultType="TaskDTO">
+        SELECT * FROM injoy.task
+        where "taskId" = #{taskId}
+    </select>
     <insert id="insert" parameterType="TaskDTO">
-        INSERT INTO injoy.task("taskId", "authorUserId", title, content, "projectId", "startDate", "closingDate", "fileId", process, progress, "managerId", priority)
-        VALUES (#{authorUserId}, #{title}, #{content}, #{projectId}, #{startDate}, #{closingDate}, #{fileId}, #{process}, #{progress}, #{managerId}, #{priority})
+        INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", title, content, "projectId", "startDate", "closingDate", "fileId", process, progress, "managerId", priority)
+        VALUES (#{authorUserId}, NOW(), NOW(), #{title}, #{content}, #{projectId}, #{startDate}, #{closingDate}, #{fileId}, #{process}, #{progress}, #{managerId}, #{priority})
     </insert>
     <update id="updateProcess" parameterType="TaskDTO">
         UPDATE injoy.task
         SET "process" = #{process}
+        WHERE "taskId" = #{taskId}
+    </update>
+    <update id="updatePriority" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "priority" = #{priority}
+        WHERE "taskId" = #{taskId}
+    </update>
+    <update id="updateTitle" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "title" = #{title}
+        WHERE "taskId" = #{taskId}
+    </update>
+    <update id="updateStartDate" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "startDate" = #{startDate}
         WHERE "taskId" = #{taskId}
     </update>
 </mapper>

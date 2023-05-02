@@ -20,12 +20,26 @@ public class TaskService {
     public List<TaskDTO> selectAll(int projectId) {
         return session.selectList(NAMESPACE + ".selectAll", projectId);
     }
+    public TaskDTO selectOne(int taskId) {
+        return session.selectOne(NAMESPACE + ".selectOne", taskId);
+    }
     public void insert(TaskDTO taskDTO) {
         session.insert(NAMESPACE+".insert", taskDTO);
     }
 
     public void updateProcess(TaskDTO taskDTO) {
-        System.out.println("service");
-        session.update(NAMESPACE + "updateProcess", taskDTO);
+        session.update(NAMESPACE + ".updateProcess", taskDTO);
+    }
+
+    public void updatePriority(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updatePriority", taskDTO);
+    }
+
+    public void updateTitle(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updateTitle", taskDTO);
+    }
+
+    public void updateStartDate(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updateStartDate", taskDTO);
     }
 }
