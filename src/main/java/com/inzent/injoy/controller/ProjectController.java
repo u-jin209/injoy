@@ -67,7 +67,8 @@ public class ProjectController {
     }
 
     @GetMapping("newProject")
-    public String newProject() {
+    public String newProject(Model model) {
+        model.addAttribute("organList" ,organService.selectAll());
 
         return "/project/newProject";
     }
