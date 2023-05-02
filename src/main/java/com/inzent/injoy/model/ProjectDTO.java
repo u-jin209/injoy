@@ -9,7 +9,7 @@ import lombok.Data;
     private String explanation;
     private String managerApproval;
     private int creatorUserId;
-
+    private int organId;
 
 //조인시 프로젝트맴버 정보
     private int projectMemberId;

@@ -8,6 +8,8 @@
 }
 *{
     font-family: 'Pretendard-Regular', serif;
+
+    border-collapse: collapse;
 }
 
 /*header css 시작*/
@@ -571,3 +573,13 @@ input.minusBtn{
 }
 /*프로젝트 관련 css 끝*/
 
+companyInput {
+    width: 400px;
+    height: 45px;
+    border-radius: 10px 0 0 10px;
+    border: #dadcde solid;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+companyInput:focus {
+    outline:none;}

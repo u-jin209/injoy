@@ -5,10 +5,9 @@
         layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>UserInfo</title>
     <!-- 내 css  -->
-    <link rel="stylesheet" href="/css/injoyMain.css">
-
+    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
 
 <!--    이미지 크롭하기 -->
     <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css>
@@ -20,7 +19,7 @@
     <div class="container " style="content-align: center; padding: 2%;">
         <h1 class="title">프로필</h1>
         <div class="row mb-5" style="justify-content: right">
-            <button class="btn-orange" type="button" data-toggle="modal" data-target="#memberModal">정보수정</button>
+            <button class="btn-orange" type="button" style="width: 85px;height: 30px;" data-toggle="modal" data-target="#memberModal">정보수정</button>
         </div>
         <div class="row ">
 

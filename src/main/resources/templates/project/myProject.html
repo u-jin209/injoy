@@ -29,11 +29,11 @@
     <div class="container" style="align-content: center; padding: 2%">
 
 
-        <div class="title"> 내 프로젝트</div>
+        <div class="title"> 참여중인 팀 목록</div>
         <div class="row">
 
             <div th:if="${ #lists.isEmpty(projectList)}">
-                참여중인 프로젝트가 없습니다
+                참여중인 팀이 없습니다
             </div>
 
 
@@ -149,7 +149,7 @@
 
                 if ([[ ${ #lists.isEmpty(projectList)}]]) {
                     Swal.fire({
-                        title: '참여중인 프로젝트가 없습니다', text: '프로젝트에 참여하시겠습니까?', icon: 'warning',
+                        title: '참여중인 팀이 없습니다', text: '팀에 참여하시겠습니까?', icon: 'warning',
 
                         showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정

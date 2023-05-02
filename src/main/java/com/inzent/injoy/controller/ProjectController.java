@@ -1,6 +1,7 @@
 package com.inzent.injoy.controller;
 
 
+import com.inzent.injoy.model.OrganDTO;
 import com.inzent.injoy.model.ProjectDTO;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
+import com.inzent.injoy.service.OrganService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
@@ -25,11 +27,16 @@ public class ProjectController {
     private final ProjectService projectService;
     private final ProjectMemberService projectMemberService;
 
+    private final OrganService organService;
 
-    public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService) {
+    public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService,
+                             OrganService organService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
+        this.organService = organService;
+
+
     }
 
     @GetMapping("addMember")
@@ -92,6 +99,7 @@ public class ProjectController {
 
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
+        projectDTO.setOrganId(organService.selectLast());
 
         projectService.insert(projectDTO);
 

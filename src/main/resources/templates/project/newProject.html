@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>YOU#</title>
+    <title>NewTeam</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
@@ -18,78 +18,161 @@
             crossorigin="anonymous"></script>
 
 
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+
+
     <!-- alert 창-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
 
     <!-- 내 css  -->
-    <link rel="stylesheet" href="/css/injoyMain.css">
+    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+
 </head>
 <body>
-<header>
 
-    <div class="row">
-        <div class="col" style=" text-align: left;">
-
-        </div>
-        <div class="col" style="align-self: center;">
-
-            <h1  style=" text-align: center;">팀 생성</h1>
-        </div>
-        <div class="col" style=" text-align: right;">
-            <button class="btn" onclick="location.href='/project/newProjectMain'"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-            </svg></button>
-        </div>
-
-        <hr class="my-hr2">
+<div class="row">
+    <div class="col" style=" text-align: left;">
 
     </div>
+    <div class="col" style="align-self: center;">
 
+        <h1 style=" text-align: center;">팀 생성</h1>
+    </div>
+    <div class="col" style=" text-align: right;">
+        <button class="btn" onclick="location.href='/project/newProjectMain'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x"
+                 viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </button>
+    </div>
 
+    <hr class="my-hr2">
 
-
-
-</header>
-
-
+</div>
 
 
 <div class="container w-25">
-    <form action="/project/insertProject" method="post">
+    <form action="/project/insertProject" method="post" id="newProjectForm">
 
 
-        <div class="row" >
+        <div class="row">
 
-                <div class="mb-3 ">
-                    <p class="col-sm-4 col-form-label">팀 이름</p>
+            <div class="mb-3 ">
+                <p class="col-sm-4 col-form-label">팀 이름</p>
+                <div class="col">
+                    <input type="text" class="form-control" id="projectName"
+                           name="projectName" placeholder="팀 이름을 입력해 주세요.">
+                </div>
+            </div>
+            <div class="mb-3 ">
+                <p class="col-sm-4 col-form-label">팀 설명</p>
+                <div class="col">
+                    <input type="text" class="form-control " id="explanation"
+                           name="explanation" style="  height:150px;" placeholder="팀에 관한 설명 입력(옵션)">
+                </div>
+            </div>
+
+            <button class="btn" type="button" onclick="addCompany()" id="addOrganBtn"
+                    style="text-align: left;margin-top: 5px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                    조직정보 추가
+            </button>
+            <div  id="organNameDiv" style="display: none ">
+                <div class="mb-3 mt-3">
+                    <p class="col-sm-4 col-form-label">조직 이름</p>
                     <div class="col">
-                        <input type="text"  class="form-control" id="projectName"
-                               name="projectName" placeholder="팀 이름을 입력해 주세요." >
+                        <input type="text" class="form-control "
+                               placeholder="조직명">
                     </div>
                 </div>
-                <div class="mb-3 ">
-                    <p class="col-sm-4 col-form-label">팀 설명</p>
+                <div class="mb-3 mt-3">
+                    <select class="form-select"  id="organName" >
+                        <option ></option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="mb-5" >
+                    <p class="col-sm-4 col-form-label">도메인</p>
                     <div class="col">
-                        <input type="text"   class="form-control " id="explanation"
-                               name="explanation" style="  height:150px;" placeholder="팀에 관한 설명 입력(옵션)">
+                        <input type="text" class="form-control " id="domain"
+                               placeholder="도메인">
                     </div>
                 </div>
 
-            <p onclick="location.href='/project/team'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-            </svg> 회사정보 추가 </p>
+            </div>
+
+
+        </div>
+
+
+        <div class="mb-3 row" style="justify-content: center; margin-top: 5px">
+            <button type="button" class="btn-blue" onclick="submitOrgan()"> 팀 생성</button>
         </div>
 
 
 
 
-        <div class="mb-3 row" style="justify-content: center">
-            <button type="submit" class="btn-blue"> 프로젝트 생성</button>
-        </div>
     </form>
+
+    <script>
+
+        function  addCompany() {
+
+            let organNameDiv =document.getElementById("organNameDiv");
+            organNameDiv.style.display = "block"
+        }
+
+        function submitOrgan(){
+            console.log("ssssssss")
+            let organName =document.getElementById("organName").value;
+            let domain =document.getElementById("domain").value;
+
+            console.log(organName)
+            console.log(domain)
+            const data ={
+                "domain": domain,
+                "organName":organName
+            }
+
+            let title = document.getElementById("projectName");
+            if (title.value.length == 0) {
+                Swal.fire({
+                    title: "팀 이름을 입력해 주세요.",
+                    icon: "warning"
+                });
+
+            }else {
+                $.ajax({
+                    type: 'GET',
+                    url: "/organ/insert",
+                    data: data,
+                    success: function (result) {
+                        submitProject()
+                    }
+
+                });
+            }
+            function submitProject(){
+
+                const formElement = document.getElementById('newProjectForm');
+                formElement.submit();
+            }
+
+
+        }
+
+
+
+    </script>
+
 </div>
 
 </body>

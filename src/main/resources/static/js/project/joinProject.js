@@ -1,43 +1,5 @@
 window.onload = function () {
     printWaitProject()
-    // $(document).ready(function () {
-    //     console.log("22222222222")
-    //     $('.slider responsive').slick({
-    //         dots: true,
-    //         infinite: false,
-    //         speed: 300,
-    //         slidesToShow: 4,
-    //         slidesToScroll: 4,
-    //         responsive: [
-    //             {
-    //                 breakpoint: 1024,
-    //                 settings: {
-    //                     slidesToShow: 3,
-    //                     slidesToScroll: 3,
-    //                     infinite: true,
-    //                     dots: true
-    //                 }
-    //             },
-    //             {
-    //                 breakpoint: 600,
-    //                 settings: {
-    //                     slidesToShow: 2,
-    //                     slidesToScroll: 2
-    //                 }
-    //             },
-    //             {
-    //                 breakpoint: 480,
-    //                 settings: {
-    //                     slidesToShow: 1,
-    //                     slidesToScroll: 1
-    //                 }
-    //             }
-    //             // You can unslick at a given breakpoint now by adding:
-    //             // settings: "unslick"
-    //             // instead of a settings object
-    //         ]
-    //     });
-    // });
 
 
 }
@@ -154,26 +116,7 @@ function searchProject() {
 }
 
 
-// function pageNation(option){
-//     if(option == -1){
-//         const previous = document.getElementById("previousBtn").name
-//         if (previous == 0){
-//             Swal.fire({
-//                 title: "가장 첫 페이지 입니다",
-//                 icon: "warning"
-//             });
-//         }else{
-//
-//             document.getElementById("previousBtn").name = previous-2;
-//             searchProject(previous-2);
-//         }
-//
-//
-//     }else if(option == 1) {
-//
-//
-//     }
-// }
+
 
 function searchInviteCode() {
 

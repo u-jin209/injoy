@@ -16,8 +16,8 @@
         where "projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
-        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode")
-        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode})
+        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId")
+        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId})
     </insert>
 
 <!--    최근생성된 프로젝트 id 반환-->
