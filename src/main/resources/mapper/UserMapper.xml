@@ -46,6 +46,13 @@
         WHERE
         id=#{id}
     </update>
+    <update id="updatePassword" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        "password" = #{password}
+        WHERE
+        id=#{id}
+    </update>
     <select id="selectOne" parameterType="int" resultType="UserDTO">
         SELECT * FROM injoy.user where id=#{id}
     </select>

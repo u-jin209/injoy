@@ -30,6 +30,7 @@
             width: 100%;
             height: 100vh;
         }
+
         .form_wrap {
             background-color: white;
             width: 350px;
@@ -42,16 +43,18 @@
             border: #bbbcbd 1px solid;
             border-radius: 10px;
         }
+
         .num_input {
             width: 30px;
             height: 40px;
             text-align: center;
         }
 
-        form{
+        form {
             width: 200px;
         }
-        .verify_btn{
+
+        .verify_btn {
             width: 350px;
             border-radius: 10px;
             margin-top: 30px;
@@ -60,7 +63,8 @@
             background-color: #3064b3;
             border: none;
         }
-        a{
+
+        a {
             text-decoration: underline;
             color: black;
             text-underline: black;
@@ -88,10 +92,12 @@
         <p style="margin-top: 35px">이메일을 받지 못하셨나요? <a href="#">다시 시도해주세요.</a></p>
     </div>
 </div>
+<div th:utext="${script}"></div>
 <script th:inline="javascript">
     const inputs = document.querySelectorAll('input[type="text"]');
 
     inputs.forEach((input, index) => {
+        console.log(inputs);
         input.addEventListener('keydown', (e) => {
             // 입력된 값이 숫자인지 확인합니다.
             if (!/^\d$/.test(e.key)) {
@@ -104,28 +110,31 @@
             // 다음 input 요소로 포커스를 이동합니다.
             if (index < inputs.length - 1) {
                 inputs[index + 1].focus();
-                inputs[index+1].value="";
+                inputs[index + 1].value = " ";
             }
         });
     });
-    function emailVerify(){
+
+    function emailVerify() {
         let form = document.getElementById('numForm');
         let myCode = ""
         let code = /*[[${code}]]*/ '';
         inputs.forEach((input, index) => {
             myCode += input.value;
         });
-        if(myCode==code){
+        if (myCode == code) {
             Swal.fire({
                 text: "이메일인증이 완료되었습니다.",
                 confirmButtonText: "확인",
+                confirmButtonColor: '#3085d6'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
                 }
             });
-        }else{
-            Swal.fire("인증코드가 일치 하지 않습니다.");
+        } else {
+            Swal.fire({text:"인증코드가 일치 하지 않습니다.",
+                confirmButtonColor: '#3085d6'});
         }
     }
 </script>
