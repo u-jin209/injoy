@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -63,6 +65,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
+		LocalDateTime now = LocalDateTime.now();
 		OAuth2UserInfo oAuth2UserInfo = null;
 		System.out.println(userRequest);
 		System.out.println(userRequest.getClientRegistration().getRegistrationId());
@@ -93,6 +96,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.email(oAuth2UserInfo.getEmail())
 					.name(oAuth2UserInfo.getName())
 					.role("ROLE_USER")
+					.emailVerified(true)
+					.crtnDate(Timestamp.valueOf(now))
 					.provider(oAuth2UserInfo.getProvider())
 					.providerId(oAuth2UserInfo.getProviderId())
 					.build();

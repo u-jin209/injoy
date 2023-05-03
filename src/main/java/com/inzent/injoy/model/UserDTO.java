@@ -24,7 +24,6 @@ public class UserDTO {
     private String provider;
     private String providerId;
     private boolean emailVerified;
-
     private String condition;
 
 }

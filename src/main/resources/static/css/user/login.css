@@ -85,7 +85,6 @@ input::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 20px;
     width: 100%;
     height: 40px;
 
@@ -98,7 +97,6 @@ input::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 20px;
     width: 100%;
     height: 40px;
     margin-top: 10px;
@@ -106,6 +104,20 @@ input::placeholder {
 
     background-color: rgb(3, 199, 90);
     text-align: center;
+}
+.google_btn a{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.naver_btn a{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .social_logo {
