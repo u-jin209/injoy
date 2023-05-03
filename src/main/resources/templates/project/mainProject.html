@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
     <script src="/js/project/mainProject.js" defer></script>
 </head>
 <body layout:fragment="content">
@@ -37,19 +37,20 @@
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-        <div th:replace="~{/project/projectHome :: homeContent(${projectList},${boardList},${memberList})}"></div>
+        <div th:replace="~{/project/projectHome :: homeContent(${project},${boardList},${memberList})}"></div>
     </div>
     <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="1">
-        <div th:insert="~{/project/taskPage :: taskContent(${projectList}, ${memberList}, ${taskList})}"></div>
+        <div th:insert="~{/project/taskPage :: taskContent(${project}, ${memberList}, ${taskList})}"></div>
     </div>
     <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="2">
-        <div th:insert="~{/project/kanban :: kanbanContent(${taskList})}"></div>
+        <div th:insert="~{/project/kanban :: kanbanContent}"></div>
     </div>
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
 
     </div>
     <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
-        <div th:replace="~{/project/addMember :: addMemberContent(${projectList}, ${memberList}, ${waitList})}" ></div>
+        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList})}" ></div>
+
     </div>
 </div>
 </body>

@@ -7,16 +7,17 @@
         SELECT * FROM injoy.project P
         inner join injoy."projectMember" m
         on p."projectId" = m."projectId"
-
-        where "creatorUserId"=#{id} and "userId" =#{id}
+        left join injoy."bookMark" b
+        on p."projectId" = b."projectId"
+        where  m."userId" =#{id}  and "authority" != 'REQUEST'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project
         where "projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
-        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode")
-        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode})
+        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")
+        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId},#{domain})
     </insert>
 
 <!--    최근생성된 프로젝트 id 반환-->
@@ -24,4 +25,46 @@
         SELECT "projectId" FROM injoy.project
         order by "projectId" DESC LIMIT 1;
     </select>
+
+
+
+    <select id="searchProject"  parameterType="hashmap" resultType="ProjectDTO">
+        SELECT * FROM injoy."project" p
+        left join
+        (SELECT "projectId" FROM injoy."projectMember"
+        where "userId"= #{userId}) m
+        on p."projectId" = m."projectId"
+        where m."projectId" IS NULL
+        and "projectName" LIKE CONCAT('%', #{keyword}, '%')
+
+    </select>
+
+
+    <select id="searchInviteCode"  parameterType="hashmap" resultType="ProjectDTO">
+        SELECT * FROM injoy."project" p
+        left join
+        (SELECT "projectId" FROM injoy."projectMember" where "userId"= #{userId}) m
+        on p."projectId" = m."projectId"
+        where m."projectId" IS NULL
+        and "invitationCode"= #{keyword}
+
+    </select>
+
+    <select id="selectWaitProject"  parameterType="int" resultType="projectDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."project" p
+        on m."projectId" = p."projectId"
+        where "userId" = #{userId} and "authority"= 'REQUEST'
+    </select>
+
+    <select id="checkDomain" parameterType="hashmap" resultType="int">
+        select COUNT("projectId") from injoy."project"
+        where "organId" = #{organId} and  "domain" = #{keyword}
+    </select>
+    <select id="checkName" parameterType="hashmap" resultType="int">
+        select COUNT("projectId") from injoy."project"
+        where "organId" = #{organId} and  "projectName" = #{keyword}
+    </select>
+
+
 </mapper>

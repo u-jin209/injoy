@@ -1,0 +1,596 @@
+/* 폰트  */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root[color-theme='main']{
+    --mainColor : #3064B3;
+    --subColor : #001542;
+    --subColor2: #F3F3F3;
+    --point : #FFB30D;
+    --black:#303030;
+
+
+}
+
+
+*{
+    font-family: 'Pretendard-Regular', serif;
+
+    border-collapse: collapse;
+}
+
+/*header css 시작*/
+
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin : 0;
+    width: 100%;
+
+    z-index: 1;
+    height: 10px;
+    padding: 1rem;
+    color: white;
+    background: var(--mainColor);
+    font-weight: bold;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/*header css 끝 */
+
+/*navbar css 시작*/
+
+.nav-underline{
+    --bs-nav-underline-gap : 2rem !important;
+}
+
+.nav-link{
+    color : black;
+}
+
+.nav{
+    --bs-nav-link-color : black;
+    --bs-nav-link-hover-color : black;
+}
+
+/*navbar css 끝*/
+
+/*writeBox css 시작*/
+.writeBox{
+    width: 70%;
+    overflow: hidden;
+    margin: 15px 30px;
+    border : 1px solid #777;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .04);
+    cursor: pointer;
+}
+
+.tool_ul {
+    list-style-type: none;
+    display: flex;
+    padding: 0 70px;
+    border-bottom: 1px solid #ddd;
+    background-color: #faf9f9;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+}
+
+.tool_ul li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 15px 0;
+}
+
+.tool_ul li:first-child {
+    margin: 0;
+}
+
+.tool_li svg::before {
+    position: relative;
+    top: 2px;
+    color: #333;
+    font-size: 16px;
+}
+
+.tool_li svg {
+    margin-right: 10px;
+}
+
+.contentBox {
+    overflow: hidden;
+    padding: 5px 30px;
+}
+
+.contentBox p {
+    float: left;
+    font-size: 14px;
+    color: #555;
+}
+
+.modal-content{
+    height: 80%;
+}
+
+#boardTitle {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 60px;
+}
+
+#boardTitle::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#scheduleTitle {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 60px;
+}
+
+#scheduleTitle::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.writeBoardContent{
+    width: 434px;
+    min-height: 200px;
+    border: none;
+}
+
+/*writeBox css 끝*/
+
+/*sidebar css 시작*/
+
+.sidebar_ul {
+    list-style-type: none;
+    background-color: var(--subColor);
+    width: 8.8%;
+    padding: 0;
+    margin:0;
+    top:30px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    float: left;
+
+}
+
+.sidebar_li {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar_li img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20%;
+    width : 60%;
+}
+
+.sidebar_li .projectButton {
+    width: 80%;
+    margin: auto;
+    display: inline-block;
+    color: black !important;
+    background-color: white;
+    --bs-btn-bg: white;
+    --bs-btn-border-color : white;
+    --bs-btn-hover-bg : #c3c3c3;
+    --bs-btn-hover-border-color : #c3c3c3;
+    --bs-btn-active-bg : #c3c3c3;
+    --bs-btn-active-border-color : #c3c3c3;
+    --bs-btn-disabled-bg : white;
+    --bs-btn-disabled-border-color : white;
+    border-radius: 5px;
+
+}
+
+.sidebar_li a {
+    text-decoration: none;
+    display: block;
+    color: var(--mainColor);
+    padding: 8px 15px 8px 15px;
+    font-weight: bold;
+}
+
+.sidebar_li a.tab {
+    background-color: var(--mainColor);
+    color: #000;
+}
+
+.sidebar_li a:hover:not(.tab) {
+    background-color: #333;
+    color: #fff;
+}
+
+/*sidebar css 끝 */
+
+/* 커스텀  줄(hr) 시작  */
+
+.my-hr2 {
+    border: 0;
+    height: 3px;
+    background: var(--black) ;
+}
+/* 커스텀  줄(hr) 끝 */
+
+
+/*스크롤 css 시작*/
+
+.scrollDiv{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 400px;
+    text-align: -webkit-center;
+}
+
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.scrollDiv::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+    background: #E6E6E6 ;
+}
+
+.scrollDiv::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--point) ; /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+.scrollDiv::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+
+}
+.scroll{
+    verflow-y: scroll;
+    overflow-x: hidden;
+    height:400px;
+    background: #E6E6E6;
+    text-align: -webkit-center;
+    border-radius: 15px;
+}
+
+/*스크롤 css 끝 */
+
+
+/*검색 css 시작 */
+
+.searchBack{
+
+    /*background: #E6E6E6;*/
+    text-align: -webkit-center;
+
+    border: 1px solid #E6E6E6 ;
+}
+
+.search {
+    position: relative;
+    width: 80%;
+    height: 100%;
+}
+
+.search input {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+
+}
+
+.search img {
+    position : absolute;
+    width: 23px;
+    top: 10px;
+    right: 30px;
+    margin: 0;
+}
+
+
+/*검색 css 끝*/
+
+.contentWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.flex-shrink-0{
+    background: var(--subColor) ;
+    color: white;
+    position: fixed;
+    height: -webkit-fill-available;
+}
+
+
+/* 텍스트 관련 css 시작 */
+.projectTitle{
+    color: var(--mainColor);
+    font-weight: bold;
+}
+.title{
+    margin: 30px 0px 30px 0px;
+    font-size: xx-large;
+    font-weight: bold;
+    color: var(--black);
+}
+.subTitle {
+    margin: 5px 10px 0px 10px;
+    font-size: medium;
+    font-weight: bold;
+    color: var(--black);
+
+}
+
+.contentText {
+    margin: 5px;
+    font-size: medium;
+    font-weight: bold;
+    color: var(--black);
+
+}
+.explanationText{
+    margin: 10px 10px 0 10px;
+
+    font-size: small;
+    color: var(--black);
+}
+
+/* 텍스트 관련 css 끝*/
+
+/* UserInfo 관련 css 시작*/
+
+/*멤버 프로필 이미지 시작 */
+.member{
+    margin: 22px;
+    width: 100px;
+    height: 100px;
+
+    border-radius: 70%;
+    overflow: hidden;
+    object-fit: cover;
+    flex: fit-content;
+}
+
+.memberImgDiv{
+    height: 250px;
+    width: 250px;
+    border: 1px solid #E6E6E6 ;
+    margin-bottom: 3%;
+}
+
+/*멤버 프로필 이미지 끝 */
+
+
+
+
+/*말풍선*/
+.task-tooltip {
+    background-color: #eef3fd;
+    border: #7689fd solid 1px;
+    border-radius: 5px;
+    color: #505bf0;
+    font-size: 20px;
+    font-weight: 500;
+    height: auto;
+    letter-spacing: -0.25px;
+    margin-top: 6.8px;
+    padding: 5px 11px;
+    position: relative;
+    width: fit-content;
+    z-index: 100;
+}
+
+.task-tooltip::after {
+    border-color: #eef3fd transparent;
+    border-style: solid;
+    border-width: 0 6px 8px 6.5px;
+    content: '';
+    display: block;
+    left: 75px;
+    position: absolute;
+    top: -7px;
+    width: 0;
+    z-index: 1;
+}
+
+.task-tooltip::before {
+    border-color: #7689fd transparent;
+    border-style: solid;
+    border-width: 0 6px 8px 6.5px;
+    content: '';
+    display: block;
+    left: 75px;
+    position: absolute;
+    top: -8px;
+    width: 0;
+    z-index: 0;
+}
+
+.memberInfo{
+
+    color: var(--black);
+    background: #fff;
+    text-align: -webkit-center;
+    border: 1px solid #CCCCCC ;
+    width: 500px;
+    height: 80px;
+    align-items: center;
+    margin: 10px 0px 10px 0px;
+    border-radius: 15px;
+    box-shadow: 5px 5px #E6E6E6;
+
+}
+
+
+/* UserInfo 관련 css 끝*/
+
+/* button 관련 css 시작*/
+input.minusBtn{
+    background: url("static/img/dash-square.svg") no-repeat;
+    color: #085454;
+    width: 17px;
+    height: 17px;
+}
+
+.imgButton{
+    background: none;
+    border: none;
+    float: right;
+
+
+
+}
+.btn-orange{
+    background-color: var(--point);
+    color: #fff;;
+    border-radius: 12px;
+    border: none;
+
+}
+.btn-orange:hover{
+    background-color: var(--mainColor) ;
+    color: #fff;
+    border-radius: 12px;
+    border: none;
+}
+.btn-gray{
+    background-color: #E6E6E6;
+    color: #fff;;
+    border-radius: 12px;
+    border: none;
+}
+.btn-white:hover{
+    background-color: var(--point) ;
+    color: #fff;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
+    border: none;
+}
+.btn-blue{
+    background-color: var(--mainColor);
+    color: #fff;;
+    border-radius: 12px;
+    border: none;
+    min-height: 50px;
+    max-width: 300px;
+}
+.btn-white:hover{
+    background-color: var(--point) ;
+    color: #fff;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
+    border: none;
+}
+
+.btn-white{
+    background-color: #fff;
+    color: var(--black);;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
+    border: none;
+}
+.btn-white:hover{
+    background-color: var(--point) ;
+    color: #fff;
+    border-radius: 12px;
+    margin: 10px;
+    width: -webkit-fill-available;
+    height: 50px;
+    border: none;
+}
+
+.btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
+
+
+
+.fitDiv{
+    margin:20px;
+    flex: inherit;
+    font-size: x-large;
+    font-weight: bolder;
+}
+.containButton{
+    background: white;
+    border-radius: 20px;
+    height: 400px;
+    box-shadow: 5px 5px 10px;
+
+}
+
+/*project Name의 button css*/
+.visitButton {
+    margin: auto;
+    display: inline-block;
+    color: white;
+    background-color: var(--point) !important;
+    --bs-btn-bg: var(--point) ;
+    --bs-btn-border-color : var(--point) ;
+    --bs-btn-hover-bg : #ffb200;
+    --bs-btn-hover-border-color : #ffb200;
+    --bs-btn-active-bg : #ffb200;
+    --bs-btn-active-border-color : #ffb200;
+    --bs-btn-disabled-bg : var(--point);
+    --bs-btn-disabled-border-color : var(--point) ;
+    border-radius: 5px;
+
+}
+
+
+/* button 관련 css 끝*/
+
+
+
+
+
+/*프로젝트 관련 css 시작*/
+
+
+.project{
+
+    margin: 22px;
+    width: 175px;
+    height: 150px;
+    background-color: #E6E6E6;
+    border-radius: 15%;
+    overflow: hidden;
+    object-fit: cover;
+    flex: fit-content;
+
+}
+/*프로젝트 관련 css 끝*/
+
+companyInput {
+    width: 400px;
+    height: 45px;
+    border-radius: 10px 0 0 10px;
+    border: #dadcde solid;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+companyInput:focus {
+    outline:none;}

@@ -1,9 +1,13 @@
 package com.inzent.injoy.controller;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.BoardDTO;
 import com.inzent.injoy.model.TaskDTO;
 import com.inzent.injoy.service.*;
 import com.inzent.injoy.model.UserCustomDetails;
+import com.inzent.injoy.service.BoardService;
+import com.inzent.injoy.service.UserService;
+import com.inzent.injoy.service.ProjectMemberService;
+import com.inzent.injoy.service.ProjectService;
+
 import com.inzent.injoy.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
@@ -13,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -47,7 +52,11 @@ public class HomeController {
         return "/user/login";
     }
 
+    @GetMapping("/imgTest")
+    public String imgTest(Model model){
 
+        return "user/imgTest";
+    }
     @GetMapping("/orange")
     public String orange(Model model){
 
@@ -91,15 +100,16 @@ public class HomeController {
         model.addAttribute("taskList", taskList);
 
 //      <  addMember에 들어가는 파라미터값들  >
-        model.addAttribute("projectList", projectService.selectProject(projectId));
+        model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
-        model.addAttribute("waitList", memberService.selectWait(projectId));
+        model.addAttribute("waitList", memberService.selectWaitMember(projectId));
 
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";
 
     }
+
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal UserCustomDetails principal) {

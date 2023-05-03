@@ -21,7 +21,7 @@ public class ProjectMemberService {
 
     public List<ProjectMemberDTO> selectMember(int id){
 
-        System.out.println("서비스 selectMember" + session.selectList(NAMESPACE + ".selectMember", id));
+
         return session.selectList(NAMESPACE + ".selectMember", id);
     }
 
@@ -34,14 +34,19 @@ public class ProjectMemberService {
          session.delete(NAMESPACE+".delete", userId);
     }
 
-    public List<UserDTO> searchUser(int projectId){
-        return session.selectList(NAMESPACE+".searchUser",projectId);
+    public List<ProjectMemberDTO> searchUser(ProjectMemberDTO memberDTO){
+
+
+        return session.selectList(NAMESPACE+".searchUser",memberDTO);
     }
 
-    public List<ProjectMemberDTO> selectWait(int projectId){
+    public List<ProjectMemberDTO> selectWaitMember(int projectId){
 
-        return session.selectList(NAMESPACE + ".selectWait", projectId);
+        return session.selectList(NAMESPACE + ".selectWaitMember", projectId);
     }
+
+
+
 
     public ProjectMemberDTO selectOne(Map<String, Object> map){
 
