@@ -19,9 +19,9 @@ public class EmailVerifyService implements EmailService{
     @Autowired
     JavaMailSender emailSender;
 
-    public static final String code = createKey();
+//    public static final String code = createKey();
     @Override
-    public MimeMessage createMessage(String to) throws Exception {
+    public MimeMessage createMessage(String to,String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO,to); //보내는 대상
         message.setSubject("[인증번호: "+code+"] 인증 후 바로 Injoy를 사용하실 수 있습니다.");    //제목
@@ -52,7 +52,8 @@ public class EmailVerifyService implements EmailService{
     }
     public String sendSimpleMessage(String to) throws Exception {
         // TODO Auto-generated method stub
-        MimeMessage message = createMessage(to);
+        String code = createKey();
+        MimeMessage message = createMessage(to,code);
         try{//예외처리
             emailSender.send(message);
         }catch(MailException es){
