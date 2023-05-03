@@ -4,19 +4,23 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.OrganMapper">
     <insert id="insert" parameterType="OrganDTO">
-        insert into injoy."organ" ("organName", "domain")
-        values (#{organName}, #{domain})
+        insert into injoy."organ" ("organName")
+        values (#{organName})
 
     </insert>
-    <select id="selectLast" resultType="int">
-        select "organId" from  injoy."organ"
+    <select id="selectLast" resultType="OrganDTO">
+        select * from  injoy."organ"
         order by "organId" DESC  limit 1;
     </select>
 
     <select id="selectAll" resultType="OrganDTO">
-        select "organId" from  injoy."organ"
+        select * from  injoy."organ"
 
     </select>
 
+    <select id="checkName" parameterType="String" resultType="int">
+        select COUNT("organId") from injoy."organ"
+        where "organName" = #{keyword}
+    </select>
 
 </mapper>

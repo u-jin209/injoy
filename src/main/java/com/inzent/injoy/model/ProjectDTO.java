@@ -10,6 +10,7 @@ import lombok.Data;
     private String managerApproval;
     private int creatorUserId;
     private int organId;
+    private String domain;
 
 //조인시 프로젝트맴버 정보
     private int projectMemberId;

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,5 +55,14 @@ public class ProjectService {
     public List<ProjectDTO> selectWaitProject(int userId){
 
         return session.selectList(NAMESPACE + ".selectWaitProject", userId);
+    }
+
+    public int checkDomain(Map<String , Object> map){
+        return session.selectOne(NAMESPACE+".checkDomain",map);
+    }
+
+    public int checkName(HashMap<String, Object> map) {
+
+        return session.selectOne(NAMESPACE+".checkName",map);
     }
 }

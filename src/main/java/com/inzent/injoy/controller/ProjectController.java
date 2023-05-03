@@ -68,6 +68,7 @@ public class ProjectController {
 
     @GetMapping("newProject")
     public String newProject(Model model) {
+        System.out.println("organList : " +organService.selectAll());
         model.addAttribute("organList" ,organService.selectAll());
 
         return "/project/newProject";
@@ -100,7 +101,6 @@ public class ProjectController {
 
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
-        projectDTO.setOrganId(organService.selectLast());
 
         projectService.insert(projectDTO);
 
@@ -136,6 +136,33 @@ public class ProjectController {
         System.out.println(" projectService.searchInviteCode(map) : " + projectService.searchInviteCode(map));
 
         return projectService.searchInviteCode(map);
+    }
+
+
+    @PostMapping("checkDomain")
+    @ResponseBody
+    public int checkDomain(String keyword, int organId) {
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("organId",organId );
+        map.put("keyword", keyword);
+        int cnt = projectService.checkDomain(map);
+        return cnt;
+
+    }
+
+    @PostMapping("checkName")
+    @ResponseBody
+    public int checkName(String keyword, int organId) {
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("organId",organId );
+        map.put("keyword", keyword);
+        int cnt = projectService.checkName(map);
+        return cnt;
+
     }
 
 }

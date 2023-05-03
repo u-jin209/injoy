@@ -16,8 +16,8 @@
         where "projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
-        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId")
-        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId})
+        insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")
+        values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId},#{domain})
     </insert>
 
 <!--    최근생성된 프로젝트 id 반환-->
@@ -56,5 +56,15 @@
         on m."projectId" = p."projectId"
         where "userId" = #{userId} and "authority"= 'REQUEST'
     </select>
+
+    <select id="checkDomain" parameterType="hashmap" resultType="int">
+        select COUNT("projectId") from injoy."project"
+        where "organId" = #{organId} and  "domain" = #{keyword}
+    </select>
+    <select id="checkName" parameterType="hashmap" resultType="int">
+        select COUNT("projectId") from injoy."project"
+        where "organId" = #{organId} and  "projectName" = #{keyword}
+    </select>
+
 
 </mapper>
