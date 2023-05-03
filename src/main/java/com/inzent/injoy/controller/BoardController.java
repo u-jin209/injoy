@@ -31,7 +31,6 @@ public class BoardController {
     @PostMapping("write")
     public String writeBoard(@AuthenticationPrincipal UserCustomDetails login, BoardDTO boardDTO){
         boardDTO.setBoardWriterId(login.getUserDTO().getId());
-        boardDTO.setProjectId(1);
 
         boardService.insert(boardDTO);
         return "/project/projectHome";
