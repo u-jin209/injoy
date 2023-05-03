@@ -141,7 +141,7 @@ function checkTeamName(){
 function checkOrganName(){
     var name = $('#newOrgan').val();
     $.ajax({
-        url:'/project/checkName', //Controller에서 요청 받을 주소
+        url:'/organ/checkName', //Controller에서 요청 받을 주소
         type:'post', //POST 방식으로 전달
         data:{keyword:name},
         success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다
