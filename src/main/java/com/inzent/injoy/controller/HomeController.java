@@ -1,11 +1,12 @@
 package com.inzent.injoy.controller;
+
 import com.inzent.injoy.model.BoardDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.BoardService;
+import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
-import com.inzent.injoy.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,18 +14,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.Iterator;
 
 
@@ -49,7 +45,11 @@ public class HomeController {
         return "/user/login";
     }
 
+    @GetMapping("/imgTest")
+    public String imgTest(Model model){
 
+        return "user/imgTest";
+    }
     @GetMapping("/orange")
     public String orange(Model model){
 
@@ -92,15 +92,16 @@ public class HomeController {
 
 
 //      <  addMember에 들어가는 파라미터값들  >
-        model.addAttribute("projectList", projectService.selectProject(projectId));
+        model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
-        model.addAttribute("waitList", memberService.selectWait(projectId));
+        model.addAttribute("waitList", memberService.selectWaitMember(projectId));
 
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";
 
     }
+
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal UserCustomDetails principal) {
