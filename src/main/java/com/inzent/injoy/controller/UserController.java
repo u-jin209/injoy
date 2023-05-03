@@ -32,7 +32,7 @@ public class UserController {
     private final  UserService userService;
     @Value("${part.upload.path}")
     private String FileDirPath;
-    private final UserService userService;
+
 
 //    private final EmailService emailService;
 
