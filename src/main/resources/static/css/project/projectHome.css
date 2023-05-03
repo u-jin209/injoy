@@ -1,5 +1,5 @@
 .boardBox{
-    width: 90%;
+    width: 70%;
     overflow: hidden;
     margin: 15px 30px;
     border : 1px solid #777;
@@ -63,7 +63,7 @@
     -webkit-box-pack: justify;
     justify-content: space-between;
     -webkit-box-align: center;
-    lign-items: center;
+    align-items: center;
     border-top: 1px solid #ddd;
     background: #f9f9f9;
     font-size: 13px;

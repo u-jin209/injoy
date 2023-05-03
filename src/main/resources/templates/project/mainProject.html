@@ -9,7 +9,7 @@
     <script src="/js/project/mainProject.js" defer></script>
 </head>
 <body layout:fragment="content">
-<th:block th:replace="~{fragment/projectName :: projectNamefragment(${projectList})}"></th:block>
+<th:block th:replace="~{fragment/projectName :: projectNamefragment(${project})}"></th:block>
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
     <li class="nav-item">
         <div class="nav-link disabled"></div>
@@ -43,7 +43,7 @@
         <div th:insert="~{/project/taskPage :: taskContent(${project}, ${memberList}, ${taskList})}"></div>
     </div>
     <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="2">
-        <div th:insert="~{/project/kanban :: kanbanContent}"></div>
+        <div th:insert="~{/project/kanban :: kanbanContent(${taskList})}"></div>
     </div>
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
 

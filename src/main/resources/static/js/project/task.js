@@ -1,5 +1,8 @@
 $(document).ready(function () {
+   btnColor()
+})
 
+function btnColor(){
     $('.currentBtn').each(function () {
         switch ($(this).text()) {
             case '요청' :
@@ -20,14 +23,21 @@ $(document).ready(function () {
 
         }
     })
+}
+$(function all () {
+    const Toast = Swal.mixin({
+        toast: true,
+        animation: false,
+        backgroundColor : '#00B2FF',
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
-
-    $('.inputTaskTitle').hide()
-    $('.btn_ul').hide()
-    $('.priority_ul').hide()
-    $('.managerDiv').hide()
-})
-$(function () {
     $('.taskTitle').change(function () {
 
         let taskId = $(this).closest('tr').find('#taskId').text();
@@ -41,7 +51,13 @@ $(function () {
             type: 'post',
             data: formData,
             success: () => {
-                $(this).load(location.href + ' '+ $(this))
+                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                    btnColor()
+                    all()
+                    Toast.fire({
+                        title: '업무명이 변경되었습니다.'
+                    })
+                })
             }
         })
 
@@ -92,7 +108,13 @@ $(function () {
                     type: 'post',
                     data: formData,
                     success: () => {
-                        document.location.reload()
+                        $('#taskTable').load(window.location.href+' #taskTable', function (){
+                            btnColor()
+                            all()
+                            Toast.fire({
+                                title: '상태가 변경되었습니다.'
+                            })
+                        })
                     }
                 })
             })
@@ -121,7 +143,13 @@ $(function () {
                     type: 'post',
                     data: formData,
                     success: () => {
-                        document.location.reload()
+                        $('#taskTable').load(window.location.href+' #taskTable', function (){
+                            btnColor()
+                            all()
+                            Toast.fire({
+                                title: '우선순위가 변경되었습니다.'
+                            })
+                        })
                     }
                 })
             })
@@ -156,8 +184,8 @@ $(function () {
             start.max = end.value;
     }, false)
 
-    $('#startDate').change(function (){
-        $(this).closest('tr').find('#endDate').attr('min',$(this).val())
+    $('.startDate input').change(function (){
+
         let taskId = $(this).closest('tr').find('#taskId').text();
         let formData = {
             taskId: taskId,
@@ -168,7 +196,37 @@ $(function () {
             type: 'post',
             data: formData,
             success: () => {
-                document.location.reload()
+                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                    btnColor()
+                    all()
+                    Toast.fire({
+                        title: '시작일이 변경되었습니다.'
+                    })
+                })
+            }
+        })
+
+    })
+
+    $('.endDate input').change(function (){
+
+        let taskId = $(this).closest('tr').find('#taskId').text();
+        let formData = {
+            taskId: taskId,
+            startDate: $(this).val(),
+        }
+        $.ajax({
+            url: '/task/updateEndDate',
+            type: 'post',
+            data: formData,
+            success: () => {
+                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                    btnColor()
+                    all()
+                    Toast.fire({
+                        title: '마감일이 변경되었습니다.'
+                    })
+                })
             }
         })
 

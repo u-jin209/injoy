@@ -91,7 +91,7 @@
     </div>
 
 </div>
-<div>
+<div id= "taskTable">
     <table class="table table-bordered text-center">
         <thead>
         <tr style="text-align: center">
@@ -110,7 +110,7 @@
         <tr class="taskTr" th:each="task : ${taskList}">
             <td class="titleTd">
                 <span class="titleTask-view" th:text="${task.title}"></span>
-                <div class="inputTaskTitle row" style="padding-left:51px">
+                <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
                     <input class="col form-control taskTitle" type="text" th:value="${task.title}" style="height: 29px; width: 250px;"/>
                     <a class="ml-3 col detail text-end">상세보기</a>
                 </div>
@@ -119,7 +119,7 @@
             <td class="processTd" id="processTd" style="position: relative;">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
 
-                <div class="btn_ul" id="btn_ul">
+                <div class="btn_ul" id="btn_ul" style=" display: none;">
                     <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: -5px">
                         <li>
                             <button class="btn changeBtn mb-1" style="background-color: #00B2FF">요청</button>
@@ -143,8 +143,8 @@
             <td class="priorityTd" style="position: relative;">
                 <div th:text="${task.priority}" th:if="${task.priority ne '없음'}"></div>
                 <div th:if="${task.priority}== '없음' or ${task.priority} == null">-</div>
-                <div class="priority_ul" id="priority_ul">
-                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: -1px">
+                <div class="priority_ul" id="priority_ul" style="display: none">
+                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: -1px;">
                         <li class="mb-1">
                             <button class="priorityBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="red"
@@ -198,7 +198,7 @@
             <td class="managerTd" style="position: relative">
                 <div th:text="${task.managerId}" th:if="${task.managerId ne 0}"></div>
                 <div th:if="${task.managerId eq 0}">-</div>
-                <div class="managerDiv" style="top: 50px; transform: none; left: -90px">
+                <div class="managerDiv" style="top: 50px; transform: none; left: -90px; display: none;">
                     <div class="managerSearch">
                         <div class="searchManagerIcon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
@@ -293,5 +293,23 @@
         </tbody>
     </table>
 </div>
+<div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button>
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
+
+        <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
+            <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}" style="font-size: 14px"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="headerDiv">
+                <div class="authorDiv">ddd</div>
+            </div>
+            <div class="contentDiv"></div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

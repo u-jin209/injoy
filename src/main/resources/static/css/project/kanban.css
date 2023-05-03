@@ -3,7 +3,7 @@
     border-collapse: collapse;
 }
 .control:nth-child(n+2){
-    /*margin-top: 1rem;*/
+    margin-top: 1rem;
 }
 
 .draggable {
