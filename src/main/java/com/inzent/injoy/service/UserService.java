@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +40,12 @@ public class UserService implements UserDetailsService {
         return session.selectOne(NAMESPACE+".validate",username) ==null;
     }
     public boolean register(UserDTO attempt){
+        LocalDateTime now = LocalDateTime.now();
         if (validate(attempt.getUsername())) {
             attempt.setPassword(passwordEncoder.encode(attempt.getPassword()));
             attempt.setRole("ROLE_USER");
+            attempt.setCrtnDate(Timestamp.valueOf(now));
+            attempt.setEmailVerified(false);
             session.insert(NAMESPACE + ".register", attempt);
             return true;
         }else {
@@ -63,6 +68,16 @@ public class UserService implements UserDetailsService {
 
     public void update(UserDTO userDTO) {
         session.update(NAMESPACE + ".update", userDTO);
+    }
+    public void updateEmailVerified(UserDTO userDTO) {
+        session.update(NAMESPACE + ".updateEmailVerified", userDTO);
+    }
+
+    public void updatePassword(UserDTO userDTO,String newPwd){
+        userDTO.setPassword(passwordEncoder.encode(newPwd));
+        session.update(NAMESPACE + ".updatePassword", userDTO);}
+    public UserDTO findByUsername(String username){
+        return session.selectOne(NAMESPACE + ".selectOneByUsername",username);
     }
 
     public void updateInfo(UserDTO userDTO) {
