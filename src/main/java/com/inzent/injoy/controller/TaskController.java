@@ -84,6 +84,7 @@ public class TaskController {
 
     @PostMapping("updateStartDate")
     public String updateStartDate(String startDate, int taskId) throws ParseException {
+        System.out.println("in");
         TaskDTO taskDTO = taskService.selectOne(taskId);
 
         if (!Objects.equals(startDate, "")){
@@ -96,7 +97,7 @@ public class TaskController {
         }
 
         taskService.updateStartDate(taskDTO);
-
+        System.out.println("out");
         return "redirect:/project/" + taskDTO.getProjectId();
     }
 }
