@@ -1,12 +1,15 @@
 package com.inzent.injoy.controller;
-
 import com.inzent.injoy.model.BoardDTO;
+import com.inzent.injoy.model.TaskDTO;
+import com.inzent.injoy.service.*;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 
+import com.inzent.injoy.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.Iterator;
 
 
@@ -31,13 +35,16 @@ public class HomeController {
     private UserService userService;
     private BoardService boardService;
 
+    private TaskService taskService;
+
     public HomeController(ProjectService projectService, ProjectMemberService memberService,
-                          UserService userService, BoardService boardService)
+                          UserService userService, BoardService boardService, TaskService taskService)
     {
         this.projectService = projectService;
         this.memberService =  memberService;
         this.userService = userService;
         this.boardService = boardService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/")
@@ -86,10 +93,11 @@ public class HomeController {
     @GetMapping("/project/{projectId}")
     public String showProject(Model model , @PathVariable int projectId) {
 
-        List<BoardDTO> boardList = boardService.selectAll(1);
+        List<BoardDTO> boardList = boardService.selectAll(projectId);
         model.addAttribute("boardList", boardList);
 
-
+        List<TaskDTO> taskList = taskService.selectAll(projectId);
+        model.addAttribute("taskList", taskList);
 
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));

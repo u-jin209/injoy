@@ -1,5 +1,5 @@
 .control {
-    padding: 1rem;
+    padding: 0.5rem;
     border-collapse: collapse;
 }
 .control:nth-child(n+2){
@@ -7,9 +7,9 @@
 }
 
 .draggable {
-    height: 82px;
-    line-height: 82px;
-    padding: 0 20px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
     background-color: white;
     border: 1px solid #c5cdd7;
     box-sizing: border-box;

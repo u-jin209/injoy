@@ -112,19 +112,9 @@
 
 
         <h5 class="title"> 참여대기 회원 </h5>
-        <h1 th:fragment="${waitList}"></h1>
-
-        <div class="card"  style="min-height: 300px;padding: 150px; text-align: center;" th:if="${waitList.size} == 0 ">
-            <h1 class="projectTitle">승인 대기중인 회원이 없습니다</h1>
-
-
-        </div>
-
-
-
         <div class="scrollDiv">
             <div class="row g-2" style="justify-content: center">
-
+                <h1 th:fragment="${waitList}"></h1>
                 <div class="col-md-6"  th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}" name="wait" >
                     <div class="card mb-3" style="max-width: 540px; height: 100%;">
                         <div class="row g-0" >
