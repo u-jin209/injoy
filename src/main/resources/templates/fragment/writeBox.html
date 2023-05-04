@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="writeBox" data-bs-toggle="modal" data-bs-target="#homeWriteModal">
-    <input class="projectIdInput" type="hidden" th:value="${project?.projectId}" th:if="${project?.projectId} ne null"/>
+    <input class="writeProjectId" type="hidden" th:value="${project?.projectId}" th:if="${project?.projectId} ne null"/>
     <ul class="tool_ul">
         <li class="tool_li board_li">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -48,7 +48,7 @@
                 <span class="modal-title mr-2" id="homeWriteModalLabel" style="font-weight: bold">
                     게시물 작성 |
                 </span>
-                <span th:text="${project.projectName}"></span>
+                <span th:text="${project?.projectName}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -103,13 +103,13 @@
                                 <textarea class="writeBoardContent" placeholder="내용을 입력하세요."></textarea>
                             </label>
                         </div>
-                        <div class="modal-footer" style="justify-content: space-between !important;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-paperclip" viewBox="0 0 16 16">
-                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                            </svg>
-                            <button type="button" class="btn boardWriteBtn" style="background-color: #001542; color: white">등록</button>
-                        </div>
+<!--                        <div class="modal-footer" style="justify-content: space-between !important;">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
+<!--                                 class="bi bi-paperclip" viewBox="0 0 16 16">-->
+<!--                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
+<!--                            </svg>-->
+<!--                            <button type="button" class="btn boardWriteBtn" style="background-color: #001542; color: white">등록</button>-->
+<!--                        </div>-->
                     </div>
                     <div class="tab-pane" id="taskWrite-tab-pane" role="tabpanel" aria-labelledby="taskWrite-tab"
                          tabindex="1">
@@ -143,13 +143,13 @@
                                 <textarea class="writeContent" placeholder="내용을 입력하세요."></textarea>
                             </label>
                         </div>
-                        <div class="modal-footer" style="justify-content: space-between !important; position: sticky; bottom: 0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-paperclip" viewBox="0 0 16 16">
-                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                            </svg>
-                            <button type="button" class="btn taskWriteBtn" style="background-color: #001542; color: white">등록</button>
-                        </div>
+<!--                        <div class="modal-footer" style="justify-content: space-between !important; display: inline-block; bottom: 0">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
+<!--                                 class="bi bi-paperclip" viewBox="0 0 16 16">-->
+<!--                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
+<!--                            </svg>-->
+<!--                            <button type="button" class="btn taskWriteBtn" style="background-color: #001542; color: white">등록</button>-->
+<!--                        </div>-->
                     </div>
 
                     <div class="tab-pane" id="scheduleWrite-tab-pane" role="tabpanel"
@@ -202,15 +202,22 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="modal-footer" style="justify-content: space-between !important;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-paperclip" viewBox="0 0 16 16">
-                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                            </svg>
-                            <button type="button" class="btn scheduleWriteBtn" style="background-color: #001542; color: white">등록</button>
-                        </div>
+<!--                        <div class="modal-footer" style="justify-content: space-between !important;">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
+<!--                                 class="bi bi-paperclip" viewBox="0 0 16 16">-->
+<!--                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
+<!--                            </svg>-->
+<!--                            <button type="button" class="btn scheduleWriteBtn" style="background-color: #001542; color: white">등록</button>-->
+<!--                        </div>-->
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer" style="justify-content: space-between !important;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-paperclip" viewBox="0 0 16 16">
+                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                </svg>
+                <button type="button" id="submitWriteBtn" class="btn" style="background-color: #001542; color: white">등록</button>
             </div>
         </div>
 

@@ -3,20 +3,12 @@ $(document).ready(function () {
         $('.writeBoxTab').each(function () {
             if ($(this).hasClass('active')) {
                 $(this).trigger('click')
-                $('.requestBtn').trigger("click")
-                $('.requestBtn').focus()
             }
         })
     })
 })
 
 $(function () {
-
-    $('.processBtn').click(function () {
-        console.log($(this).text())
-        const btnValue = $(this).text();
-        taskWrite(btnValue)
-    })
 
     // 현재 탭되어있는 탭 제거하기 아직 수정주이이이ㅣ이이이이ㅣ이이
     $('.board_li').click(() => {
@@ -60,26 +52,51 @@ $(function () {
                 $(this).find('a').trigger('click')
 
                 if ($(this).attr('id') === 'boardWrite-tab') {
-                        console.log("board")
-                        boardWrite()
+                    console.log("board")
+                    $('#submitWriteBtn').attr('id', 'boardWriteBtn')
+                    boardWrite()
                 } else if ($(this).attr('id') === 'taskWrite-tab') {
-                        console.log("task")
-                        $('.requestBtn').trigger("click")
-                        $('.requestBtn').focus()
-                        taskWrite()
+                    console.log("task")
+                    $('#submitWriteBtn').attr('id', 'taskWriteBtn')
+                    $('.requestBtn').trigger("click").addClass('active')
+
+                    taskWrite()
                 } else if ($(this).attr('id') === 'scheduleWrite-tab') {
-                        console.log("schedule")
-                        //scheduleWrite()
+                    console.log("schedule")
+                    //scheduleWrite()
                 }
 
             }
         })
     })
 
+    $('.processBtn').click(function (e) {
+        let btn = document.querySelectorAll(".processBtn");
+        btn.forEach(function (btn, i) {
+            if (e.currentTarget === btn) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+    })
+
 })
 
+function findCurrentBtn(){
+
+    let btn = document.querySelectorAll(".processBtn");
+    let currentBtn;
+    btn.forEach(function (btn, i) {
+        if (btn.classList.contains('active')) {
+            currentBtn = btn.textContent;
+        }
+    });
+    return currentBtn;
+}
+
 function boardWrite() {
-    $('.boardWriteBtn').click(function () {
+    $('#boardWriteBtn').click(function () {
         let formData = {
             title: $('#boardTitle').val(),
             content: $('.writeBoardContent').val(),
@@ -97,19 +114,20 @@ function boardWrite() {
     })
 }
 
-function taskWrite(btnValue) {
-    $('.taskWriteBtn').click(function () {
+function taskWrite() {
+    let currentBtn = findCurrentBtn()
+    $('#taskWriteBtn').click(function () {
         let formData = {
-            projectId: $('.projectIdInput').val(),
+            projectId: $('.writeProjectId').val(),
             title: $('#taskTitle').val(),
             content: $('.writeContent').val(),
-            process: btnValue,
-            managerId: $('#managerId').val(),
+            process: currentBtn,
+            managerId: $('.managerId').val(),
 
         }
 
         $.ajax({
-            url: '/task/write',
+            url: '/task/mainWrite',
             data: formData,
             type: 'post',
             success: ((message) => {

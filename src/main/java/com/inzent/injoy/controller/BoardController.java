@@ -33,7 +33,7 @@ public class BoardController {
         boardDTO.setBoardWriterId(login.getUserDTO().getId());
 
         boardService.insert(boardDTO);
-        return "/project/projectHome";
+        return "redirect:/project/" + boardDTO.getProjectId();
     }
 
 }

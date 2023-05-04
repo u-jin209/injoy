@@ -14,10 +14,12 @@
 </head>
 <body>
 <div class="container-fluid">
-    <input class="projectIdInput" type="hidden" th:value="${project?.projectId}" th:if="${project?.projectId} ne null"/>
     <div class="row">
+        <input class="projectIdInput" type="hidden" name="projectId" th:value="${project?.projectId}"
+               th:if="${project?.projectId} ne null"/>
         <div class="col">
-            <input id="searchTask" class="searchInput form-control" type="search"
+            <input id="searchTask" class="searchInput form-control" type="search" name="keyword"
+                   th:onkeyup="|searchTaskEnter(${project?.projectId})|"
                    placeholder="업무명 또는 업무번호를 검색하세요."/>
             <label for="searchTask"></label>
             <div class="searchIcon">
@@ -26,10 +28,9 @@
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
             </div>
-
         </div>
         <div class="col text-end">
-            <button class="taskAddButton btn" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+            <button class="addButton btnFade btnBlue" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                 업무 추가
             </button>
             <div class="modal" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
@@ -55,7 +56,7 @@
                                     <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
                                     <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
-                                <button id="requestBtn" class="btn taskProcessBtn requestBtn">요청</button>
+                                <button class="btn taskProcessBtn requestBtn">요청</button>
                                 <button class="btn taskProcessBtn progressBtn">진행</button>
                                 <button class="btn taskProcessBtn feedBackBtn">피드백</button>
                                 <button class="btn taskProcessBtn finishBtn">완료</button>
@@ -81,7 +82,7 @@
                                 <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
                             </svg>
                             <button type="button" class="btn taskAddButton"
-                                    style="background-color: #001542; color: white">등록
+                                    style="background-color: #001542; color: white" onclick="addTaskTab()">등록
                             </button>
                         </div>
                     </div>
@@ -91,7 +92,7 @@
     </div>
 
 </div>
-<div id= "taskTable">
+<div id="taskTable">
     <table class="table table-bordered text-center">
         <thead>
         <tr style="text-align: center">
@@ -111,7 +112,8 @@
             <td class="titleTd">
                 <span class="titleTask-view" th:text="${task.title}"></span>
                 <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
-                    <input class="col form-control taskTitle" type="text" th:value="${task.title}" style="height: 29px; width: 250px;"/>
+                    <input class="col form-control taskTitle" type="text" th:value="${task.title}"
+                           style="height: 29px; width: 250px;"/>
                     <a class="ml-3 col detail text-end">상세보기</a>
                 </div>
 
@@ -250,7 +252,8 @@
                                 <li>
                                     <div class="memberLi">
                                         <div class="checkImg" style="display: inline-block">
-                                            <input type="checkbox" width="21px" height="21px" style="border-radius: 30px"/>
+                                            <input type="checkbox" width="21px" height="21px"
+                                                   style="border-radius: 30px"/>
                                         </div>
                                         <div class="memberIcon"
                                              style="display: inline-block; width: 40px; height: 40px; margin: 0 10px">
@@ -281,10 +284,12 @@
                 </div>
             </td>
             <td class="startDate p-0">
-                <input id="startDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
+                <input id="startDate" data-placeholder="-" required aria-required="true" type="date"
+                       th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
             </td>
             <td class="endDate p-0">
-                <input id="endDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"/>
+                <input id="endDate" data-placeholder="-" required aria-required="true" type="date"
+                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"/>
             </td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
             <td><span id="taskId" th:text="${task.taskId}"></span></td>
@@ -294,12 +299,16 @@
     </table>
 </div>
 <div>
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling">Enable body scrolling
+    </button>
 
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
 
         <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
-            <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}" style="font-size: 14px"></span>
+            <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}"
+                  style="font-size: 14px"></span>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">

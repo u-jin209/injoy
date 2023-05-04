@@ -1,8 +1,8 @@
 $(document).ready(function () {
-   btnColor()
+    btnColor()
 })
 
-function btnColor(){
+function btnColor() {
     $('.currentBtn').each(function () {
         switch ($(this).text()) {
             case '요청' :
@@ -24,11 +24,12 @@ function btnColor(){
         }
     })
 }
-$(function all () {
+
+$(function all() {
     const Toast = Swal.mixin({
         toast: true,
         animation: false,
-        backgroundColor : '#00B2FF',
+        backgroundColor: '#00B2FF',
         position: 'top',
         showConfirmButton: false,
         timer: 2000,
@@ -51,7 +52,7 @@ $(function all () {
             type: 'post',
             data: formData,
             success: () => {
-                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                $('#taskTable').load(window.location.href + ' #taskTable', function () {
                     btnColor()
                     all()
                     Toast.fire({
@@ -63,10 +64,16 @@ $(function all () {
 
 
     })
-    $('.taskProcessBtn').click(function () {
-        console.log($(this).text())
-        const btnValue = $(this).text();
-        addTaskTab(btnValue)
+
+    $('.taskProcessBtn').click(function (e) {
+        let btn = document.querySelectorAll(".taskProcessBtn");
+        btn.forEach(function (btn, i) {
+            if (e.currentTarget === btn) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
     })
 
 // 업무명 js
@@ -108,7 +115,7 @@ $(function all () {
                     type: 'post',
                     data: formData,
                     success: () => {
-                        $('#taskTable').load(window.location.href+' #taskTable', function (){
+                        $('#taskTable').load(window.location.href + ' #taskTable', function () {
                             btnColor()
                             all()
                             Toast.fire({
@@ -143,7 +150,7 @@ $(function all () {
                     type: 'post',
                     data: formData,
                     success: () => {
-                        $('#taskTable').load(window.location.href+' #taskTable', function (){
+                        $('#taskTable').load(window.location.href + ' #taskTable', function () {
                             btnColor()
                             all()
                             Toast.fire({
@@ -184,7 +191,7 @@ $(function all () {
             start.max = end.value;
     }, false)
 
-    $('.startDate input').change(function (){
+    $('.startDate input').change(function () {
 
         let taskId = $(this).closest('tr').find('#taskId').text();
         let formData = {
@@ -196,7 +203,7 @@ $(function all () {
             type: 'post',
             data: formData,
             success: () => {
-                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                $('#taskTable').load(window.location.href + ' #taskTable', function () {
                     btnColor()
                     all()
                     Toast.fire({
@@ -208,19 +215,19 @@ $(function all () {
 
     })
 
-    $('.endDate input').change(function (){
+    $('.endDate input').change(function () {
 
         let taskId = $(this).closest('tr').find('#taskId').text();
         let formData = {
             taskId: taskId,
-            startDate: $(this).val(),
+            endDate: $(this).val(),
         }
         $.ajax({
             url: '/task/updateEndDate',
             type: 'post',
             data: formData,
             success: () => {
-                $('#taskTable').load(window.location.href+' #taskTable', function (){
+                $('#taskTable').load(window.location.href + ' #taskTable', function () {
                     btnColor()
                     all()
                     Toast.fire({
@@ -230,6 +237,10 @@ $(function all () {
             }
         })
 
+    })
+
+    $('.addButton').click(function () {
+        $('.requestBtn').trigger("click").addClass('active')
     })
 
 // td 공통 부분
@@ -243,25 +254,89 @@ $(function all () {
 // });
 })
 
-function addTaskTab(btnValue) {
-    $('.taskAddButton').click(function () {
-        let formData = {
-            projectId: $('.projectIdInput').val(),
-            title: $('#taskAddTitle').val(),
-            content: $('.writeTaskContent').val(),
-            process: btnValue,
-            managerId: $('#managerId').val(),
-
-
+function findCurrentBtn() {
+    let btn = document.querySelectorAll(".processBtn");
+    let currentBtn;
+    btn.forEach(function (btn, i) {
+        if (btn.classList.contains('active')) {
+            currentBtn = btn.textContent;
         }
+    });
+    return currentBtn;
+}
 
-        $.ajax({
-            url: '/task/taskPageWrite',
-            data: formData,
-            type: 'post',
-            success: ((message) => {
-                location.reload()
-            })
+function addTaskTab() {
+    let currentBtn = findCurrentBtn()
+    let formData = {
+        projectId: $('.projectIdInput').val(),
+        title: $('#taskAddTitle').val(),
+        content: $('.writeTaskContent').val(),
+        process: currentBtn,
+        managerId: $('#managerId').val(),
+
+
+    }
+
+    $.ajax({
+        url: '/task/taskPageWrite',
+        data: formData,
+        type: 'post',
+        success: ((message) => {
+            location.reload()
         })
     })
+}
+
+
+function searchTaskEnter(projectId) {
+    if (event.keyCode === 13) {
+        const keyword = document.getElementById('searchTask').value;
+
+        if (keyword !== "") {
+            const formData = {
+                "keyword": keyword,
+                "projectId": projectId
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: "/task/search",
+                data: formData,
+                success: (result) => {
+                    if (result.length >= 1) {
+                        let search
+                        $('#taskTable').load(window.location.href + ' #taskTable', function () {
+                            btnColor()
+                            result.forEach(function (taskDTO, index) {
+
+                                $('.taskTr').each(function () {
+                                    console.log($(this).find('#taskId').text())
+                                    if (parseInt($(this).find('#taskId').text()) === taskDTO.taskId) {
+                                        search = $(this).context.innerHTML
+                                    }
+                                })
+
+                            })
+                            $('.taskTr').html(search)
+
+                        })
+
+                    } else {
+                        Swal.fire({
+                            title: "검색 결과가 없습니다.",
+                            icon: "question"
+                        });
+                    }
+                }
+            })
+        } else {
+            const searchDiv = document.getElementById("searchResult");
+            searchDiv.style.display = "none";
+            Swal.fire({
+                title: "검색어를 입력해 주세요",
+                icon: "warning"
+            });
+        }
+
+    }
 }

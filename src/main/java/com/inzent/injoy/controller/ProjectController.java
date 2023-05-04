@@ -142,27 +142,20 @@ public class ProjectController {
     @PostMapping("checkDomain")
     @ResponseBody
     public int checkDomain(String keyword, int organId) {
-
         HashMap<String, Object> map = new HashMap<>();
-
         map.put("organId",organId );
         map.put("keyword", keyword);
         int cnt = projectService.checkDomain(map);
         return cnt;
-
     }
-
     @PostMapping("checkName")
     @ResponseBody
     public int checkName(String keyword, int organId) {
-
         HashMap<String, Object> map = new HashMap<>();
-
         map.put("organId",organId );
         map.put("keyword", keyword);
         int cnt = projectService.checkName(map);
         return cnt;
-
     }
 
 }

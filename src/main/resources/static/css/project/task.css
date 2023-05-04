@@ -1,4 +1,4 @@
-.taskAddButton {
+.taskAddButton{
     margin: auto;
     display: inline-block;
     color: white !important;
@@ -14,6 +14,31 @@
     border-radius: 5px;
 
 }
+
+.btnBlue {
+    background: #3064B3;
+}
+
+.btnFade.btnBlue:hover {
+    background: #001542;
+}
+
+.addButton {
+    display: inline-block;
+    position: relative;
+    float: right;
+    width: 100px;
+    height: 38px;
+    padding: 0;
+    margin: auto;
+    font-weight: 600;
+    text-align: center;
+    line-height: 38px;
+    color: #FFF;
+    border-radius: 10px;
+    transition: all 0.2s ;
+}
+
 
 .searchInput{
     text-align: center;
@@ -69,27 +94,27 @@
     border: none;
 }
 
-.requestBtn:focus{
+.requestBtn:focus, .requestBtn.active{
     background-color: #00B2FF !important;
     color: white !important;
 }
 
-.progressBtn:focus {
+.progressBtn:focus, .progressBtn.active {
     background-color: #00B01C !important;
     color: white !important;
 }
 
-.feedBackBtn:focus {
+.feedBackBtn:focus, .feedBackBtn.active {
     background-color: #FD7900 !important;
     color: white !important;
 }
 
-.finishBtn:focus {
+.finishBtn:focus, .finishBtn.active {
     background-color: #402A9D !important;
     color: white !important;
 }
 
-.holdBtn:focus {
+.holdBtn:focus, .holdBtn.active {
     background-color: #777777 !important;
     color: white !important;
 }

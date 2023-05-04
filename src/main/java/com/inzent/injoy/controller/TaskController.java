@@ -9,9 +9,7 @@ import com.inzent.injoy.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +29,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("write")
+    @PostMapping("mainWrite")
     public String writeTask(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
         System.out.println(taskDTO);
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
@@ -84,7 +82,6 @@ public class TaskController {
 
     @PostMapping("updateStartDate")
     public String updateStartDate(String startDate, int taskId) throws ParseException {
-        System.out.println("in");
         TaskDTO taskDTO = taskService.selectOne(taskId);
 
         if (!Objects.equals(startDate, "")){
@@ -97,7 +94,29 @@ public class TaskController {
         }
 
         taskService.updateStartDate(taskDTO);
-        System.out.println("out");
         return "redirect:/project/" + taskDTO.getProjectId();
+    }
+
+    @PostMapping("updateEndDate")
+    public String updateEndDate(String endDate, int taskId) throws ParseException {
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        if (!Objects.equals(endDate, "")){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date(sdf.parse(endDate).getTime());
+
+            taskDTO.setClosingDate(date);
+        } else {
+            taskDTO.setClosingDate(null);
+        }
+
+        taskService.updateEndDate(taskDTO);
+        return "redirect:/project/" + taskDTO.getProjectId();
+    }
+
+    @GetMapping("search")
+    @ResponseBody
+    public List<TaskDTO> search(String keyword, int projectId){
+        return taskService.findTask(keyword, projectId) ;
     }
 }
