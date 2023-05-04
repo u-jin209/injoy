@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="projectNamefragment">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="projectNamefragment(project)">
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link th:href="@{/css/projectName.css}" rel="stylesheet"/>
+    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row mt-3 mb-3">
+    <div class="row mt-3 mb-3" style="padding: 0 20px">
         <div class="col-3">
             <div class="row align-items-center" style="text-align: center">
-                <!--        <div class="col-1">테마컬러?</div>-->
-                <h2 class="col-9 text-end" style="margin-bottom: 0">프로젝트 명</h2>
-                <div class="col-1">
+                <input type="color" class="col p-0" style="background-color: transparent; border: none; border-radius: 30px">
+                <h2 class="col-7 p-0" style="margin-bottom: 0" th:text="${project.projectName}"></h2>
+                <div class="col p-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-star"
                          viewBox="0 0 16 16" style="text-align: start">

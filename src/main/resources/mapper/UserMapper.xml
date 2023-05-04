@@ -18,6 +18,11 @@
     </select>
 
     <insert id="register" parameterType="UserDTO">
+        INSERT INTO injoy.user("username","password","email","name","role","phoneNumber","crtnDate","profilePhoto","organId","provider","providerId","emailVerified")
+        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified})
+    </insert>
+
+    <insert id="authRegister" parameterType="UserDTO">
         INSERT INTO injoy.user(username, password)
         VALUES(#{username},#{password})
     </insert>
@@ -34,5 +39,44 @@
         WHERE
         id=#{id}
     </update>
+    <update id="updateEmailVerified" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        "emailVerified" = #{emailVerified}
+        WHERE
+        id=#{id}
+    </update>
+    <update id="updatePassword" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        "password" = #{password}
+        WHERE
+        id=#{id}
+    </update>
+    <select id="selectOne" parameterType="int" resultType="UserDTO">
+        SELECT * FROM injoy.user where id=#{id}
+    </select>
+
+    <update id="updateInfo" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        name = #{name},
+        "phoneNumber" = #{phoneNumber},
+        "condition" = #{condition},
+        "profilePhoto" =#{profilePhoto},
+        email = #{email}
+        WHERE
+        id=#{id}
+    </update>
+
+    <select id="findOauthUser" parameterType="map" resultType="UserDTO">
+        SELECT * FROM injoy.user
+        WHERE "provider" = #{provider} AND "providerId" = #{providerId}
+    </select>
+
+    <select id="selectOneByUsername" parameterType="string" resultType="UserDTO">
+        SELECT * FROM injoy.user
+        WHERE "username" = #{username}
+    </select>
 
 </mapper>
