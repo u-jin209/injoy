@@ -4,12 +4,14 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProjectMapper">
     <select id="selectAll" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.project P
+        SELECT * FROM injoy."project" P
         inner join injoy."projectMember" m
         on p."projectId" = m."projectId"
+        inner join injoy."organ" o
+        on p."organId" = o."organId"
         left join injoy."bookMark" b
         on p."projectId" = b."projectId"
-        where  m."userId" =#{id}  and "authority" != 'REQUEST'
+        where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy.project
@@ -56,6 +58,8 @@
         on m."projectId" = p."projectId"
         where "userId" = #{userId} and "authority"= 'REQUEST'
     </select>
+
+
 
     <select id="checkDomain" parameterType="hashmap" resultType="int">
         select COUNT("projectId") from injoy."project"

@@ -111,7 +111,7 @@
         </div>
 
 
-        <h5 class="title"> 참여대기 회원 </h5>
+        <h5 class="title"> 요청 수락 대기 회원 </h5>
         <div class="scrollDiv">
             <div class="row g-2" style="justify-content: center">
                 <h1 th:fragment="${waitList}"></h1>
@@ -153,6 +153,32 @@
 
             </div>
         </div>
+
+        <h5 class="title"> 초대 수락 대기 회원 </h5>
+        <div class="scrollDiv">
+            <div class="row g-2" style="justify-content: center">
+
+                <div class="col-md-6"  th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}" name="wait" >
+                    <div class="card mb-3" style="max-width: 540px; height: 100%;">
+                        <div class="row g-0" >
+                            <div class="col-md-4">
+                                <img src="/img/moru.jpg" class="member" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${waitMember.name}"></h5>
+                                    <p class="card-text"></p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
 
 

@@ -105,7 +105,7 @@ public class ProjectController {
         projectService.insert(projectDTO);
 
 
-        return "redirect:/member/insert/-1";
+        return "redirect:/member/insert/-1/MANAGER";
     }
 
     @ResponseBody

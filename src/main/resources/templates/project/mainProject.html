@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko"
+
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+    <link th:href="@{/css/injoyMainTest.css}" rel="stylesheet"/>
     <script src="/js/project/mainProject.js" defer></script>
 </head>
-<body layout:fragment="content">
+<body layout:fragment="content" >
 <th:block th:replace="~{fragment/projectName :: projectNamefragment(${project})}"></th:block>
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
     <li class="nav-item">

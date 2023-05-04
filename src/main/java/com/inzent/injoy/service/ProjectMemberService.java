@@ -45,7 +45,10 @@ public class ProjectMemberService {
         return session.selectList(NAMESPACE + ".selectWaitMember", projectId);
     }
 
+    public List<ProjectMemberDTO> selectInviteMember(int projectId){
 
+        return session.selectList(NAMESPACE + ".selectInviteMember", projectId);
+    }
 
 
     public ProjectMemberDTO selectOne(Map<String, Object> map){

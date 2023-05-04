@@ -177,10 +177,6 @@ function searchUser(projectId){
             success : function(result){
 
 
-
-
-
-
                 if(result.length>=1){
                     const searchDiv = document.getElementById("searchResult");
                     searchDiv.style.display = "";
@@ -202,7 +198,7 @@ function searchUser(projectId){
                                 "<h5 class='card-title'>"+item.username+"</h5>"+
                                 "<p class='card-text'>"+item.name+"</p>"+
                                 "<div style='text-align: end'>"+
-                                "<button class='btn-blue' style='width: 50px;'> 초대 </button>"+
+                                "<button class='btn-blue' style='width: 50px;' onclick='inviteMember("+projectId+")'> 초대 </button>"+
 
                                 "</div>"+
 
@@ -239,5 +235,27 @@ function searchUser(projectId){
 
 }
 
+function inviteMember(projectId){
+
+
+    $.ajax({
+        type: 'GET',
+        url: "/member/insert/" + projectId+"/INVITE",
+
+        success: function (result) {
+
+            const searchResult = document.getElementById("searchResult");
+            searchResult.style.display = "none";
+
+            Swal.fire({
+                title: "초대 완료되었습니다",
+                icon: "success"
+            })
+
+
+        }
+    });
+
+}
 
 /*]]>*/

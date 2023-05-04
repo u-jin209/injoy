@@ -26,34 +26,41 @@ public class ProjectMemberController {
         this.projectService = projectService;
     }
 
-    @GetMapping("insert/{projectId}")
-    public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId ){
+    @GetMapping("insert/{projectId}/{authority}")
+    public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId,
+                               @PathVariable String authority ){
 
+        System.out.println("authority : "+ authority);
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+        memberDTO.setUserId(login.getUserDTO().getId());
+        memberDTO.setAuthority(authority);
 
         if(projectId == -1){
 
-            memberDTO.setUserId(login.getUserDTO().getId());
-            memberDTO.setAuthority("MANAGER");
             memberDTO.setProjectId(projectService.selectLastId());
-
             memberService.insert(memberDTO);
 
 
             return "redirect:/project/myProject";
-        }else {
+        }
+        else if(authority.equals("REQUEST") ) {
 
-
-            memberDTO.setUserId(login.getUserDTO().getId());
-            memberDTO.setAuthority("REQUEST");
             memberDTO.setProjectId(projectId);
-
             memberService.insert(memberDTO);
 
 
             return "redirect:/project/joinProject";
+       }
+        else{
+            memberDTO.setProjectId(projectId);
+            memberService.insert(memberDTO);
+
+            return  "redirect:/project/"+projectId;
         }
+
     }
+
+
     @ResponseBody
     @GetMapping("delete")
     public String delete(Model model, int userId){

@@ -37,6 +37,12 @@
     </select>
 
 
+    <select id="selectInviteMember" parameterType="int" resultType="projectMemberDTO">
+        SELECT * FROM injoy."projectMember" m
+        inner join injoy."user" u
+        on m."userId" = u."id"
+        where "projectId"=#{projectId} and "authority" = 'INVITE'
+    </select>
 
 
 

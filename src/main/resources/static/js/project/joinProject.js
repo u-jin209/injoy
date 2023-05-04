@@ -198,7 +198,7 @@ function searchInviteCode() {
 
 function enterProject(option) {
     var projectId;
-
+    console.log("sssssssss");
     if (option == 1) {
         projectId = document.getElementById("enterBtn").name;
 
@@ -214,7 +214,7 @@ function enterProject(option) {
 
     $.ajax({
         type: 'GET',
-        url: "/member/insert/" + projectId,
+        url: "/member/insert/" + projectId+"/REQUEST",
         data: data,
         success: function (result) {
             if (option == 1) {
