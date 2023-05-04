@@ -116,6 +116,9 @@ function checkTeamName(){
 
     var name = $('#projectName').val();
     var organId = $('#organId').val();
+    if (organId  == null){
+        organId =-1;
+    }
     if(state != "none"){
         $.ajax({
             url:'/project/checkName', //Controller에서 요청 받을 주소
@@ -162,6 +165,9 @@ function checkOrganName(){
 function checkDomain(){
     var domain = $('#domain').val();
     var organId = $('#organId').val();
+    if (organId  == null){
+        organId =-1;
+    }
     $.ajax({
         url:'/project/checkDomain', //Controller에서 요청 받을 주소
         type:'post', //POST 방식으로 전달
