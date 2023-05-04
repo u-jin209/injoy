@@ -116,12 +116,20 @@ function checkTeamName(){
 
     var name = $('#projectName').val();
     var organId = $('#organId').val();
+
+    if (organId  == null){
+     organId =-1;
+    }
+    const data ={
+        'keyword':name,
+        'organId':organId
+    }
     if(state != "none"){
         $.ajax({
             url:'/project/checkName', //Controller에서 요청 받을 주소
             type:'post', //POST 방식으로 전달
-            data:{keyword:name,
-                organId:organId},
+            data: data,
+            dataType:'json',
             success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다
                 if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
                     $('#existTeamName').css("display","none");
@@ -143,7 +151,7 @@ function checkOrganName(){
     $.ajax({
         url:'/organ/checkName', //Controller에서 요청 받을 주소
         type:'post', //POST 방식으로 전달
-        data:{keyword:name},
+        data:{"keyword":name},
         success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다
             if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
                 $('#existOrganName').css("display","none");
@@ -162,21 +170,30 @@ function checkOrganName(){
 function checkDomain(){
     var domain = $('#domain').val();
     var organId = $('#organId').val();
-    $.ajax({
-        url:'/project/checkDomain', //Controller에서 요청 받을 주소
-        type:'post', //POST 방식으로 전달
-        data:{keyword:domain,
-            organId:organId },
-        success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다
-            if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
-                $('#existDomain').css("display","none");
+    if (organId  == null){
+        organId =-1;
+    }
+    if(domain.length != 0){
+        $.ajax({
+            url:'/project/checkDomain', //Controller에서 요청 받을 주소
+            type:'post', //POST 방식으로 전달
+            data:{"keyword":domain,
+                "organId":organId },
+            success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다
+                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
+                    $('#existDomain').css("display","none");
 
-            } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
-                $('#existDomain').css("display","inline-block");
+                } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+                    $('#existDomain').css("display","inline-block");
+                }
+            },
+            error:function(request, status, error){
+                console.log("code: " + request.status)
+                console.log("message: " + request.responseText)
+                console.log("error: " + error);
             }
-        },
-        error:function(){
-            alert("에러입니다");
-        }
-    });
+        });
+    }
+
+
 };

@@ -143,6 +143,8 @@ public class ProjectController {
     @ResponseBody
     public int checkDomain(String keyword, int organId) {
 
+        System.out.println("domain keyword : " + keyword);
+
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("organId",organId );
@@ -152,10 +154,10 @@ public class ProjectController {
 
     }
 
-    @PostMapping("checkName")
     @ResponseBody
+    @PostMapping("checkName")
     public int checkName(String keyword, int organId) {
-
+        System.out.println("checkName keyword : " + keyword);
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("organId",organId );
