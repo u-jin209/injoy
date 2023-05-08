@@ -45,4 +45,50 @@
     });
 })();
 
+$(function (){
+    $('.kanbanBtn').click(function (){
+        let text = $(this).parent().find('.taskProcess').text()
+
+        $('.kanbanProcessBtn button').each(function (){
+            if (text === $(this).text()){
+                $(this).trigger("click").addClass('active')
+            }
+        })
+
+
+    })
+})
+
+function findCurrentBtn() {
+    let btn = document.querySelectorAll(".processBtn");
+    let currentBtn;
+    btn.forEach(function (btn, i) {
+        if (btn.classList.contains('active')) {
+            currentBtn = btn.textContent;
+        }
+    });
+    return currentBtn;
+}
+
+function kanbanAddTask() {
+    let currentBtn = findCurrentBtn()
+    let formData = {
+        projectId: $('.projectIdInput').val(),
+        taskTitle: $('#taskAddTitle').val(),
+        taskContent: $('.writeTaskContent').val(),
+        process: currentBtn,
+        managerId: $('#managerId').val(),
+
+
+    }
+
+    $.ajax({
+        url: '/task/taskPageWrite',
+        data: formData,
+        type: 'post',
+        success: ((message) => {
+            location.reload()
+        })
+    })
+}
 

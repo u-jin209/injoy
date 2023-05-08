@@ -10,8 +10,8 @@ public class TaskDTO {
     private int authorUserId;
     private Date crtDate;
     private Date mdfDate;
-    private String title;
-    private String content;
+    private String taskTitle;
+    private String taskContent;
     private int projectId;
     private Date startDate;
     private Date closingDate;
@@ -21,4 +21,15 @@ public class TaskDTO {
     private String priority;
     private int managerId;
 
+    //user
+    private String name;
+
+
+//    BoardDTO 값
+    private int boardId;
+    private int boardWriterId;
+    private String bTitle;
+    private String bContent;
+//    private int bFileId;
+    private Date entryDate;
 }

@@ -7,12 +7,12 @@ import java.util.Date;
 @Data
 public class BoardDTO {
     private int boardId;
-    private String title;
-    private String content;
+    private String bTitle;
+    private String bContent;
     private int boardWriterId;
     private int projectId;
     private int fileId;
     private Date entryDate;
 
-    private String nickname;
+    private String name;
 }

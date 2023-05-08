@@ -11,7 +11,7 @@
         ORDER BY "entryDate" DESC
     </select>
     <insert id="insert" parameterType="BoardDTO">
-        insert into injoy.board("title","content","projectId","boardWriterId")
-        values (#{title},#{content},#{projectId},#{boardWriterId})
+        insert into injoy.board("bTitle","bContent","projectId","boardWriterId")
+        values (#{bTitle}, #{bContent}, #{projectId}, #{boardWriterId})
     </insert>
 </mapper>

@@ -98,8 +98,8 @@ function findCurrentBtn(){
 function boardWrite() {
     $('#boardWriteBtn').click(function () {
         let formData = {
-            title: $('#boardTitle').val(),
-            content: $('.writeBoardContent').val(),
+            bTitle: $('#boardTitle').val(),
+            bContent: $('.writeBoardContent').val(),
             projectId: $('.projectIdInput').val()
         }
 
@@ -119,8 +119,8 @@ function taskWrite() {
     $('#taskWriteBtn').click(function () {
         let formData = {
             projectId: $('.writeProjectId').val(),
-            title: $('#taskTitle').val(),
-            content: $('.writeContent').val(),
+            taskTitle: $('#taskTitle').val(),
+            taskContent: $('.writeContent').val(),
             process: currentBtn,
             managerId: $('.managerId').val(),
 

@@ -50,9 +50,9 @@ public class TaskController {
     }
 
     @PostMapping("updateTitle")
-    public String updateTitle(String title, int taskId){
+    public String updateTitle(String taskTitle, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
-        taskDTO.setTitle(title);
+        taskDTO.setTaskTitle(taskTitle);
 
         taskService.updateTitle(taskDTO);
 

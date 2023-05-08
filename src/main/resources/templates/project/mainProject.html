@@ -43,7 +43,7 @@
         <div th:insert="~{/project/taskPage :: taskContent(${project}, ${memberList}, ${taskList})}"></div>
     </div>
     <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="2">
-        <div th:insert="~{/project/kanban :: kanbanContent(${taskList})}"></div>
+        <div th:insert="~{/project/kanban :: kanbanContent(${project}, ${taskList})}"></div>
     </div>
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
 

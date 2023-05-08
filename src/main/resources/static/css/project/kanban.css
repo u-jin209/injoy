@@ -1,9 +1,21 @@
+.kanbanBoard {
+    border: 1px solid;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+.taskProcess{
+    margin-left: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
 .control {
-    padding: 0.5rem;
+    padding: 1px;
     border-collapse: collapse;
 }
 .control:nth-child(n+2){
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
 }
 
 .draggable {
@@ -14,7 +26,7 @@
     border: 1px solid #c5cdd7;
     box-sizing: border-box;
     cursor: move;
-    border-radius: 25px;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
@@ -24,20 +36,12 @@
 
 .draggable.dragging {
     opacity: .5;
-    border: 2px dashed red;
+    border: 2px dashed #3064B3;
 }
 
 .el {
     display: inline-block;
     vertical-align: middle;
-}
-.ico-drag {
-    display: inline-block;
-    vertical-align: inherit;
-    width: 15px;
-    height: 15px;
-    background: url(./menu.png) no-repeat center top;
-    background-size: cover;
 }
 
 .kanbanBtn{
@@ -45,8 +49,8 @@
     height: 50px;
     line-height: 50px;
     padding: 0 20px;
-    background-color: rgba(48, 100, 179, 0.68);
-    border: 1px solid #c5cdd7;
+    background-color: transparent;
+    border: 1px solid transparent;
     box-sizing: border-box;
     border-radius: 35px;
 }
