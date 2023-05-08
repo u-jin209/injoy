@@ -1,5 +1,23 @@
 /*<![CDATA[*/
+window.onload=function(){
+    //실행할 내용
 
+}
+
+function inviteAlert(){
+
+    $.ajax({
+        type: 'GET',
+        url: "/member/selectMember",
+        data: data,
+        success:
+        Swal.fire({
+            title: "초대코드 복사 완료",
+            icon: "success"
+        })
+    });
+
+}
 
 function memberList(value) {
     console.log(value.id)

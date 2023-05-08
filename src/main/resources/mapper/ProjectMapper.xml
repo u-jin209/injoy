@@ -7,7 +7,8 @@
         SELECT * FROM injoy."project" P
         inner join injoy."projectMember" m
         on p."projectId" = m."projectId"
-        inner join injoy."organ" o
+
+        left join injoy."organ" o
         on p."organId" = o."organId"
         left join injoy."bookMark" b
         on p."projectId" = b."projectId"

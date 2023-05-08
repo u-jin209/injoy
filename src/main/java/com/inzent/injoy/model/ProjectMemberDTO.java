@@ -18,6 +18,7 @@ import lombok.Data;
     //search용 정보
 
     private String keyword;
+    private int id;
 
 
 }

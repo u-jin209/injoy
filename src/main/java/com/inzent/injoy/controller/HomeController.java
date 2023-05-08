@@ -91,7 +91,7 @@ public class HomeController {
 
 
     @GetMapping("/project/{projectId}")
-    public String showProject(Model model , @PathVariable int projectId) {
+    public String showProject(Model model , @PathVariable int projectId, @AuthenticationPrincipal UserCustomDetails login) {
 
         List<BoardDTO> boardList = boardService.selectAll(projectId);
         model.addAttribute("boardList", boardList);
@@ -103,7 +103,14 @@ public class HomeController {
         model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
+        model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", login.getUserDTO().getId());
+        map.put("projectId" , projectId);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!"+memberService.authority(map));
+
+        model.addAttribute("logInUser" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";

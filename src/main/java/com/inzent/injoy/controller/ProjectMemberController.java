@@ -1,5 +1,6 @@
 package com.inzent.injoy.controller;
 import com.google.gson.JsonObject;
+import com.inzent.injoy.model.ProjectDTO;
 import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
@@ -28,7 +29,7 @@ public class ProjectMemberController {
 
     @GetMapping("insert/{projectId}/{authority}")
     public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId,
-                               @PathVariable String authority ){
+                               @PathVariable String authority , int userId){
 
         System.out.println("authority : "+ authority);
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
@@ -53,6 +54,7 @@ public class ProjectMemberController {
        }
         else{
             memberDTO.setProjectId(projectId);
+            memberDTO.setUserId(userId);
             memberService.insert(memberDTO);
 
             return  "redirect:/project/"+projectId;
@@ -105,5 +107,15 @@ public class ProjectMemberController {
         return memberService.selectMember(projectId);
     }
 
+
+    @ResponseBody
+    @GetMapping("inviteList")
+    public List<ProjectMemberDTO> waitList(int projectId) {
+
+        System.out.println("inviteList controller!!!!!!!!!!!!!!");
+        System.out.println("projectId : "+  projectId);
+        System.out.println("inviteList : " + memberService.selectInviteMember(projectId) );
+        return memberService.selectInviteMember(projectId);
+    }
 
 }

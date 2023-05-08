@@ -90,6 +90,7 @@ public class ProjectController {
             return "/user/logIn";
         }
 
+        System.out.println("@@@@@@@@@@@@@@@@@@@@projectList : "+  projectService.selectAll(login.getUserDTO().getId()));
         model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
 
         return "/project/myProject";

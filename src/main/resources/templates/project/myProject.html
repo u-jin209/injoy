@@ -86,7 +86,7 @@
                     </div>
 
 
-                    <div class="row" style="display: block; MARGIN-RIGHT: 0; "  onclick="goProject(this)">
+                    <div class="row" style="display: block; MARGIN-RIGHT: 0; " th:id="${p.getProjectId()}"   onclick="goProject(this)">
                         <div class="col projectTitle"  style="      margin: 5px 10px 0px 10px; OVERFLOW: hidden;
     TEXT-OVERFLOW: ellipsis;" th:text="${p.getProjectName()}"></div>
                         <div class="col explanationText" th:text="${p.getExplanation()}"></div>

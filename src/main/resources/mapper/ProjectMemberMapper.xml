@@ -7,7 +7,7 @@
         SELECT * FROM injoy."projectMember" m
         inner join injoy."user" u
         on m."userId" = u."id"
-        where "projectId"=#{projectId} and "authority" != 'REQUEST'
+        where "projectId"=#{projectId} and "authority" != 'REQUEST' and "authority" != 'INVITE'
     </select>
 
     <select id="selectOne" parameterType="hashmap" resultType="ProjectMemberDTO">
@@ -21,10 +21,10 @@
         where "projectId"=#{projectId}) m
         on u."id" = m."userId"
         where m."userId" IS NULL
-        and "username" LIKE CONCAT('%', #{keyword}, '%')
-        or "name" LIKE CONCAT('%', #{keyword}, '%')
-        or "phoneNumber" LIKE CONCAT('%', #{keyword}, '%')
+        and "name" LIKE CONCAT('%', #{keyword}, '%')
+        or  "phoneNumber" LIKE CONCAT('%', #{keyword}, '%')
         or "email" LIKE CONCAT('%', #{keyword}, '%')
+        or "username" LIKE CONCAT('%', #{keyword}, '%')
 
 
     </select>
@@ -44,6 +44,17 @@
         where "projectId"=#{projectId} and "authority" = 'INVITE'
     </select>
 
+    <select id="authority" parameterType="hashmap" resultType="String" >
+        select authority from injoy."projectMember" m
+        inner join injoy."user" u
+        on m."userId"= u."id"
+        where "userId"=#{userId} and "projectId" = #{projectId}
+    </select>
+
+    <select id="confirmInvite" parameterType="int" resultType="projectMemberDTO">
+        select * from injoy."projectMember" m
+        where "userId" = #{userId} and "authority" = 'INVITE'
+    </select>
 
 
     <insert id="insert" parameterType="projectMemberDTO" >

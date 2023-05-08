@@ -1,4 +1,8 @@
 /*<![CDATA[*/
+window.onload=function(){
+    //실행할 내용
+    inviteMemberList();
+}
 
 function copyCode() {
 
@@ -188,17 +192,17 @@ function searchUser(projectId){
 
 
                             $('#searchDivMain').append(
-                                " <div class='card mb-3' style='max-width: 540px;'>" +
+                                " <div class='card mb-3' style='max-width: 540px;' >" +
                                 "<div class = 'row g-0'>" +
                                 "<div class='col-md-4'>" +
-                                " <img src='" +item.username+"' class='member' alt='...'>"+
+                                " <img src='" +item.profileImg+"' class='member' alt='...'>"+
                                 "</div>"+
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.username+"</h5>"+
                                 "<p class='card-text'>"+item.name+"</p>"+
                                 "<div style='text-align: end'>"+
-                                "<button class='btn-blue' style='width: 50px;' onclick='inviteMember("+projectId+")'> 초대 </button>"+
+                                "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
                                 "</div>"+
 
@@ -235,27 +239,95 @@ function searchUser(projectId){
 
 }
 
-function inviteMember(projectId){
+function inviteMember(value){
+
+
+    const userId = value.id;
+    const urlParams = new URL(location.href);
+    const projectId = urlParams.pathname.split('/')[2];
+
 
 
     $.ajax({
         type: 'GET',
         url: "/member/insert/" + projectId+"/INVITE",
+        data: {"userId" : userId},
 
         success: function (result) {
 
             const searchResult = document.getElementById("searchResult");
             searchResult.style.display = "none";
 
+
             Swal.fire({
                 title: "초대 완료되었습니다",
                 icon: "success"
             })
 
-
+            inviteMemberList()
         }
     });
 
 }
+
+function inviteMemberList(){
+
+    const urlParams = new URL(location.href);
+
+    const projectId = urlParams.pathname.split('/')[2];
+
+    console.log(projectId)
+
+    $.ajax({
+        type: 'GET',
+        url:"/member/inviteList",
+        data:{"projectId":projectId},
+        success: function (result){
+            $('#projectContainer').empty()
+
+            if(result.length >= 1){
+                result.forEach(function (item){
+                    $(document).ready(function () {
+                        console.log("item : " +  item.name)
+                        const noneInvite = document.getElementById("noneInvite");
+                        noneInvite.style.display = "none";
+
+                        $('#inviteContainer').append(
+                            "<div class='col-md-6'>"+
+                                "<div class='card mb-3' style='max-width: 540px; height: 100%;'>"+
+                                    "<div class='row'>"+
+                                        "<div class='col-md-4'>"+
+                                            "<img  class='member' th:src='"+item.profileImg+"' onerror=this.src='/img/user.jpg' >"+
+                                        "</div>"+
+                                        "<div class='col-md-8'>"+
+                                            "<div class='card-body'>"+
+                                                "<h5 class='card-title'>"+item.name+"</h5>"+
+                                                "<p class='card-text'>"+item.email+"</p>"+
+
+                                            "</div>"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>"
+                        );
+                    })
+                })
+
+            }else {
+                $('#noneInvite').append(
+                    "<div class='card'  style='min-height: 300px;padding: 150px; text-align: center;'>" +
+                    "<h1 class='projectTitle' style='font-size: 2.6rem'> 초대한 회원이 없습니다 </h1>" +
+                    "</div>"
+                );
+            }
+
+
+        }
+    })
+
+
+}
+
+
 
 /*]]>*/

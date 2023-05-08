@@ -250,10 +250,8 @@ function printWaitProject() {
         data: data,
         success: function (result) {
 
-            console.log("waitLLLLLLs")
-            console.log("result : " + result)
-            $('#projectContainer').empty()
 
+            $('#projectContainer').empty()
 
             if (result.length >= 1) {
 
@@ -282,8 +280,8 @@ function printWaitProject() {
 
             } else {
                 $('#noneWait').append(
-                    "<div class='card' style='min-height: 300px;padding: 150px; text-align: center;'>" +
-                    "<h1 class='projectTitle'>승인 대기중인 프로젝트가 없습니다</h1>" +
+                    "<div class='card' style='min-height: 300px;padding: 150px; text-align: center; '>" +
+                    "<h1 class='projectTitle' style='font-size: 2.6rem'>승인 대기중인 프로젝트가 없습니다</h1>" +
                     "</div>"
                 );
             }
