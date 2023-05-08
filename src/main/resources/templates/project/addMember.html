@@ -40,7 +40,11 @@
                  th:onclick="|searchUser(${project.projectId})|">
 
         </div>
-
+        <div class="col-md-2" style="text-align: center;">
+            <button class="btn-orange" style="width: 120px;height: 50px;font-size: inherit;" id="code" th:value="${project.invitationCode}" th:onclick="copyCode()">
+                초대코드복사
+            </button>
+        </div>
 
     </div>
 
