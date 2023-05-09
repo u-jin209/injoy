@@ -10,7 +10,7 @@
     <script src="/js/project/mainProject.js" defer></script>
 </head>
 <body layout:fragment="content" >
-<th:block th:replace="~{fragment/projectName :: projectNamefragment(${project})}"></th:block>
+<th:block th:replace="~{fragment/projectName :: projectNamefragment(${project},${logIn})}"></th:block>
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
     <li class="nav-item">
         <div class="nav-link disabled"></div>
@@ -50,7 +50,7 @@
 
     </div>
     <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
-        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList})}" ></div>
+        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logInUser})}" ></div>
 
     </div>
 </div>

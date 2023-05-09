@@ -99,6 +99,9 @@ public class HomeController {
         List<TaskDTO> taskList = taskService.selectAll(projectId);
         model.addAttribute("taskList", taskList);
 
+
+        model.addAttribute("logIn" , login.getUserDTO());
+
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
