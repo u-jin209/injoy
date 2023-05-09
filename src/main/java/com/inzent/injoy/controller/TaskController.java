@@ -60,9 +60,6 @@ public class TaskController {
     public String updateTitle(String taskTitle, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
 
-        TaskDTO taskDTO1 = taskService.selectOne(taskId);
-        System.out.println("taskTitle = " + taskTitle);
-        System.out.println("TaskController.updateTitle");
         taskDTO.setTaskTitle(taskTitle);
 
         taskService.updateTitle(taskDTO);
