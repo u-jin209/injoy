@@ -106,31 +106,7 @@ function all() {
             type: 'get',
             data: formData,
             success: (result) => {
-                console.log(result);
-                //제목 설정
-                $('.post-title-h4').text(result.taskTitle)
-                //작성자 이름
-                $('.authorName').text(result.authorUserId)
-                //작성일
-                $('.postDate').text((result.crtDate).toString())
-                //업무번호
-                $('.task-number em').text(result.taskId)
-                // 상태
-                let btn = document.querySelectorAll(".task-process-btn");
-                btn.forEach(function (btn, i) {
-                    if (btn.innerText === result.process) {
-                        btn.classList.add("active");
-                    } else {
-                        btn.classList.remove("active")
-                    }
-                });
-
-                //진척도
-                $('.rangeInput').val(result.progress)
-                $('.progress-txt').text(result.progress +'%')
-
-                //내용
-                $('.post-taskContent').text(result.taskContent)
+                showTaskDetail(result)
             }
         })
     })
@@ -376,8 +352,61 @@ function all() {
     // });
 }
 
-function showTaskDetail(){
+function dateFormat(date){
+    const TIME_ZONE = 9 * 60 * 60 * 1000;
+    const d = new Date(date);
+    let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
+    const time = new Date(date).toTimeString().split(' ')[0];
 
+    return format_date + ' ' + time;
+}
+
+function dateWeek(date){
+    const TIME_ZONE = 9 * 60 * 60 * 1000;
+    const d = new Date(date);
+    let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const dayOfWeek = week[(new Date(date)).getDay()];
+    console.log(format_date)
+
+    return format_date + ' (' + dayOfWeek+')';
+}
+
+function showTaskDetail(result){
+//제목 설정
+    $('.post-title-h4').text(result.taskTitle)
+    //작성자 이름
+    $('.authorName').text(result.authorUserId)
+
+    let crtDate = dateFormat(result.crtDate)
+
+    //작성일
+    $('.postDate').text(crtDate)
+    //업무번호
+    $('.task-number em').text(result.taskId)
+    // 상태
+    let btn = document.querySelectorAll(".task-process-btn");
+    btn.forEach(function (btn, i) {
+        if (btn.innerText === result.process) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active")
+        }
+    });
+
+    //진척도
+    $('.rangeInput').val(result.progress)
+    $('.progress-txt').text(result.progress +'%')
+
+    console.log(result.startDate)
+    console.log(result.closingDate)
+    //시작일, 마감일 설정
+    $('.startDate-value').text(dateWeek(result.startDate) +'부터')
+    $('.endDate-value').text(dateWeek(result.closingDate)+ '까지')
+
+    //내용
+    $('.post-taskContent').text(result.taskContent)
 }
 
 function findCurrentBtn() {

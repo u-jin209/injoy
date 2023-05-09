@@ -37,6 +37,7 @@ public class TaskController {
         taskService.insert(taskDTO);
 
         return "redirect:/project/" + taskDTO.getProjectId();
+
     }
 
     @PostMapping("taskPageWrite")
@@ -58,6 +59,10 @@ public class TaskController {
     @PostMapping("updateTitle")
     public String updateTitle(String taskTitle, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        TaskDTO taskDTO1 = taskService.selectOne(taskId);
+        System.out.println("taskTitle = " + taskTitle);
+        System.out.println("TaskController.updateTitle");
         taskDTO.setTaskTitle(taskTitle);
 
         taskService.updateTitle(taskDTO);
