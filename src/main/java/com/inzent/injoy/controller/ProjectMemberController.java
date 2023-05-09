@@ -80,11 +80,13 @@ public class ProjectMemberController {
     @GetMapping("approve")
     public String approve(Model model, Integer userId , Integer projectId){
 
+        String authority =  "MEMBER";
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("userId", userId);
         map.put("projectId",projectId);
-        map.put("authority","MEMBER");
+        map.put("authority",authority );
+
 
 
         memberService.update(map);
@@ -115,9 +117,6 @@ public class ProjectMemberController {
     @GetMapping("inviteList")
     public List<ProjectMemberDTO> waitList(int projectId) {
 
-        System.out.println("inviteList controller!!!!!!!!!!!!!!");
-        System.out.println("projectId : "+  projectId);
-        System.out.println("inviteList : " + memberService.selectInviteMember(projectId) );
         return memberService.selectInviteMember(projectId);
     }
 

@@ -139,12 +139,13 @@ function searchInviteCode() {
             success: function (result) {
 
                 console.log(result)
-                if (result != null) {
-                    const searchDiv = document.getElementById("searchCodeResult");
-                    searchDiv.style.display = "";
+                console.log(result.length)
 
-                    if (result.length >= 1) {
 
+
+                    if (result != null) {
+                        const searchDiv = document.getElementById("searchCodeResult");
+                        searchDiv.style.display = "";
                         $('#searchCodeDivMain').append(
                             " <div class='card mb-3' style='max-width: 540px;'>" +
                             "<div class = 'row g-0'>" +
@@ -178,7 +179,7 @@ function searchInviteCode() {
                     }
 
 
-                }
+
             }
 
         });

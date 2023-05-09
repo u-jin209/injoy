@@ -2,6 +2,8 @@
 window.onload=function(){
     //실행할 내용
     inviteMemberList();
+
+
 }
 
 function copyCode() {
@@ -139,12 +141,20 @@ function approveUser(userId,projectId) {
 
 
                 const newDiv = document.createElement('div').appendChild(waitDiv);
-
                 document.getElementById('field').appendChild(newDiv);
+                const waitBody= document.getElementById("waitBody")
+                 console.log(waitBody.children.length+'no_child는 자식이 있습니다. <br>'); // printed
+
+                if(waitBody.children.length == 0){
+                    const noneWait = document.getElementById("noneWait");
+                    noneWait.style.display =''
+                    const waitList = document.getElementById("waitList");
+                    waitList.style.display ='none'
 
 
+                }
 
-                // waitDiv.remove();
+
 
 
             });

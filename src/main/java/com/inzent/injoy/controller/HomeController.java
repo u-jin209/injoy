@@ -108,7 +108,7 @@ public class HomeController {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", login.getUserDTO().getId());
         map.put("projectId" , projectId);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!"+memberService.authority(map));
+
 
         model.addAttribute("logInUser" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >
