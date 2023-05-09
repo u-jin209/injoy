@@ -96,6 +96,45 @@ function all() {
         $(this).find('span').show()
     })
 
+    titleTd.click(function (){
+        let taskId = $(this).closest('tr').find('#taskId').text();
+        let formData = {
+            taskId: taskId,
+        }
+        $.ajax({
+            url: '/task/detailTask',
+            type: 'get',
+            data: formData,
+            success: (result) => {
+                console.log(result);
+                //제목 설정
+                $('.post-title-h4').text(result.taskTitle)
+                //작성자 이름
+                $('.authorName').text(result.authorUserId)
+                //작성일
+                $('.postDate').text((result.crtDate).toString())
+                //업무번호
+                $('.task-number em').text(result.taskId)
+                // 상태
+                let btn = document.querySelectorAll(".task-process-btn");
+                btn.forEach(function (btn, i) {
+                    if (btn.innerText === result.process) {
+                        btn.classList.add("active");
+                    } else {
+                        btn.classList.remove("active")
+                    }
+                });
+
+                //진척도
+                $('.rangeInput').val(result.progress)
+                $('.progress-txt').text(result.progress +'%')
+
+                //내용
+                $('.post-taskContent').text(result.taskContent)
+            }
+        })
+    })
+
 // 진행 이벤트
 
     processTd.click(function () {
@@ -320,6 +359,12 @@ function all() {
         $('.requestBtn').trigger("click").addClass('active')
     })
 
+    document.querySelector('.rangeInput').addEventListener('input',function(event){
+        let gradient_value = 100 / event.target.attributes.max.value;
+        console.log(event.target.value)
+        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 '+gradient_value * event.target.value +'%, rgb(236, 236, 236) ' +gradient_value *  event.target.value + '%, rgb(236, 236, 236) 100%)';
+    });
+
 // td 공통 부분
 
     // document.addEventListener('click', function (e) {
@@ -329,6 +374,10 @@ function all() {
     //         container.style.display = 'none';
     //     }
     // });
+}
+
+function showTaskDetail(){
+
 }
 
 function findCurrentBtn() {

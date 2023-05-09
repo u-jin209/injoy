@@ -520,6 +520,74 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content: space-between;
 }
 
+.title-header:after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: -webkit-calc(100% - 60px);
+    width: calc(100% - 60px);
+    left: 30px;
+    bottom: 0;
+    background: #eee;
+}
+
+.authorName{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 3px;
+    vertical-align: middle;
+    line-height: 18px;
+    max-width: 132px;
+}
+
+.postDate{
+    display: inline-block;
+    min-width: 120px;
+    margin: 2px 0 0 7px;
+    color: #aaa;
+    vertical-align: middle;
+}
+
+.post-option {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: flex-end;
+    height: 40px;
+}
+
+#movePost.btn-go {
+    margin-right: 0;
+    min-width: 88px;
+    padding: 0;
+    color: #777;
+    font-weight: 700;
+    font-size: 13px;
+    border: none;
+    text-decoration: underline;
+}
+
+.btn-go {
+    height: 35px;
+    line-height: 33px;
+    background: #fff;
+    border-radius: 900px;
+}
+
+.post-setting-button{
+    margin: -1px 0 0 20px;
+}
+
+.set-btn{
+    padding: 4px 8px;
+    margin: 1px 7px 0 30px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
 .postTitle{
     display: flex;
     -webkit-box-orient: vertical;
@@ -562,4 +630,216 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     box-sizing: border-box;
     border-radius: 4px;
     font-size: 11px;
+}
+
+.post-content{
+    padding: 10px 0 20px;
+    background: #fff;
+}
+
+.post-task-summary{
+    font-size: 14px;
+    word-break: break-word;
+    line-height: 25px;
+    color: #333;
+    padding: 10px 30px 0;
+}
+
+.post-task-option{
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.task-content-group{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-content-group>li{
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    min-height: 46px;
+}
+
+.task-content-group> li + li {
+    padding-top: 24px !important;
+}
+
+.create-content.content-title {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-right: 20px;
+    color: #555;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.create-content {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    color: #333;
+}
+
+.task-process-btn{
+    background-color: #eee;
+    display: block;
+    float: left;
+    width: auto;
+    min-width: 84px;
+    height: 32px;
+    padding: 0 10px;
+    -webkit-border-radius: 220px;
+    border-radius: 220px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #777;
+    border: none;
+    margin-right: 5px;
+}
+
+.manager-item, .worker-search-input {
+    margin-bottom: 8px;
+}
+.manager-item {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+    background: #eee;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #555;
+    border: 1px solid transparent;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.add-manager-btn, .change-manager-btn{
+    border: none !important;
+    background-color: transparent !important;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
+.post-startDate , .post-endDate{
+    display: inline-block;
+    -webkit-border-radius: 500px;
+    border-radius: 500px;
+    color: #555;
+}
+
+.start-date-exist, .end-date-exist{
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.date-value{
+    margin: 0 3px 0 0;
+    -webkit-border-radius: 500px;
+    border-radius: 500px;
+    cursor: pointer;
+    color: #333;
+}
+
+.removeBtn{
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+    background-size: 844px auto;
+    vertical-align: middle;
+}
+
+.rangeInput{
+    width: 100%;
+    background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
+    border-radius: 8px;
+    outline: none;
+    transition: background 450ms ease-in;
+    -webkit-appearance: none;
+    accent-color: #ffca1d;
+}
+
+.progress-graph{
+    display: table;
+    width: 100%;
+    max-width: 130px;
+    height: 6px;
+    background: #eee;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    table-layout: fixed;
+}
+
+.progress-txt {
+    position: absolute;
+    top: -5px;
+    right: -40px;
+    margin-left: 10px;
+    color: #777;
+}
+
+.post-taskContent{
+    margin: 30px 0 50px 0;
+}
+
+.post-footer {
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 ;
+    background-color: #bebebe;
+}
+
+.addPriority{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
+.addEndDate, .addStartDate{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
+.addEndDate::before, .addStartDate::before{
+    text-align: start !important;
+}
+
+input[type='date']::before {
+    content: attr(data-placeholder);
+    text-align: center;
+    width: 100%;
+}
+
+input[type='date']:focus::before,
+input[type='date']:valid::before {
+    display: none;
 }

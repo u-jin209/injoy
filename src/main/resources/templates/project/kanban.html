@@ -20,7 +20,8 @@
                 <h5 class="taskProcess">요청</h5>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '요청'}">
                     <div class="draggable" draggable="true">
-                        <div class="el" th:text="${task.taskTitle}">HTML</div>
+                        <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
+                        <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
                 </div>
                 <button class="kanbanBtn" data-bs-toggle="modal" data-bs-target="#taskModal">
@@ -35,7 +36,8 @@
                 <h5 class="taskProcess">진행</h5>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '진행'}">
                     <div class="draggable" draggable="true">
-                        <div class="el" th:text="${task.taskTitle}">HTML</div>
+                        <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
+                        <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
                 </div>
                 <button class="kanbanBtn" data-bs-toggle="modal" data-bs-target="#taskModal">
@@ -50,7 +52,8 @@
                 <h5 class="taskProcess">피드백</h5>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '피드백'}">
                     <div class="draggable" draggable="true">
-                        <div class="el" th:text="${task.taskTitle}">HTML</div>
+                        <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
+                        <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
                 </div>
                 <button class="kanbanBtn" data-bs-toggle="modal" data-bs-target="#taskModal">
@@ -65,7 +68,8 @@
                 <h5 class="taskProcess">완료</h5>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '완료'}">
                     <div class="draggable" draggable="true">
-                        <div class="el" th:text="${task.taskTitle}">HTML</div>
+                        <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
+                        <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
                 </div>
                 <button class="kanbanBtn" data-bs-toggle="modal" data-bs-target="#taskModal">
@@ -81,7 +85,8 @@
                 <h5 class="taskProcess">보류</h5>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '보류'}">
                     <div class="draggable" draggable="true">
-                        <div class="el" th:text="${task.taskTitle}">HTML</div>
+                        <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
+                        <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
                 </div>
                 <button class="kanbanBtn" data-bs-toggle="modal" data-bs-target="#taskModal">
