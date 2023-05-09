@@ -23,8 +23,8 @@
 </head>
 
 
-<body >
-<div layout:fragment="content" >
+<body>
+<div layout:fragment="content">
 
     <div class="container" style="align-content: center; padding: 2%">
 
@@ -41,7 +41,7 @@
 
                 <div class="project" style="padding: 10px 20px 10px 20px">
 
-                    <div class="row" id="starState" >
+                    <div class="row" id="starState">
 
                         <div class="col" style="text-align: left">
                             <button th:id="|star${p.getProjectId()}|" class="btn"
@@ -62,7 +62,8 @@
                             </button>
                         </div>
                         <div class="col" style="text-align: end">
-                            <button class="btn " type="button" th:id ="${p.getProjectId()}" data-toggle="modal" data-target="#memberModal" onclick="memberList(this)">
+                            <button class="btn " type="button" th:id="${p.getProjectId()}" data-toggle="modal"
+                                    data-target="#memberModal" onclick="memberList(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-people-fill" viewBox="0 0 16 16">
                                     <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
@@ -74,9 +75,9 @@
                     </div>
 
 
-                    <div class="row" th:id="${p.getProjectId()}" >
+                    <div class="row" th:id="${p.getProjectId()}">
 
-                        <div class="col"  style="float: left;">
+                        <div class="col" style="float: left;">
 
                             <div class="subTitle" th:text="${p.getOrganName()}"></div>
 
@@ -86,8 +87,9 @@
                     </div>
 
 
-                    <div class="row" style="display: block; MARGIN-RIGHT: 0; " th:id="${p.getProjectId()}"   onclick="goProject(this)">
-                        <div class="col projectTitle"  style="      margin: 5px 10px 0px 10px; OVERFLOW: hidden;
+                    <div class="row" style="display: block; MARGIN-RIGHT: 0; " th:id="${p.getProjectId()}"
+                         onclick="goProject(this)">
+                        <div class="col projectTitle" style="      margin: 5px 10px 0px 10px; OVERFLOW: hidden;
     TEXT-OVERFLOW: ellipsis;" th:text="${p.getProjectName()}"></div>
                         <div class="col explanationText" th:text="${p.getExplanation()}"></div>
                     </div>
@@ -108,7 +110,7 @@
                                 </div>
                                 <div class="col-md-1" id="modalMain">
 
-                                    <button type="button" class="close btn " th:id ="url">
+                                    <button type="button" class="close btn " th:id="url">
 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                              fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
@@ -135,7 +137,6 @@
                                     <div class="col-md-10" id="modalList">
 
 
-
                                     </div>
                                 </div>
                             </div>
@@ -146,44 +147,107 @@
                         </div>
                     </div>
 
-
-
                 </div>
 
 
             </div>
 
+
+            <!-- 초대 확인 Modal -->
+
+            <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel2"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="inviteModalLabel2">프로젝트 참여 요청</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="row ">
+
+                                    <div class="col-md-12  " th:each="invite : ${confirmInvite}" style="padding: 10px 20px 10px 20px">
+
+
+                                            <div class="row">
+
+                                                <div class="col-md-6" style="float: left;">
+
+                                                    <div class="subtitle" th:text="${invite.projectName}"></div>
+
+
+                                                </div>
+                                                <div class="col-md-6" style="text-align: end">
+
+                                                    <button class="btn btn-red" th:name="${invite.userId}+'/'+${invite.projectId}" onclick="refuse(this)"  >거절</button>
+                                                    <button class="btn btn-green" th:name="${invite.userId}+'/'+${invite.projectId}" onclick="approve(this)">수락</button>
+                                                </div>
+
+                                            </div>
+
+
+
+                                    </div>
+
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" style="display: none" class="btn btn-primary"  id="inviteModalBtn" data-toggle="modal" data-target="#inviteModal">
+                Launch demo modal
+            </button>
+
+
         </div>
+        <!-- Modal -->
 
         <script>
-            window.onload = function () {
+            jQuery(document).ready(function () {
 
 
-                if ([[ ${ #lists.isEmpty(projectList)}]]) {
-                    Swal.fire({
-                        title: '참여중인 팀이 없습니다', text: '팀에 참여하시겠습니까?', icon: 'warning',
+                console.log("ssss")
+                $("#inviteModalBtn").click();
+                // if ([[ ${ #lists.isEmpty(projectList)}]]) {
+                //
+                //
+                //     Swal.fire({
+                //         title: '참여중인 팀이 없습니다', text: '팀에 참여하시겠습니까?', icon: 'warning',
+                //
+                //         showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                //         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                //         cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+                //         cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                //         confirmButtonText: '참여', // confirm 버튼 텍스트 지정
+                //
+                //     }).then(result => {
+                //         // 만약 Promise리턴을 받으면,
+                //         if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                //             location.href = "/project/newProjectMain";
+                //         }
+                //     });
+                // }
 
-                        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-                        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-                        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-                        confirmButtonText: '참여', // confirm 버튼 텍스트 지정
 
-                    }).then(result => {
-                        // 만약 Promise리턴을 받으면,
-                        if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-                            location.href = "/project/newProjectMain";
-                        }
-                    });
-                }
-
-
-            }
+            });
 
         </script>
 
 
     </div>
+
+
 </div>
 
 </body>

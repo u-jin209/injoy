@@ -17,9 +17,11 @@ function copyCode() {
 }
 
 function deleteUser(userId,option) {
-
+    const urlParams = new URL(location.href);
+    const projectId = urlParams.pathname.split('/')[2];
     const data = {
-        "userId": userId
+        "userId": userId,
+        "projectId" :projectId
     }
 
     if(option ==1){

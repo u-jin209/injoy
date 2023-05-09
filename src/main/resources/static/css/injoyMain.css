@@ -549,6 +549,15 @@ input.minusBtn{
     border: none;
 }
 
+.btn-red{
+    background-color: #FC4C70 ;
+    color: #fff;
+}
+.btn-green{
+    background-color: #00B01C ;
+    color: #fff;
+}
+
 .btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
 
 

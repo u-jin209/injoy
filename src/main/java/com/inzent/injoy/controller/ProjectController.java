@@ -90,8 +90,11 @@ public class ProjectController {
             return "/user/logIn";
         }
 
-        System.out.println("@@@@@@@@@@@@@@@@@@@@projectList : "+  projectService.selectAll(login.getUserDTO().getId()));
         model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        System.out.println("########################################################projectMemberService.confirmInvite(login.getUserDTO().getId()): "+projectMemberService.confirmInvite(login.getUserDTO().getId()));
+        model.addAttribute("confirmInvite", projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+
 
         return "/project/myProject";
     }

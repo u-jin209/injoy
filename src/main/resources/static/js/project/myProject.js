@@ -1,23 +1,37 @@
 /*<![CDATA[*/
-window.onload=function(){
-    //실행할 내용
 
-}
+function refuse(value){
+    const userId = value.name.toString().split("/")[0];
+    const projectId = value.name.toString().split("/")[1];
+    const data ={
+        "projectId" : projectId,
+        "userId" : userId
+    }
 
-function inviteAlert(){
 
     $.ajax({
-        type: 'GET',
-        url: "/member/selectMember",
+        url: "/member/delete",
         data: data,
-        success:
-        Swal.fire({
-            title: "초대코드 복사 완료",
-            icon: "success"
-        })
-    });
+        type: "GET",
+    })
 
 }
+function approve(value){
+    const userId = value.name.toString().split("/")[0];
+    const projectId = value.name.toString().split("/")[1];
+    const data ={
+        "projectId" : projectId,
+        "userId" : userId
+    }
+    $.ajax({
+        url: "/member/approve",
+        data: data,
+        type: "GET",
+    })
+
+
+}
+
 
 function memberList(value) {
     console.log(value.id)

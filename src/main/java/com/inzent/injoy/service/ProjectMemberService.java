@@ -1,6 +1,7 @@
 package com.inzent.injoy.service;
 
 
+import com.inzent.injoy.model.ProjectDTO;
 import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -30,9 +31,6 @@ public class ProjectMemberService {
     }
 
 
-    public void delete(int userId){
-         session.delete(NAMESPACE+".delete", userId);
-    }
 
     public List<ProjectMemberDTO> searchUser(ProjectMemberDTO memberDTO){
 
@@ -51,22 +49,25 @@ public class ProjectMemberService {
     }
 
 
-    public ProjectMemberDTO selectOne(Map<String, Object> map){
+//    public ProjectMemberDTO selectOne(Map<String, Object> map){
+//
+//        return  session.selectOne(NAMESPACE + ".selectOne", map);
+//    }
 
-        return  session.selectOne(NAMESPACE + ".selectOne", map);
-    }
+    public List<ProjectDTO> confirmInvite(int userId){
 
-    public List<ProjectMemberDTO> confirmInvite(Map<String, Object> map){
-
-        return  session.selectList(NAMESPACE + ".confirmInvite", map);
+        return  session.selectList(NAMESPACE + ".confirmInvite", userId);
     }
 
     public String authority (Map<String, Object> map){
         return session.selectOne(NAMESPACE +".authority" , map);
     }
-    public void update(ProjectMemberDTO memberDTO) {
-        session.update(NAMESPACE+".update",memberDTO);
+    public void update(Map<String, Object> map) {
+        session.update(NAMESPACE+".update",map);
     }
 
+    public void delete(Map<String, Object> map){
+        session.delete(NAMESPACE+".delete", map);
+    }
 
 }

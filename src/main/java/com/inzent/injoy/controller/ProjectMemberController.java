@@ -29,15 +29,15 @@ public class ProjectMemberController {
 
     @GetMapping("insert/{projectId}/{authority}")
     public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId,
-                               @PathVariable String authority , int userId){
+                               @PathVariable String authority , Integer userId){
 
         System.out.println("authority : "+ authority);
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
-        memberDTO.setUserId(login.getUserDTO().getId());
+
         memberDTO.setAuthority(authority);
 
-        if(projectId == -1){
-
+        if(authority.equals("MANAGER")){
+            memberDTO.setUserId(login.getUserDTO().getId());
             memberDTO.setProjectId(projectService.selectLastId());
             memberService.insert(memberDTO);
 
@@ -45,7 +45,7 @@ public class ProjectMemberController {
             return "redirect:/project/myProject";
         }
         else if(authority.equals("REQUEST") ) {
-
+            memberDTO.setUserId(login.getUserDTO().getId());
             memberDTO.setProjectId(projectId);
             memberService.insert(memberDTO);
 
@@ -65,9 +65,13 @@ public class ProjectMemberController {
 
     @ResponseBody
     @GetMapping("delete")
-    public String delete(Model model, int userId){
+    public String delete(Model model, Integer userId , Integer projectId){
 
-        memberService.delete(userId);
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", userId);
+        map.put("projectId",projectId);
+        memberService.delete(map);
         return "redirect:history.go(-1)";
     }
 
@@ -80,11 +84,10 @@ public class ProjectMemberController {
 
         map.put("userId", userId);
         map.put("projectId",projectId);
+        map.put("authority","MEMBER");
 
 
-        ProjectMemberDTO origin = memberService.selectOne(map);
-        origin.setAuthority("MEMBER");
-        memberService.update(origin);
+        memberService.update(map);
         return "redirect:history.go(-1)";
     }
 
