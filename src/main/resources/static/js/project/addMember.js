@@ -212,7 +212,7 @@ function searchUser(projectId){
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                "<p class='card-text'>"+item.email+"</p>"+
+                                "<p class='card-text'>"+item.username+"</p>"+
                                 "<div style='text-align: end'>"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
@@ -314,7 +314,7 @@ function inviteMemberList(){
                                         "<div class='col-md-8'>"+
                                             "<div class='card-body'>"+
                                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                                "<p class='card-text'>"+item.email+"</p>"+
+                                                "<p class='card-text'>"+item.username+"</p>"+
 
                                             "</div>"+
                                         "</div>"+
