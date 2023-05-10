@@ -37,7 +37,9 @@ public class ProjectMemberService {
 
         return session.selectList(NAMESPACE+".searchUser",memberDTO);
     }
-
+    public List<ProjectMemberDTO> searchMember(ProjectMemberDTO memberDTO) {
+        return session.selectList(NAMESPACE+".searchMember",memberDTO);
+    }
     public List<ProjectMemberDTO> selectWaitMember(int projectId){
 
         return session.selectList(NAMESPACE + ".selectWaitMember", projectId);
@@ -69,5 +71,6 @@ public class ProjectMemberService {
     public void delete(Map<String, Object> map){
         session.delete(NAMESPACE+".delete", map);
     }
+
 
 }

@@ -33,7 +33,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link mainNav" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
-           aria-controls="member-tab-pane" aria-selected="false">멤버관리</a>
+           aria-controls="member-tab-pane" aria-selected="false" th:text="${logInUser.equals('MANAGER') ? '멤버관리': '참여멤버'}">멤버관리</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">

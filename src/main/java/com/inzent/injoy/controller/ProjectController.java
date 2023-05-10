@@ -104,6 +104,17 @@ public class ProjectController {
 
         return projectMemberService.confirmInvite(login.getUserDTO().getId());
     }
+
+
+    @ResponseBody
+    @GetMapping("projectList")
+    public List<ProjectDTO> selectProject(@AuthenticationPrincipal UserCustomDetails login){
+
+
+        return  projectService.selectAll(login.getUserDTO().getId());
+    }
+
+
     @PostMapping("insertProject")
     public String insertProject(@AuthenticationPrincipal UserCustomDetails login, ProjectDTO projectDTO) {
 

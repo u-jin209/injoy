@@ -94,7 +94,7 @@ public class ProjectMemberController {
     }
 
     @ResponseBody
-    @GetMapping("search")
+    @GetMapping("searchUser")
     public List<ProjectMemberDTO> searchUser(String keyword, int projectId){
 
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
@@ -102,6 +102,17 @@ public class ProjectMemberController {
         memberDTO.setProjectId(projectId);
 
         return memberService.searchUser(memberDTO);
+    }
+
+    @ResponseBody
+    @GetMapping("searchMember")
+    public List<ProjectMemberDTO> searchMember(String keyword, int projectId){
+
+        ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+        memberDTO.setKeyword(keyword);
+        memberDTO.setProjectId(projectId);
+
+        return memberService.searchMember(memberDTO);
     }
 
     @ResponseBody

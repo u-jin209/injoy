@@ -164,20 +164,20 @@ function approveUser(userId,projectId) {
 
 }
 
-function enter(projectId){
+function enter(projectId, logInUser){
 
     if(window.event.keyCode == 13){
-        searchUser(projectId);
+        searchUser(projectId, logInUser);
     }
 }
 
-function searchUser(projectId){
+function searchUser(projectId,logInUser){
 
-
-
+    console.log("logInUser : " + logInUser)
     const keyword = document.getElementById('searchKeyword').value;
     $('#searchDivMain').empty();
 
+    let url;
     if(keyword != ""){
         const data = {
             "keyword": keyword,
@@ -185,13 +185,21 @@ function searchUser(projectId){
         }
 
 
+        if (logInUser == 'MANAGER' ) {
+            console.log("MANAGER")
+            url = "/member/searchUser"
+        }else {
+            url = "/member/searchMember"
+        }
+
 
         $.ajax({
             type: 'GET',
-            url : "/member/search",
+            url : url,
             data : data,
             success : function(result){
 
+                console.log("ddddd")
 
                 if(result.length>=1){
                     const searchDiv = document.getElementById("searchResult");
@@ -212,7 +220,7 @@ function searchUser(projectId){
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                "<p class='card-text'>"+item.username+"</p>"+
+                                "<p class='card-text'>"+item.email+"</p>"+
                                 "<div style='text-align: end'>"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
@@ -314,7 +322,7 @@ function inviteMemberList(){
                                         "<div class='col-md-8'>"+
                                             "<div class='card-body'>"+
                                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                                "<p class='card-text'>"+item.username+"</p>"+
+                                                "<p class='card-text'>"+item.email+"</p>"+
 
                                             "</div>"+
                                         "</div>"+
