@@ -281,7 +281,7 @@
             </td>
             <td class="endDate p-0">
                 <input id="endDate" data-placeholder="-" required aria-required="true" type="date"
-                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"/>
+                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}" th:min="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
             </td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
             <td><span id="taskId" th:text="${task.taskId}"></span></td>

@@ -20,12 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.*;
 
-import java.util.Iterator;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
@@ -98,6 +95,7 @@ public class HomeController {
 
         List<TaskDTO> taskList = taskService.selectAll(projectId);
         model.addAttribute("taskList", taskList);
+        
 
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));

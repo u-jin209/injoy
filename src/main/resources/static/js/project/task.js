@@ -54,6 +54,7 @@ function all() {
             type: 'post',
             data: formData,
             success: () => {
+
                 $('#taskTable').load(window.location.href + ' #taskTable', function () {
                     btnColor()
                     all()
@@ -96,19 +97,22 @@ function all() {
         $(this).find('span').show()
     })
 
-    titleTd.click(function (){
-        let taskId = $(this).closest('tr').find('#taskId').text();
-        let formData = {
-            taskId: taskId,
-        }
-        $.ajax({
-            url: '/task/detailTask',
-            type: 'get',
-            data: formData,
-            success: (result) => {
-                showTaskDetail(result)
+    titleTd.click(function (e){
+        if (!$(e.target).hasClass('taskTitle')){
+            let taskId = $(this).closest('tr').find('#taskId').text();
+            let formData = {
+                taskId: taskId,
             }
-        })
+            $.ajax({
+                url: '/task/detailTask',
+                type: 'get',
+                data: formData,
+                success: (result) => {
+                    showTaskDetail(result)
+                }
+            })
+        }
+
     })
 
 // 진행 이벤트
@@ -185,7 +189,7 @@ function all() {
     managerTd.click(function () {
         let managerDiv = $(this).find('.managerDiv')
         if (managerDiv.css('display') === 'block') {
-            // managerDiv.css('display', 'none')
+            //managerDiv.css('display', 'none')
         } else {
             managerDiv.css('display', 'block')
 
@@ -238,9 +242,7 @@ function all() {
 
                     if ($(this).find('input').prop('checked') === false) {
                         $(this).css('background-Color', 'white').css('color', 'black')
-                        memberSpan.each(function () {
-                            console.log($(this).find('memberNameSpan').innerText)
-                        })
+
                     }
 
                 }
@@ -249,14 +251,14 @@ function all() {
         }
 
         // 멤버 선택항목 개별 삭제
-        $(this).find('.memberCloseBtn').click(function () {
+        $('.memberCloseBtn').click(function () {
             let name = $(this).parent().find('.memberNameSpan').text()
-            $(this).find('.memberName').each((index, item) => {
-                console.log($(this).parent())
-                if (item.innerText === name) {
-                    $(this).parent().parent().find('.memberLi').css('background-Color', 'white').css('color', 'black')
-                }
-            })
+            // memberName.each(()=>{
+            //    console.log($(this))
+            //     // if ($(this).innerText.className === name) {
+            //     //     $(this).parent().parent().find('.memberLi').css('background-Color', 'white').css('color', 'black')
+            //     // }
+            // })
             $(this).parent().remove()
         })
 
@@ -284,7 +286,6 @@ function all() {
     }, false)
 
     $('.startDate input').change(function () {
-
         let taskId = $(this).closest('tr').find('#taskId').text();
         let formData = {
             taskId: taskId,

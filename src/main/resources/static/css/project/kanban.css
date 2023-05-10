@@ -54,3 +54,120 @@
     box-sizing: border-box;
     border-radius: 35px;
 }
+/*업무 추가 부분*/
+
+.kanban-addEndDate, .kanban-addStartDate{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
+.kanban-addEndDate::before, .kanban-addStartDate::before{
+    text-align: start !important;
+}
+
+.modal-body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.modal-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+ul, button, li, div, input {
+
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+
+.taskAddOption {
+    padding: 10px 20px 0;
+
+}
+
+/*.taskAddOption::after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    width: 92%;*/
+/*    z-index: 0;*/
+/*    height: 1px;*/
+/*    background-color: #eee;*/
+/*}*/
+
+.option-group{
+
+}
+
+.option-group>li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -moz-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    width: 100%;
+    min-height: 46px;
+}
+
+.option-group>li+li {
+    padding-top: 18px;
+}
+
+#kanbanAddTitle {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 60px;
+}
+
+#kanbanAddTitle::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.writekanbanContent{
+    width: 434px;
+    min-height: 200px;
+    border: none;
+}
+
+
+.add-managerButton{
+    width: 100px !important;
+    border: 1px solid #777777 !important;
+    background-color: transparent !important;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    vertical-align: top;
+}
+
+.optionAddBtn{
+    margin: 22px 0 17px 0;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #555;
+}
+
+

@@ -171,6 +171,7 @@ td:hover {
 }
 
 .button_priority{
+    width: 80px;
     z-index: 1;
     padding: 9px 8px;
     background-color: white;

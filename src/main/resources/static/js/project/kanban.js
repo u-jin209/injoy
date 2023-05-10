@@ -74,11 +74,127 @@ $(function (){
             }
         })
 
+        $('.kanban-addStartDate').css('display', 'block').val('')
+        $('.start-date-exist').css('display', 'none')
+        $('.kanban-addEndDate').css('display', 'block').val('')
+        $('.end-date-exist').css('display', 'none')
+        $('.addPriority').css('display', 'block')
+        $('.prioritySpan').css('display', 'none')
+        $('.addPriority_ul').css('display', 'none')
 
     })
 
+    // 프로세스 버튼 클릭시 변경
+    $('.taskProcessBtn').click(function (e) {
+        let btn = document.querySelectorAll(".taskProcessBtn");
+        btn.forEach(function (btn, i) {
+            if (e.currentTarget === btn) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+    })
+
+
     dragAndDrop()
+
+    // 업무 추가 항목 추가입력 클릭시
+    $('.optionAddBtn').click(function (){
+        $('.option-group').find('li').each(function (){
+            if($(this).css('display') === 'none'){
+                $(this).css('display', 'flex')
+                $('.optionAddBtn').css('display', 'none')
+            } else {
+                document.querySelector("body").addEventListener("click", function(e) {
+                    if(e.target.className === e.currentTarget.querySelector(".modal").className) {
+                        console.log("correct")
+                        $('.option-group').find('li').each(function (){
+
+                        if ($(this).attr('class') === 'process-layer' || $(this).attr('class') === 'manager-layer'){
+                            $(this).css('display', 'flex')
+                        } else {
+                            $(this).css('display', 'none')
+                        }
+                        })
+
+                        $('.optionAddBtn').css('display', 'block')
+                    }
+                })
+            }
+        })
+    })
+
+    //시작일 부분
+    $('.kanban-addStartDate').change(function (){
+        $('.start-date-exist').css('display', 'block')
+        $('.startDate-value').text($(this).val() + addWeek($(this).val()) + ' 부터')
+
+        //마감일 최소값 지정
+        $('.kanban-addEndDate').attr('min', $(this).val())
+        $(this).css('display', 'none')
+    })
+
+    $('.removeBtn-startDate').click(function (){
+        $('.start-date-exist').css('display', 'none')
+        $('.kanban-addStartDate').css('display', 'block').val('')
+    })
+
+    //마감일 부분
+
+    $('.kanban-addEndDate').change(function (){
+        $('.end-date-exist').css('display', 'block')
+        $('.endDate-value').text($(this).val() + addWeek($(this).val()) + ' 까지')
+        $(this).css('display', 'none')
+    })
+
+    $('.removeBtn-endDate').click(function (){
+        $('.end-date-exist').css('display', 'none')
+        $('.kanban-addEndDate').css('display', 'block').val('')
+    })
+
+    // 우선순위 추가 부분
+    $('.addPriority').click(function (){
+        let priority_ul = $('.addPriority_ul')
+        if (priority_ul.css('display') === 'none'){
+            priority_ul.css('display', 'block')
+            priority_ul.find('button').click(function (e) {
+                console.log()
+                const element = document.getElementsByClassName('kanban-priority-value')[0];
+                element.innerHTML = ($(this).context.innerHTML)
+
+                $('.addPriority').css('display','none')
+                $('.prioritySpan').css('display', 'block')
+                priority_ul.css('display', 'none')
+            })
+        } else{
+            priority_ul.css('display', 'none')
+
+        }
+
+    })
+
+    $('.removeBtn-priority').click(function (){
+        $('.addPriority').css('display', 'block')
+        $('.prioritySpan').css('display', 'none')
+        $(this).closest('svg').remove()
+        $(this).closest('.priorityText').remove()
+    })
+
+    //진척도 값
+    $('.kanban-rangeInput').change(function (){
+        $('.progress-txt').text($(this).val() + '%')
+    })
+
 })
+
+function addWeek(date){
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const dayOfWeek = week[(new Date(date)).getDay()];
+
+    return ' (' + dayOfWeek+')';
+}
 
 function update(taskId, changeProcess){
     const Toast = Swal.mixin({
@@ -112,36 +228,52 @@ function update(taskId, changeProcess){
     })
 }
 
-function findCurrentBtn() {
-    let btn = document.querySelectorAll(".processBtn");
+function kanbanCurrentBtn() {
+    let btn = document.querySelectorAll(".taskProcessBtn");
     let currentBtn;
     btn.forEach(function (btn, i) {
         if (btn.classList.contains('active')) {
             currentBtn = btn.textContent;
         }
     });
+    console.log(currentBtn)
     return currentBtn;
 }
 
+function to_date2(date_str)
+{
+    var yyyyMMdd = String(date_str);
+    var sYear = yyyyMMdd.substring(0,4);
+    var sMonth = yyyyMMdd.substring(5,7);
+    var sDate = yyyyMMdd.substring(8,10);
+
+    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
+    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+}
+
 function kanbanAddTask() {
-    let currentBtn = findCurrentBtn()
+    let currentBtn = kanbanCurrentBtn()
     let formData = {
         projectId: $('.projectIdInput').val(),
-        taskTitle: $('#taskAddTitle').val(),
-        taskContent: $('.writeTaskContent').val(),
+        taskTitle: $('#kanbanAddTitle').val(),
+        taskContent: $('.writekanbanContent').val(),
         process: currentBtn,
-        managerId: $('#managerId').val(),
-
-
+        managerId: $('#kanbanManagerId').text(),
+        startDate : to_date2($('.kanban-addStartDate').val()),
+        closingDate : to_date2($('.kanban-addEndDate').val()),
+        progress : $('.kanban-rangeInput').val(),
+        priority : $('.prioritySpan .priorityText').text()
     }
 
-    $.ajax({
-        url: '/task/taskPageWrite',
-        data: formData,
-        type: 'post',
-        success: ((message) => {
-            location.reload()
-        })
-    })
+    console.log(formData)
+
+    // $.ajax({
+    //     url: '/task/taskPageWrite',
+    //     data: formData,
+    //     type: 'post',
+    //     success: ((message) => {
+    //         location.reload()
+    //     })
+    // })
 }
 
