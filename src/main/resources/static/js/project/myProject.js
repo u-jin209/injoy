@@ -115,7 +115,7 @@ function memberList(value) {
                             "<div class='card-body' style='text-align: left'>" +
                             "<i class='fa-solid fa-crown' style='color: #ffb30d;' th:if=${"+ item.authority +".toString.equals('MANAGER')} '></i>"+
                             "<h5 class='card-title'>" + item.name + "</h5>" +
-                            "<p class='card-text'>" + item.username + "</p>" +
+                            "<p class='card-text'>" + item.email + "</p>" +
                             "</div>" +
                             "</div>" +
                             "</div>" +

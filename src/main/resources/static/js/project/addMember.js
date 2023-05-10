@@ -207,12 +207,12 @@ function searchUser(projectId){
                                 " <div class='card mb-3' style='max-width: 540px;' >" +
                                 "<div class = 'row g-0'>" +
                                 "<div class='col-md-4'>" +
-                                " <img src='" +item.profileImg+"' class='member' alt='...'>"+
+                                " <img src='" +item.profileImg+"' class='member' onerror=this.src='/img/user.jpg'>"+
                                 "</div>"+
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
-                                "<h5 class='card-title'>"+item.username+"</h5>"+
-                                "<p class='card-text'>"+item.name+"</p>"+
+                                "<h5 class='card-title'>"+item.name+"</h5>"+
+                                "<p class='card-text'>"+item.email+"</p>"+
                                 "<div style='text-align: end'>"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 

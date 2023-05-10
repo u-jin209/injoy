@@ -33,7 +33,7 @@
 
                 <div class="row" style="justify-content: center;">
                     <div class="task-tooltip" style=" text-align: center; min-width: 250px;   min-height: 30px;">
-                        <div th:text="${user.condition}"></div>
+                        <div th:text="${user.condition  != null ? user.condition: '상태를 입력해주세요'}"></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getName()}"></p>
+                        <p class="contentText" th:text="${user.getName() != null ? user.name: '이름을 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getUsername()}">sssss</p>
+                        <p class="contentText" th:text="${user.organId != null ? user.organId: '직급을 입력해주세요' }"></p>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getPhoneNumber()}"></p>
+                        <p class="contentText" th:text="${user.getPhoneNumber() != null ? user.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getEmail()}"></p>
+                        <p class="contentText" th:text="${user.username != null ? user.username: '이메일을 입력해주세요'}"></p>
                     </div>
 
                 </div>
@@ -183,7 +183,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="organ"
-                                                       name="organ" th:value="${user.getEmail()}"
+                                                       name="organ" th:value="${user.organId}"
                                                        placeholder="직급/소속을 입력해주세요">
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="email"
-                                                       name="email" th:value="${user.getEmail()}"
+                                                       name="email" th:value="${user.username}"
                                                        placeholder="email을 입력해주세요">
                                             </div>
 

@@ -21,10 +21,10 @@
         where "projectId"=#{projectId}) m
         on u."id" = m."userId"
         where m."userId" IS NULL
-        and "name" LIKE CONCAT('%', #{keyword}, '%')
+        and ("name" LIKE CONCAT('%', #{keyword}, '%')
         or  "phoneNumber" LIKE CONCAT('%', #{keyword}, '%')
         or "email" LIKE CONCAT('%', #{keyword}, '%')
-        or "username" LIKE CONCAT('%', #{keyword}, '%')
+        or "username" LIKE CONCAT('%', #{keyword}, '%'))
 
 
     </select>

@@ -15,8 +15,10 @@
         where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.project
-        where "projectId"=#{id}
+        SELECT * FROM injoy.project p
+        left join injoy."bookMark" b
+        on p."projectId" = b."projectId"
+        where p."projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")

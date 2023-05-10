@@ -83,7 +83,7 @@
                                         <i class="fa-solid fa-crown" style="color: #ffb30d;"
                                            th:if="${member.authority.toString.equals('MANAGER')} "></i>
                                         <h5 class="card-title mt-1" th:text="${member.name}"></h5>
-                                        <p class="card-text" th:text="${member}">모루카의 포테토</p>
+                                        <p class="card-text" th:text="${member.email}"></p>
 
                                         <button class="imgButton" th:onclick="|deleteUser(${member.userId},1)|"
                                                 th:if="${!member.authority.toString.equals('MANAGER')}">
