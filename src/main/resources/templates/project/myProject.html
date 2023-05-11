@@ -26,6 +26,37 @@
 <body>
 <div layout:fragment="content">
 
+    <!-- 초대 확인 Modal -->
+
+    <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inviteModalLabel">프로젝트 참여 요청</h5>
+                    <button type="button" id="inviteClose" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body ">
+                    <div class="row " id="inviteListBody">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" style="display: none" class="btn btn-primary" id="inviteModalBtn" data-toggle="modal"
+            data-target="#inviteModal">
+        Launch demo modal
+    </button>
+
+
     <div class="container" style="align-content: center; padding: 2%">
 
 
@@ -153,39 +184,6 @@
             </div>
 
 
-            <!-- 초대 확인 Modal -->
-
-            <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="inviteModalLabel">프로젝트 참여 요청</h5>
-                            <button type="button" id="inviteClose" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body ">
-                            <div class="row " id="inviteListBody">
-
-
-
-
-                            </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button type="button" style="display: none" class="btn btn-primary" id="inviteModalBtn" data-toggle="modal"
-                    data-target="#inviteModal">
-                Launch demo modal
-            </button>
 
 
         </div>
@@ -193,15 +191,7 @@
 
         <script>
             jQuery(document).ready(function () {
-
-                const body = document.getElementById("projectListBody")
-                const element = document.getElementById("projectList");
-                const newEle = element.cloneNode(true);
-
-                body.append(newEle)
-
-                console.log(newEle)
-
+                projectList()
                 if([[ ${ not #lists.isEmpty(invite)}]]){
 
                     Swal.fire({
@@ -216,8 +206,9 @@
                     }).then(result => {
                         // 만약 Promise리턴을 받으면,
                         if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                            console.log("sldjsfsf")
                             inviteList()
-                            $("#inviteModalBtn").click();
+
                         }
                     });
 
