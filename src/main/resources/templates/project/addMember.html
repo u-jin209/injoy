@@ -2,7 +2,7 @@
 
 <html
         xmlns:th="http://www.thymeleaf.org" xmlns:lth="http://www.thymeleaf.org" lang="ko"
-        th:fragment="addMemberContent(project, memberList, waitList,logInUser)">
+        th:fragment="addMemberContent(project, memberList, waitList,logIn)">
 <head>
     <meta charset="utf-8">
 
@@ -34,10 +34,10 @@
     <h5 class="title"> 회원검색 </h5>
     <div class="row" style="justify-content: space-evenly;">
         <div class="search col-md-6">
-            <input type="text" placeholder="검색어 입력" id="searchKeyword"  th:data-parameter1="${project.projectId}"  th:data-parameter2="${logInUser}"
+            <input type="text" placeholder="검색어 입력" id="searchKeyword"  th:data-parameter1="${project.projectId}"  th:data-parameter2="${logIn.authority}"
                    th:onkeyup="|enter(this.getAttribute('data-parameter1'),this.getAttribute('data-parameter2'))|"/>
             <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
-                 th:data-parameter1="${project.projectId}"  th:data-parameter2="${logInUser}"
+                 th:data-parameter1="${project.projectId}"  th:data-parameter2="${logIn.authority}"
                  th:onclick="|searchUser(this.getAttribute('data-parameter1'),this.getAttribute('data-parameter2')) |">
 
         </div>
@@ -85,10 +85,10 @@
                                         <i class="fa-solid fa-crown" style="color: #ffb30d;"
                                            th:if="${member.authority.toString.equals('MANAGER')} "></i>
                                         <h5 class="card-title mt-1" th:text="${member.name}"></h5>
-                                        <p class="card-text" th:text="${member.email}"></p>
+                                        <p class="card-text" th:text="${member.username}"></p>
 
                                         <button class="imgButton" th:onclick="|deleteUser(${member.userId},1)|"
-                                                th:if="${!member.authority.toString.equals('MANAGER')}" th:style="${logInUser.equals('MANAGER')  ? '' : 'display: none;' }">
+                                                th:if="${!member.authority.toString.equals('MANAGER')}" th:style="${logIn.equals('MANAGER')  ? '' : 'display: none;' }">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                                  fill="#F5544D" class="bi bi-dash-square" viewBox="0 0 16 16">
                                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -111,7 +111,7 @@
 
             </div>
 
-        <div th:style="${logInUser.equals('MANAGER')  ? '' : 'display: none;' }">
+        <div th:style="${logIn.authority.equals('MANAGER')  ? '' : 'display: none;' }">
             <h5 class="title"> 요청 수락 대기 회원 </h5>
             <h1 th:fragment="${waitList}"></h1>
             <div  id="noneWait" style="margin-top: 75px; margin-bottom: 75px;justify-content: center; "

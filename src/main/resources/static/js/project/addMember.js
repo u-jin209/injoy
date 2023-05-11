@@ -185,7 +185,7 @@ function searchUser(projectId,logInUser){
         }
 
 
-        if (logInUser == 'MANAGER' ) {
+        if (logInUser.authority == 'MANAGER' ) {
             console.log("MANAGER")
             url = "/member/searchUser"
         }else {

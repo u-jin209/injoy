@@ -61,7 +61,7 @@ public class ProjectMemberService {
         return  session.selectList(NAMESPACE + ".confirmInvite", userId);
     }
 
-    public String authority (Map<String, Object> map){
+    public ProjectMemberDTO authority (Map<String, Object> map){
         return session.selectOne(NAMESPACE +".authority" , map);
     }
     public void update(Map<String, Object> map) {

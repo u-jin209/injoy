@@ -57,8 +57,8 @@
         where "projectId"=#{projectId} and "authority" = 'INVITE'
     </select>
 
-    <select id="authority" parameterType="hashmap" resultType="String" >
-        select authority from injoy."projectMember" m
+    <select id="authority" parameterType="hashmap" resultType="projectMemberDTO" >
+        select * from injoy."projectMember" m
         inner join injoy."user" u
         on m."userId"= u."id"
         where "userId"=#{userId} and "projectId" = #{projectId}

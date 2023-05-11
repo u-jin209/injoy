@@ -100,8 +100,6 @@ public class HomeController {
         model.addAttribute("taskList", taskList);
 
 
-        model.addAttribute("logIn" , login.getUserDTO());
-
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));
         model.addAttribute("memberList", memberService.selectMember(projectId));
@@ -113,7 +111,7 @@ public class HomeController {
         map.put("projectId" , projectId);
 
 
-        model.addAttribute("logInUser" , memberService.authority(map));
+        model.addAttribute("logIn" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >
 
         return "project/mainProject";

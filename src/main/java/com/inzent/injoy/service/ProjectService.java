@@ -65,4 +65,8 @@ public class ProjectService {
 
         return session.selectOne(NAMESPACE+".checkName",map);
     }
+
+    public void delete(int projectId){
+        session.delete(NAMESPACE+".delete" , projectId);
+    }
 }

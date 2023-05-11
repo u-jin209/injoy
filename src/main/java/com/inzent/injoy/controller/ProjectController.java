@@ -180,4 +180,14 @@ public class ProjectController {
 
     }
 
+
+    @ResponseBody
+    @GetMapping("delete")
+    public void delete(Integer projectId){
+
+        projectService.delete(projectId);
+
+    }
+
+
 }

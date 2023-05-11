@@ -50,7 +50,7 @@ function projectList(){
                                 "<div class='modal-content'>"+
                                     "<div class='modal-header'>"+
                                         "<div class='col-md-10'>"+
-                                            "<h5 class='modal-title' id='exampleModalLabel'>참여중인 맴버</h5>"+
+                                            "<h5 class='modal-title' id='exampleModalLabel'>참여중인 멤버</h5>"+
                                         "</div>"+
                                         "<div class='col-md-1' id='modalMain'>"+
                                             "<button type='button' class='close btn 'id='url'>"+

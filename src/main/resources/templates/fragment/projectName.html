@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <title></title>
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+    <script src="/js/project/projectName.js" defer></script>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row mt-3 mb-3" style="padding: 0 20px">
         <div class="col-3">
             <div class="row align-items-center" style="text-align: center">
-                <input type="color" class="col p-0"
-                       style="background-color: transparent; border: none; border-radius: 30px">
+
+
                 <h2 class="col-7 p-0" style="margin-bottom: 0" th:text="${project.projectName}"></h2>
 
                 <div class="col p-0" style="text-align: left">
@@ -37,7 +38,7 @@
             </div>
         </div>
         <div class="col text-end">
-            <button class="btn visitButton">
+            <button class="btn visitButton" th:id="${project.projectId}" onclick="goAddProject(this)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-person-plus" viewBox="0 0 16 16">
                     <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
@@ -47,42 +48,76 @@
                 초대하기
             </button>
 
+            <button class="btn btn-red" th:style="${logIn.authority != 'MANAGER' ? '': 'display:none'}"
+                    th:name="${logIn.id}+'/'+${project.projectId}" onclick="outProject(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-dash-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                </svg>
+                프로젝트 나가기
+            </button>
+
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-red" th:style="${logIn.authority == 'MANAGER' ? '': 'display:none'}"
+                    data-toggle="modal" data-target="#staticBackdrop">
+                프로젝트 관리
+            </button>
+
         </div>
 
     </div>
-    <script>
-        function bookMark(projectId, userId) {
 
-            const data = {
-                "projectId": projectId, "userId": userId
-            }
-            const star = document.getElementById("star"+projectId);
-            const starfill = document.getElementById("starFill"+projectId);
-
-
-
-            if (star.style.display == "unset") {
-
-
-                $.ajax({
-                    type: 'GET', url: "/bookMark/insert", data: data, success: function (result) {
-                        star.style.display = "none";
-                        starfill.style.display = "unset";
-                    }
-                });
-            } else if (star.style.display == "none") {
-
-                $.ajax({
-                    type: 'GET', url: "/bookMark/delete", data: data, success: function (result) {
-                        starfill.style.display = "none";
-                        star.style.display = "unset";
-                    }
-                });
-            }
-
-        }
-    </script>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">프로젝트 관리</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="mb-3 ">
+                            <p class="col-sm-4 col-form-label">프로젝트 이름</p>
+                            <div class="col">
+                                <input type="text" class="form-control" id="projectName"
+                                       name="projectName" oninput="checkTeamName()" th:value="${project.projectName}">
+                                <span class="mt-1" id="existTeamName" style="color: #F5544D; display: none">이미 등록된 팀이름 입니다.</span>
+                            </div>
+                        </div>
+                        <div class="mb-3 ">
+                            <p class="col-sm-4 col-form-label">프로젝트 설명</p>
+                            <div class="col">
+                                <input type="text" class="form-control " id="explanation"
+                                       name="explanation" style="  height:150px;" th:value="${project.explanation}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 " style=" text-align: left;margin-left: 15px ">
+                        <button class="btn btn-red" th:onclick="|deleteProject(${project.projectId})|">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-dash-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                            </svg> 삭제
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-orange">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -73,5 +73,9 @@
         where "organId" = #{organId} and  "projectName" = #{keyword}
     </select>
 
+    <delete id="delete" parameterType="int" >
+        delete from injoy."project"
+        where "projectId" = #{projectId}
+    </delete>
 
 </mapper>
