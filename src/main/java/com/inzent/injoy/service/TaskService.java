@@ -56,4 +56,8 @@ public class TaskService {
 
         return session.selectList(NAMESPACE + ".findTask", params);
     }
+
+    public void updateProgress(TaskDTO taskDTO) {
+            session.update(NAMESPACE + ".updateProgress", taskDTO);
+    }
 }

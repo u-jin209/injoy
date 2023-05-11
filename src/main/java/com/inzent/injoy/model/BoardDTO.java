@@ -11,8 +11,8 @@ public class BoardDTO {
     private String bContent;
     private int boardWriterId;
     private int projectId;
-    private int fileId;
     private Date entryDate;
 
     private String name;
+    private String profilePhoto;
 }

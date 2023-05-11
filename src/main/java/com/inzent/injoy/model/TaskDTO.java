@@ -15,14 +15,13 @@ public class TaskDTO {
     private int projectId;
     private Date startDate;
     private Date closingDate;
-    private int fileId;
     private int progress;
     private String process;
     private String priority;
-    private int managerId;
 
     //user
     private String name;
+    private String profilePhoto;
 
 
 //    BoardDTO 값

@@ -22,12 +22,17 @@
         where "taskId" = #{taskId}
     </select>
     <insert id="insert" parameterType="TaskDTO">
-        INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "projectId", "startDate", "closingDate", "fileId", process, progress, "managerId", priority)
-        VALUES (#{authorUserId}, NOW(), NOW(), #{taskTitle}, #{taskContent}, #{projectId}, #{startDate}, #{closingDate}, #{fileId}, #{process}, #{progress}, #{managerId}, #{priority})
+        INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "projectId", "startDate", "closingDate", process, progress, priority)
+        VALUES (#{authorUserId}, NOW(), NOW(), #{taskTitle}, #{taskContent}, #{projectId}, #{startDate}, #{closingDate}, #{process}, #{progress}, #{priority})
     </insert>
     <update id="updateProcess" parameterType="TaskDTO">
         UPDATE injoy.task
         SET "process" = #{process}, "mdfDate" = NOW()
+        WHERE "taskId" = #{taskId}
+    </update>
+    <update id="updateProgress" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "progress" = #{progress}, "mdfDate" = NOW()
         WHERE "taskId" = #{taskId}
     </update>
     <update id="updatePriority" parameterType="TaskDTO">

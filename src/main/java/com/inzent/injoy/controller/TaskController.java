@@ -89,6 +89,16 @@ public class TaskController {
         return "redirect:/project/" + taskDTO.getProjectId();
     }
 
+    @PostMapping("updateProgress")
+    public String updateProgress(int progress, int taskId){
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+        taskDTO.setProgress(progress);
+
+        taskService.updateProgress(taskDTO);
+
+        return "redirect:/project/" + taskDTO.getProjectId();
+    }
+
     @PostMapping("updateStartDate")
     public String updateStartDate(String startDate, int taskId) throws ParseException {
         TaskDTO taskDTO = taskService.selectOne(taskId);
@@ -121,6 +131,33 @@ public class TaskController {
 
         taskService.updateEndDate(taskDTO);
         return "redirect:/project/" + taskDTO.getProjectId();
+    }
+
+    @PostMapping("deleteStartDate")
+    public String deleteStartDate(int taskId){
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        taskDTO.setStartDate(null);
+        taskService.updateStartDate(taskDTO);
+        return  "redirect:/project/" + taskDTO.getProjectId();
+    }
+
+    @PostMapping("deleteEndDate")
+    public String deleteEndDate(int taskId){
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        taskDTO.setClosingDate(null);
+        taskService.updateEndDate(taskDTO);
+        return  "redirect:/project/" + taskDTO.getProjectId();
+    }
+
+    @PostMapping("deletePriority")
+    public String deletePriority(int taskId){
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        taskDTO.setPriority(null);
+        taskService.updatePriority(taskDTO);
+        return  "redirect:/project/" + taskDTO.getProjectId();
     }
 
     @GetMapping("search")

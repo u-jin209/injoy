@@ -85,7 +85,7 @@ function all() {
     let titleTd = tasktr.find('.titleTd')
     let processTd = tasktr.find('.processTd')
     let priorityTd = tasktr.find('.priorityTd')
-    let managerTd = tasktr.find('.managerTd')
+    //let managerTd = tasktr.find('.managerTd')
 
     titleTd.mouseover(function () {
         $(this).find('.inputTaskTitle').show()
@@ -186,88 +186,88 @@ function all() {
     })
 
 //담당자 이벤트
-    managerTd.click(function () {
-        let managerDiv = $(this).find('.managerDiv')
-        if (managerDiv.css('display') === 'block') {
-            //managerDiv.css('display', 'none')
-        } else {
-            managerDiv.css('display', 'block')
-
-            let memberSpan = $(this).find('.memberSpan')
-
-            // 멤버 검색하기
-            $(this).find('.managerSearch').click(function () {
-                alert('검색창 클릭')
-            })
-
-            // 멤버 선택항목 전체 삭제
-            $(this).find('.deleteAllBtn').click(function () {
-                $('.memberSpan *').remove()
-                $('input[name=memberCheckBox]:checkbox').prop('checked', false)
-                $('.memberLi').css('background-Color', 'white').css('color', 'black')
-
-            })
-
-            // 멤버 선택하기
-            $(this).find('.memberUl li').click(function () {
-                if (!$(this).find('input').prop('checked')) {
-                    memberSpan.addClass('active')
-                    $(this).find('input').prop('checked', true)
-                    console.log($(this).find('input').prop('checked'))
-                    if ($(this).find('input').prop('checked') === true) {
-                        $(this).css('background-Color', 'rgba(48, 100, 179, 0.51)').css('color', 'white')
-                    }
-
-                    memberSpan.append("<span class=\"memberItem\">\n" +
-                        "                                <span class=\"memberIcon\">\n" +
-                        "                                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\"\n" +
-                        "                                         fill=\"currentColor\" class=\"bi bi-person-circle\" viewBox=\"0 0 16 16\">\n" +
-                        "                                                <path d=\"M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z\"/>\n" +
-                        "                                                <path fill-rule=\"evenodd\"\n" +
-                        "                                                      d=\"M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z\"/>\n" +
-                        "                                    </svg>\n" +
-                        "                                </span>\n" +
-                        "                                <span class=\"memberNameSpan\" th:text='${member.name}'>" +
-                        $(this).find('.memberName').text() +
-                        "</span>\n" +
-                        "                                <button class=\"memberCloseBtn\">\n" +
-                        "                                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\"\n" +
-                        "                                         class=\"bi bi-x\" viewBox=\"0 0 16 16\">\n" +
-                        "                                    <path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\"/>\n" +
-                        "                                    </svg>\n" +
-                        "                                </button>\n" +
-                        "                            </span>")
-                } else {
-                    $(this).find('input').prop('checked', false)
-
-                    if ($(this).find('input').prop('checked') === false) {
-                        $(this).css('background-Color', 'white').css('color', 'black')
-
-                    }
-
-                }
-
-            })
-        }
-
-        // 멤버 선택항목 개별 삭제
-        $('.memberCloseBtn').click(function () {
-            let name = $(this).parent().find('.memberNameSpan').text()
-            // memberName.each(()=>{
-            //    console.log($(this))
-            //     // if ($(this).innerText.className === name) {
-            //     //     $(this).parent().parent().find('.memberLi').css('background-Color', 'white').css('color', 'black')
-            //     // }
-            // })
-            $(this).parent().remove()
-        })
-
-        // 담당자 등록하기
-        $(this).find('.selectMemberBtn').click(function () {
-            $.ajax({})
-        })
-
-    })
+//     managerTd.click(function () {
+//         let managerDiv = $(this).find('.managerDiv')
+//         if (managerDiv.css('display') === 'block') {
+//             //managerDiv.css('display', 'none')
+//         } else {
+//             managerDiv.css('display', 'block')
+//
+//             let memberSpan = $(this).find('.memberSpan')
+//
+//             // 멤버 검색하기
+//             $(this).find('.managerSearch').click(function () {
+//                 alert('검색창 클릭')
+//             })
+//
+//             // 멤버 선택항목 전체 삭제
+//             $(this).find('.deleteAllBtn').click(function () {
+//                 $('.memberSpan *').remove()
+//                 $('input[name=memberCheckBox]:checkbox').prop('checked', false)
+//                 $('.memberLi').css('background-Color', 'white').css('color', 'black')
+//
+//             })
+//
+//             // 멤버 선택하기
+//             $(this).find('.memberUl li').click(function () {
+//                 if (!$(this).find('input').prop('checked')) {
+//                     memberSpan.addClass('active')
+//                     $(this).find('input').prop('checked', true)
+//                     console.log($(this).find('input').prop('checked'))
+//                     if ($(this).find('input').prop('checked') === true) {
+//                         $(this).css('background-Color', 'rgba(48, 100, 179, 0.51)').css('color', 'white')
+//                     }
+//
+//                     memberSpan.append("<span class=\"memberItem\">\n" +
+//                         "                                <span class=\"memberIcon\">\n" +
+//                         "                                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\"\n" +
+//                         "                                         fill=\"currentColor\" class=\"bi bi-person-circle\" viewBox=\"0 0 16 16\">\n" +
+//                         "                                                <path d=\"M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z\"/>\n" +
+//                         "                                                <path fill-rule=\"evenodd\"\n" +
+//                         "                                                      d=\"M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z\"/>\n" +
+//                         "                                    </svg>\n" +
+//                         "                                </span>\n" +
+//                         "                                <span class=\"memberNameSpan\" th:text='${member.name}'>" +
+//                         $(this).find('.memberName').text() +
+//                         "</span>\n" +
+//                         "                                <button class=\"memberCloseBtn\">\n" +
+//                         "                                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\"\n" +
+//                         "                                         class=\"bi bi-x\" viewBox=\"0 0 16 16\">\n" +
+//                         "                                    <path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\"/>\n" +
+//                         "                                    </svg>\n" +
+//                         "                                </button>\n" +
+//                         "                            </span>")
+//                 } else {
+//                     $(this).find('input').prop('checked', false)
+//
+//                     if ($(this).find('input').prop('checked') === false) {
+//                         $(this).css('background-Color', 'white').css('color', 'black')
+//
+//                     }
+//
+//                 }
+//
+//             })
+//         }
+//
+//         // 멤버 선택항목 개별 삭제
+//         $('.memberCloseBtn').click(function () {
+//             let name = $(this).parent().find('.memberNameSpan').text()
+//             // memberName.each(()=>{
+//             //    console.log($(this))
+//             //     // if ($(this).innerText.className === name) {
+//             //     //     $(this).parent().parent().find('.memberLi').css('background-Color', 'white').css('color', 'black')
+//             //     // }
+//             // })
+//             $(this).parent().remove()
+//         })
+//
+//         // 담당자 등록하기
+//         $(this).find('.selectMemberBtn').click(function () {
+//             $.ajax({})
+//         })
+//
+//     })
 
 //날짜 이벤트
     let start = tasktr.find('#startDate')
@@ -333,7 +333,7 @@ function all() {
     })
 
     $('.addButton').click(function () {
-        $('.requestBtn').trigger("click").addClass('active')
+        $('.taskPage-requestBtn').trigger("click").addClass('active')
     })
 
     document.querySelector('.rangeInput').addEventListener('input',function(event){
@@ -428,7 +428,7 @@ function addTaskTab() {
         taskTitle: $('#taskAddTitle').val(),
         taskContent: $('.writeTaskContent').val(),
         process: currentBtn,
-        managerId: $('#managerId').val(),
+        //managerId: $('#managerId').val(),
 
 
     }

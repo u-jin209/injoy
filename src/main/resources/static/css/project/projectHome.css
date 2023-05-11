@@ -1,5 +1,9 @@
-.boardBox{
+.project-content{
     width: 80%;
+}
+
+.boardBox{
+    width: 100%;
     overflow: hidden;
     margin: 15px 30px;
     border : 1px solid #777;
@@ -9,30 +13,63 @@
     cursor: pointer;
 }
 
-.commentBox {
+.comment-input-wrap {
     overflow: hidden;
     padding: 14px 30px;
 }
 
-.commentBox p {
+.comment-input-wrap p {
     font-size: 14px;
     color: #555;
 }
 
-.boardDate {
-    font-size: 12px;
-    color: #555;
+.user-profile-thumbnail{
+    width: 40px;
+    float: left;
 }
 
-.comment-thumbnail {
+.thumbnail.size40.radius16{
+    border-radius: 16px;
+    cursor: default;
+}
+
+.thumbnail.size40{
     width: 40px;
-    padding: 0px 12px;
+    height: 40px;
+}
+
+.thumbnail {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.comment-container{
+    display: block;
+    float: left;
+    position: relative;
+    width: calc(100% - 50px);
+    margin-left: 10px;
+    box-sizing: border-box;
 }
 
 .commentInput {
-    width: 400px !important;
-    vertical-align: center;
-    padding: 6px 12px;
+    width: 100%;
+    padding: 11px 75px 11px 20px;
+    min-height: 40px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #555;
+    word-break: break-word;
+    white-space: pre-wrap;
+    cursor: text;
 }
 
 .commentBtn{
@@ -78,4 +115,90 @@
     text-align: center;
     box-sizing: border-box;
     cursor: pointer;
+}
+
+.boardHeader{
+    position: relative;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: 0;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.writerInfo{
+    -webkit-box-flex: 1;
+    flex: 1;
+    display: flex;
+    float: initial;
+    width: calc(100% - 77px);
+}
+
+.post-option .toolBtn {
+    margin: -1px 0 0 20px;
+}
+.toolBtn {
+    padding: 4px 8px;
+    margin: 1px 7px 0 30px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.post-option .setUp-group {
+    overflow: hidden;
+    position: absolute;
+    z-index: 12;
+    top: 30px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #555;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.setUp-group {
+    padding: 4px 0;
+}
+
+.setUp-group>li {
+    position: relative;
+    white-space: nowrap;
+}
+
+.setUp-group li a {
+    display: flex;
+    margin: 5px 0;
+    height: 19px;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0 14px;
+    line-height: 19px;
+    font-size: 13px;
+    color: #555;
+}
+
+.setUp-group svg {
+    display: inline-block;
+    margin: 0 6px 0 0;
+    vertical-align: middle;
+}
+
+@media (max-width: 1650px) {
+    .task-process-btn {
+        min-width: 70px !important;
+    }
+}
+
+.post-container {
+    padding: 10px 0 20px;
+    background: #fff;
+}
+
+.post-board-content{
+    font-size: 14px;
+    word-break: break-word;
+    line-height: 25px;
+    color: #333;
+    padding: 10px 30px 0;
 }

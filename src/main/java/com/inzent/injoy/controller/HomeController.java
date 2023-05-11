@@ -10,6 +10,7 @@ import com.inzent.injoy.service.ProjectService;
 
 import com.inzent.injoy.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.websocket.OnClose;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -95,7 +96,7 @@ public class HomeController {
 
         List<TaskDTO> taskList = taskService.selectAll(projectId);
         model.addAttribute("taskList", taskList);
-        
+
 
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));

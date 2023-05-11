@@ -258,7 +258,7 @@ function kanbanAddTask() {
         taskTitle: $('#kanbanAddTitle').val(),
         taskContent: $('.writekanbanContent').val(),
         process: currentBtn,
-        managerId: $('#kanbanManagerId').text(),
+        //managerId: $('#kanbanManagerId').text(),
         startDate : to_date2($('.kanban-addStartDate').val()),
         closingDate : to_date2($('.kanban-addEndDate').val()),
         progress : $('.kanban-rangeInput').val(),
@@ -267,13 +267,13 @@ function kanbanAddTask() {
 
     console.log(formData)
 
-    // $.ajax({
-    //     url: '/task/taskPageWrite',
-    //     data: formData,
-    //     type: 'post',
-    //     success: ((message) => {
-    //         location.reload()
-    //     })
-    // })
+    $.ajax({
+        url: '/task/taskPageWrite',
+        data: formData,
+        type: 'post',
+        success: ((message) => {
+            location.reload()
+        })
+    })
 }
 
