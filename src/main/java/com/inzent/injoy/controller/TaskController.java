@@ -71,6 +71,7 @@ public class TaskController {
     @PostMapping("updateProcess")
     public String updateProcess(String process, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
+        System.out.println(process);
         taskDTO.setProcess(process);
 
         taskService.updateProcess(taskDTO);
@@ -92,6 +93,7 @@ public class TaskController {
     @PostMapping("updateProgress")
     public String updateProgress(int progress, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
+
         taskDTO.setProgress(progress);
 
         taskService.updateProgress(taskDTO);
@@ -164,5 +166,13 @@ public class TaskController {
     @ResponseBody
     public List<TaskDTO> search(String keyword, int projectId){
         return taskService.findTask(keyword, projectId) ;
+    }
+
+    @PostMapping("deleteTask")
+    public String deleteTask(int taskId){
+        TaskDTO taskDTO = taskService.selectOne(taskId);
+
+        taskService.deleteTask(taskId);
+        return  "redirect:/project/" + taskDTO.getProjectId();
     }
 }

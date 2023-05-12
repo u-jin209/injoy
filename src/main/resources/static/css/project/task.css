@@ -651,13 +651,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 25px;
 }
 
-.task-content-group{
+.task-content-group, .home-content-group{
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.task-content-group>li{
+.task-content-group>li, .home-content-group>li{
     display: flex;
     -webkit-box-pack: start;
     justify-content: flex-start;
@@ -667,7 +667,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 46px;
 }
 
-.task-content-group> li + li {
+.task-content-group> li + li , .home-content-group >li+li{
     padding-top: 24px !important;
 }
 
@@ -694,7 +694,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #333;
 }
 
-.task-process-btn{
+.task-process-btn, .home-process-btn {
     background-color: #eee;
     display: block;
     float: left;
@@ -810,7 +810,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: #bebebe;
 }
 
-.addPriority{
+.addPriority, .addPriority-home{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;

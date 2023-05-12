@@ -14,4 +14,17 @@
         insert into injoy.board("bTitle","bContent","projectId","boardWriterId")
         values (#{bTitle}, #{bContent}, #{projectId}, #{boardWriterId})
     </insert>
+    <select id="selectOne" parameterType="int"  resultType="BoardDTO">
+        SELECT * FROM injoy.board
+        where "boardId" = #{boardId}
+    </select>
+    <update id="updateBoard" parameterType="BoardDTO">
+        UPDATE injoy.board
+        SET "bTitle" = #{bTitle}, "bContent" = #{bContent}
+        WHERE "boardId" = #{boardId}
+    </update>
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM injoy.board
+        WHERE "boardId" = #{boardId}
+    </delete>
 </mapper>

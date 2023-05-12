@@ -60,4 +60,8 @@ public class TaskService {
     public void updateProgress(TaskDTO taskDTO) {
             session.update(NAMESPACE + ".updateProgress", taskDTO);
     }
+
+    public void deleteTask(int taskId){
+        session.delete(NAMESPACE+".deleteTask", taskId);
+    }
 }

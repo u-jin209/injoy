@@ -36,4 +36,13 @@ public class BoardController {
         return "redirect:/project/" + boardDTO.getProjectId();
     }
 
+    @PostMapping("deleteBoard")
+    public String deleteBoard(int boardId){
+        BoardDTO boardDTO = boardService.selectOne(boardId);
+
+        boardService.deleteBoard(boardId);
+        return "redirect:/project/" + boardDTO.getProjectId();
+
+    }
+
 }

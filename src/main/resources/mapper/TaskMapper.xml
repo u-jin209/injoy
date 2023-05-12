@@ -63,4 +63,13 @@
         OR
         CAST("taskId" AS TEXT) LIKE concat('%', #{keyword}, '%'))
     </select>
+    <update id="updateTask" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "taskTitle" = #{taskTitle}, "process" = #{process}, "priority" = #{priority}, "progress" = #{progress}, "startDate" = #{startDate}, "closingDate" = #{closingDate}, "taskContent" = #{taskContent}, "mdfDate" = NOW()
+        WHERE "taskId" = #{taskId}
+    </update>
+    <delete id="deleteTask" parameterType="int">
+        DELETE FROM injoy.task
+        WHERE "taskId" = #{taskId}
+    </delete>
 </mapper>

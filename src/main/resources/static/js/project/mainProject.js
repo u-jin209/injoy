@@ -21,13 +21,4 @@ $(function (){
 
     }
 
-    $('.nav-item').click(function (){
-        console.log($(this).find('a').attr('data-bs-target'))
-        $('.tab-pane').each(function (){
-            if ('#'+$('.tab-pane').attr('id') === $(this).find('a').attr('data-bs-target')){
-                console.log('ff')
-            }
-        })
-
-    })
 })
