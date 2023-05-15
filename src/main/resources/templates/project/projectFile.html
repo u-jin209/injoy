@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      th:fragment="projectFileContent(project, logIn)">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <!-- Plugin -->
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"/>
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
+    <link rel="stylesheet" href="/css/injoyMain.css">
+    <script th:src="@{/js/project/projectFile.js}" defer></script>
+
+</head>
+
+<body>
+<div class="container-fluid">
+    <div id="dropzone">
+        <form action="https://httpbin.org/post" class="dropzone needsclick" id="demo-upload">
+            <div class="dz-message needsclick">
+      <span class="text">
+      <img src="http://www.freeiconspng.com/uploads/------------------------------iconpngm--22.png" alt="Camera"/>
+      Drop files here or click to upload.
+      </span>
+                <span class="plus">+</span>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+
+        <div class="col mb-3">
+            <input type="checkbox" onclick="selectAll(this)"> 전체선택
+            <button class="btn btn-green" type="button" onclick="openDrop()" style="float: right">
+                <i class="fa-solid fa-plus fa-bounce fa-sm" style="margin-right: 5px; "></i>파일 업로드
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-2">
+
+            <div class="card">
+                <h5 class="card-header">
+                    <input type="checkbox">
+                    파일 1</h5>
+                <div class="card-body" style="text-align: center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                         class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

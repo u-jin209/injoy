@@ -27,13 +27,13 @@
                 <div class="row" style="justify-content: center;">
 
 
-                    <div id="profile_container" class="memberImgDiv"><img id="profile" class="memberImgDiv"th:src="@{${user.profilePhoto}}", onerror=this.src="/img/user.jpg">
+                    <div id="profile_container" class="memberImgDiv"><img id="profile" class="memberImgDiv"th:src="@{${logIn.profilePhoto}}", onerror=this.src="/img/user.jpg">
                     </div>
                 </div>
 
                 <div class="row" style="justify-content: center;">
                     <div class="task-tooltip" style=" text-align: center; min-width: 250px;   min-height: 30px;">
-                        <div th:text="${user.condition  != null ? user.condition: '상태를 입력해주세요'}"></div>
+                        <div th:text="${logIn.condition  != null ? logIn.condition: '상태를 입력해주세요'}"></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getName() != null ? user.name: '이름을 입력해주세요'}"></p>
+                        <p class="contentText" th:text="${logIn.getName() != null ? logIn.name: '이름을 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.organId != null ? user.organId: '직급을 입력해주세요' }"></p>
+                        <p class="contentText" th:text="${logIn.organId != null ? logIn.organId: '직급을 입력해주세요' }"></p>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getPhoneNumber() != null ? user.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
+                        <p class="contentText" th:text="${logIn.getPhoneNumber() != null ? logIn.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.username != null ? user.username: '이메일을 입력해주세요'}"></p>
+                        <p class="contentText" th:text="${logIn.username != null ? logIn.username: '이메일을 입력해주세요'}"></p>
                     </div>
 
                 </div>
@@ -129,7 +129,7 @@
 
 
                                         <div id="image_container" class="memberImgDiv"><img id="image-show" class="memberImgDiv"
-                                                                                       th:src="@{${user.profilePhoto}}" onerror=this.src="/img/user.jpg">
+                                                                                       th:src="@{${logIn.profilePhoto}}" onerror=this.src="/img/user.jpg">
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
@@ -146,7 +146,7 @@
                                         <div class="task-tooltip" style="text-align-last: center;">
                                             <input type="text" class="form-control"
                                                    style="background: none;border: none;" id="condition"
-                                                   name="condition" th:value="${user.getCondition()}"
+                                                   name="condition" th:value="${logIn.getCondition()}"
                                                    placeholder="상태를 입력해주세요">
                                         </div>
                                     </div>
@@ -164,7 +164,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="name"
-                                                       name="name" th:value="${user.getName()}"
+                                                       name="name" th:value="${logIn.getName()}"
                                                        placeholder="이름을 입력해주세요">
                                             </div>
                                         </div>
@@ -183,7 +183,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="organ"
-                                                       name="organ" th:value="${user.organId}"
+                                                       name="organ" th:value="${logIn.organId}"
                                                        placeholder="직급/소속을 입력해주세요">
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="phoneNum" maxlength="13"
-                                                       name="phoneNumber" th:value="${user.getPhoneNumber()}"
+                                                       name="phoneNumber" th:value="${logIn.getPhoneNumber()}"
                                                        placeholder="번호를 입력해주세요">
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="email"
-                                                       name="email" th:value="${user.username}"
+                                                       name="email" th:value="${logIn.username}"
                                                        placeholder="email을 입력해주세요">
                                             </div>
 

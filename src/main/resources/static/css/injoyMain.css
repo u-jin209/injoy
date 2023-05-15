@@ -247,6 +247,14 @@ header {
 /*sidebar css 끝 */
 
 /* 커스텀  줄(hr) 시작  */
+.my-hr1{
+    border: 0;
+    height: 0.5px;
+    background: #212525;
+
+}
+
+
 
 .my-hr2 {
     border: 0;
@@ -567,6 +575,12 @@ input.minusBtn{
     border: none;
 }
 
+.btn-green:hover{
+    background-color: #00B01C ;
+    color: #000;
+    border: none;
+}
+
 .btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
 
 
@@ -637,3 +651,24 @@ companyInput {
 }
 companyInput:focus {
     outline:none;}
+
+
+/* projectFile 관련 css 시작 */
+.fileBack{
+margin: 10px;
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #D0D0D0;
+}
+
+
+
+/* projectFile 관련 css 끝 */
+
+/*drop file 관련 css 시작 */
+
+/*drop file 관련 css 끝 */

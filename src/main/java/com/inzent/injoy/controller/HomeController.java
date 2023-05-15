@@ -8,22 +8,16 @@ import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 
-import com.inzent.injoy.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.OnClose;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
-
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
@@ -46,7 +40,7 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String test() {
+    public String test( ) {
         return "/user/login";
     }
 
@@ -115,6 +109,7 @@ public class HomeController {
         return "project/mainProject";
 
     }
+
 
 
     @GetMapping("/user")
