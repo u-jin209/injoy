@@ -55,6 +55,7 @@ public class ProjectController {
     @GetMapping("joinProject")
     public String joinProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
         model.addAttribute("waitList", projectService.selectWaitProject(login.getUserDTO().getId()));
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
         return "/project/joinProject";
     }
 
