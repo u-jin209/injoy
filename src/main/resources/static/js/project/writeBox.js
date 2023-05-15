@@ -197,19 +197,22 @@ function to_date2(date_str)
 
 function taskWrite() {
     let currentBtn = findCurrentBtn()
+
     $('#taskWriteBtn').click(function () {
         let formData = {
-            projectId: $('.writeProjectId').val(),
+            projectId: Number($('.writeProjectId').val()),
             taskTitle: $('#taskTitle').val(),
             taskContent: $('.writeContent').val(),
             process: currentBtn,
             //managerId: $('.managerId').val(),
-            startDate : to_date2($('.writeBox-addStartDate').val()),
-            closingDate : to_date2($('.writeBox-addEndDate').val()),
-            progress : $('.writeBox-rangeInput').val(),
+            startDate :  $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date (0),
+            closingDate : $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date (0),
+            progress : Number($('.writeBox-rangeInput').val()),
             priority : $('.prioritySpan-writeBox .priorityText').text()
 
         }
+
+        console.log(formData)
 
         $.ajax({
             url: '/task/mainWrite',

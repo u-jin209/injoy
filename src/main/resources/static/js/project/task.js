@@ -422,13 +422,18 @@ function findCurrentBtn() {
 }
 
 function addTaskTab() {
+
     let currentBtn = findCurrentBtn()
     let formData = {
-        projectId: $('.projectIdInput').val(),
+        projectId: Number($('.projectIdInput').val()),
         taskTitle: $('#taskAddTitle').val(),
         taskContent: $('.writeTaskContent').val(),
         process: currentBtn,
         //managerId: $('#managerId').val(),
+        startDate :  $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date (0),
+        closingDate : $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date (0),
+        progress : Number($('.task-rangeInput').val()),
+        priority : $('.prioritySpan .priorityText').text()
 
 
     }

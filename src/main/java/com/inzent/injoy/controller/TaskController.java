@@ -34,6 +34,17 @@ public class TaskController {
     public String writeTask(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
         System.out.println(taskDTO);
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
+        if (Objects.equals(taskDTO.getClosingDate(), new Date(0))){
+            taskDTO.setClosingDate(null);
+        }
+
+        if (Objects.equals(taskDTO.getStartDate(), new Date(0))){
+            taskDTO.setStartDate(null);
+        }
+
+        if (Objects.equals(taskDTO.getPriority(), "")){
+            taskDTO.setPriority(null);
+        }
 
         taskService.insert(taskDTO);
 
@@ -44,7 +55,19 @@ public class TaskController {
     @PostMapping("taskPageWrite")
     public String writeTaskPage(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
         System.out.println(taskDTO);
+
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
+        if (Objects.equals(taskDTO.getClosingDate(), new Date("1899-11-30"))){
+            taskDTO.setClosingDate(null);
+        }
+
+        if (Objects.equals(taskDTO.getStartDate(), new Date("1899-11-30"))){
+            taskDTO.setStartDate(null);
+        }
+
+        if (Objects.equals(taskDTO.getPriority(), "")){
+            taskDTO.setPriority(null);
+        }
 
         taskService.insert(taskDTO);
 

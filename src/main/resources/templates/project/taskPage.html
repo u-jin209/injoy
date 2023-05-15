@@ -10,7 +10,7 @@
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
     <link th:href="@{/css/project/task.css}" rel="stylesheet"/>
-    <script th:inline="javascript" src="/js/project/task.js" defer></script>
+    <script th:inline="javascript" th:src="@{/js/project/task.js}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -229,11 +229,9 @@
                                         </div>
                                         <div class="create-content">
                                             <input id="rangeAddInput" class="task-rangeInput" style="" max="100" min="0"
-                                                   step="10" type="range" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                   data-bs-custom-class="custom-tooltip"
-                                                   data-bs-title="This top tooltip is themed via CSS variables."/>
+                                                   step="10" type="range" th:value="0"/>
                                             <div>
-                                                <span class="progress-txt">50%</span>
+                                                <span class="progress-txt"></span>
                                             </div>
                                         </div>
                                     </li>
@@ -305,7 +303,6 @@
             </td>
             <td class="processTd" id="processTd" style="position: relative;">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
-
                 <div class="btn_ul" id="btn_ul" style=" display: none;">
                     <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: -5px">
                         <li>

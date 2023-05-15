@@ -252,16 +252,17 @@ function to_date2(date_str)
 }
 
 function kanbanAddTask() {
+
     let currentBtn = kanbanCurrentBtn()
     let formData = {
-        projectId: $('.projectIdInput').val(),
+        projectId: Number($('.projectIdInput').val()),
         taskTitle: $('#kanbanAddTitle').val(),
         taskContent: $('.writekanbanContent').val(),
         process: currentBtn,
         //managerId: $('#kanbanManagerId').text(),
-        startDate : to_date2($('.kanban-addStartDate').val()),
-        closingDate : to_date2($('.kanban-addEndDate').val()),
-        progress : $('.kanban-rangeInput').val(),
+        startDate : $('.kanban-addStartDate').val() ? to_date2($('.kanban-addStartDate').val()) : new Date (0),
+        closingDate : $('.kanban-addEndDate').val() ? to_date2($('.kanban-addEndDate').val()) : new Date (0),
+        progress : Number($('.kanban-rangeInput').val()),
         priority : $('.prioritySpan .priorityText').text()
     }
 
