@@ -10,19 +10,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
 </head>
 <body>
 <header>
     <nav>
         <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                 class="bi bi-person-circle"
-                 viewBox="0 0 16 16" onclick="location.href='/user/userInfo'">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd"
-                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-            </svg>
+
+<!-- Example single danger button -->
+                <div class="btn-group" >
+                  <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img style="height: 27px; width: 27px;border-radius: 30%" th:src="${logIn.profilePhoto}" onerror=location.href='/img/user.jpg'  >
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item"  href="/user/userInfo">유저정보</a></li>
+
+                    <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">회원탈퇴</a></li>
+                    <li><a class="dropdown-item" href="/">로그아웃</a></li>
+                  </ul>
+                </div>
+<!--            <img style="height: 27px; width: 27px;border-radius: 30%" th:src="${logIn.profilePhoto}" onerror=location.href='/img/user.jpg'  onclick="location.href='/user/userInfo'">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"-->
+<!--                 class="bi bi-person-circle"-->
+<!--                 viewBox="0 0 16 16" onclick="location.href='/user/userInfo'">-->
+<!--                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>-->
+<!--                <path fill-rule="evenodd"-->
+<!--                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>-->
+<!--            </svg>-->
         </span>
     </nav>
 </header>

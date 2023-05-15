@@ -7,6 +7,12 @@
     <title>INJOY</title>
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
     <script src="/js/project/mainProject.js" defer></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+
 </head>
 <body layout:fragment="content" >
 <th:block th:replace="~{fragment/projectName :: projectNamefragment(${project},${logIn})}"></th:block>
@@ -31,9 +37,14 @@
            aria-controls="schedule-tab-pane" aria-selected="false">캘린더</a>
     </li>
     <li class="nav-item" role="presentation">
+        <a class="nav-link mainNav" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-tab-pane"
+           aria-controls="file-tab-pane" aria-selected="false">파일</a>
+    </li>
+    <li class="nav-item" role="presentation">
         <a class="nav-link mainNav" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
            aria-controls="member-tab-pane" aria-selected="false" th:text="${logIn.authority.equals('MANAGER') ? '멤버관리': '참여멤버'}">멤버관리</a>
     </li>
+
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -48,8 +59,13 @@
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
 
     </div>
-    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
-        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
+
+    <div class="tab-pane" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="4">
+        <div th:insert="~{/project/projectFile :: projectFileContent(${project},${logIn})}" ></div>
+
+    </div>
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="5">
+        <div th:insert="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
 
     </div>
 </div>

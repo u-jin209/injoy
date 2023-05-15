@@ -90,7 +90,7 @@ public class ProjectController {
 
             return "/user/logIn";
         }
-
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
         model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
         model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
 
