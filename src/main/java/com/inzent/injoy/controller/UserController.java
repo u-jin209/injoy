@@ -145,8 +145,7 @@ public class UserController {
     public String userInfo(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
         UserDTO user = login.getUserDTO();
-        System.out.printf("user" + user);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.selectOne(user.getId()));
 
 
 
@@ -154,13 +153,10 @@ public class UserController {
     }
 
     @PostMapping("updateInfo")
-    public String updateInfo(@AuthenticationPrincipal UserCustomDetails login, UserDTO userDTO, @RequestParam("profileImg") MultipartFile profileImg,
+    public String updateInfo(@AuthenticationPrincipal UserCustomDetails login, UserDTO userDTO, @RequestParam(value = "file") MultipartFile profilePhoto,
                              HttpServletRequest request) throws IOException {
 
-
-
-
-
+        System.out.println("!######################################################################profilePhoto : "+ profilePhoto);
 
         UserDTO origin = login.getUserDTO();
         origin.setName(userDTO.getName());
@@ -168,7 +164,7 @@ public class UserController {
         origin.setEmail(userDTO.getEmail());
         origin.setCondition(userDTO.getCondition());
 
-        String fileRealName = profileImg.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
+        String fileRealName = profilePhoto.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
 
         System.out.println("fileRealName : "+ fileRealName);
         if (fileRealName.length() !=0){
@@ -184,7 +180,7 @@ public class UserController {
             String uniqueName = uuids[0];
 
             File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),uniqueName+fileExtension);
-            profileImg.transferTo(saveFile);
+            profilePhoto.transferTo(saveFile);
             String[] imgPath = String.valueOf(saveFile).split("web");
 
             System.out.println("imgPath : "+imgPath);

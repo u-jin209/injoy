@@ -15,6 +15,7 @@ import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public class ProjectController {
 
     @GetMapping("newProject")
     public String newProject(Model model) {
-        System.out.println("organList : " +organService.selectAll());
+
         model.addAttribute("organList" ,organService.selectAll());
 
         return "/project/newProject";
@@ -91,9 +92,29 @@ public class ProjectController {
         }
 
         model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+
 
         return "/project/myProject";
     }
+    @ResponseBody
+    @GetMapping("inviteList")
+    public List<ProjectDTO> selectMember(@AuthenticationPrincipal UserCustomDetails login){
+
+
+        return projectMemberService.confirmInvite(login.getUserDTO().getId());
+    }
+
+
+    @ResponseBody
+    @GetMapping("projectList")
+    public List<ProjectDTO> selectProject(@AuthenticationPrincipal UserCustomDetails login){
+
+
+        return  projectService.selectAll(login.getUserDTO().getId());
+    }
+
 
     @PostMapping("insertProject")
     public String insertProject(@AuthenticationPrincipal UserCustomDetails login, ProjectDTO projectDTO) {
@@ -105,7 +126,7 @@ public class ProjectController {
         projectService.insert(projectDTO);
 
 
-        return "redirect:/member/insert/-1";
+        return "redirect:/member/insert/-1/MANAGER";
     }
 
     @ResponseBody
@@ -127,13 +148,6 @@ public class ProjectController {
 
         map.put("userId", login.getUserDTO().getId());
         map.put("keyword", keyword);
-        System.out.println("==================================================");
-        System.out.checkError();
-        System.out.println("ProjectController.searchInviteCode >> " + keyword);
-        System.out.println("ProjectController.searchInviteCode >> " + login.getUserDTO().getId());
-
-
-        System.out.println(" projectService.searchInviteCode(map) : " + projectService.searchInviteCode(map));
 
         return projectService.searchInviteCode(map);
     }
@@ -142,6 +156,8 @@ public class ProjectController {
     @PostMapping("checkDomain")
     @ResponseBody
     public int checkDomain(String keyword, int organId) {
+
+
 
         HashMap<String, Object> map = new HashMap<>();
 
@@ -152,8 +168,8 @@ public class ProjectController {
 
     }
 
-    @PostMapping("checkName")
     @ResponseBody
+    @PostMapping("checkName")
     public int checkName(String keyword, int organId) {
 
         HashMap<String, Object> map = new HashMap<>();
@@ -164,5 +180,29 @@ public class ProjectController {
         return cnt;
 
     }
+
+
+    @ResponseBody
+    @GetMapping("delete")
+    public void delete(Integer projectId){
+
+        projectService.delete(projectId);
+
+    }
+
+    @ResponseBody
+    @PostMapping("update")
+    public void update(String projectName,String explanation, Integer projectId ){
+
+        ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setProjectName(projectName);
+        projectDTO.setExplanation(explanation);
+        projectDTO.setProjectId(projectId);
+
+
+        projectService.update(projectDTO);
+
+    }
+
 
 }

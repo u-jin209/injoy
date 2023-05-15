@@ -33,7 +33,7 @@
 
                 <div class="row" style="justify-content: center;">
                     <div class="task-tooltip" style=" text-align: center; min-width: 250px;   min-height: 30px;">
-                        <div th:text="${user.condition}"></div>
+                        <div th:text="${user.condition  != null ? user.condition: '상태를 입력해주세요'}"></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getName()}"></p>
+                        <p class="contentText" th:text="${user.getName() != null ? user.name: '이름을 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getUsername()}">sssss</p>
+                        <p class="contentText" th:text="${user.organId != null ? user.organId: '직급을 입력해주세요' }"></p>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getPhoneNumber()}"></p>
+                        <p class="contentText" th:text="${user.getPhoneNumber() != null ? user.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${user.getEmail()}"></p>
+                        <p class="contentText" th:text="${user.username != null ? user.username: '이메일을 입력해주세요'}"></p>
                     </div>
 
                 </div>
@@ -129,12 +129,12 @@
 
 
                                         <div id="image_container" class="memberImgDiv"><img id="image-show" class="memberImgDiv"
-                                                                                       th:src="@{${user.profilePhoto}}",onerror=this.src="/img/user.jpg">
+                                                                                       th:src="@{${user.profilePhoto}}" onerror=this.src="/img/user.jpg">
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
-                                        <input style="  text-align-last: center;" type="file" id="profileImg"
-                                               name="profileImg"
+                                        <input style="  text-align-last: center;" type="file" id="profilePhoto"
+                                               name="file"
                                                accept="image/*"
                                                onchange="toBase64(event);"/>
 <!--                                        <input type="file" class="real-upload" accept="image/*" -->
@@ -183,7 +183,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="organ"
-                                                       name="organ" th:value="${user.getEmail()}"
+                                                       name="organ" th:value="${user.organId}"
                                                        placeholder="직급/소속을 입력해주세요">
                                             </div>
                                         </div>
@@ -201,7 +201,7 @@
                                                 </svg>
                                             </div>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" id="phoneNumber"
+                                                <input type="text" class="form-control" id="phoneNum" maxlength="13"
                                                        name="phoneNumber" th:value="${user.getPhoneNumber()}"
                                                        placeholder="번호를 입력해주세요">
                                             </div>
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="email"
-                                                       name="email" th:value="${user.getEmail()}"
+                                                       name="email" th:value="${user.username}"
                                                        placeholder="email을 입력해주세요">
                                             </div>
 
@@ -234,7 +234,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary">수정</button>
+                            <button type="submit" class="btn btn-orange">수정</button>
 
                         </div>
                     </div>
@@ -282,6 +282,46 @@
                 icon: "success"
             });
         }
+
+
+        var autoHypenPhone = function(str){
+            str = str.replace(/[^0-9]/g, '');
+            var tmp = '';
+            if( str.length < 4){
+                return str;
+            }else if(str.length < 7){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3);
+                return tmp;
+            }else if(str.length < 11){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 3);
+                tmp += '-';
+                tmp += str.substr(6);
+                return tmp;
+            }else{
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 4);
+                tmp += '-';
+                tmp += str.substr(7);
+                return tmp;
+            }
+
+            return str;
+        }
+
+
+        var phoneNum = document.getElementById('phoneNum');
+
+        phoneNum.onkeyup = function(){
+            console.log(this.value);
+            this.value = autoHypenPhone( this.value ) ;
+        }
+
+
     </script>
 
 

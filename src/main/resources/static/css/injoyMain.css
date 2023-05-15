@@ -343,7 +343,8 @@ header {
 /* 텍스트 관련 css 시작 */
 .projectTitle{
     color: #3064B3;
-    font-weight: bold;
+    font-size: large;
+    font-weight: bolder;
 }
 .title{
     margin: 30px 0px 30px 0px;
@@ -354,7 +355,7 @@ header {
 .subTitle {
     margin: 5px 10px 0px 10px;
     font-size: medium;
-    font-weight: bold;
+
     color: #303030;
 
 }
@@ -368,9 +369,14 @@ header {
 }
 .explanationText{
     margin: 10px 10px 0 10px;
-
     font-size: small;
     color: #303030;
+    overflow: hidden;
+    max-width: fit-content;
+    word-break: break-word;
+    max-height: 60px;
+
+
 }
 
 /* 텍스트 관련 css 끝*/
@@ -464,7 +470,7 @@ header {
 
 /* button 관련 css 시작*/
 input.minusBtn{
-    background: url("static/img/dash-square.svg") no-repeat;
+    background: url("dash-square.svg") no-repeat;
     color: #085454;
     width: 17px;
     height: 17px;
@@ -543,6 +549,20 @@ input.minusBtn{
     border: none;
 }
 
+.btn-red{
+    background-color: #FC4C70 ;
+    color: #fff;
+}
+.btn-red:hover{
+    background-color: #FC4C70 ;
+    color: #000;
+    border: none;
+}
+.btn-green{
+    background-color: #00B01C ;
+    color: #fff;
+}
+
 .btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
 
 
@@ -592,8 +612,8 @@ input.minusBtn{
 .project{
 
     margin: 22px;
-    width: 175px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     background-color: #E6E6E6;
     border-radius: 15%;
     overflow: hidden;

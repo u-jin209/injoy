@@ -1,5 +1,6 @@
 package com.inzent.injoy.controller;
 import com.google.gson.JsonObject;
+import com.inzent.injoy.model.ProjectDTO;
 import com.inzent.injoy.model.ProjectMemberDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
@@ -26,39 +27,51 @@ public class ProjectMemberController {
         this.projectService = projectService;
     }
 
-    @GetMapping("insert/{projectId}")
-    public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId ){
+    @GetMapping("insert/{projectId}/{authority}")
+    public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId,
+                               @PathVariable String authority , Integer userId){
 
+        System.out.println("authority : "+ authority);
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
 
-        if(projectId == -1){
+        memberDTO.setAuthority(authority);
 
+        if(authority.equals("MANAGER")){
             memberDTO.setUserId(login.getUserDTO().getId());
-            memberDTO.setAuthority("MANAGER");
             memberDTO.setProjectId(projectService.selectLastId());
-
             memberService.insert(memberDTO);
 
 
             return "redirect:/project/myProject";
-        }else {
-
-
+        }
+        else if(authority.equals("REQUEST") ) {
             memberDTO.setUserId(login.getUserDTO().getId());
-            memberDTO.setAuthority("REQUEST");
             memberDTO.setProjectId(projectId);
-
             memberService.insert(memberDTO);
 
 
             return "redirect:/project/joinProject";
+       }
+        else{
+            memberDTO.setProjectId(projectId);
+            memberDTO.setUserId(userId);
+            memberService.insert(memberDTO);
+
+            return  "redirect:/project/"+projectId;
         }
+
     }
+
+
     @ResponseBody
     @GetMapping("delete")
-    public String delete(Model model, int userId){
+    public String delete(Model model, Integer userId , Integer projectId){
 
-        memberService.delete(userId);
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", userId);
+        map.put("projectId",projectId);
+        memberService.delete(map);
         return "redirect:history.go(-1)";
     }
 
@@ -67,20 +80,21 @@ public class ProjectMemberController {
     @GetMapping("approve")
     public String approve(Model model, Integer userId , Integer projectId){
 
+        String authority =  "MEMBER";
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("userId", userId);
         map.put("projectId",projectId);
+        map.put("authority",authority );
 
 
-        ProjectMemberDTO origin = memberService.selectOne(map);
-        origin.setAuthority("MEMBER");
-        memberService.update(origin);
+
+        memberService.update(map);
         return "redirect:history.go(-1)";
     }
 
     @ResponseBody
-    @GetMapping("search")
+    @GetMapping("searchUser")
     public List<ProjectMemberDTO> searchUser(String keyword, int projectId){
 
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
@@ -91,6 +105,17 @@ public class ProjectMemberController {
     }
 
     @ResponseBody
+    @GetMapping("searchMember")
+    public List<ProjectMemberDTO> searchMember(String keyword, int projectId){
+
+        ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+        memberDTO.setKeyword(keyword);
+        memberDTO.setProjectId(projectId);
+
+        return memberService.searchMember(memberDTO);
+    }
+
+    @ResponseBody
     @GetMapping("selectMember")
     public List<ProjectMemberDTO> selectMember(int projectId){
 
@@ -98,5 +123,12 @@ public class ProjectMemberController {
         return memberService.selectMember(projectId);
     }
 
+
+    @ResponseBody
+    @GetMapping("inviteList")
+    public List<ProjectMemberDTO> waitList(int projectId) {
+
+        return memberService.selectInviteMember(projectId);
+    }
 
 }

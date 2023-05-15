@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko"
+
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+    <link th:href="@{/css/injoyMainTest.css}" rel="stylesheet"/>
     <script src="/js/project/mainProject.js" defer></script>
 </head>
-<body layout:fragment="content">
-<th:block th:replace="~{fragment/projectName :: projectNamefragment(${project})}"></th:block>
+<body layout:fragment="content" >
+<th:block th:replace="~{fragment/projectName :: projectNamefragment(${project},${logIn})}"></th:block>
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
     <li class="nav-item">
         <div class="nav-link disabled"></div>
@@ -32,7 +33,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link mainNav" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
-           aria-controls="member-tab-pane" aria-selected="false">멤버관리</a>
+           aria-controls="member-tab-pane" aria-selected="false" th:text="${logIn.authority.equals('MANAGER') ? '멤버관리': '참여멤버'}">멤버관리</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -49,7 +50,7 @@
 
     </div>
     <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="4">
-        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList})}" ></div>
+        <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
 
     </div>
 </div>

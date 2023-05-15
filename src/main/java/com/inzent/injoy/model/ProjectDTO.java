@@ -18,4 +18,6 @@ import lombok.Data;
     private String authority;
 
     private int bookMarkId;
+
+    private String organName;
 }
