@@ -72,6 +72,20 @@ function set_priority() {
 }
 
 $(function () {
+    $('#accordionBtn').click(function (){
+
+        if ($(this).attr('aria-expanded') === false){
+
+            $(this).attr('aria-expanded' , true)
+            $('#collapseTask').addClass('show')
+        } else {
+
+            $(this).attr('aria-expanded' , false)
+            $('#collapseTask').removeClass('show')
+
+        }
+    })
+
     $('.toolBtn').click(function () {
         console.log('click')
         let nowSetUp = $(this).parent().find('.setUp-group')

@@ -17,16 +17,17 @@
 <body>
 <div class="row" id="homeContent" style="padding: 0 10rem">
     <section class="col-8" style="display: flex;flex-wrap: wrap; padding-right: 3rem">
-        <div class="taskReportArea accordion"  id="accordionTaskReport" th:style="${#lists.isEmpty(taskList)} ? 'display:none' : 'display:block'">
-            <div class="accordion-item detail-section reports-section">
-                <div class="section-title-area accordion-header accordion-button collapsed">
-                    <h4 class="section-title accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTask" aria-expanded="false" aria-controls="collapseTask">
-                            <span>업무리포트</span>
-                            <span class="section-number" th:text="${#lists.size(taskList)}"></span>
-                    </h4>
-                </div>
+        <div class="taskReportArea accordion" id="accordionTaskReport"
+             th:style="${#lists.isEmpty(taskList)} ? 'display:none' : 'display:block'">
+            <div class="accordion-item">
+                <h4 class="accordion-header">
+                    <button id="accordionBtn" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTask"
+                            aria-expanded="false" aria-controls="collapseTask"
+                            th:text="업무리포트 + ' ' + ${#lists.size(taskList)}"></button>
+                </h4>
                 <!-- 원형차트 -->
-                <div id="collapseTask" class="task-report-layer accordion-collapse collapse" data-bs-parent="#accordionTaskReport">
+                <div id="collapseTask" class="task-report-layer accordion-collapse collapse"
+                     data-bs-parent="#accordionTaskReport">
                     <div class="taks-report accordion-body">
                         <!--display:none-->
                         <!-- chart -->
@@ -78,14 +79,14 @@
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>요청</span><em
                                             th:text="${#lists.size(taskList.?[process == '요청'])}"></em></span>
-                                    <span class="chart-info-percent"
+                                    <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '요청'])} div ${#lists.size(taskList)} * 100 + '%'"></span>
                                 </span>
                                 <span class="task-chart-info progress" data-code="1">
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>진행</span><em
                                             th:text="${#lists.size(taskList.?[process == '진행'])}"></em></span>
-                                    <span class="chart-info-percent"
+                                    <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '진행'])} div ${#lists.size(taskList)} * 100 + '%'"></span>
                                 </span>
                             </li>
@@ -94,14 +95,14 @@
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>피드백</span><em
                                             th:text="${#lists.size(taskList.?[process == '피드백'])}"></em></span>
-                                    <span class="chart-info-percent"
+                                    <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '피드백'])} div ${#lists.size(taskList)} * 100 + '%'"></span>
                                 </span>
                                 <span class="task-chart-info complete" data-code="2">
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>완료</span><em
                                             th:text="${#lists.size(taskList.?[process == '완료'])}"></em></span>
-                                    <span class="chart-info-percent"
+                                    <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '완료'])} div ${#lists.size(taskList)} * 100 + '%'"></span>
                                 </span>
                             </li>
@@ -110,7 +111,7 @@
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>보류</span><em
                                             th:text="${#lists.size(taskList.?[process == '보류'])}"></em></span>
-                                    <span class="chart-info-percent"
+                                    <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '보류'])} div ${#lists.size(taskList)} * 100 + '%'"></span>
                                 </span>
                             </li>
@@ -121,7 +122,7 @@
             </div>
         </div>
         <th:block th:replace="~{fragment/writeBox :: writeBoxfragment(${project})}"></th:block>
-        <div th:if="${#lists.isEmpty(boardList) or #lists.isEmpty(taskList)}">
+        <div th:if="${#lists.isEmpty(boardList)} or ${#lists.isEmpty(taskList)}">
             <div>등록된 글이 없습니다.</div>
         </div>
         <div class="project-content">
@@ -414,7 +415,8 @@
                                                 </svg>
                                             </div>
                                             <div class="create-content">
-                                                <input id="rangeInput-home" class="rangeInput-home" style="" max="100" min="0"
+                                                <input id="rangeInput-home" class="rangeInput-home" style="" max="100"
+                                                       min="0"
                                                        step="10" type="range" th:value="${task.progress}"/>
                                                 <div>
                                                     <span class="progress-txt" th:text="${task.progress + '%'}"></span>
