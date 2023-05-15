@@ -82,6 +82,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateInfo(UserDTO userDTO) {
+
         session.update(NAMESPACE + ".updateInfo", userDTO);
     }
 

@@ -145,7 +145,7 @@ public class UserController {
     public String userInfo(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
         UserDTO user = login.getUserDTO();
-        model.addAttribute("user", userService.selectOne(user.getId()));
+        model.addAttribute("logIn", userService.selectOne(user.getId()));
 
 
 
