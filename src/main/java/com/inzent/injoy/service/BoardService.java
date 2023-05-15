@@ -23,4 +23,12 @@ public class BoardService {
     public List<BoardDTO> selectAll(int projectId) {
         return session.selectList(NAMESPACE + ".selectAll", projectId);
     }
+
+    public void deleteBoard(int boardId){
+        session.delete(NAMESPACE + ".deleteBoard", boardId);
+    }
+
+    public BoardDTO selectOne(int boardId) {
+        return session.selectOne(NAMESPACE + ".selectOne", boardId);
+    }
 }

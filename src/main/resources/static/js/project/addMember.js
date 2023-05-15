@@ -1,4 +1,10 @@
 /*<![CDATA[*/
+window.onload=function(){
+    //실행할 내용
+    inviteMemberList();
+
+
+}
 
 function copyCode() {
 
@@ -13,9 +19,11 @@ function copyCode() {
 }
 
 function deleteUser(userId,option) {
-
+    const urlParams = new URL(location.href);
+    const projectId = urlParams.pathname.split('/')[2];
     const data = {
-        "userId": userId
+        "userId": userId,
+        "projectId" :projectId
     }
 
     if(option ==1){
@@ -128,17 +136,27 @@ function approveUser(userId,projectId) {
 
                 const waitDiv = document.getElementById("user" + userId);
                 const plusBtn = document.getElementById("plus"+userId);
+                const minus = document.getElementById("minus"+userId);
 
+                $("#minus"+userId).attr("onclick","deleteUser("+userId+",1)")
                 plusBtn.style.display="none";
 
 
                 const newDiv = document.createElement('div').appendChild(waitDiv);
-
                 document.getElementById('field').appendChild(newDiv);
+                const waitBody= document.getElementById("waitBody")
+                 console.log(waitBody.children.length+'no_child는 자식이 있습니다. <br>'); // printed
+
+                if(waitBody.children.length == 0){
+                    const noneWait = document.getElementById("noneWait");
+                    noneWait.style.display =''
+                    const waitList = document.getElementById("waitList");
+                    waitList.style.display ='none'
 
 
+                }
 
-                // waitDiv.remove();
+
 
 
             });
@@ -148,20 +166,20 @@ function approveUser(userId,projectId) {
 
 }
 
-function enter(projectId){
+function enter(projectId, logInUser){
 
     if(window.event.keyCode == 13){
-        searchUser(projectId);
+        searchUser(projectId, logInUser);
     }
 }
 
-function searchUser(projectId){
+function searchUser(projectId,logInUser){
 
-
-
+    console.log("logInUser : " + logInUser)
     const keyword = document.getElementById('searchKeyword').value;
     $('#searchDivMain').empty();
 
+    let url;
     if(keyword != ""){
         const data = {
             "keyword": keyword,
@@ -169,17 +187,23 @@ function searchUser(projectId){
         }
 
 
+        if (logInUser== "MANAGER" ) {
+
+            console.log("MANAGER")
+            url = "/member/searchUser"
+        }else {
+            console.log("sssss")
+            url = "/member/searchMember"
+        }
+        console.log("url :" +url)
 
         $.ajax({
             type: 'GET',
-            url : "/member/search",
+            url : url,
             data : data,
             success : function(result){
 
-
-
-
-
+                console.log("ddddd")
 
                 if(result.length>=1){
                     const searchDiv = document.getElementById("searchResult");
@@ -192,17 +216,17 @@ function searchUser(projectId){
 
 
                             $('#searchDivMain').append(
-                                " <div class='card mb-3' style='max-width: 540px;'>" +
+                                " <div class='card mb-3' style='max-width: 540px;' >" +
                                 "<div class = 'row g-0'>" +
                                 "<div class='col-md-4'>" +
-                                " <img src='" +item.username+"' class='member' alt='...'>"+
+                                " <img src='" +item.profilePhoto+"' class='member' onerror=this.src='/img/user.jpg'>"+
                                 "</div>"+
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
-                                "<h5 class='card-title'>"+item.username+"</h5>"+
-                                "<p class='card-text'>"+item.name+"</p>"+
-                                "<div style='text-align: end'>"+
-                                "<button class='btn-blue' style='width: 50px;'> 초대 </button>"+
+                                "<h5 class='card-title'>"+item.name+"</h5>"+
+                                "<p class='card-text'>"+item.email+"</p>"+
+                                "<div style='text-align: end; display: none'  id = 'inviteBtn"+item.id+"' >"+
+                                "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
                                 "</div>"+
 
@@ -211,6 +235,12 @@ function searchUser(projectId){
                                 "</div>"+
                                 "</div>"
                             );
+
+                            if (logInUser== "MANAGER" ) {
+                                const inviteBtn = document.getElementById("inviteBtn"+item.id)
+                                inviteBtn.style.display='block'
+                            }
+
                         });
 
                     })
@@ -238,6 +268,110 @@ function searchUser(projectId){
 
 
 }
+
+function inviteMember(value){
+
+
+    const userId = value.id;
+    const urlParams = new URL(location.href);
+    const projectId = urlParams.pathname.split('/')[2];
+
+
+
+    $.ajax({
+        type: 'GET',
+        url: "/member/insert/" + projectId+"/INVITE",
+        data: {"userId" : userId},
+
+        success: function (result) {
+
+            const searchResult = document.getElementById("searchResult");
+            searchResult.style.display = "none";
+
+
+            Swal.fire({
+                title: "초대 완료되었습니다",
+                icon: "success"
+            })
+
+            inviteMemberList()
+        }
+    });
+
+}
+
+function inviteMemberList(){
+
+    const urlParams = new URL(location.href);
+
+    const projectId = urlParams.pathname.split('/')[2];
+
+    console.log(projectId)
+
+    $.ajax({
+        type: 'GET',
+        url:"/member/inviteList",
+        data:{"projectId":projectId},
+        success: function (result){
+            $('#inviteContainer').empty()
+
+            if(result.length >= 1){
+                result.forEach(function (item){
+                    $(document).ready(function () {
+                        console.log("item : " +  item.name)
+                        const noneInvite = document.getElementById("noneInvite");
+                        noneInvite.style.display = "none";
+
+                        $('#inviteContainer').append(
+                            "<div class='col-md-6'>"+
+                                "<div class='card mb-3' style='max-width: 540px; height: 100%;'>"+
+                                    "<div class='row'>"+
+                                        "<div class='col-md-4'>"+
+                                            "<img  class='member' id='userImg"+item.userId+"' >"+
+                                        "</div>"+
+                                        "<div class='col-md-8'>"+
+                                            "<div class='card-body'>"+
+                                                "<h5 class='card-title'>"+item.name+"</h5>"+
+                                                "<p class='card-text'>"+item.email+"</p>"+
+
+                                            "</div>"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>"
+                        );
+                        console.log("item.profilePhoto : " +item.profilePhoto)
+                        // 아이디 추가하기~
+                        const userImg = document.getElementById("userImg"+item.userId)
+                        if(item.profilePhoto == null){
+
+                            userImg.src ='/img/user.jpg'
+
+                        }else{
+
+                            userImg.src = item.profilePhoto
+
+                        }
+
+
+                    })
+                })
+
+            }else {
+                $('#noneInvite').append(
+                    "<div class='card'  style='min-height: 300px;padding: 150px; text-align: center;'>" +
+                    "<h1 class='projectTitle' style='font-size: 2.6rem'> 초대한 회원이 없습니다 </h1>" +
+                    "</div>"
+                );
+            }
+
+
+        }
+    })
+
+
+}
+
 
 
 /*]]>*/

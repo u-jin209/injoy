@@ -4,16 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProjectMapper">
     <select id="selectAll" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.project P
+        SELECT * FROM injoy."project" P
         inner join injoy."projectMember" m
         on p."projectId" = m."projectId"
-        left join injoy."bookMark" b
+
+        left join injoy."organ" o
+        on p."organId" = o."organId"
+        left join (select * from injoy."bookMark"  where "userId" = #{id}) b
         on p."projectId" = b."projectId"
-        where  m."userId" =#{id}  and "authority" != 'REQUEST'
+
+        where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
-        SELECT * FROM injoy.project
-        where "projectId"=#{id}
+        SELECT * FROM injoy.project p
+        left join injoy."bookMark" b
+        on p."projectId" = b."projectId"
+        where p."projectId"=#{id}
     </select>
     <insert id="insert" parameterType="ProjectDTO">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")
@@ -57,6 +63,8 @@
         where "userId" = #{userId} and "authority"= 'REQUEST'
     </select>
 
+
+
     <select id="checkDomain" parameterType="hashmap" resultType="int">
         select COUNT("projectId") from injoy."project"
         where "organId" = #{organId} and  "domain" = #{keyword}
@@ -66,5 +74,14 @@
         where "organId" = #{organId} and  "projectName" = #{keyword}
     </select>
 
+    <delete id="delete" parameterType="int" >
+        delete from injoy."project"
+        where "projectId" = #{projectId}
+    </delete>
 
+    <update id="update" parameterType="projectDTO">
+        UPDATE injoy."project"
+        SET  "projectName"=#{projectName} , explanation= #{explanation}
+        WHERE "projectId"=#{projectId}
+    </update>
 </mapper>

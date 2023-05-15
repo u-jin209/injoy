@@ -13,7 +13,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 
-
     <script th:src="@{/js/project/joinProject.js}" defer></script>
     <!-- 내 css  -->
     <link rel="stylesheet" href="/css/injoyMain.css">
@@ -22,7 +21,7 @@
 <div layout:fragment="content">
 
     <div class="container" style="content-align: center ; ">
-        <h1 class="projectTitle mt-5"> 프로젝트 참여 </h1>
+        <h1 class="projectTitle mt-5" style='font-size: 2.6rem'> 프로젝트 참여 </h1>
         <div id="margin" style="margin-top: 75px">
 
             <h1 class="title"> 프로젝트 검색 </h1>
@@ -30,7 +29,8 @@
 
             <div class="row" style=" justify-content: space-evenly;margin-top: 75px; margin-bottom: 75px;">
                 <div class="search col-md-10 ">
-                    <input type="text" placeholder="검색어 입력" id="searchProject" onclick="setDisabled(this)"
+                    <input type="text" placeholder="검색어 입력" id="searchProject" onblur="setAble(this)"
+                           onclick="setDisabled(this)"
                            th:onkeyup="|enter(this)|"/>
                     <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
                          th:onclick="|searchProject()|">
@@ -62,12 +62,14 @@
 
         </div>
 
+
         <h1 class="title"> 초대코드로 참여 </h1>
 
 
         <div class="row" style=" justify-content: space-evenly;margin-top: 75px; margin-bottom: 75px;">
             <div class="search col-md-10 ">
-                <input type="text" placeholder="초대코드 입력" id="searchInviteCode" onclick="setDisabled(this)"
+                <input type="text" placeholder="초대코드 입력" id="searchInviteCode" onblur="setAble(this)"
+                       onclick="setDisabled(this)"
                        th:onkeyup="|enter(this)|"/>
                 <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
                      th:onclick="|searchInviteCode()|">
@@ -80,7 +82,7 @@
         <div class="col" style="margin-top: 75px; margin-bottom: 75px;justify-content: center;">
 
             <div id="searchCodeResult" style="display: none; margin-bottom: 75px">
-                <h3 class="projectTitle"> 검색 결과 </h3>
+                <h3 class="projectTitle" style="font-size: 2.6rem"> 검색 결과 </h3>
                 <div class="searchBack">
                     <div class="row mt-5 mb-5" style="justify-content: center; ">
                         <div class="col-md-6" id="searchCodeDivMain">
@@ -98,22 +100,18 @@
 
         <div class="row" id="noneWait" style="margin-top: 75px; margin-bottom: 75px;justify-content: center; ">
 
-
-
+            <div class='card' style='min-height: 300px;padding: 150px; text-align: center; '>
+                <h1 class='projectTitle' style='font-size: 2.6rem'>승인 대기중인 프로젝트가 없습니다</h1>
+            </div>
 
 
         </div>
-        <div class="row"  id="projectContainer" style="margin-top: 75px; margin-bottom: 75px;" >
-            <div class="col-md-3" >
+        <div class="row" id="projectContainer" style="margin-top: 75px; margin-bottom: 75px;">
 
-
-            </div>
         </div>
 
 
     </div>
-
-
 
 
 </div>

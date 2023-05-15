@@ -33,7 +33,16 @@ public class BoardController {
         boardDTO.setBoardWriterId(login.getUserDTO().getId());
 
         boardService.insert(boardDTO);
-        return "/project/projectHome";
+        return "redirect:/project/" + boardDTO.getProjectId();
+    }
+
+    @PostMapping("deleteBoard")
+    public String deleteBoard(int boardId){
+        BoardDTO boardDTO = boardService.selectOne(boardId);
+
+        boardService.deleteBoard(boardId);
+        return "redirect:/project/" + boardDTO.getProjectId();
+
     }
 
 }
