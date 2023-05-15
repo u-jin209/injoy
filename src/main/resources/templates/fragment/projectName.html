@@ -6,6 +6,7 @@
     <title></title>
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
     <script src="/js/project/projectName.js" defer></script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -14,7 +15,7 @@
             <div class="row align-items-center" style="text-align: center">
 
 
-                <h2 class="col-7 p-0" style="margin-bottom: 0" th:text="${project.projectName}"></h2>
+                <h2 class="col-7 p-0" style="margin-bottom: 0" id ="projectTitle" th:text="${project.projectName}"></h2>
 
                 <div class="col p-0" style="text-align: left">
                     <button th:id="|star${project.projectId}|" class="btn"
@@ -79,7 +80,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">프로젝트 관리</h1>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container">
@@ -88,8 +89,9 @@
                         <div class="mb-3 ">
                             <p class="col-sm-4 col-form-label">프로젝트 이름</p>
                             <div class="col">
+
                                 <input type="text" class="form-control" id="projectName"
-                                       name="projectName" oninput="checkTeamName()" th:value="${project.projectName}">
+                                       th:name="${project.organId}" oninput="checkName(this)" th:value="${project.projectName}">
                                 <span class="mt-1" id="existTeamName" style="color: #F5544D; display: none">이미 등록된 팀이름 입니다.</span>
                             </div>
                         </div>
@@ -114,7 +116,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-orange">수정</button>
+                <button type="button" class="btn btn-orange" th:value="${project.projectId}" onclick="updateProject(this)">수정</button>
             </div>
         </div>
     </div>

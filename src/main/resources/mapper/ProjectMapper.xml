@@ -10,8 +10,9 @@
 
         left join injoy."organ" o
         on p."organId" = o."organId"
-        left join injoy."bookMark" b
+        left join (select * from injoy."bookMark"  where "userId" = #{id}) b
         on p."projectId" = b."projectId"
+
         where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE'
     </select>
     <select id="selectProject" parameterType="int" resultType="ProjectDTO">
@@ -78,4 +79,9 @@
         where "projectId" = #{projectId}
     </delete>
 
+    <update id="update" parameterType="projectDTO">
+        UPDATE injoy."project"
+        SET  "projectName"=#{projectName} , explanation= #{explanation}
+        WHERE "projectId"=#{projectId}
+    </update>
 </mapper>

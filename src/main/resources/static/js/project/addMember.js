@@ -136,7 +136,9 @@ function approveUser(userId,projectId) {
 
                 const waitDiv = document.getElementById("user" + userId);
                 const plusBtn = document.getElementById("plus"+userId);
+                const minus = document.getElementById("minus"+userId);
 
+                $("#minus"+userId).attr("onclick","deleteUser("+userId+",1)")
                 plusBtn.style.display="none";
 
 
@@ -185,13 +187,15 @@ function searchUser(projectId,logInUser){
         }
 
 
-        if (logInUser.authority == 'MANAGER' ) {
+        if (logInUser== "MANAGER" ) {
+
             console.log("MANAGER")
             url = "/member/searchUser"
         }else {
+            console.log("sssss")
             url = "/member/searchMember"
         }
-
+        console.log("url :" +url)
 
         $.ajax({
             type: 'GET',
@@ -215,13 +219,13 @@ function searchUser(projectId,logInUser){
                                 " <div class='card mb-3' style='max-width: 540px;' >" +
                                 "<div class = 'row g-0'>" +
                                 "<div class='col-md-4'>" +
-                                " <img src='" +item.profileImg+"' class='member' onerror=this.src='/img/user.jpg'>"+
+                                " <img src='" +item.profilePhoto+"' class='member' onerror=this.src='/img/user.jpg'>"+
                                 "</div>"+
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.name+"</h5>"+
                                 "<p class='card-text'>"+item.email+"</p>"+
-                                "<div style='text-align: end'>"+
+                                "<div style='text-align: end; display: none'  id = 'inviteBtn"+item.id+"' >"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
                                 "</div>"+
@@ -231,6 +235,12 @@ function searchUser(projectId,logInUser){
                                 "</div>"+
                                 "</div>"
                             );
+
+                            if (logInUser== "MANAGER" ) {
+                                const inviteBtn = document.getElementById("inviteBtn"+item.id)
+                                inviteBtn.style.display='block'
+                            }
+
                         });
 
                     })
@@ -303,7 +313,7 @@ function inviteMemberList(){
         url:"/member/inviteList",
         data:{"projectId":projectId},
         success: function (result){
-            $('#projectContainer').empty()
+            $('#inviteContainer').empty()
 
             if(result.length >= 1){
                 result.forEach(function (item){
@@ -317,7 +327,7 @@ function inviteMemberList(){
                                 "<div class='card mb-3' style='max-width: 540px; height: 100%;'>"+
                                     "<div class='row'>"+
                                         "<div class='col-md-4'>"+
-                                            "<img  class='member' th:src='"+item.profileImg+"' onerror=this.src='/img/user.jpg' >"+
+                                            "<img  class='member' id='userImg"+item.userId+"' >"+
                                         "</div>"+
                                         "<div class='col-md-8'>"+
                                             "<div class='card-body'>"+
@@ -330,6 +340,20 @@ function inviteMemberList(){
                                 "</div>"+
                             "</div>"
                         );
+                        console.log("item.profilePhoto : " +item.profilePhoto)
+                        // 아이디 추가하기~
+                        const userImg = document.getElementById("userImg"+item.userId)
+                        if(item.profilePhoto == null){
+
+                            userImg.src ='/img/user.jpg'
+
+                        }else{
+
+                            userImg.src = item.profilePhoto
+
+                        }
+
+
                     })
                 })
 

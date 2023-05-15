@@ -69,4 +69,8 @@ public class ProjectService {
     public void delete(int projectId){
         session.delete(NAMESPACE+".delete" , projectId);
     }
+
+    public void update(ProjectDTO projectDTO){
+        session.update(NAMESPACE+".update" ,projectDTO);
+    }
 }

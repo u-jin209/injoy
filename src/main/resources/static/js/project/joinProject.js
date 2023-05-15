@@ -16,7 +16,13 @@ function setDisabled(value) {
 
 }
 
-
+function  setAble(value){
+    if (value.id == 'searchProject') {
+        document.getElementById("searchInviteCode").disabled = false;
+    } else {
+        document.getElementById("searchProject").disabled = false;
+    }
+}
 function enter(value) {
 
     if (window.event.keyCode == 13) {
@@ -143,7 +149,7 @@ function searchInviteCode() {
 
 
 
-                    if (result != null) {
+                    if (result.length != 0) {
                         const searchDiv = document.getElementById("searchCodeResult");
                         searchDiv.style.display = "";
                         $('#searchCodeDivMain').append(
@@ -242,6 +248,7 @@ function enterProject(option) {
 
 function printWaitProject() {
 
+    console.log("fdfsdfweflwifohdsiugokhdsk;igesd")
     const data = {
         "massage": "wait"
     }
@@ -252,6 +259,7 @@ function printWaitProject() {
         success: function (result) {
 
 
+            console.log("result :" +result)
             $('#projectContainer').empty()
 
             if (result.length >= 1) {
@@ -263,28 +271,45 @@ function printWaitProject() {
                         noneWait.style.display = "none";
 
                         $('#projectContainer').append(
-                            " <div class='col-md-3' >" +
-                            "<div class='project' style='padding: 10px 20px 10px 20px'>" +
-                            "<div class='row'>" +
-                            "<div style='float: left;'>" +
-                            "<div class='subTitle'>" + item.projectName + "</div>" +
-                            "<div class='explanationText'>" + item.explanation + "</div>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>" +
+                            "<div class='col-md-3 '  style='float: left'>"+
+                            "<div class='project' style='padding: 10px 20px 10px 20px'>"+
+
+                            "<div class='row' id= "+item.projectId+" >"+
+                            "<div class='col' style='float: left;'>" +
+                            "<div class='subTitle' id='organName"+item.projectId+"' >"+item.organName+"</div>"+
+                            "</div></div>"+
+
+                            " <div class='row' style='display: block; MARGIN-RIGHT: 0;min-height: 120px' id= "+item.projectId+" onclick='goProject(this)'>"+
+                            "<div class='col projectTitle' style='margin: 5px 10px 0px 10px; OVERFLOW: hidden; TEXT-OVERFLOW: ellipsis;' >"+item.projectName+"</div>"+
+                            "<div class='col explanationText' > "+item.explanation+"</div>"+
+                            "</div>"+
+
+                            " <div class='row' style='display: block; text-align: right;MARGIN-RIGHT: 0;'>"+
+
+                            "<button class='btn ' onclick='cancelEnter("+item.projectId+","+item.userId+")' > <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25'\n" +
+                            "                    fill='#F5544D' class='bi bi-dash-square' viewBox='0 0 16 16'>\n" +
+                            "                    <path d='M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z'/>\n" +
+                            "                     <path d='M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z'/>\n" +
+                            "                                            </svg> </button>"+
+                            "</div>"+
                             "</div>"
                         );
+                        if (item.organName ==null){
 
+                            const organName = document.getElementById("organName"+item.projectId)
+                            organName.innerText = ""
+                        }
                     });
 
                 })
 
             } else {
-                $('#noneWait').append(
-                    "<div class='card' style='min-height: 300px;padding: 150px; text-align: center; '>" +
-                    "<h1 class='projectTitle' style='font-size: 2.6rem'>승인 대기중인 프로젝트가 없습니다</h1>" +
-                    "</div>"
-                );
+
+
+               const  noneWait  = document.getElementById("noneWait")
+                noneWait.style.display ="block"
+
+
             }
 
 
@@ -292,4 +317,28 @@ function printWaitProject() {
     });
 
 }
+
+function cancelEnter(projectId, userId){
+
+    const data = {
+        "projectId":projectId,
+        "userId":userId
+    }
+    $.ajax({
+        type: 'GET',
+        url: "/member/delete",
+        data: data,
+        success: function (result) {
+            printWaitProject()
+            Swal.fire({
+                title: "취소 되었습니다",
+                icon: "success"
+            })
+
+
+        }
+    })
+
+}
+
 

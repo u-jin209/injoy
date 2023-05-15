@@ -133,8 +133,8 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
-                                        <input style="  text-align-last: center;" type="file" id="profileImg"
-                                               name="profileImg"
+                                        <input style="  text-align-last: center;" type="file" id="profilePhoto"
+                                               name="file"
                                                accept="image/*"
                                                onchange="toBase64(event);"/>
 <!--                                        <input type="file" class="real-upload" accept="image/*" -->
@@ -201,7 +201,7 @@
                                                 </svg>
                                             </div>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" id="phoneNumber"
+                                                <input type="text" class="form-control" id="phoneNum" maxlength="13"
                                                        name="phoneNumber" th:value="${user.getPhoneNumber()}"
                                                        placeholder="번호를 입력해주세요">
                                             </div>
@@ -282,6 +282,46 @@
                 icon: "success"
             });
         }
+
+
+        var autoHypenPhone = function(str){
+            str = str.replace(/[^0-9]/g, '');
+            var tmp = '';
+            if( str.length < 4){
+                return str;
+            }else if(str.length < 7){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3);
+                return tmp;
+            }else if(str.length < 11){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 3);
+                tmp += '-';
+                tmp += str.substr(6);
+                return tmp;
+            }else{
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 4);
+                tmp += '-';
+                tmp += str.substr(7);
+                return tmp;
+            }
+
+            return str;
+        }
+
+
+        var phoneNum = document.getElementById('phoneNum');
+
+        phoneNum.onkeyup = function(){
+            console.log(this.value);
+            this.value = autoHypenPhone( this.value ) ;
+        }
+
+
     </script>
 
 

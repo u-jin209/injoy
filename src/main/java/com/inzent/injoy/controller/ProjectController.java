@@ -15,6 +15,7 @@ import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import com.inzent.injoy.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -186,6 +187,20 @@ public class ProjectController {
     public void delete(Integer projectId){
 
         projectService.delete(projectId);
+
+    }
+
+    @ResponseBody
+    @PostMapping("update")
+    public void update(String projectName,String explanation, Integer projectId ){
+
+        ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setProjectName(projectName);
+        projectDTO.setExplanation(explanation);
+        projectDTO.setProjectId(projectId);
+
+
+        projectService.update(projectDTO);
 
     }
 
