@@ -178,6 +178,30 @@ header {
     border: none;
 }
 
+.writeBox-addEndDate, .writeBox-addStartDate{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
+.writeBox-addEndDate::before, .writeBox-addStartDate::before{
+    text-align: start !important;
+}
+
+.addPriority-writeBox{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
+}
+
 /*writeBox css 끝*/
 
 /*sidebar css 시작*/

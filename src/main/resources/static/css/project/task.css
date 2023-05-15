@@ -771,7 +771,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: middle;
 }
 
-.rangeInput{
+.rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput{
     width: 100%;
     background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
     border-radius: 8px;

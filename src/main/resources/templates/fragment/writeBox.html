@@ -159,7 +159,7 @@
                                                        required
                                                        aria-required="true" type="date" style="border: 0 solid black"/>
                                                 <div class="start-date-exist" style="display: none">
-                                                    <span class="date-value startDate-value">2023-05-09 (화) 부터</span>
+                                                    <span class="date-value startDate-value"></span>
                                                     <button class="removeBtn-startDate"
                                                             style="border: none; background-color: transparent; padding: 0">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
@@ -186,7 +186,7 @@
                                                        required
                                                        aria-required="true" type="date" style="border: 0 solid black"/>
                                                 <div class="end-date-exist" style="display: none">
-                                                    <span class="date-value endDate-value">2023-05-09 (화) 까지</span>
+                                                    <span class="date-value endDate-value"></span>
                                                     <button class="removeBtn-endDate"
                                                             style="border: none; background-color: transparent; padding: 0">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
@@ -288,7 +288,7 @@
                                         </svg>
                                     </div>
                                     <div class="create-content">
-                                        <input id="rangeInput" class="writeBox-rangeInput" style="" max="100" min="0"
+                                        <input id="rangeInput" class="writeBox-rangeInput" max="100" min="0" th:value="0"
                                                step="10" type="range" data-bs-toggle="tooltip" data-bs-placement="top"
                                                data-bs-custom-class="custom-tooltip"
                                                data-bs-title="This top tooltip is themed via CSS variables."/>
