@@ -20,6 +20,5 @@ public class AuthenticationFailureListener implements ApplicationListener<Abstra
             // 일반적인 인증 예외 처리 로직
             LOGGER.error("Authentication failure: {}", event.getException().getMessage());
         }
-
     }
 }

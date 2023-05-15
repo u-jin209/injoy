@@ -5,29 +5,27 @@
     <title>Title</title>
 
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
 </head>
 <body>
 
 
-
-
-
 <div class="container">
     <h1>Upload cropped image to server</h1>
-    <p>Please note that the image will be uploaded to a <a href="https://jsonplaceholder.typicode.com/">third-party fake API server</a>, which means that the upload process will sometimes fail.</p>
+    <p>Please note that the image will be uploaded to a <a href="https://jsonplaceholder.typicode.com/">third-party fake
+        API server</a>, which means that the upload process will sometimes fail.</p>
     <label class="label" data-toggle="tooltip" title="Change your avatar">
         <img class="rounded" id="avatar" src="https://avatars0.githubusercontent.com/u/3456749?s=160" alt="avatar">
         <input type="file" class="sr-only" id="input" name="image" accept="image/*">
     </label>
     <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+             aria-valuemin="0" aria-valuemax="100">0%
+        </div>
     </div>
     <div class="alert" role="alert"></div>
 
-<!--    사진크롭하는 모달창-->
+    <!--    사진크롭하는 모달창-->
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -39,7 +37,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="img-container">
-                        <img id="image"  src="/img/user.jpg">
+                        <img id="image" src="/img/user.jpg">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -50,7 +48,6 @@
         </div>
     </div>
 </div>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
