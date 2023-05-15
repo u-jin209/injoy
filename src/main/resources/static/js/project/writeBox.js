@@ -3,22 +3,74 @@ $(document).ready(function () {
         $('.writeBoxTab').each(function () {
             if ($(this).hasClass('active')) {
                 $(this).trigger('click')
-                $('.requestBtn').trigger("click")
-                $('.requestBtn').focus()
             }
         })
     })
 })
 
 $(function () {
+        //시작일 부분
+    $('.writeBox-addStartDate').change(function (){
+        $('.start-date-exist').css('display', 'block')
+        $('.startDate-value').text($(this).val() + addWeek($(this).val()) + ' 부터')
 
-    $('.processBtn').click(function () {
-        console.log($(this).text())
-        const btnValue = $(this).text();
-        taskWrite(btnValue)
+        //마감일 최소값 지정
+        $('.writeBox-addEndDate').attr('min', $(this).val())
+        $(this).css('display', 'none')
     })
 
-    // 현재 탭되어있는 탭 제거하기 아직 수정주이이이ㅣ이이이이ㅣ이이
+    $('.removeBtn-startDate').click(function (){
+        $('.start-date-exist').css('display', 'none')
+        $('.writeBox-addStartDate').css('display', 'block').val('')
+    })
+
+    //마감일 부분
+
+    $('.writeBox-addEndDate').change(function (){
+        $('.end-date-exist').css('display', 'block')
+        $('.endDate-value').text($(this).val() + addWeek($(this).val()) + ' 까지')
+        $(this).css('display', 'none')
+    })
+
+    $('.removeBtn-endDate').click(function (){
+        $('.end-date-exist').css('display', 'none')
+        $('.writeBox-addEndDate').css('display', 'block').val('')
+    })
+
+    // 우선순위 추가 부분
+    $('.addPriority-writeBox').click(function (){
+        let priority_ul = $('.addPriority_ul-writeBox')
+        if (priority_ul.css('display') === 'none'){
+            priority_ul.css('display', 'block')
+            priority_ul.find('button').click(function (e) {
+                console.log()
+                const element = document.getElementsByClassName('writeBox-priority-value')[0];
+                element.innerHTML = ($(this).context.innerHTML)
+
+                $('.addPriority-writeBox').css('display','none')
+                $('.prioritySpan-writeBox').css('display', 'block')
+                priority_ul.css('display', 'none')
+            })
+        } else{
+            priority_ul.css('display', 'none')
+
+        }
+
+    })
+
+    $('.removeBtn-priority-writeBox').click(function (){
+        $('.addPriority-writeBox').css('display', 'block')
+        $('.prioritySpan-writeBox').css('display', 'none')
+        $(this).closest('svg').remove()
+        $(this).closest('.priorityText').remove()
+    })
+
+    //진척도 값
+    $('.writeBox-rangeInput').change(function (){
+        $('.writeBox-progress-txt').text($(this).val() + '%')
+    })
+
+
     $('.board_li').click(() => {
         $('#taskWrite-tab').removeClass('active')
         $('#scheduleWrite-tab').removeClass('active')
@@ -60,29 +112,63 @@ $(function () {
                 $(this).find('a').trigger('click')
 
                 if ($(this).attr('id') === 'boardWrite-tab') {
-                        console.log("board")
-                        boardWrite()
+                    console.log("board")
+                    $('#submitWriteBtn').attr('id', 'boardWriteBtn')
+                    boardWrite()
                 } else if ($(this).attr('id') === 'taskWrite-tab') {
-                        console.log("task")
-                        $('.requestBtn').trigger("click")
-                        $('.requestBtn').focus()
-                        taskWrite()
+                    console.log("task")
+                    $('#submitWriteBtn').attr('id', 'taskWriteBtn')
+                    $('.writeBox-requestBtn').trigger("click").addClass('active')
+
+                    taskWrite()
                 } else if ($(this).attr('id') === 'scheduleWrite-tab') {
-                        console.log("schedule")
-                        //scheduleWrite()
+                    console.log("schedule")
+                    //scheduleWrite()
                 }
 
             }
         })
     })
 
+    $('.processBtn').click(function (e) {
+        let btn = document.querySelectorAll(".processBtn");
+        btn.forEach(function (btn, i) {
+            if (e.currentTarget === btn) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+    })
+
 })
 
+function findCurrentBtn(){
+
+    let btn = document.querySelectorAll(".processBtn");
+    let currentBtn;
+    btn.forEach(function (btn, i) {
+        if (btn.classList.contains('active')) {
+            currentBtn = btn.textContent;
+        }
+    });
+    return currentBtn;
+}
+
+function addWeek(date){
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const dayOfWeek = week[(new Date(date)).getDay()];
+
+    return ' (' + dayOfWeek+')';
+}
+
+
 function boardWrite() {
-    $('.boardWriteBtn').click(function () {
+    $('#boardWriteBtn').click(function () {
         let formData = {
-            title: $('#boardTitle').val(),
-            content: $('.writeBoardContent').val(),
+            bTitle: $('#boardTitle').val(),
+            bContent: $('.writeBoardContent').val(),
             projectId: $('.projectIdInput').val()
         }
 
@@ -97,19 +183,36 @@ function boardWrite() {
     })
 }
 
-function taskWrite(btnValue) {
-    $('.taskWriteBtn').click(function () {
+function to_date2(date_str)
+{
+    var yyyyMMdd = String(date_str);
+    var sYear = yyyyMMdd.substring(0,4);
+    var sMonth = yyyyMMdd.substring(5,7);
+    var sDate = yyyyMMdd.substring(8,10);
+
+    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
+    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+}
+
+
+function taskWrite() {
+    let currentBtn = findCurrentBtn()
+    $('#taskWriteBtn').click(function () {
         let formData = {
-            projectId: $('.projectIdInput').val(),
-            title: $('#taskTitle').val(),
-            content: $('.writeContent').val(),
-            process: btnValue,
-            managerId: $('#managerId').val(),
+            projectId: $('.writeProjectId').val(),
+            taskTitle: $('#taskTitle').val(),
+            taskContent: $('.writeContent').val(),
+            process: currentBtn,
+            //managerId: $('.managerId').val(),
+            startDate : to_date2($('.writeBox-addStartDate').val()),
+            closingDate : to_date2($('.writeBox-addEndDate').val()),
+            progress : $('.writeBox-rangeInput').val(),
+            priority : $('.prioritySpan-writeBox .priorityText').text()
 
         }
 
         $.ajax({
-            url: '/task/write',
+            url: '/task/mainWrite',
             data: formData,
             type: 'post',
             success: ((message) => {

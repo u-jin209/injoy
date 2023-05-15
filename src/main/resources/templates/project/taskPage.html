@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="taskContent(project, memberList, taskList)">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ko"
+      th:fragment="taskContent(project, memberList, taskList)">
 <head>
     <meta charset="UTF-8">
     <title>INJOY</title>
@@ -14,10 +15,12 @@
 </head>
 <body>
 <div class="container-fluid">
-    <input class="projectIdInput" type="hidden" th:value="${project?.projectId}" th:if="${project?.projectId} ne null"/>
     <div class="row">
+        <input class="projectIdInput" type="hidden" name="projectId" th:value="${project?.projectId}"
+               th:if="${project?.projectId} ne null"/>
         <div class="col">
-            <input id="searchTask" class="searchInput form-control" type="search"
+            <input id="searchTask" class="searchInput form-control" type="search" name="keyword"
+                   th:onkeyup="|searchTaskEnter(${project?.projectId})|"
                    placeholder="업무명 또는 업무번호를 검색하세요."/>
             <label for="searchTask"></label>
             <div class="searchIcon">
@@ -26,53 +29,232 @@
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
             </div>
-
         </div>
         <div class="col text-end">
-            <button class="taskAddButton btn" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+            <button class="addButton btnFade btnBlue" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                 업무 추가
             </button>
             <div class="modal" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                            <span class="modal-title mr-2" id="addTaskModalLabel" style="font-weight: bold">
+                    <span class="modal-title mr-2" id="taskModalLabel" style="font-weight: bold">
                                 업무 작성 |
-                            </span>
+                    </span>
                             <span th:text="${project.projectName}"></span>
 
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body text-start">
-                            <div>
-                                <input id="taskAddTitle" placeholder="제목을 입력하세요"/>
-                                <label for="taskAddTitle"></label>
+                            <div class="taskAddTitle">
+                                <input id="taskTitle" placeholder="제목을 입력하세요"/>
+                                <label for="taskTitle"></label>
                             </div>
-                            <div class="mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                     class="bi bi-clock-history mr-3" viewBox="0 0 16 16">
-                                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                </svg>
-                                <button id="requestBtn" class="btn taskProcessBtn requestBtn">요청</button>
-                                <button class="btn taskProcessBtn progressBtn">진행</button>
-                                <button class="btn taskProcessBtn feedBackBtn">피드백</button>
-                                <button class="btn taskProcessBtn finishBtn">완료</button>
-                                <button class="btn taskProcessBtn holdBtn">보류</button>
-                            </div>
-                            <div class="mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                     class="bi bi-person mr-3" viewBox="0 0 16 16">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
-                                </svg>
-                                담당자 추가
+                            <div class="taskAddOption">
+                                <ul class="option-group">
+                                    <li class="process-layer">
+                                        <div class="create-content content-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                                 class="bi bi-clock-history" viewBox="0 0 16 16">
+                                                <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                                                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                                                <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="create-content task-process-btn-group">
+                                            <button class="btn taskProcessBtn requestBtn taskPage-requestBtn">요청</button>
+                                            <button class="btn taskProcessBtn progressBtn">진행</button>
+                                            <button class="btn taskProcessBtn feedBackBtn">피드백</button>
+                                            <button class="btn taskProcessBtn finishBtn">완료</button>
+                                            <button class="btn taskProcessBtn holdBtn">보류</button>
+                                        </div>
+                                    </li>
+                                    <!--                            <li class="manager-layer">-->
+                                    <!--                                <div class="managerAdd create-content content-title ">-->
+                                    <!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"-->
+                                    <!--                                         class="bi bi-person" viewBox="0 0 16 16">-->
+                                    <!--                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>-->
+                                    <!--                                    </svg>-->
+                                    <!--                                </div>-->
+                                    <!--                                <div class="create-content">-->
+                                    <!--                                    <div class="user-wrap">-->
+                                    <!--                                        <span id="kanbanManagerId">1</span>-->
+                                    <!--                                    </div>-->
+                                    <!--                                    <button class="add-managerButton" style="text-align: start; padding-left: 5px">담당자-->
+                                    <!--                                        추가-->
+                                    <!--                                    </button>-->
+                                    <!--                                </div>-->
+                                    <!--                            </li>-->
+                                    <li class="startDate-layer" style="display: none">
+                                        <div class="create-content content-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                                 class="bi bi-calendar4" viewBox="0 0 16 16">
+                                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="create-content">
+                                            <div class="post-startDate">
+                                                <div class="startDate-group">
+                                                    <input class="task-addStartDate" data-placeholder="시작일 추가"
+                                                           required
+                                                           aria-required="true" type="date" style="border: 0 solid black"/>
+                                                    <div class="start-date-exist" style="display: none">
+                                                        <span class="date-value startDate-value">2023-05-09 (화) 부터</span>
+                                                        <button class="removeBtn-startDate"
+                                                                style="border: none; background-color: transparent; padding: 0">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                                 fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="endDate-layer" style="display: none">
+                                        <div class="create-content content-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                                 class="bi bi-calendar4" viewBox="0 0 16 16">
+                                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="create-content">
+                                            <div class="post-endDate">
+                                                <div class="endDate-group">
+                                                    <input class="task-addEndDate" data-placeholder="마감일 추가"
+                                                           required
+                                                           aria-required="true" type="date" style="border: 0 solid black"/>
+                                                    <div class="end-date-exist" style="display: none">
+                                                        <span class="date-value endDate-value">2023-05-09 (화) 까지</span>
+                                                        <button class="removeBtn-endDate"
+                                                                style="border: none; background-color: transparent; padding: 0">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                                 fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                    <li class="priority-layer" style="display: none">
+                                        <div class="create-content content-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                                 class="bi bi-flag" viewBox="0 0 16 16">
+                                                <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21.294 21.294 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21.317 21.317 0 0 0 14 7.655V1.222z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="create-content">
+                                            <button class="addPriority" style="border: none; background-color: transparent;">
+                                                우선순위 추가
+                                            </button>
+                                            <div class="addPriority_ul" id="addPriority_ul" style="display: none">
+                                                <ul class="button_priority"
+                                                    style="position: absolute; transform: none; top: 25px; left: 0; width: 80px; text-align: start">
+                                                    <li class="mb-1 px-2">
+                                                        <button class="priorityBtn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                                 fill="red"
+                                                                 class="bi bi-exclamation-octagon-fill" viewBox="0 0 16 16">
+                                                                <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                                            </svg>
+                                                            <span class="priorityText">긴급</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="mb-1  px-2">
+                                                        <button class="priorityBtn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                                 fill="orange"
+                                                                 class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                                                            </svg>
+                                                            <span class="priorityText">높음</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="mb-1  px-2">
+                                                        <button class="priorityBtn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                                 fill="green"
+                                                                 class="bi bi-dash" viewBox="0 0 16 16">
+                                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                                            </svg>
+                                                            <span class="priorityText">보통</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="mb-1  px-2">
+                                                        <button class="priorityBtn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                                 fill="dark-violet"
+                                                                 class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                                            </svg>
+                                                            <span class="priorityText">낮음</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class=" px-2">
+                                                        <button class="priorityBtn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                                 fill="gray"
+                                                                 class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                                            </svg>
+                                                            <span class="priorityText">없음</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="prioritySpan" style="display: none">
+                                                <span class="task-priority-value"></span>
+                                                <button class="removeBtn-priority"
+                                                        style="border: none; background-color: transparent; padding: 0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                         fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="progress-layer" style="display: none">
+                                        <div class="create-content content-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                                 class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                                                <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="create-content">
+                                            <input id="rangeAddInput" class="task-rangeInput" style="" max="100" min="0"
+                                                   step="10" type="range" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   data-bs-custom-class="custom-tooltip"
+                                                   data-bs-title="This top tooltip is themed via CSS variables."/>
+                                            <div>
+                                                <span class="progress-txt">50%</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button class="optionAddBtn" type="button" style="border: none; background-color: transparent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                    항목 추가 입력
+                                </button>
                             </div>
                             <hr/>
-                            <div>
+                            <div class="writeContentDiv">
                                 <label>
-                                    <textarea class="writeTaskContent" placeholder="내용을 입력하세요."></textarea>
+                                    <textarea class="writekanbanContent" placeholder="내용을 입력하세요."></textarea>
                                 </label>
+                            </div>
+                            <div class="postAttached">
+                                <div class="attached-image-kanban"></div>
+                                <div class="attached-file-kanban"></div>
                             </div>
                         </div>
                         <div class="modal-footer" style="justify-content: space-between !important;">
@@ -81,7 +263,7 @@
                                 <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
                             </svg>
                             <button type="button" class="btn taskAddButton"
-                                    style="background-color: #001542; color: white">등록
+                                    style="background-color: #001542; color: white" onclick="addTaskTab()">등록
                             </button>
                         </div>
                     </div>
@@ -91,30 +273,35 @@
     </div>
 
 </div>
-<div id= "taskTable">
+<div id="taskTable">
     <table class="table table-bordered text-center">
         <thead>
         <tr style="text-align: center">
             <th style="width: 400px">업무명</th>
             <th style="width: 100px">상태</th>
             <th style="width: 80px">우선순위</th>
-            <th style="width: 100px">담당자</th>
+<!--            <th style="width: 100px">담당자</th>-->
+            <th style="width: 100px">진척도</th>
             <th style="width: 100px">시작일</th>
             <th style="width: 100px">마감일</th>
+            <th style="width: 100px">작성자</th>
             <th style="width: 120px">등록일</th>
+            <th style="width: 120px">수정일</th>
             <th style="width: 80px">업무번호</th>
-            <th></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="searchTbody" class="searchTbody">
+        </tbody>
+        <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
-            <td class="titleTd">
-                <span class="titleTask-view" th:text="${task.title}"></span>
+            <td class="titleTd" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                aria-controls="offcanvasScrolling">
+                <span class="titleTask-view" th:text="${task.taskTitle}"></span>
                 <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
-                    <input class="col form-control taskTitle" type="text" th:value="${task.title}" style="height: 29px; width: 250px;"/>
+                    <input class="col form-control taskTitle" type="text" th:value="${task.taskTitle}"
+                           style="height: 29px; width: 250px;"/>
                     <a class="ml-3 col detail text-end">상세보기</a>
                 </div>
-
             </td>
             <td class="processTd" id="processTd" style="position: relative;">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
@@ -195,118 +382,321 @@
                     </ul>
                 </div>
             </td>
-            <td class="managerTd" style="position: relative">
-                <div th:text="${task.managerId}" th:if="${task.managerId ne 0}"></div>
-                <div th:if="${task.managerId eq 0}">-</div>
-                <div class="managerDiv" style="top: 50px; transform: none; left: -90px; display: none;">
-                    <div class="managerSearch">
-                        <div class="searchManagerIcon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
-                                 class="bi bi-search" viewBox="0 0 16 16" style="margin: -2px 0 0 9px;">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                            </svg>
-                        </div>
-                        <input type="search" class="searchManagerInput" placeholder="담당자를 입력하세요"/>
-                    </div>
-                    <div class="memberList">
-                        <div class="memberSpan">
-                            <span class="memberItem">
-                                <span class="memberIcon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                         fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                                <path fill-rule="evenodd"
-                                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                    </svg>
-                                </span>
-                                <span class="memberName">dddd</span>
-                                <button class="memberCloseBtn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </button>
-                            </span>
-                            <span class="memberItem">
-                                <span class="memberIcon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                         fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                                <path fill-rule="evenodd"
-                                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                    </svg>
-                                </span>
-                                <span class="memberName">dddd</span>
-                                <button class="memberCloseBtn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </button>
-                            </span>
-                        </div>
-                        <div class="memberUl">
-                            <ul th:each="member : ${memberList}">
-                                <li>
-                                    <div class="memberLi">
-                                        <div class="checkImg" style="display: inline-block">
-                                            <input type="checkbox" width="21px" height="21px" style="border-radius: 30px"/>
-                                        </div>
-                                        <div class="memberIcon"
-                                             style="display: inline-block; width: 40px; height: 40px; margin: 0 10px">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                 fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                                <path fill-rule="evenodd"
-                                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="memberNickname" style="display: inline-block;">
-                                            <div th:text="${member.userId}"
-                                                 style="font-weight: 700; width: auto; display: flex; color: #555555">
-                                                멤버이름 : 직책
-                                            </div>
-                                            <div style="display: block; line-height: 18px; font-size: 12px;">회사명 : 부서명
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="managerBtn">
-                            <button class="btn btn-outline-primary">전체삭제</button>
-                            <button class="btn btn-primary">선택</button>
-                        </div>
-                    </div>
-                </div>
+            <td class="progressTd">
+                <div th:text="${task.progress}" th:if="${task.progress ne 0}"></div>
+                <div th:if="${task.progress eq 0}">-</div>
             </td>
+<!--            <td class="mangerTd" style="position: relative">-->
+<!--                <div th:text="${task.name}" th:if="${task.managerId ne 0}"></div>-->
+<!--                <div th:if="${task.managerId eq 0}">-</div>-->
+<!--                <div class="managerDiv" style="top: 50px; transform: none; left: -90px; display: none;">-->
+<!--                    <div class="managerSearch">-->
+<!--                        <div class="searchManagerIcon">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"-->
+<!--                                 class="bi bi-search" viewBox="0 0 16 16" style="margin: -2px 0 0 9px;">-->
+<!--                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <input type="search" class="searchManagerInput" placeholder="담당자를 입력하세요"/>-->
+<!--                    </div>-->
+<!--                    <div class="memberList">-->
+<!--                        <div class="memberSpan" th:if="${task.managerId eq 0}">-->
+<!--                            &lt;!&ndash;                            클릭한 멤버가 들어가는 곳&ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="memberSpan active" th:if="${task.managerId ne 0}">-->
+<!--                            <span class="memberItem">-->
+<!--                                <span class="memberIcon">-->
+<!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
+<!--                                         class="bi bi-person-circle"-->
+<!--                                         viewBox="0 0 16 16">-->
+<!--                                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>-->
+<!--                                      <path fill-rule="evenodd"-->
+<!--                                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>-->
+<!--                                    </svg>-->
+<!--                                </span>-->
+<!--                                <span class="memberNameSpan" th:text="${task.name}"></span>-->
+<!--                                <button class="memberCloseBtn">-->
+<!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+<!--                                         class="bi bi-x" viewBox="0 0 16 16">-->
+<!--                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>-->
+<!--                                    </svg>-->
+<!--                                </button>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div class="memberUl">-->
+<!--                            <ul class="memberUlTag" th:each="member : ${memberList}">-->
+<!--                                <li>-->
+<!--                                    <div class="memberLi">-->
+<!--                                        <div class="checkImg" style="display: inline-block">-->
+<!--                                            <input id="memberCheckBox" name="memberCheckBox" type="checkbox"-->
+<!--                                                   width="21px" height="21px"-->
+<!--                                                   style="border-radius: 30px"/>-->
+<!--                                        </div>-->
+<!--                                        <div class="memberIcon"-->
+<!--                                             style="display: inline-block; width: 40px; height: 40px; margin: 0 10px">-->
+<!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"-->
+<!--                                                 fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">-->
+<!--                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>-->
+<!--                                                <path fill-rule="evenodd"-->
+<!--                                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>-->
+<!--                                            </svg>-->
+<!--                                        </div>-->
+<!--                                        <div class="memberNickname" style="display: inline-block;">-->
+<!--                                            <input class="hiddenMemberId" type="hidden" th:value="${member.userId}">-->
+<!--                                            <div class="memberName" th:text="${member.name}"-->
+<!--                                                 style="font-weight: 700; width: auto; display: flex; color: #555555">-->
+<!--                                                멤버이름 : 직책-->
+<!--                                            </div>-->
+<!--                                            <div style="display: block; line-height: 18px; font-size: 12px;">회사명 : 부서명-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="managerBtn">-->
+<!--                        <button class="deleteAllBtn">전체삭제</button>-->
+<!--                        <button class="selectMemberBtn">선택</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </td>-->
             <td class="startDate p-0">
-                <input id="startDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
+                <input id="startDate" data-placeholder="-" required aria-required="true" type="date"
+                       th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
             </td>
             <td class="endDate p-0">
-                <input id="endDate" data-placeholder="-" required aria-required="true" type="date" th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"/>
+                <input id="endDate" data-placeholder="-" required aria-required="true" type="date"
+                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}" th:min="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
             </td>
+            <td th:text="${task.name}"></td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(task.mdfDate, 'yyyy-MM-dd')}"></td>
             <td><span id="taskId" th:text="${task.taskId}"></span></td>
-            <td></td>
         </tr>
         </tbody>
     </table>
 </div>
 <div>
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button>
-
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
 
         <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
-            <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}" style="font-size: 14px"></span>
+            <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}"
+                  style="font-size: 14px"></span>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="headerDiv">
-                <div class="authorDiv">ddd</div>
+            <div class="postHeader">
+                <div class="postAuthor">
+                    <span class="postProfile thumbnail">profile</span>
+                    <dl class="post-author-info">
+                        <dt>
+                            <strong class="authorName"></strong>
+                            <span class="postDate"></span>
+                        </dt>
+                        <dd class="d-none">
+                            <strong class=""></strong>
+                            <span class="team"></span>
+                        </dd>
+                    </dl>
+                </div>
+                <div>
+                    <div class="post-option">
+                        <!--                        <button id="movePost" class="btn-go d-none" style="display: inline-block;">-->
+                        <!--                            게시글 바로가기-->
+                        <!--                        </button>-->
+                        <!--                        <button id="pinToTopBnt" class="js-pin-post fixed-btn js-pin-authority " style="display:block" data="">-->
+                        <!--                            &lt;!&ndash; fixed-btn on class &ndash;&gt;-->
+                        <!--                            <span class="blind">상단 고정 등록</span>-->
+                        <!--                        </button>-->
+                        <div class="post-setting-button set-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                        </div>
+                        <ul class="setUp-group" style="display: none;">
+                            <li class="setting-item modify" data-code="modify" style="display:block">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                        <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                    수정
+                                </a>
+                            </li>
+                            <li class="setting-item delete" data-code="delete" style="display:block">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                    </svg>
+                                    삭제
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="contentDiv"></div>
+            <div class="title-header">
+                <div class="postTitle">
+                    <h4 class="post-title-h4"></h4>
+                </div>
+                <div class="post-state">
+                    <span class="task-number d-inline-block" data-task="10699321">
+                          업무번호<em>10</em>
+                    </span>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-task-summary">
+                    <div class="post-task-option">
+                        <ul class="task-content-group">
+                            <li class="process-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-clock-history" viewBox="0 0 16 16">
+                                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <button class="task-process-btn requestBtn">요청</button>
+                                    <button class="task-process-btn progressBtn">진행</button>
+                                    <button class="task-process-btn feedBackBtn">피드백</button>
+                                    <button class="task-process-btn finishBtn">완료</button>
+                                    <button class="task-process-btn holdBtn">보류</button>
+                                </div>
+                            </li>
+                            <li class="manager-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-person-workspace" viewBox="0 0 16 16">
+                                        <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                                        <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <button class="add-manager-btn" type="button"> 담당자 추가</button>
+                                    <div class="user-wrap">
+                                        <span class="manager-group-div">
+                                            <span class="manager-item">담당자1</span>
+                                        </span>
+                                        <button type="button" class="change-manager-btn" style="display:inline-block;">담당자 변경
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="startDate-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-calendar4" viewBox="0 0 16 16">
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <div class="post-startDate">
+                                        <div class="startDate-group">
+                                            <input class="addStartDate" data-placeholder="날짜 선택"
+                                                   required
+                                                   aria-required="true" type="date" style="border: 0 solid black" />
+                                            <div class="start-date-exist">
+                                                <span class="date-value startDate-value">2023-05-09 (화) 부터</span>
+                                                <button class="removeBtn"
+                                                        style="border: none; background-color: transparent; padding: 0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                         fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="endDate-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-calendar4" viewBox="0 0 16 16">
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <div class="post-endDate">
+                                        <div class="endDate-group">
+                                            <input class="addEndDate" data-placeholder="날짜 선택"
+                                                   required
+                                                   aria-required="true" type="date" style="border: 0 solid black" />
+                                            <div class="end-date-exist">
+                                                <span class="date-value endDate-value">2023-05-09 (화) 까지</span>
+                                                <button class="removeBtn"
+                                                        style="border: none; background-color: transparent; padding: 0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                         fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li class="priority-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-flag" viewBox="0 0 16 16">
+                                        <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21.294 21.294 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21.317 21.317 0 0 0 14 7.655V1.222z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <button class="addPriority" style="border: none; background-color: transparent;">우선순위 추가</button>
+                                    <div class="prioritySpan">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="green"
+                                             class="bi bi-dash" viewBox="0 0 16 16">
+                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                        </svg>
+                                        <span class="priority-value">보통</span>
+                                        <button class="removeBtn"
+                                                style="border: none; background-color: transparent; padding: 0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="25"
+                                                 fill="currentColor" class="bi bi-x" viewBox="0 0 25 25">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="progress-layer">
+                                <div class="create-content content-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                         class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                                        <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+                                    </svg>
+                                </div>
+                                <div class="create-content">
+                                    <input id="rangeInput" class="rangeInput" style="" max="100" min="0" step="10" type="range"/>
+                                    <div>
+                                        <span class="progress-txt"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="post-taskContent">내용입니다아아아ㅏㅏㅏㅏㅏ</div>
+                </div>
+            </div>
+            <div class="post-footer">
+                <ul class="post-comment">
+                    <li class="post-comment-li">댓글</li>
+                </ul>
+            </div>
+            <div class="comment-input-wrap">
+
+            </div>
         </div>
     </div>
 </div>

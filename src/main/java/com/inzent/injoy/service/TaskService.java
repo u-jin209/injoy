@@ -5,7 +5,9 @@ import com.inzent.injoy.model.TaskDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TaskService {
@@ -41,5 +43,25 @@ public class TaskService {
 
     public void updateStartDate(TaskDTO taskDTO) {
         session.update(NAMESPACE + ".updateStartDate", taskDTO);
+    }
+
+    public void updateEndDate(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updateEndDate", taskDTO);
+    }
+
+    public List<TaskDTO> findTask(String keyword, int projectId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("projectId", projectId);
+        params.put("keyword", keyword);
+
+        return session.selectList(NAMESPACE + ".findTask", params);
+    }
+
+    public void updateProgress(TaskDTO taskDTO) {
+            session.update(NAMESPACE + ".updateProgress", taskDTO);
+    }
+
+    public void deleteTask(int taskId){
+        session.delete(NAMESPACE+".deleteTask", taskId);
     }
 }

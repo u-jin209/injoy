@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.TaskMapper">
+    <select id="viewAll" resultType="TaskDTO">
+        SELECT * FROM injoy.task
+        INNER JOIN injoy.user
+        ON "user"."id" = "task"."authorUserId"
+        where "projectId" = #{projectId}
+        ORDER BY "crtDate" DESC
+    </select>
     <select id="selectAll" parameterType="int"  resultType="TaskDTO">
         SELECT * FROM injoy.task
         INNER JOIN injoy.user
@@ -15,27 +22,54 @@
         where "taskId" = #{taskId}
     </select>
     <insert id="insert" parameterType="TaskDTO">
-        INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", title, content, "projectId", "startDate", "closingDate", "fileId", process, progress, "managerId", priority)
-        VALUES (#{authorUserId}, NOW(), NOW(), #{title}, #{content}, #{projectId}, #{startDate}, #{closingDate}, #{fileId}, #{process}, #{progress}, #{managerId}, #{priority})
+        INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "projectId", "startDate", "closingDate", process, progress, priority)
+        VALUES (#{authorUserId}, NOW(), NOW(), #{taskTitle}, #{taskContent}, #{projectId}, #{startDate}, #{closingDate}, #{process}, #{progress}, #{priority})
     </insert>
     <update id="updateProcess" parameterType="TaskDTO">
         UPDATE injoy.task
-        SET "process" = #{process}
+        SET "process" = #{process}, "mdfDate" = NOW()
+        WHERE "taskId" = #{taskId}
+    </update>
+    <update id="updateProgress" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "progress" = #{progress}, "mdfDate" = NOW()
         WHERE "taskId" = #{taskId}
     </update>
     <update id="updatePriority" parameterType="TaskDTO">
         UPDATE injoy.task
-        SET "priority" = #{priority}
+        SET "priority" = #{priority}, "mdfDate" = NOW()
         WHERE "taskId" = #{taskId}
     </update>
     <update id="updateTitle" parameterType="TaskDTO">
         UPDATE injoy.task
-        SET "title" = #{title}
+        SET "taskTitle" = #{taskTitle}, "mdfDate" = NOW()
         WHERE "taskId" = #{taskId}
     </update>
     <update id="updateStartDate" parameterType="TaskDTO">
         UPDATE injoy.task
-        SET "startDate" = #{startDate}
+        SET "startDate" = #{startDate}, "mdfDate" = NOW()
         WHERE "taskId" = #{taskId}
     </update>
+    <update id="updateEndDate" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "closingDate" = #{closingDate}, "mdfDate" = NOW()
+        WHERE "taskId" = #{taskId}
+    </update>
+    <select id="findTask" parameterType="map" resultType="TaskDTO">
+        SELECT * FROM injoy.task
+        where "projectId" = #{projectId}
+        AND
+        ("taskTitle" LIKE concat('%', #{keyword}, '%')
+        OR
+        CAST("taskId" AS TEXT) LIKE concat('%', #{keyword}, '%'))
+    </select>
+    <update id="updateTask" parameterType="TaskDTO">
+        UPDATE injoy.task
+        SET "taskTitle" = #{taskTitle}, "process" = #{process}, "priority" = #{priority}, "progress" = #{progress}, "startDate" = #{startDate}, "closingDate" = #{closingDate}, "taskContent" = #{taskContent}, "mdfDate" = NOW()
+        WHERE "taskId" = #{taskId}
+    </update>
+    <delete id="deleteTask" parameterType="int">
+        DELETE FROM injoy.task
+        WHERE "taskId" = #{taskId}
+    </delete>
 </mapper>
