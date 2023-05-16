@@ -63,6 +63,88 @@
     </div>
 </div>
 
+<div class="document">
+    <div class="document-search-wrap">
+        <div class="document-search">
+            <div class="search-file">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                     viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+                <input class="search-file-input" type="search" placeholder="파일명을 입력해주세요"/>
+            </div>
+        </div>
+        <div class="tool-document">
+            <button id="fileMoveButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrows-move" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
+                </svg>
+                이동
+            </button>
+            <button id="fileDownloadButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-download" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                다운로드
+            </button>
+            <button id="fileDeleteButton" class="task-setting">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                     viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                </svg>
+                폴더 삭제
+            </button>
+            <button id="addFolder" class="js-file-add-button collect-add-button" style="display: inline-block;">+ 폴더
+                추가
+            </button>
+        </div>
+    </div>
+    <div class="document-table-area">
+        <table class="table">
+            <thead class="text-center" style="background-color: #fafafa; ">
+            <th style="width: 60%; color: #888;">파일명</th>
+            <th style="width: 10%; color: #888;">용량</th>
+            <th style="width: 10%; color: #888;">등록자</th>
+            <th style="width: 18%; color: #888;">등록일</th>
+            </thead>
+            <tbody>
+            <tr class="folder-tr">
+                <td class="folder-name-area">
+                    <input class="folder-checkBox" type="checkbox"/>
+                    <div class="folder-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#FFB30D" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                        </svg>
+                    </div>
+                    <span class="folder-name">폴더 이름</span>
+                </td>
+                <td class="text-center">-</td>
+                <td class="text-center" >폴더 등록자</td>
+                <td class="text-center">폴더 등록일</td>
+            </tr>
+            <tr class="file-tr">
+                <td class="file-name-area">
+                    <input class="file-checkBox" type="checkbox"/>
+                    <div class="file-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3064B3" class="bi bi-image-fill" viewBox="0 0 16 16">
+                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+                        </svg>
+                    </div>
+                    <span class="file-name">파일 이름</span>
+                </td>
+                <td class="text-center">파일 용량</td>
+                <td class="text-center">파일 등록자</td>
+                <td class="text-center">파일 등록일</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
 
 </body>
