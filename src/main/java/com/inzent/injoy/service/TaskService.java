@@ -18,7 +18,9 @@ public class TaskService {
     public TaskService(SqlSession session){
         this.session = session;
     }
-
+    public List<TaskDTO> viewAll(int projectId) {
+        return session.selectList(NAMESPACE + ".viewAll", projectId);
+    }
     public List<TaskDTO> selectAll(int projectId) {
         return session.selectList(NAMESPACE + ".selectAll", projectId);
     }

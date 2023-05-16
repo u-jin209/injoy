@@ -90,7 +90,8 @@ public class HomeController {
 
         List<TaskDTO> taskList = taskService.selectAll(projectId);
         model.addAttribute("taskList", taskList);
-
+        List<TaskDTO> allList = taskService.viewAll(projectId);
+        model.addAttribute("allList", allList);
 
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(projectId));

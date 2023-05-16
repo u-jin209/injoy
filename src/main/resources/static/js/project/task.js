@@ -2,6 +2,23 @@ $(document).ready(function () {
     btnColor()
 })
 
+$(document).on('click', function (e) {
+    let target = $(e.target);
+
+    // Check if the clicked element is outside the priorityTd
+    if (!target.closest('.priorityTd').length) {
+        $('.priority_ul').css('display', 'none');
+    }
+
+    if (!target.closest('.processTd').length) {
+        $('.btn_ul').css('display', 'none');
+    }
+
+    if (!target.closest('.progressTd').length) {
+        $('.progressUl').css('display', 'none')
+    }
+});
+
 function btnColor() {
     $('.currentBtn').each(function () {
         switch ($(this).text()) {
@@ -27,6 +44,19 @@ function btnColor() {
 
 $(function () {
     all()
+
+    let td = $('td')
+    td.not('.priorityTd').click(function (e) {
+        $('.priority_ul').css('display', 'none');
+    });
+
+    td.not('.processTd').click(function (e) {
+        $('.btn_ul').css('display', 'none');
+    });
+
+    td.not('.progressTd').click(function (e) {
+        $('.progressUl').css('display', 'none');
+    });
 })
 
 function all() {
@@ -97,8 +127,8 @@ function all() {
         $(this).find('span').show()
     })
 
-    titleTd.click(function (e){
-        if (!$(e.target).hasClass('taskTitle')){
+    titleTd.click(function (e) {
+        if (!$(e.target).hasClass('taskTitle')) {
             let taskId = $(this).closest('tr').find('#taskId').text();
             let formData = {
                 taskId: taskId,
@@ -117,13 +147,16 @@ function all() {
 
 // 진행 이벤트
 
-    processTd.click(function () {
+    processTd.click(function (e) {
+        e.stopPropagation();
+
         let btnUl = $(this).find('.btn_ul')
         let taskId = $(this).closest('tr').find('#taskId').text();
 
         if (btnUl.css('display') === 'block') {
             btnUl.css('display', 'none')
         } else {
+            $('.btn_ul').css('display', 'none');
             btnUl.css('display', 'block')
             btnUl.find('.changeBtn').click(function (e) {
                 // 프로세스 값 변경 ajax
@@ -152,13 +185,17 @@ function all() {
 
 // 우선순위 버튼
 
-    priorityTd.click(function () {
+
+    priorityTd.click(function (e) {
+        e.stopPropagation();
+
         let priority_ul = $(this).find('.priority_ul');
         let taskId = $(this).closest('tr').find('#taskId').text();
 
         if (priority_ul.css('display') === 'block') {
             priority_ul.css('display', 'none')
         } else {
+            $('.priority_ul').css('display', 'none');
             priority_ul.css('display', 'block')
             priority_ul.find('.priorityBtn').click(function (e) {
                 // 프로세스 값 변경 ajax
@@ -336,24 +373,20 @@ function all() {
         $('.taskPage-requestBtn').trigger("click").addClass('active')
     })
 
-    document.querySelector('.rangeInput').addEventListener('input',function(event){
+    document.querySelector('.rangeInput').addEventListener('input', function (event) {
         let gradient_value = 100 / event.target.attributes.max.value;
         console.log(event.target.value)
-        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 '+gradient_value * event.target.value +'%, rgb(236, 236, 236) ' +gradient_value *  event.target.value + '%, rgb(236, 236, 236) 100%)';
+        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
     });
 
-// td 공통 부분
+ //업무 작성하기 부분 설정
 
-    // document.addEventListener('click', function (e) {
-    //     let container = document.getElementById('btn_ul');
-    //     let process_td = document.getElementById('processTd');
-    //     if (!container.contains(e.target) && !process_td.contains(e.target)) {
-    //         container.style.display = 'none';
-    //     }
-    // });
+    //시작일
+    $('.task-addStartDate').attr('min', new Date().toISOString().split("T")[0])
+    $('.task-addEndDate').attr('min', new Date().toISOString().split("T")[0])
 }
 
-function dateFormat(date){
+function dateFormat(date) {
     const TIME_ZONE = 9 * 60 * 60 * 1000;
     const d = new Date(date);
     let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
@@ -362,7 +395,7 @@ function dateFormat(date){
     return format_date + ' ' + time;
 }
 
-function dateWeek(date){
+function dateWeek(date) {
     const TIME_ZONE = 9 * 60 * 60 * 1000;
     const d = new Date(date);
     let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
@@ -371,14 +404,17 @@ function dateWeek(date){
     const dayOfWeek = week[(new Date(date)).getDay()];
     console.log(format_date)
 
-    return format_date + ' (' + dayOfWeek+')';
+    return format_date + ' (' + dayOfWeek + ')';
 }
 
-function showTaskDetail(result){
-//제목 설정
+function showTaskDetail(result) {
+    console.log(result)
+    //제목 설정
     $('.post-title-h4').text(result.taskTitle)
     //작성자 이름
-    $('.authorName').text(result.authorUserId)
+    $('.authorName').text(result.name)
+    //작성자 profile
+    document.getElementById('task-profile').style.backgroundImage = "url('" + result.profilePhoto + "')";
 
     let crtDate = dateFormat(result.crtDate)
 
@@ -398,20 +434,31 @@ function showTaskDetail(result){
 
     //진척도
     $('.rangeInput').val(result.progress)
-    $('.progress-txt').text(result.progress +'%')
+    $('.progress-txt').text(result.progress + '%')
 
     console.log(result.startDate)
     console.log(result.closingDate)
     //시작일, 마감일 설정
-    $('.startDate-value').text(dateWeek(result.startDate) +'부터')
-    $('.endDate-value').text(dateWeek(result.closingDate)+ '까지')
+    if (result.startDate == null) {
+        $('.startDate-layer-task').css('display', 'none')
+    } else {
+        $('.startDate-layer-task').css('display', 'flex')
+    }
+
+    if (result.closingDate == null) {
+        $('.endDate-layer-task').css('display', 'none')
+    } else {
+        $('.endDate-layer-task').css('display', 'flex')
+    }
+    $('.startDate-value').text(dateWeek(result.startDate) + '부터')
+    $('.endDate-value').text(dateWeek(result.closingDate) + '까지')
 
     //내용
     $('.post-taskContent').text(result.taskContent)
 }
 
 function findCurrentBtn() {
-    let btn = document.querySelectorAll(".processBtn");
+    let btn = document.querySelectorAll(".taskProcessBtn");
     let currentBtn;
     btn.forEach(function (btn, i) {
         if (btn.classList.contains('active')) {
@@ -430,10 +477,10 @@ function addTaskTab() {
         taskContent: $('.writeTaskContent').val(),
         process: currentBtn,
         //managerId: $('#managerId').val(),
-        startDate :  $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date (0),
-        closingDate : $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date (0),
-        progress : Number($('.task-rangeInput').val()),
-        priority : $('.prioritySpan .priorityText').text()
+        startDate: $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date(0),
+        closingDate: $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date(0),
+        progress: Number($('.task-rangeInput').val()),
+        priority: $('.prioritySpan .priorityText').text()
 
 
     }

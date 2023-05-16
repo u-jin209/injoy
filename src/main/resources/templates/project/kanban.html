@@ -20,7 +20,7 @@
                 <h5 class="taskProcess">요청</h5>
                 <div class="control"></div>
                 <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '요청'}">
-                    <div class="draggable" draggable="true">
+                    <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
                         <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                         <div class="el" th:text="${task.taskTitle}"></div>
                     </div>
@@ -338,6 +338,22 @@
         </div>
     </div>
 </div>
-
+<div class="modal"  id="kanbanModal" tabindex="-1" aria-labelledby="kanbanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

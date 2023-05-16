@@ -304,7 +304,7 @@
             <td class="processTd" id="processTd" style="position: relative;">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
                 <div class="btn_ul" id="btn_ul" style=" display: none;">
-                    <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: -5px">
+                    <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: 6px">
                         <li>
                             <button class="btn changeBtn mb-1" style="background-color: #00B2FF">요청</button>
                         </li>
@@ -328,7 +328,7 @@
                 <div th:text="${task.priority}" th:if="${task.priority ne '없음'}"></div>
                 <div th:if="${task.priority}== '없음' or ${task.priority} == null">-</div>
                 <div class="priority_ul" id="priority_ul" style="display: none">
-                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: -1px;">
+                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: 10px;">
                         <li class="mb-1">
                             <button class="priorityBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="red"
@@ -459,12 +459,12 @@
 <!--                </div>-->
 <!--            </td>-->
             <td class="startDate p-0">
-                <input id="startDate" data-placeholder="-" required aria-required="true" type="date"
-                       th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
+                <input id="startDate" data-placeholder="-" required aria-required="true" type="date" onchange="validateStartDate()"
+                       th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}" style="text-align: center"/>
             </td>
             <td class="endDate p-0">
                 <input id="endDate" data-placeholder="-" required aria-required="true" type="date"
-                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}" th:min="${#dates.format(task.startDate, 'yyyy-MM-dd')}"/>
+                       th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}" th:min="${#dates.format(task.startDate, 'yyyy-MM-dd')}" style="text-align: center"/>
             </td>
             <td th:text="${task.name}"></td>
             <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
@@ -486,7 +486,7 @@
         <div class="offcanvas-body">
             <div class="postHeader">
                 <div class="postAuthor">
-                    <span class="postProfile thumbnail">profile</span>
+                    <span id="task-profile" class="postProfile thumbnail"></span>
                     <dl class="post-author-info">
                         <dt>
                             <strong class="authorName"></strong>
@@ -500,13 +500,6 @@
                 </div>
                 <div>
                     <div class="post-option">
-                        <!--                        <button id="movePost" class="btn-go d-none" style="display: inline-block;">-->
-                        <!--                            게시글 바로가기-->
-                        <!--                        </button>-->
-                        <!--                        <button id="pinToTopBnt" class="js-pin-post fixed-btn js-pin-authority " style="display:block" data="">-->
-                        <!--                            &lt;!&ndash; fixed-btn on class &ndash;&gt;-->
-                        <!--                            <span class="blind">상단 고정 등록</span>-->
-                        <!--                        </button>-->
                         <div class="post-setting-button set-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -514,7 +507,7 @@
                             </svg>
                         </div>
                         <ul class="setUp-group" style="display: none;">
-                            <li class="setting-item modify" data-code="modify" style="display:block">
+                            <li class="setting-item modify-task" data-code="modify" style="display:block">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
@@ -524,7 +517,7 @@
                                     수정
                                 </a>
                             </li>
-                            <li class="setting-item delete" data-code="delete" style="display:block">
+                            <li class="setting-item delete-task" data-code="delete" style="display:block">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                          fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -543,7 +536,7 @@
                 </div>
                 <div class="post-state">
                     <span class="task-number d-inline-block" data-task="10699321">
-                          업무번호<em>10</em>
+                          업무번호<em></em>
                     </span>
                 </div>
             </div>
@@ -568,26 +561,26 @@
                                     <button class="task-process-btn holdBtn">보류</button>
                                 </div>
                             </li>
-                            <li class="manager-layer">
-                                <div class="create-content content-title">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
-                                         class="bi bi-person-workspace" viewBox="0 0 16 16">
-                                        <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                                        <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
-                                    </svg>
-                                </div>
-                                <div class="create-content">
-                                    <button class="add-manager-btn" type="button"> 담당자 추가</button>
-                                    <div class="user-wrap">
-                                        <span class="manager-group-div">
-                                            <span class="manager-item">담당자1</span>
-                                        </span>
-                                        <button type="button" class="change-manager-btn" style="display:inline-block;">담당자 변경
-                                        </button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="startDate-layer">
+<!--                            <li class="manager-layer">-->
+<!--                                <div class="create-content content-title">-->
+<!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"-->
+<!--                                         class="bi bi-person-workspace" viewBox="0 0 16 16">-->
+<!--                                        <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>-->
+<!--                                        <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>-->
+<!--                                    </svg>-->
+<!--                                </div>-->
+<!--                                <div class="create-content">-->
+<!--                                    <button class="add-manager-btn" type="button"> 담당자 추가</button>-->
+<!--                                    <div class="user-wrap">-->
+<!--                                        <span class="manager-group-div">-->
+<!--                                            <span class="manager-item">담당자1</span>-->
+<!--                                        </span>-->
+<!--                                        <button type="button" class="change-manager-btn" style="display:inline-block;">담당자 변경-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+                            <li class="startDate-layer-task">
                                 <div class="create-content content-title">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                          class="bi bi-calendar4" viewBox="0 0 16 16">
@@ -614,7 +607,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="endDate-layer">
+                            <li class="endDate-layer-task">
                                 <div class="create-content content-title">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                          class="bi bi-calendar4" viewBox="0 0 16 16">

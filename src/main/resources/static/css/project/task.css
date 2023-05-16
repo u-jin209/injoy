@@ -773,10 +773,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput{
     width: 100%;
-    background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
+    background: linear-gradient(to right, #FFE283 0%, #FFE283 0%, #ececec 0%, #ececec 100%);
     border-radius: 8px;
     outline: none;
-    transition: background 450ms ease-in;
+    /*transition: background 450ms ease-in;*/
     -webkit-appearance: none;
     accent-color: #ffca1d;
 }
@@ -820,7 +820,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.addEndDate, .addStartDate{
+.task-addEndDate, .addEndDate, .task-addStartDate, .addStartDate{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
@@ -830,7 +830,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.addEndDate::before, .addStartDate::before{
+.task-addEndDate::before, .addEndDate::before, .task-addStartDate::before, .addStartDate::before{
     text-align: start !important;
 }
 

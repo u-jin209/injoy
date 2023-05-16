@@ -1,6 +1,9 @@
 $(document).ready(function () {
     set_priority()
 
+    const collapseElementList = document.querySelectorAll('.collapse')
+
+
     //항목 추가입력 버튼
     $('.home-content-group').each(function () {
 
@@ -18,7 +21,6 @@ $(document).ready(function () {
     })
 
     $('.rangeInput-home').each(function () {
-        console.log($(this).val())
         let value = $(this).val()
         let gradient_value = 100 / $(this).attr('max');
         $(this).css('background', 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * value + '%, rgb(236, 236, 236) ' + gradient_value * value + '%, rgb(236, 236, 236) 100%)')
@@ -138,6 +140,10 @@ $(function () {
             }
         })
     })
+
+    $('.addStartDate').attr('min', new Date().toISOString().split("T")[0])
+
+    //$('.addEndDate').attr('min', new Date().toISOString().split("T")[0])
 
     //시작일 추가하기
     $('.addStartDate').change(function () {
@@ -359,6 +365,22 @@ $(function () {
     modifyBoard()
     deleteTask()
     deleteBoard()
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let accordionBtn = document.getElementById("accordionBtn");
+        let collapseTask = document.getElementById("collapseTask");
+
+        accordionBtn.addEventListener("click", function() {
+            let expanded = accordionBtn.getAttribute("aria-expanded");
+            if (expanded === "true") {
+                collapseTask.classList.remove("show");
+                accordionBtn.setAttribute("aria-expanded", "false");
+            } else {
+                collapseTask.classList.add("show");
+                accordionBtn.setAttribute("aria-expanded", "true");
+            }
+        });
+    });
 
 })
 

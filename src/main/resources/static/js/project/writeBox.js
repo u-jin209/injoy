@@ -10,6 +10,9 @@ $(document).ready(function () {
 
 $(function () {
         //시작일 부분
+    $('.writeBox-addStartDate').attr('min', new Date().toISOString().split("T")[0])
+    $('.writeBox-addEndDate').attr('min', new Date().toISOString().split("T")[0])
+
     $('.writeBox-addStartDate').change(function (){
         $('.start-date-exist').css('display', 'block')
         $('.startDate-value').text($(this).val() + addWeek($(this).val()) + ' 부터')
@@ -106,29 +109,28 @@ $(function () {
     })
 
     $('.writeBoxTab').click(function () {
-        $(this).each(function () {
-            if ($(this).hasClass('active')) {
-                $(this).addClass('active')
-                $(this).find('a').trigger('click')
+        var activeTab = $(this);
 
-                if ($(this).attr('id') === 'boardWrite-tab') {
-                    console.log("board")
-                    $('#submitWriteBtn').attr('id', 'boardWriteBtn')
-                    boardWrite()
-                } else if ($(this).attr('id') === 'taskWrite-tab') {
-                    console.log("task")
-                    $('#submitWriteBtn').attr('id', 'taskWriteBtn')
-                    $('.writeBox-requestBtn').trigger("click").addClass('active')
+        $('#writeBoxContent').empty();
+        if (activeTab.hasClass('active')) {
+            activeTab.addClass('active');
+            activeTab.find('a').trigger('click');
 
-                    taskWrite()
-                } else if ($(this).attr('id') === 'scheduleWrite-tab') {
-                    console.log("schedule")
-                    //scheduleWrite()
-                }
-
+            if (activeTab.attr('id') === 'boardWrite-tab') {
+                console.log("board");
+                $('.submitWriteBtn').attr('id', 'boardWriteBtn');
+                boardWrite();
+            } else if (activeTab.attr('id') === 'taskWrite-tab') {
+                console.log("task");
+                $('.submitWriteBtn').attr('id', 'taskWriteBtn');
+                $('.writeBox-requestBtn').trigger("click").addClass('active');
+                taskWrite();
+            } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
+                console.log("schedule");
+                //scheduleWrite();
             }
-        })
-    })
+        }
+    });
 
     $('.processBtn').click(function (e) {
         let btn = document.querySelectorAll(".processBtn");
@@ -139,12 +141,12 @@ $(function () {
                 btn.classList.remove("active");
             }
         });
+
     })
 
 })
 
-function findCurrentBtn(){
-
+function writeCurrentBtn() {
     let btn = document.querySelectorAll(".processBtn");
     let currentBtn;
     btn.forEach(function (btn, i) {
@@ -169,7 +171,7 @@ function boardWrite() {
         let formData = {
             bTitle: $('#boardTitle').val(),
             bContent: $('.writeBoardContent').val(),
-            projectId: $('.projectIdInput').val()
+            projectId: Number($('.projectIdInput').val())
         }
 
         $.ajax({
@@ -196,14 +198,13 @@ function to_date2(date_str)
 
 
 function taskWrite() {
-    let currentBtn = findCurrentBtn()
 
     $('#taskWriteBtn').click(function () {
         let formData = {
             projectId: Number($('.writeProjectId').val()),
             taskTitle: $('#taskTitle').val(),
             taskContent: $('.writeContent').val(),
-            process: currentBtn,
+            process: writeCurrentBtn(),
             //managerId: $('.managerId').val(),
             startDate :  $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date (0),
             closingDate : $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date (0),
@@ -211,8 +212,6 @@ function taskWrite() {
             priority : $('.prioritySpan-writeBox .priorityText').text()
 
         }
-
-        console.log(formData)
 
         $.ajax({
             url: '/task/mainWrite',

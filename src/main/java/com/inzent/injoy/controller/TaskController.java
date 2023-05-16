@@ -57,11 +57,11 @@ public class TaskController {
         System.out.println(taskDTO);
 
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
-        if (Objects.equals(taskDTO.getClosingDate(), new Date("1899-11-30"))){
+        if (Objects.equals(taskDTO.getClosingDate(), new Date(0))){
             taskDTO.setClosingDate(null);
         }
 
-        if (Objects.equals(taskDTO.getStartDate(), new Date("1899-11-30"))){
+        if (Objects.equals(taskDTO.getStartDate(), new Date(0))){
             taskDTO.setStartDate(null);
         }
 
