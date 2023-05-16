@@ -689,7 +689,201 @@ margin: 10px;
     border-color: #D0D0D0;
 }
 
+.document{
+    position: relative;
+    -webkit-box-flex: 1;
+    flex: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+    min-width: 986px;
+}
 
+
+.document-search-wrap{
+    padding: 10px 10px 5px 30px;
+    margin-bottom: 0;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+
+.document-search-wrap .document-search{
+    display: inline-block;
+}
+
+
+.document-search{
+    margin: 0;
+    width: 100%;
+    max-width: 355px;
+    text-align: right;
+}
+
+
+.document-search .bi-search {
+    position: absolute !important;
+    top: 50% !important;
+    left: 14px !important;
+    transform: translateY(-50%) !important;
+    color: #555!important;
+    font-size: 16px!important;
+}
+
+
+
+
+.search-file{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+.search-file-input {
+    width: 100%;
+    height: 34px;
+    padding: 0 74px 0 38px;
+    background: #fff;
+    border: 1px solid #ddd;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3064B3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+.document-search-wrap .tool-document {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    float: right;
+}
+
+
+.tool-document button {
+    position: relative;
+    display: inline-block;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 12px 0 34px;
+    border: 1px solid #ddd;
+    background: #fff;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: center;
+    overflow: inherit;
+}
+
+
+.tool-document button svg {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+
+.tool-document button+button {
+    margin-left: 10px;
+}
+
+
+.tool-document button.collect-add-button {
+    width: auto;
+    height: 30px;
+    padding: 0 10px;
+    background: #3064B3;
+    border: 1px solid;
+    color: #fff;
+    margin: 0 0 0 10px;
+}
+
+
+.document-table-area{
+    margin-top: 5px;
+}
+
+
+.folder-tr, .file-tr {
+    height: 56px;
+}
+
+
+.folder-name-area, .file-name-area {
+    width: 100%;
+    height: 56px;
+    position: relative;
+    float: left;
+    text-align: left;
+    border-top: none !important;
+}
+
+
+.folder-checkBox, .file-checkBox{
+    position: relative;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+
+.folder-name-area .folder-checkBox, .file-name-area .file-checkBox {
+    display: inline-block;
+    background-size: 1438px auto;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+}
+
+
+.folder-img, .file-img {
+    position: absolute;
+    top: 50%;
+    left: 43px;
+    transform: translateY(-50%);
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 25px;
+    margin-right: 25px;
+    vertical-align: middle;
+}
+
+
+.folder-name, .file-name{
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 123px;
+    transform: translateY(-45%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 /* projectFile 관련 css 끝 */
 

@@ -122,7 +122,7 @@
             </div>
         </div>
         <th:block th:replace="~{fragment/writeBox :: writeBoxfragment(${project})}"></th:block>
-        <div th:if="${#lists.isEmpty(boardList)} or ${#lists.isEmpty(taskList)}">
+        <div th:if="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
             <div>등록된 글이 없습니다.</div>
         </div>
         <div class="project-content">
