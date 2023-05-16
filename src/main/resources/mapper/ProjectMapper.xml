@@ -21,7 +21,7 @@
         on p."projectId" = b."projectId"
         where p."projectId"=#{id}
     </select>
-    <insert id="insert" parameterType="ProjectDTO">
+    <insert id="insert" parameterType="ProjectDTO" keyProperty="projectId" useGeneratedKeys="true">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")
         values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId},#{domain})
     </insert>

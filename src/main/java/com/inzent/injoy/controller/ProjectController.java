@@ -127,7 +127,16 @@ public class ProjectController {
         projectService.insert(projectDTO);
 
 
-        return "redirect:/member/insert/-1/MANAGER";
+        ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+
+        memberDTO.setAuthority("MANAGER");
+        memberDTO.setUserId(login.getUserDTO().getId());
+        memberDTO.setProjectId(projectDTO.getProjectId());
+        projectMemberService.insert(memberDTO);
+
+
+
+        return "redirect:/project/myProject";
     }
 
     @ResponseBody

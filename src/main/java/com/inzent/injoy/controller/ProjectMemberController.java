@@ -31,20 +31,11 @@ public class ProjectMemberController {
     public String insertMember(@AuthenticationPrincipal UserCustomDetails login,@PathVariable int projectId,
                                @PathVariable String authority , Integer userId){
 
-        System.out.println("authority : "+ authority);
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
 
         memberDTO.setAuthority(authority);
 
-        if(authority.equals("MANAGER")){
-            memberDTO.setUserId(login.getUserDTO().getId());
-            memberDTO.setProjectId(projectService.selectLastId());
-            memberService.insert(memberDTO);
-
-
-            return "redirect:/project/myProject";
-        }
-        else if(authority.equals("REQUEST") ) {
+        if(authority.equals("REQUEST") ) {
             memberDTO.setUserId(login.getUserDTO().getId());
             memberDTO.setProjectId(projectId);
             memberService.insert(memberDTO);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.FolderMapper">
+
+    <insert id="insert" parameterType="FolderDTO" >
+        INSERT INTO injoy."folder"( "folderName", "folderRoot","userId", "projectId")
+        VALUES (#{folderName},#{folderRoot}, #{userId}, #{projectId});
+    </insert>
+
+    <update id="update" parameterType="FolderDTO">
+        UPDATE injoy."folder"
+        SET  "folderRoot"= #{folderRoot}
+        WHERE "folderId"=#{folderId};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy."folder"
+        WHERE "folderId"=#{folderId};
+    </delete>
+
+    <select id="selectAll" parameterType="hashmap" resultType="FolderDTO">
+        select * from injoy."folder" f
+        inner join injoy."user" u
+        on f."userId" =u."id"
+        where "folderRoot" = #{folderRoot} and "projectId" =#{projectId}
+    </select>
+
+    <select id="checkName" parameterType="FolderDTO" resultType="int">
+        select COUNT("folderId") from injoy."folder"
+        where "projectId" =#{projectId} and  "folderName" = #{folderName} and "folderRoot" = #{folderRoot}
+    </select>
+
+</mapper>

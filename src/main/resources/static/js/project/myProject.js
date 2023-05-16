@@ -159,7 +159,7 @@ function approve(value){
 }
 
 function inviteList(){
-    console.log("inviteLicst")
+
     $('#inviteListBody').empty();
     $.ajax({
         type: 'GET',
