@@ -132,6 +132,7 @@ $(function () {
         }
     });
 
+
     $('.processBtn').click(function (e) {
         let btn = document.querySelectorAll(".processBtn");
         btn.forEach(function (btn, i) {

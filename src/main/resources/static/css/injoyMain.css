@@ -118,7 +118,7 @@ header {
     height: 80%;
 }
 
-.processBtn {
+.processBtn, .kanban-process-btn {
     display: inline-flex !important;
     height: 30px;
     border-radius: 30px !important;

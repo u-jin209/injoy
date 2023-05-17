@@ -25,7 +25,7 @@
 <!-- Example single danger button -->
                 <div class="btn-group" >
                   <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img style="height: 27px; width: 27px;border-radius: 30%" th:src="${logIn.profilePhoto}" onerror=location.href='/img/user.jpg'  >
+                    <img style="height: 27px; width: 27px;border-radius: 30%" th:src="${logIn.profilePhoto}" onerror=this.source='/img/user.jpg'  >
                   </button>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item"  href="/user/userInfo">유저정보</a></li>

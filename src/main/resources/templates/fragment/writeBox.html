@@ -103,6 +103,17 @@
                                 <textarea class="writeBoardContent" placeholder="내용을 입력하세요."></textarea>
                             </label>
                         </div>
+                        <div class="postAttached">
+                            <div id="dropzone-board">
+                                <form action="/file/boardUpload" class="dropzone needsclick" id="board-upload" style="border: none">
+                                    <div class="dz-message needsclick">
+                                  <span class="text">
+                                  </span>
+                                        <span class="plus">+</span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane" id="taskWrite-tab-pane" role="tabpanel" aria-labelledby="taskWrite-tab"
                          tabindex="1">
@@ -313,8 +324,15 @@
                             </label>
                         </div>
                         <div class="postAttached">
-                            <div class="attached-image-kanban"></div>
-                            <div class="attached-file-kanban"></div>
+                            <div id="task-dropzone">
+                                <form action="/file/taskUpload" class="dropzone needsclick" id="task-upload" style="border: none">
+                                    <div class="dz-message needsclick">
+                                  <span class="text">
+                                  </span>
+                                        <span class="plus">+</span>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                     </div>

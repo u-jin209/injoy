@@ -1,3 +1,42 @@
+.content-none-area{
+    margin: 0 0 15px 0;
+}
+
+.none-title{
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+.none-title h4{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+}
+
+.none-content{
+    text-align: end;
+    margin: 60px auto;
+}
+
+.none-text {
+    margin-top: 22px;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -.02em;
+    color: #999;
+    margin-left: 120px;
+}
+
 .project-content{
     width: 80%;
 }

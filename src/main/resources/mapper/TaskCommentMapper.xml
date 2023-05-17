@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TaskCommentMapper">
+    <select id="selectAll" parameterType="int"  resultType="TaskCommentDTO">
+        SELECT * FROM injoy.taskComment
+        INNER JOIN injoy.user
+        ON "user"."id" = "task"."authorUserId"
+        where "projectId" = #{projectId}
+        ORDER BY "crtDate" DESC
+    </select>
+    <select id="selectOne" parameterType="int" resultType="TaskCommentDTO">
+        SELECT * FROM injoy.taskComment
+        INNER JOIN injoy.user
+        ON "user"."id" = "task"."authorUserId"
+        where "taskId" = #{taskId}
+    </select>
+    <insert id="insert" parameterType="TaskCommentDTO">
+        INSERT INTO injoy."taskComment"("projectId", "taskId", "authorUserId", "crtDate", "mdfDate", comment)
+        VALUES (?, ?, ?, NOW(), NOW(), ?);
+    </insert>
+    <update id="update" parameterType="TaskCommentDTO">
+        UPDATE injoy.taskComment
+        SET "taskTitle" = #{taskTitle}, "process" = #{process}, "priority" = #{priority}, "progress" = #{progress}, "startDate" = #{startDate}, "closingDate" = #{closingDate}, "taskContent" = #{taskContent}, "mdfDate" = NOW()
+        WHERE "tCommentId" = #{tCommentId}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy.taskComment
+        WHERE "tCommentId" = #{tCommentId}
+    </delete>
+</mapper>
