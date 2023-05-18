@@ -27,6 +27,11 @@
         where "folderRoot" = #{folderRoot} and "projectId" =#{projectId}
     </select>
 
+    <select id="selectFolder" parameterType="hashmap" resultType="FolderDTO">
+        select * from injoy."folder" f
+        where "folderRoot" = #{folderRoot} and "projectId" =#{projectId}
+    </select>
+
     <select id="checkName" parameterType="FolderDTO" resultType="int">
         select COUNT("folderId") from injoy."folder"
         where "projectId" =#{projectId} and  "folderName" = #{folderName} and "folderRoot" = #{folderRoot}

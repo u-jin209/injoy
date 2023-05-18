@@ -9,7 +9,8 @@ public class FileDTO {
     private int userId;
     private int folderId;
     private String fileName;
-    private String fileOption;
+    private String fileRealPath;
+    private String fileSize;
 
 
 

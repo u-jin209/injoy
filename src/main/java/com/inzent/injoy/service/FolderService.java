@@ -30,7 +30,9 @@ public class FolderService {
     public List<FolderDTO> selectAll(Map<String ,Object> map){
        return session.selectList(NAMESPACE+".selectAll",map);
     }
-
+    public List<FolderDTO> selectFolder(Map<String ,Object> map){
+        return session.selectList(NAMESPACE+".selectFolder",map);
+    }
     public int checkName(FolderDTO folderDTO){
         return session.selectOne(NAMESPACE+".checkName", folderDTO);
     }

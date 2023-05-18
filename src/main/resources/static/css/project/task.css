@@ -132,6 +132,13 @@ td:hover {
     border: 3px solid #3064B3 !important;
 }
 
+
+td.h-none:hover {
+    border:0px solid #3064B3 !important;
+
+
+}
+
 .detail {
     text-decoration: underline !important;
     margin-top: 3px !important;

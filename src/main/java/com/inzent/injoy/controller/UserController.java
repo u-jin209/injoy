@@ -179,12 +179,12 @@ public class UserController {
 
             String uniqueName = uuids[0];
 
-            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),uniqueName+fileExtension);
+            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),"uploadImg/"+uniqueName+fileExtension);
             profilePhoto.transferTo(saveFile);
             String[] imgPath = String.valueOf(saveFile).split("web");
 
             System.out.println("imgPath : "+imgPath);
-            origin.setProfilePhoto(FileDirPath+uniqueName+fileExtension);
+            origin.setProfilePhoto(FileDirPath+"uploadImg/"+uniqueName+fileExtension);
         }
 
 

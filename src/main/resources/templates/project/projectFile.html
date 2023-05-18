@@ -11,58 +11,14 @@
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 
     <link rel="stylesheet" href="/css/injoyMain.css">
-    <script th:src="@{/js/project/projectFile.js}" defer></script>
+
 
 </head>
 
 <body>
-<!--<div class="container-fluid">-->
-<!--    <div id="dropzone">-->
-<!--        <form action="https://httpbin.org/post" class="dropzone needsclick" id="demo-upload">-->
-<!--            <div class="dz-message needsclick">-->
-<!--      <span class="text">-->
-
-<!--      Drop files here or click to upload.-->
-<!--      </span>-->
-<!--                <span class="plus">+</span>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <div class="row">-->
-
-<!--        <div class="col mb-3">-->
-<!--            <input type="checkbox" onclick="selectAll(this)"> 전체선택-->
-<!--            <button class="btn btn-green" type="button" onclick="openDrop()" style="float: right">-->
-<!--                <i class="fa-solid fa-plus fa-bounce fa-sm" style="margin-right: 5px; "></i>파일 업로드-->
-<!--            </button>-->
 
 
-<!--        </div>-->
-
-
-<!--    </div>-->
-
-
-<!--    <div class="row">-->
-<!--        <div class="col-md-2">-->
-
-<!--            <div class="card">-->
-<!--                <h5 class="card-header">-->
-<!--                    <input type="checkbox">-->
-<!--                    파일 1</h5>-->
-<!--                <div class="card-body" style="text-align: center">-->
-<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"-->
-<!--                         class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">-->
-<!--                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>-->
-<!--                    </svg>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-<!--</div>-->
-
+<script th:src="@{/js/project/projectFile.js}" defer></script>
 <div class="document">
 
     <div class="document-search-wrap">
@@ -100,10 +56,13 @@
                 폴더 삭제
             </button>
 
-
             <button type="button" class="js-file-add-button collect-add-button" id="addFolderBtn"
                     style="display: inline-block;" data-toggle="modal" data-target="#addFolderModal">
                 + 폴더추가
+            </button>
+
+            <button type="button" class="collect-fileAdd-button btn btn-green" id="addFileBtn"
+                    style="display: inline-block;" data-toggle="modal" data-target="#addFileModal" >+파일 업로드
             </button>
 
 
@@ -112,14 +71,13 @@
     <div class="document-table-area">
         <table class="table">
             <thead class="text-center" style="background-color: #fafafa; ">
+            <th style="width: 5%; color: #888;"></th>
             <th style="width: 60%; color: #888;">파일명</th>
             <th style="width: 10%; color: #888;">용량</th>
             <th style="width: 10%; color: #888;">등록자</th>
             <th style="width: 18%; color: #888;">등록일</th>
             </thead>
             <tbody id="listBody">
-
-
 
 
             <tr class="file-tr">
@@ -156,7 +114,7 @@
 
                 <div>
                     <label th:target="root"> 현재 경로 </label>
-                    <div id="root">/</div>
+                    <div id="root" >/</div>
                     <br>
                 </div>
 
@@ -172,9 +130,46 @@
         </div>
     </div>
 </div>
+
+<!--파일업로드 모달-->
+
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addFileModalLabel">파일 업로드</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+                    <div id="dropzone">
+                        <form action="/file/insert" id="my-dropzone" class="dropzone" enctype="multipart/form-data"
+                            style="border-radius: 10px;text-align: center;" >
+                            <div class="dz-message needsclick" id="uploadFileList">
+                              <span class="text">
+
+                              파일을 드래그 하거나 눌러서 선택해주세요
+                              </span>
+                                <span class="plus">+</span>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-green" id="upload-btn">업로드</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     jQuery(document).ready(function () {
-        $('#addFolderModal').click();
+
         printFolder('/');
     });
 
