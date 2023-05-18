@@ -2,6 +2,8 @@ package com.inzent.injoy.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class FileDTO {
     private int fileId;
@@ -12,6 +14,7 @@ public class FileDTO {
     private String fileRealPath;
     private String fileSize;
 
-
+    private Date crtDate;
+    private String name;
 
 }

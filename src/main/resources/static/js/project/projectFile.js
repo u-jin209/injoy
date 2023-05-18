@@ -1,40 +1,56 @@
 Dropzone.autoDiscover = false;
 const urlParams = new URL(location.href);
 const projectId = urlParams.pathname.split('/')[2];
-let folderRoot = document.getElementById("root").innerText;
 
-var myDropzone = new Dropzone("#my-dropzone", {
+document.getElementById("addFileBtn").onclick =function (){
 
-
-    url: "/file/insert", // 업로드 처리를 수행할 서버의 엔드포인트 URL을 여기에 입력하세요
-    paramName: "file",
-    autoProcessQueue: false,// 서버에서 파일을 처리하는데 사용할 매개변수 이름을 여기에 입력하세요
-    maxFilesize: 10, // 업로드 가능한 파일의 최대 크기를 메가바이트 단위로 여기에 입력하세요
-    addRemoveLinks: true, // 파일 제거 링크를 표시할지 여부를 여기에 입력하세요
-    dictRemoveFile: "Remove", // 파일 제거 링크에 표시할 텍스트를 여기에 입력하세요
-    params: {  // 추가 데이터 지정
-        "projectId": projectId,
-        "folderRoot" : folderRoot
-    },
-
-    init: function() {
-
-
-        // 업로드 버튼 클릭 시 이벤트 처리
-        document.querySelector("#upload-btn").addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            myDropzone.processQueue();  // 업로드 큐 처리
-        });
-        this.on("success", function(file, response) {
-            console.log("파일 업로드 성공: " + response);
-        });
-        this.on("error", function(file, errorMessage) {
-            console.log("파일 업로드 오류: " + errorMessage);
-        });
+    let folderRoot ;
+    const root = document.getElementById("root").innerText;
+    if (root == "/"){
+        folderRoot = root;
+    }else{
+        folderRoot = root.slice(0,-1)
     }
-});
 
+    var myDropzone = new Dropzone("#my-dropzone", {
+
+
+        url: "/file/insert", // 업로드 처리를 수행할 서버의 엔드포인트 URL을 여기에 입력하세요
+        paramName: "file",
+        autoProcessQueue: false,// 서버에서 파일을 처리하는데 사용할 매개변수 이름을 여기에 입력하세요
+        maxFilesize: 10, // 업로드 가능한 파일의 최대 크기를 메가바이트 단위로 여기에 입력하세요
+        addRemoveLinks: true, // 파일 제거 링크를 표시할지 여부를 여기에 입력하세요
+        dictRemoveFile: "Remove", // 파일 제거 링크에 표시할 텍스트를 여기에 입력하세요
+        params: {  // 추가 데이터 지정
+            "projectId": projectId,
+            "folderRoot" : folderRoot
+        },
+
+        init: function() {
+
+
+            // 업로드 버튼 클릭 시 이벤트 처리
+            document.querySelector("#upload-btn").addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+                myDropzone.destroy();
+                $(".btn-close").click();// 업로드 큐 처리
+            });
+            this.on("success", function(file, response) {
+                console.log("파일 업로드 성공: " + response);
+                myDropzone.destroy();
+
+                printFolder(document.getElementById("root").innerText)
+            });
+            this.on("error", function(file, errorMessage) {
+                console.log("파일 업로드 오류: " + errorMessage);
+            });
+        }
+    });
+
+
+};
 function openDrop() {
     const fileUpload = document.getElementById("fileUpload")
     fileUpload.style.display = 'unset'
@@ -67,7 +83,7 @@ function addFolder() {
 
 function printFolder(folderRoot) {
 
-    folderRoot =  document.getElementById("root").innerText;
+    console.log("folderRoot :" + folderRoot)
 
     $('#listBody').empty();
     const urlParams = new URL(location.href);
@@ -104,18 +120,7 @@ function printFolder(folderRoot) {
                 result.forEach(function (item) {
                     const root = document.getElementById("root")
                     root.name= item.folderId
-                    if(item.folderName == undefined){
-                        $('#listBody').append(
-                            "<tr class='folder-tr' >" +
-                            "<td class='h-none text-center' ></td>" +
-                            "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
-                            "<td class='h-none'></td>" +
-                            "<td class='h-none'></td>" +
-                            "<td class='h-none'></td>" +
-                            "</tr>"
-                        )
-                        root.innerText= '/'
-                    }else{
+                    if (item.folderName != undefined){
                         $('#listBody').append(
                             "<tr class='folder-tr'>" +
                             "<td class='h-none text-center'>" +
@@ -124,7 +129,7 @@ function printFolder(folderRoot) {
                             "<td class='folder-name-area'  onclick='moveFolder(" + item.folderId + ")'>" +
 
                             "<div class='folder-img'>" +
-                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#FFB30D' className='bi bi-folder-fill' viewBox='0 0 16 16'><path d='M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z'/></svg>" +
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#FFB30D' class='bi bi-folder-fill' viewBox='0 0 16 16'><path d='M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z'/></svg>" +
                             "</div>" +
                             "<span class='folder-name'  id='folderName" + item.folderId + "' >" + item.folderName + "</span>" +
                             "</td>" +
@@ -133,18 +138,15 @@ function printFolder(folderRoot) {
                             "<td class='text-center' >" + item.crtDate + "</td>" +
                             "</tr>"
                         )
-
                     }
 
 
-
-
-
                 })
+
             } else {
 
                     $('#listBody').append(
-                        "<tr class='folder-tr' >" +
+                        "<tr class='folder-tr' id='emptyFolder'>" +
                         "<td class='h-none text-center' ></td>" +
                         "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
                         "<td class='h-none'></td>" +
@@ -155,7 +157,7 @@ function printFolder(folderRoot) {
 
             }
 
-
+            printFile(folderRoot)
         }
     })
 
@@ -167,8 +169,13 @@ function backFolder() {
     const nowRoot = document.getElementById("root").innerText.toString().slice(0, -1)
     const back = nowRoot.lastIndexOf("/")
     const backRoot = nowRoot.slice(0, back + 1)
+    console.log(" nowRoot :" +nowRoot)
+    console.log(" back :" +back)
+
 
     root.innerText = backRoot
+    console.log(" backRoot :" +backRoot)
+
     printFolder(backRoot)
 
 
@@ -179,6 +186,7 @@ function moveFolder(folderId) {
     const name = document.getElementById("folderName" + folderId).innerText
     const newRoot = root.innerText + name + "/"
 
+    console.log("newRoot : "+newRoot)
 
     root.innerText = newRoot
 
@@ -245,3 +253,50 @@ function checkFolderName() {
 };
 
 
+
+
+function printFile(folderRoot){
+
+    console.log("printFile folderId: "  +folderRoot)
+    $.ajax({
+        url: '/file/fileList', //Controller에서 요청 받을 주소
+        type: 'GET', //POST 방식으로 전달
+        data: {
+            "folderRoot": folderRoot.slice(0,-1),
+            "projectId": projectId
+        },
+        success: function (result) {
+            if (result.length >= 1) {
+
+                $('#emptyFolder').css('display','none');
+
+
+                result.forEach(function (item) {
+
+                    console.log("sofjsolifjsdiofjpsdofjsao")
+
+
+
+                        $('#listBody').append(
+                            "<tr class='file-tr'>" +
+                            "<td class='h-none text-center'>" +
+                            "<input class='file-checkBox' type='checkbox'  value='" + item.fileId + "' name='checkFile'/>" +
+                            "</td>" +
+                            "<td class='file-name-area'>" +
+                            "<div class='file-img'>" +
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
+                            "</div> " +
+                            "<span class='file-name '>"+item.fileName+"</span> " +
+                            "</td>" +
+                            "<td class='text-center'>"+item.fileSize+"</td>" +
+                            "   <td class='text-center'>"+item.name+"</td>" +
+                            "    <td class='text-center'>"+item.crtDate+"</td>"+
+                            "</tr>"
+                        )
+
+                })
+            }
+        }
+
+    })
+}

@@ -80,25 +80,45 @@
             <tbody id="listBody">
 
 
-            <tr class="file-tr">
-                <td class="file-name-area">
-                    <input class="file-checkBox" type="checkbox"/>
-                    <div class="file-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3064B3"
-                             class="bi bi-image-fill" viewBox="0 0 16 16">
-                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
-                        </svg>
-                    </div>
-                    <span class="file-name">파일 이름</span>
-                </td>
-                <td class="text-center">파일 용량</td>
-                <td class="text-center">파일 등록자</td>
-                <td class="text-center">파일 등록일</td>
-            </tr>
+
             </tbody>
         </table>
     </div>
 </div>
+
+
+
+<!--이동 모달-->
+
+<div class="modal fade" id="moveModal" tabindex="-1" aria-labelledby="moveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="moveModalLabel">새폴더</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <label th:target="root"> 현재 경로 </label>
+                    <div id="moveNowRoot" >/</div>
+                    <br>
+                </div>
+
+                <label th:target="folderName"> 새 폴더 이름</label>
+                <input type="text" class="form-control" oninput="checkFolderName()"
+                       placeholder="폴더이름을 입력해주세요">
+                <span class="mt-1"  style="color: #F5544D; display: none">이미 등록된 폴더이름입니다.</span>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-green" onclick="addFolder()">생성</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <!--폴더 추가 모달-->

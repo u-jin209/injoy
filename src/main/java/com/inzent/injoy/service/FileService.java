@@ -22,16 +22,7 @@ public class FileService {
         session.insert(NAMESPACE+".insert",fileDTO);
     }
 
-//
-//    public void delete(int folderId){
-//        session.delete(NAMESPACE+".delete",folderId);
-//    }
-//
-//    public List<FolderDTO> selectAll(Map<String ,Object> map){
-//       return session.selectList(NAMESPACE+".selectAll",map);
-//    }
-//
-//    public int checkName(FolderDTO folderDTO){
-//        return session.selectOne(NAMESPACE+".checkName", folderDTO);
-//    }
+    public List<FileDTO> fileList (Map<String, Object> map){
+        return  session.selectList(NAMESPACE+".selectFile", map);
+    }
 }

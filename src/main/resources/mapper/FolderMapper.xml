@@ -30,6 +30,12 @@
     <select id="selectFolder" parameterType="hashmap" resultType="FolderDTO">
         select * from injoy."folder" f
         where "folderRoot" = #{folderRoot} and "projectId" =#{projectId}
+        <if test='folderName == null'>
+          and  "folderName" is null
+        </if>
+        <if test='folderName != null'>
+            and  "folderName" =#{folderName}
+        </if>
     </select>
 
     <select id="checkName" parameterType="FolderDTO" resultType="int">

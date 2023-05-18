@@ -31,9 +31,6 @@ public class FolderController {
     public String insert(@AuthenticationPrincipal UserCustomDetails login, String folderRoot, String folderName,Integer projectId){
 
 
-
-
-        System.out.println("login = " + login + ", folderRoot = " + folderRoot + ", folderName = " + folderName + ", projectId = " + projectId);
         FolderDTO folderDTO = new FolderDTO();
 
         folderDTO.setFolderName(folderName);
@@ -50,7 +47,7 @@ public class FolderController {
     @ResponseBody
     @PostMapping("delete")
     public String delete(String checkBoxArr ){
-        System.out.println("checkBoxArr = " + checkBoxArr);
+
 
         for(String num : checkBoxArr.split(",")){
 
@@ -66,7 +63,8 @@ public class FolderController {
         map.put("folderRoot",folderRoot);
         map.put("projectId", projectId);
 
-        System.out.printf("folderService.selectAll(map) : "+ folderService.selectAll(map));
+        System.out.println("folderService.selectAll(map) : "+ folderService.selectAll(map));
+
         return  folderService.selectAll(map);
     }
     @PostMapping("checkName")

@@ -9,18 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,31 +39,30 @@ public class FileController {
     public String insert(@AuthenticationPrincipal UserCustomDetails logIn,@RequestParam("file") MultipartFile file ,HttpServletRequest request,
                          int projectId, String folderRoot) throws IOException {
 
-        int folderId = 0;
-        System.out.println("folderRoot = " + folderRoot);
 
+
+        int  NameIdx = folderRoot.lastIndexOf("/");
+        String folderName = folderRoot.substring(NameIdx+1);
         Map<String , Object> map = new HashMap<>();
-        map.put("folderRoot", folderRoot);
-        map.put("projectId",projectId);
 
-        List<FolderDTO> folders = folderService.selectFolder(map);
-        System.out.println("folders = " + folders);
-        for(FolderDTO f: folders){
-            String s ="";
-            if(f.getFolderName() == null){
-                s = f.getFolderRoot();
-            }else{
-                s = f.getFolderRoot() + f.getFolderName();
-            }
+        if( folderName != ""){
+            folderRoot=folderRoot.replaceAll(folderName,"");
 
-            System.out.println("sssssssssssssssssssssssssssss : "+s);
-            if(s.equals(folderRoot)){
-                folderId = f.getFolderId();
-                System.out.println("sssssssssssss  folderId : "+folderId);
-            }
+            map.put("folderRoot", folderRoot );
+            map.put("folderName",folderName);
+            map.put("projectId",projectId);
+
+        }else{
+            folderRoot ="/";
+
+            map.put("folderRoot", folderRoot );
+            map.put("projectId",projectId);
 
         }
 
+
+        FolderDTO folder = folderService.selectFolder(map);
+        int folderId = folder.getFolderId();
 
         String fileRealName = file.getOriginalFilename();
 
@@ -113,5 +107,44 @@ public class FileController {
         return "redirect:/project/myProject";
     }
 
+    @ResponseBody
+    @GetMapping("fileList")
+    public List<FileDTO> selectProject(String folderRoot, Integer projectId){
 
+        System.out.println(" fileList folderRoot : "+  folderRoot);
+        int  NameIdx = folderRoot.lastIndexOf("/");
+        String  folderName = folderRoot.substring(NameIdx+1);
+        System.out.println(" fileList folderName : "+  folderName);
+        Map<String , Object> map= new HashMap<>();
+        if( folderName != ""){
+            folderRoot=folderRoot.replaceAll(folderName,"");
+
+            map.put("folderRoot", folderRoot );
+            map.put("folderName",folderName);
+            map.put("projectId",projectId);
+
+        }else{
+            folderRoot ="/";
+
+            map.put("folderRoot", folderRoot );
+            map.put("projectId",projectId);
+
+        }
+        System.out.println("fileList folderRoot : "+  folderRoot);
+        System.out.println(" fileList NameIdx : "+  NameIdx);
+
+
+
+        System.out.println("folderService.selectFolder(map) : "+folderService.selectFolder(map));
+        FolderDTO folder = folderService.selectFolder(map);
+        int folderId = folder.getFolderId();
+
+        System.out.println("@######@######## folderId : " +folderId);
+        Map<String, Object> file = new HashMap<>();
+        file.put("folderId",folderId);
+        file.put("projectId", projectId);
+
+        System.out.println("fileList) : "+ fileService.fileList(file));
+        return  fileService.fileList(file);
+    }
 }
