@@ -1,5 +1,6 @@
 package com.inzent.injoy.controller;
 import com.inzent.injoy.model.BoardDTO;
+import com.inzent.injoy.model.TaskCommentDTO;
 import com.inzent.injoy.model.TaskDTO;
 import com.inzent.injoy.service.*;
 import com.inzent.injoy.model.UserCustomDetails;
@@ -28,15 +29,17 @@ public class HomeController {
     private BoardService boardService;
 
     private TaskService taskService;
+    private TaskCommentService taskCommentService;
 
     public HomeController(ProjectService projectService, ProjectMemberService memberService,
-                          UserService userService, BoardService boardService, TaskService taskService)
+                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService)
     {
         this.projectService = projectService;
         this.memberService =  memberService;
         this.userService = userService;
         this.boardService = boardService;
         this.taskService = taskService;
+        this.taskCommentService = taskCommentService;
     }
 
     @GetMapping("/")

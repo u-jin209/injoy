@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.BoardCommentMapper">
+    <select id="selectAll" parameterType="hashmap" resultType="BoardCommentDTO">
+        SELECT * FROM injoy."boardComment"
+        INNER JOIN injoy.user
+        ON "user"."id" = "boardComment"."authorUserId"
+        where "projectId" = #{projectId} AND "boardId" = #{boardId}
+        ORDER BY "crtDate" DESC
+    </select>
+    <select id="selectOne" parameterType="int" resultType="BoardCommentDTO">
+        SELECT * FROM injoy."boardComment"
+        INNER JOIN injoy.user
+        ON "user"."id" = "boardComment"."authorUserId"
+        where "bCommentId" = #{bCommentId}
+    </select>
+    <insert id="insert" parameterType="BoardCommentDTO">
+        INSERT INTO injoy."boardComment"("projectId", "boardId", "authorUserId", "crtDate", "mdfDate", "bComment")
+        VALUES (#{projectId}, #{boardId}, #{authorUserId}, NOW(), NOW(), #{bComment});
+    </insert>
+    <update id="update" parameterType="BoardCommentDTO">
+        UPDATE injoy."boardComment"
+        SET "mdfDate"= NOW(), "bComment" = #{bComment}
+        WHERE "bCommentId"= #{bCommentId};
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy."boardComment"
+        WHERE "bCommentId" = #{bCommentId}
+    </delete>
+</mapper>

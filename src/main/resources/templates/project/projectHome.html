@@ -455,6 +455,48 @@
                         </div>
                     </div>
                     <hr style="margin-bottom: 0"/>
+                    <div class="show-comment">
+                        <div class="comment-header">
+                            <input type="hidden" id="home-taskId" th:value="${task.taskId}"/>
+                            <button type="button" class="comment-more-button" style="border: none; background-color: transparent" th:onclick="|showAllTComment(${task.taskId}, ${task.projectId})|">
+                                이전 댓글 더보기 <span class="task-comment-count"></span>
+                            </button>
+                        </div>
+                        <ul class="post-comment-group" id="commentGroup">
+<!--                            <li class="comment-li"  th:each="tComment, tCommentStat :${tComment}" th:if="${tComment.taskId == task.taskId}">-->
+<!--                                <div class="comment-thumbnail">-->
+<!--                                    <span class="thumbnail size40 radius16" th:style="'background-image:url('+ ${tComment.profilePhoto} +');'"></span>-->
+<!--                                </div>-->
+<!--                                <div class="comment-container on">-->
+<!--                                    <div class="comment-user-area">-->
+<!--                                        <div class="comment-user">-->
+<!--                                            <span class="user-name" th:text="${tComment.name}"></span>-->
+<!--                                            <span class="record-date" th:text="${#dates.format(tComment.crtDate, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="comment-writer-menu" th:style="${(tComment.authorUserId != login.id) ? 'display:none' : 'display:block'}">-->
+<!--                                            <button type="button" class="modify-tComment comment-writer-button on" style="background-color: transparent; border: none">-->
+<!--                                                수정</button>-->
+<!--                                            <button type="button" class="delete-tComment comment-writer-button on" style="background-color: transparent; border: none" th:onclick="|deleteTComment(${tComment.tCommentId})|">-->
+<!--                                                삭제</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="comment-content">-->
+<!--                                        <div class="comment-text-area">-->
+<!--                                            <div class="js-remark-text comment-text" th:text="${tComment.tComment}"></div>-->
+<!--                                        </div>-->
+<!--                                        <ul class="js-remark-upload-file upload-document-group"></ul>-->
+<!--                                        <ul class="js-remark-upload-img comment-upload-img"></ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="edit-tComment-form" style="overflow: hidden; width: 100%; margin-bottom: 10px; display: none">-->
+<!--                                    <form  action="/tComment/update" method="post" class="comment-container" style="padding: 0;">-->
+<!--                                        <input type="hidden" name="tCommentId" class="tCommentId-comment" th:value="${tComment.tCommentId}"/>-->
+<!--                                        <input type="text" class="commentInput" th:value="${tComment.tComment}" name="tComment" style="width: 366px"/>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </li>-->
+                        </ul>
+                    </div>
                     <div class="comment-input-wrap" style="background-color: #eee">
                         <div class="user-profile-thumbnail">
                             <span class="thumbnail size40 radius16"
@@ -463,7 +505,7 @@
                         <form  action="/tComment/insert" method="post" class="comment-container" style="padding: 0;">
                             <input type="hidden" name="projectId" class="projectId-comment" th:value="${project.projectId}"/>
                             <input type="hidden" name="taskId" class="taskId-comment" th:value="${task.taskId}"/>
-                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="comment"
+                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="tComment"
                                    aria-label="Recipient's username" aria-describedby="button-addon2">
                         </form>
                     </div>
