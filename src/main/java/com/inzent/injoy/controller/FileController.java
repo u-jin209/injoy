@@ -29,34 +29,34 @@ public class FileController {
 
     private final FolderService folderService;
     private final FileService fileService;
-    public FileController(FolderService folderService,FileService fileService){
+
+    public FileController(FolderService folderService, FileService fileService) {
         this.folderService = folderService;
         this.fileService = fileService;
     }
 
     @ResponseBody
     @PostMapping("insert")
-    public String insert(@AuthenticationPrincipal UserCustomDetails logIn,@RequestParam("file") MultipartFile file ,HttpServletRequest request,
+    public String insert(@AuthenticationPrincipal UserCustomDetails logIn, @RequestParam("file") MultipartFile file, HttpServletRequest request,
                          int projectId, String folderRoot) throws IOException {
 
 
+        int NameIdx = folderRoot.lastIndexOf("/");
+        String folderName = folderRoot.substring(NameIdx + 1);
+        Map<String, Object> map = new HashMap<>();
 
-        int  NameIdx = folderRoot.lastIndexOf("/");
-        String folderName = folderRoot.substring(NameIdx+1);
-        Map<String , Object> map = new HashMap<>();
+        if (folderName != "") {
+            folderRoot = folderRoot.replaceAll(folderName, "");
 
-        if( folderName != ""){
-            folderRoot=folderRoot.replaceAll(folderName,"");
+            map.put("folderRoot", folderRoot);
+            map.put("folderName", folderName);
+            map.put("projectId", projectId);
 
-            map.put("folderRoot", folderRoot );
-            map.put("folderName",folderName);
-            map.put("projectId",projectId);
+        } else {
+            folderRoot = "/";
 
-        }else{
-            folderRoot ="/";
-
-            map.put("folderRoot", folderRoot );
-            map.put("projectId",projectId);
+            map.put("folderRoot", folderRoot);
+            map.put("projectId", projectId);
 
         }
 
@@ -66,22 +66,22 @@ public class FileController {
 
         String fileRealName = file.getOriginalFilename();
 
-        BigDecimal roundedValue = new BigDecimal(file.getSize()/ 1024.0 ).setScale(2, RoundingMode.HALF_UP);
-        System.out.println("filegetSize roundedValue : "+ roundedValue);
+        BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
+        System.out.println("filegetSize roundedValue : " + roundedValue);
 
 
-        System.out.println("fileRealName : "+ fileRealName);
+        System.out.println("fileRealName : " + fileRealName);
 
 
         FileDTO fileDTO = new FileDTO();
-        fileDTO.setFileSize(roundedValue +"MB");
+        fileDTO.setFileSize(roundedValue + "MB");
         fileDTO.setProjectId(projectId);
         fileDTO.setUserId(logIn.getUserDTO().getId());
         fileDTO.setFileName(fileRealName);
         fileDTO.setFolderId(folderId);
 
 
-        if (fileRealName.length() !=0){
+        if (fileRealName.length() != 0) {
             //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 
@@ -93,12 +93,12 @@ public class FileController {
 
             String uniqueName = uuids[0];
 
-            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),"uploadFile/"+uniqueName+fileExtension);
+            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
             file.transferTo(saveFile);
             String[] filePath = String.valueOf(saveFile).split("web");
 
-            System.out.println("filePath : "+filePath);
-            fileDTO.setFileRealPath(FileDirPath+"uploadFile/"+uniqueName+fileExtension);
+            System.out.println("filePath : " + filePath);
+            fileDTO.setFileRealPath(FileDirPath + "uploadFile/" + uniqueName + fileExtension);
         }
 
         fileService.insert(fileDTO);
@@ -109,42 +109,50 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("fileList")
-    public List<FileDTO> selectProject(String folderRoot, Integer projectId){
+    public List<FileDTO> selectProject(String folderRoot, Integer projectId) {
 
-        System.out.println(" fileList folderRoot : "+  folderRoot);
-        int  NameIdx = folderRoot.lastIndexOf("/");
-        String  folderName = folderRoot.substring(NameIdx+1);
-        System.out.println(" fileList folderName : "+  folderName);
-        Map<String , Object> map= new HashMap<>();
-        if( folderName != ""){
-            folderRoot=folderRoot.replaceAll(folderName,"");
+         int NameIdx = folderRoot.lastIndexOf("/");
 
-            map.put("folderRoot", folderRoot );
-            map.put("folderName",folderName);
-            map.put("projectId",projectId);
+        String folderName = folderRoot.substring(NameIdx + 1);
 
-        }else{
-            folderRoot ="/";
+        Map<String, Object> map = new HashMap<>();
 
-            map.put("folderRoot", folderRoot );
-            map.put("projectId",projectId);
+        if (folderName != "") {
+            folderRoot = folderRoot.replaceAll(folderName, "");
+
+            map.put("folderRoot", folderRoot);
+            map.put("folderName", folderName);
+            map.put("projectId", projectId);
+
+        } else {
+            folderRoot = "/";
+
+            map.put("folderRoot", folderRoot);
+            map.put("projectId", projectId);
 
         }
-        System.out.println("fileList folderRoot : "+  folderRoot);
-        System.out.println(" fileList NameIdx : "+  NameIdx);
 
-
-
-        System.out.println("folderService.selectFolder(map) : "+folderService.selectFolder(map));
         FolderDTO folder = folderService.selectFolder(map);
         int folderId = folder.getFolderId();
 
-        System.out.println("@######@######## folderId : " +folderId);
+
         Map<String, Object> file = new HashMap<>();
-        file.put("folderId",folderId);
+        file.put("folderId", folderId);
         file.put("projectId", projectId);
 
-        System.out.println("fileList) : "+ fileService.fileList(file));
-        return  fileService.fileList(file);
+
+        return fileService.fileList(file);
+    }
+
+
+    @ResponseBody
+    @GetMapping("searchFile")
+    public List<FileDTO> searchFile( Integer projectId, String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("projectId" , projectId);
+        map.put("keyword",keyword);
+
+        System.out.println("fileService.searchFile(map) : " + fileService.searchFile(map));
+        return fileService.searchFile(map);
     }
 }

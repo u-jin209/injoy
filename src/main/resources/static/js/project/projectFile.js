@@ -169,12 +169,10 @@ function backFolder() {
     const nowRoot = document.getElementById("root").innerText.toString().slice(0, -1)
     const back = nowRoot.lastIndexOf("/")
     const backRoot = nowRoot.slice(0, back + 1)
-    console.log(" nowRoot :" +nowRoot)
-    console.log(" back :" +back)
 
 
     root.innerText = backRoot
-    console.log(" backRoot :" +backRoot)
+
 
     printFolder(backRoot)
 
@@ -185,8 +183,6 @@ function moveFolder(folderId) {
     const root = document.getElementById("root")
     const name = document.getElementById("folderName" + folderId).innerText
     const newRoot = root.innerText + name + "/"
-
-    console.log("newRoot : "+newRoot)
 
     root.innerText = newRoot
 
@@ -273,30 +269,103 @@ function printFile(folderRoot){
 
                 result.forEach(function (item) {
 
-                    console.log("sofjsolifjsdiofjpsdofjsao")
-
-
-
-                        $('#listBody').append(
-                            "<tr class='file-tr'>" +
-                            "<td class='h-none text-center'>" +
-                            "<input class='file-checkBox' type='checkbox'  value='" + item.fileId + "' name='checkFile'/>" +
-                            "</td>" +
-                            "<td class='file-name-area'>" +
-                            "<div class='file-img'>" +
-                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
-                            "</div> " +
-                            "<span class='file-name '>"+item.fileName+"</span> " +
-                            "</td>" +
-                            "<td class='text-center'>"+item.fileSize+"</td>" +
-                            "   <td class='text-center'>"+item.name+"</td>" +
-                            "    <td class='text-center'>"+item.crtDate+"</td>"+
-                            "</tr>"
-                        )
+                    $('#listBody').append(
+                        "<tr class='file-tr'>" +
+                        "<td class='h-none text-center'>" +
+                        "<input class='file-checkBox' type='checkbox'  value='" + item.fileId + "' name='checkFile'/>" +
+                        "</td>" +
+                        "<td class='file-name-area'>" +
+                        "<div class='file-img'>" +
+                        "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
+                        "</div> " +
+                        "<span class='file-name '>"+item.fileName+"</span> " +
+                        "</td>" +
+                        "<td class='text-center'>"+item.fileSize+"</td>" +
+                        "   <td class='text-center'>"+item.name+"</td>" +
+                        "    <td class='text-center'>"+item.crtDate+"</td>"+
+                        "</tr>"
+                    )
 
                 })
             }
         }
 
     })
+}
+
+function FileSearchEnter(value) {
+
+    if (window.event.keyCode == 13) {
+
+        searchProject(value.value)
+        console.log("input value :" + value.value)
+
+    }
+}
+
+
+function searchProject(keyword) {
+
+
+
+    if (keyword != "") {
+        const data = {
+            "keyword": keyword,
+            "projectId": projectId
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "/file/searchFile",
+            data: data,
+            success: function (result) {
+
+                console.log("sfdklsdhfoisdfhgoiweshoiewe")
+                if (result.length >= 1) {
+
+                    result.forEach(function (item) {
+                        $(document).ready(function () {
+                            $('#listBody').empty()
+
+                            $('#listBody').append(
+                                "<tr class='file-tr'>" +
+                                "<td class='h-none text-center'>" +
+                                "<input class='file-checkBox' type='checkbox'  value='" + item.fileId + "' name='checkFile'/>" +
+                                "</td>" +
+                                "<td class='file-name-area'>" +
+                                "<div class='file-img'>" +
+                                "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
+                                "</div> " +
+                                "<span class='file-name '>"+item.fileName+"</span> " +
+                                "</td>" +
+                                "<td class='text-center'>"+item.fileSize+"</td>" +
+                                "   <td class='text-center'>"+item.name+"</td>" +
+                                "    <td class='text-center'>"+item.crtDate+"</td>"+
+                                "</tr>"
+                            )
+                        });
+
+                    })
+
+
+
+                } else {
+
+                    Swal.fire({
+                        title: "검색 결과가 없습니다.",
+                        icon: "question"
+                    });
+                }
+
+            }
+        })
+    } else {
+        Swal.fire({
+            title: "검색어를 입력해 주세요",
+            icon: "warning"
+        });
+
+    }
+
+
 }

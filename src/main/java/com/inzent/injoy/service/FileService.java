@@ -25,4 +25,10 @@ public class FileService {
     public List<FileDTO> fileList (Map<String, Object> map){
         return  session.selectList(NAMESPACE+".selectFile", map);
     }
+
+    public List<FileDTO> searchFile (Map<String, Object> map){
+        return  session.selectList(NAMESPACE+".searchFile", map);
+    }
+
+
 }
