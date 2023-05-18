@@ -36,12 +36,13 @@ document.getElementById("addFileBtn").onclick =function (){
                 myDropzone.processQueue();
                 myDropzone.destroy();
                 $(".btn-close").click();// 업로드 큐 처리
+
             });
             this.on("success", function(file, response) {
-                console.log("파일 업로드 성공: " + response);
-                myDropzone.destroy();
-
                 printFolder(document.getElementById("root").innerText)
+                console.log("파일 업로드 성공: " + response);
+
+
             });
             this.on("error", function(file, errorMessage) {
                 console.log("파일 업로드 오류: " + errorMessage);
@@ -51,10 +52,6 @@ document.getElementById("addFileBtn").onclick =function (){
 
 
 };
-function openDrop() {
-    const fileUpload = document.getElementById("fileUpload")
-    fileUpload.style.display = 'unset'
-}
 
 
 function addFolder() {
@@ -193,16 +190,20 @@ function moveFolder(folderId) {
 function folderDeleteClick() {
     const root = document.getElementById("root")
 
-    var checkBoxArr = "";
+    var folderArr = "";
     $("input:checkbox[name='checkfolder']:checked").each(function () {
-        checkBoxArr = checkBoxArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+        folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
     })
-    if (checkBoxArr.length != 0) {
+
+
+
+
+    if (folderArr.length != 0) {
         $.ajax({
             type: "POST",
             url: "/folder/delete",
             data: {
-                checkBoxArr: checkBoxArr        // folder seq 값을 가지고 있음.
+                folderArr: folderArr        // folder seq 값을 가지고 있음.
             },
             success: function (result) {
                 printFolder(root.innerText)
@@ -220,6 +221,88 @@ function folderDeleteClick() {
 
 }
 
+
+function deleteClick(){
+    const root = document.getElementById("root")
+
+    var folderArr = "";
+    $("input:checkbox[name='checkfolder']:checked").each(function () {
+        folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    var fileArr = "";
+    $("input:checkbox[name='checkFile']:checked").each(function () {
+        fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    if (fileArr.length == 0 && folderArr.length == 0 ) {
+        Swal.fire({
+            title: "선택 항목이 없습니다.",
+            icon: "question"
+        });
+    }
+    if (folderArr.length != 0) {
+
+        Swal.fire({
+            title: '모든 하위폴더와 파일이 삭제 됩니다. ', text: '그래도 삭제하시겠습니까?', icon: 'warning',
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: '',
+                    type: 'post',
+                    data: formData,
+                    success: () => {
+                        location.reload()
+                    }
+                })
+            }
+        })
+    }
+    if(fileArr.length != 0){
+        $.ajax({
+            url: '',
+            type: 'post',
+            data: formData,
+            success: () => {
+                location.reload()
+            }
+        })
+    }
+
+}
+function fileDeleteClick() {
+    const root = document.getElementById("root")
+
+    var fileArr = "";
+    $("input:checkbox[name='checkFile']:checked").each(function () {
+        fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    if (fileArr.length != 0) {
+        $.ajax({
+            type: "POST",
+            url: "/file/delete",
+            data: {
+                fileArr: fileArr        // folder seq 값을 가지고 있음.
+            },
+            success: function (result) {
+                printFolder(root.innerText)
+            }
+        });
+
+
+    } else {
+        Swal.fire({
+            title: "선택 항목이 없습니다.",
+            icon: "question"
+        });
+    }
+
+
+}
 
 function checkFolderName() {
     var folderName = $('#folderName').val();
@@ -322,10 +405,23 @@ function searchProject(keyword) {
 
                 console.log("sfdklsdhfoisdfhgoiweshoiewe")
                 if (result.length >= 1) {
+                    $('#listBody').empty()
+                    $('#listBody').append(
+                        "<tr class='folder-tr' onclick='printFolder(\""+'/'+"\")' >" +
+                        "<td class='h-none text-center' >" +
 
+                        "<i class='fa-solid fa-x fa-beat' style='color: #FC4C70; '></i>" +
+
+
+                        "</td>" +
+                        "<td class='h-none' style='color: #FC4C70;font-weight: bold;font-size: large;'>검색종료</td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "</tr>"
+                    )
                     result.forEach(function (item) {
-                        $(document).ready(function () {
-                            $('#listBody').empty()
+
 
                             $('#listBody').append(
                                 "<tr class='file-tr'>" +
@@ -345,7 +441,7 @@ function searchProject(keyword) {
                             )
                         });
 
-                    })
+
 
 
 
@@ -368,4 +464,10 @@ function searchProject(keyword) {
     }
 
 
+}
+
+function printModal(){
+
+
+    $('#moveBody').append($('.table'))
 }

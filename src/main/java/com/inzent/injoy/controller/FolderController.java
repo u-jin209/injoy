@@ -46,10 +46,10 @@ public class FolderController {
 
     @ResponseBody
     @PostMapping("delete")
-    public String delete(String checkBoxArr ){
+    public String delete(String folderArr ){
 
 
-        for(String num : checkBoxArr.split(",")){
+        for(String num : folderArr.split(",")){
 
             folderService.delete(Integer.parseInt(num));
         }

@@ -155,4 +155,18 @@ public class FileController {
         System.out.println("fileService.searchFile(map) : " + fileService.searchFile(map));
         return fileService.searchFile(map);
     }
+
+    @ResponseBody
+    @PostMapping("delete")
+    public String delete(String fileArr ){
+
+
+        for(String num : fileArr.split(",")){
+
+            fileService.delete(Integer.parseInt(num));
+        }
+        return "redirect:/project/myProject";
+    }
+
+
 }

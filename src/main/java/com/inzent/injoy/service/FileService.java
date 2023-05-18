@@ -21,7 +21,9 @@ public class FileService {
     public void insert(FileDTO fileDTO){
         session.insert(NAMESPACE+".insert",fileDTO);
     }
-
+    public void delete(int fileId){
+        session.delete(NAMESPACE+".delete",fileId);
+    }
     public List<FileDTO> fileList (Map<String, Object> map){
         return  session.selectList(NAMESPACE+".selectFile", map);
     }

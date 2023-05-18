@@ -67,7 +67,7 @@ function projectList(){
                                         "<div class='row mt-5 mb-5' style='justify-content: center; '>"+
                                             "<div class='col-md-10' id='modalList'></div></div></div>"+
                                     "<div class='modal-footer'>"+
-                                        "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"+
+                                        "<button type='button' class='btn btn-green' data-dismiss='modal'>닫기</button>"+
 
                                     "</div> </div></div></div> </div>"
 
