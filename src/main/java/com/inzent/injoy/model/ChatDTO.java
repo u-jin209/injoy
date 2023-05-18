@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,5 +19,8 @@ public class ChatDTO {
     private String  chatRoomId;
     private String sender;
     private String message;
-    private String time;
+    private Timestamp time;
+    private int userId;
+    private String name;
+    private String profilePhoto;
 }
