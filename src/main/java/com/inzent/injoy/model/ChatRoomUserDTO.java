@@ -3,10 +3,10 @@ package com.inzent.injoy.model;
 import lombok.Data;
 
 @Data
-public class ChatRoomUser {
+public class ChatRoomUserDTO {
     private int chatRoomUserId;
     private String username;
     private String name;
-    private int chatRoomId;
+    private String chatRoomId;
 
 }

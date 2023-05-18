@@ -587,22 +587,22 @@
                     <span th:text="${memberList.size}" style="color:#777777"></span>
                 </div>
 
-                    <span class="col text-end" style="font-size: 12px;">전체보기</span>
-                </div>
+                <span class="col text-end" style="font-size: 12px;">전체보기</span>
             </div>
-            <div class="currentMember-chatting">
-                <div class="currentMember">
-                    <div class="currentMember-authority mb-2" style="font-size: 12px">프로젝트 관리자</div>
-                    <div class="row mb-3">
-                        <div class="col-2">
+        </div>
+        <div class="currentMember-chatting">
+            <div class="currentMember">
+                <div class="currentMember-authority mb-2" style="font-size: 12px">프로젝트 관리자</div>
+                <div class="row mb-3">
+                    <div class="col-2">
                     <span class="postProfile thumbnail"
                           th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
-                        </div>
-                        <div class="col ml-2" th:text="${login.name}"></div>
                     </div>
+                    <div class="col ml-2" th:text="${login.name}"></div>
                 </div>
-                <div class="chatMenu">
-                    <button class="chatBtn">
+            </div>
+            <div class="chatMenu">
+                <button class="chatBtn" onclick="enterProjectChatRoom()">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-chat-text mr-2" viewBox="0 0 16 16">
@@ -615,6 +615,13 @@
             </div>
         </div>
     </div>
+</div>
+
+<div th:id="projectData" th:data-project="${project.projectId}" style="display: none"></div>
+
+<div id="chatModalTemplate" style="display: none;">
+    tlqkf
+    <input type="text" id="chatNameInput" placeholder="채팅방 이름을 입력해주세요.">
 </div>
 </body>
 </html>

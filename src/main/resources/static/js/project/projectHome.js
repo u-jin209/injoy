@@ -915,3 +915,109 @@ function deleteTComment(commentId) {
         }
     })
 }
+
+// document.getElementById("openProjectChatRoomBtn").addEventListener("click", function () {
+//     let url = '/chatRoom/projectChatRoom'
+//     let newWindow = window.open(url,'_blank','top=100,left=100,width=420,height=650');
+// });
+
+// function enterProjectChatRoom() {
+//     let projectId = parseInt(document.getElementById('projectData').getAttribute('data-project'));
+//     $.ajax({
+//         url:'/chatRoom/checkProjectChatRoom',
+//         method:"POST",
+//         data:{
+//             projectId: projectId
+//         },
+//         success:function (response){
+//             if (response.isRoom == "no") {
+//                 Swal.fire({
+//                     title:'채팅방 생성',
+//                     html:document.getElementById('chatModalTemplate').innerHTML,
+//                     showCancelButton: true,
+//                     confirmButtonText: '확인',
+//                     cancelButtonText: '취소',
+//                     preConfirm: () =>{
+//                         const roomName = document.getElementById('chatNameInput').value;
+//                         console.log(roomName)
+//                         if (!roomName) {
+//                             Swal.showValidationMessage('채팅방 이름을 입력해주세요.');
+//                         }
+//                         return roomName;
+//                     }
+//                 }).then((result)=>{
+//                     if (result.isConfirmed) {
+//                         const roomName = result.value;
+//                         $.ajax({
+//                             url: '/chatRoom/createProjectChatRoom',
+//                             method: 'POST',
+//                             data:{
+//                                 chatName: roomName,
+//                                 projectId: projectId
+//                             },
+//                             success: function (response) {
+//                                 let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId;
+//                                 let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
+//                             },
+//                         })
+//                     }
+//                 })
+//             }else{
+//
+//             }
+//         }
+//     })
+// }
+function enterProjectChatRoom() {
+    let projectId = parseInt(document.getElementById('projectData').getAttribute('data-project'));
+    $.ajax({
+        url:'/chatRoom/checkProjectChatRoom',
+        method:"POST",
+        data:{
+            projectId: projectId
+        },
+        success:function (response){
+            if (response.isRoom == "no") {
+                Swal.fire({
+                    title:'채팅방 생성',
+                    input: 'text',
+                    showCancelButton: true,
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                    preConfirm: (roomName) =>{
+                        if (!roomName) {
+                            Swal.showValidationMessage('채팅방 이름을 입력해주세요.');
+                        }
+                        return roomName;
+                    }
+                }).then((result)=>{
+                    if (result.isConfirmed) {
+                        const roomName = result.value;
+                        console.log(roomName)
+                        $.ajax({
+                            url: '/chatRoom/createProjectChatRoom',
+                            method: 'POST',
+                            data:JSON.stringify({
+                                roomName: roomName,
+                                projectId: projectId
+                            }),
+                            contentType:'application/json',
+                            success: function (response) {
+                                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId;
+                                let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
+                            },
+                            error:function(xhr, status, error){
+                                console.log(xhr)
+                                console.log(status)
+                                console.log(error)
+                            }
+                        })
+                    }
+                })
+            }else{
+                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId;
+                let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
+            }
+        }
+    })
+}
