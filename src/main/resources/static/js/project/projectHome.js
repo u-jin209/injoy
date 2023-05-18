@@ -17,6 +17,13 @@ $(document).ready(function () {
         }
     })
 
+    $('.rangeInput-home').each(function () {
+        console.log($(this).val())
+        let value = $(this).val()
+        let gradient_value = 100 / $(this).attr('max');
+        $(this).css('background', 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * value + '%, rgb(236, 236, 236) ' + gradient_value * value + '%, rgb(236, 236, 236) 100%)')
+    })
+
 })
 
 function set_priority() {
@@ -309,20 +316,15 @@ $(function () {
         }
     })
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top',
-        showConfirmButton: false,
-        timer: 2000,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
+    document.querySelector('.rangeInput-home').addEventListener('input',function(event){
+        let gradient_value = 100 / event.target.attributes.max.value;
+        console.log(event.target.value)
+        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 '+gradient_value * event.target.value +'%, rgb(236, 236, 236) ' +gradient_value *  event.target.value + '%, rgb(236, 236, 236) 100%)';
+    });
 
     //진행도 변경하기
-    $('.rangeInput').change(function () {
-        $('.progress-txt').text($(this).val() + '%')
+    $('.rangeInput-home').change(function () {
+        $(this).parent().find('.progress-txt').text($(this).val() + '%')
         let formData = {
             taskId: $(this).parents('.post-content').find('#taskId-post').val(),
             progress: $(this).val(),
@@ -333,14 +335,9 @@ $(function () {
             data: formData,
             type: 'post',
             success: () => {
-                Toast.fire({
-                    title: '진행도가 변경되었습니다.'
-                })
-            },
-            done: () => {
-                // 진행중
                 location.reload()
-            }
+
+            },
         })
     })
 
@@ -384,7 +381,7 @@ function modifyTask() {
     })
 }
 
-function modifyBoard(){
+function modifyBoard() {
     $('.modify-board').click(function () {
         Swal.fire({
             text: '업무를 수정하시겠습니까?',
@@ -450,8 +447,8 @@ function deleteTask() {
     })
 }
 
-function deleteBoard(){
-    $('.delete-board').click(function (){
+function deleteBoard() {
+    $('.delete-board').click(function () {
         Swal.fire({
             text: '글를 삭제하시겠습니까?',
             width: '300px',
@@ -482,4 +479,9 @@ function deleteBoard(){
         })
     })
 }
+
+document.getElementById("openProjectChatRoomBtn").addEventListener("click", function () {
+    let url = '/chatRoom/projectChatRoom'
+    let newWindow = window.open(url,'_blank','top=100,left=100,width=420,height=650');
+});
 

@@ -82,11 +82,9 @@ public class ProjectController {
     }
 
     @GetMapping("myProject")
-
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
         if (login == null) {
-
 
             return "/user/logIn";
         }
