@@ -11,13 +11,21 @@
 
     <update id="update" parameterType="FolderDTO">
         UPDATE injoy."folder"
-        SET  "folderRoot"= #{folderRoot}
+        SET  "folderRoot"= #{root}
         WHERE "folderId"=#{folderId};
     </update>
 
     <delete id="delete" parameterType="int">
         DELETE FROM injoy."folder"
-        WHERE "folderId"=#{folderId};
+        where "folderId" in
+        (SELECT f1."folderId" FROM injoy.folder f1
+        inner join (SELECT "folderId",  "folderRoot" || "folderName" root
+        FROM injoy.folder) f2
+        on f1."folderId" = f2."folderId"
+        where root like concat(( 	select "folderRoot" || "folderName"  FROM injoy."folder"
+        WHERE "folderId"= #{folderId}) , '%'))
+
+
     </delete>
 
     <select id="selectAll" parameterType="hashmap" resultType="FolderDTO">

@@ -32,5 +32,11 @@ public class FileService {
         return  session.selectList(NAMESPACE+".searchFile", map);
     }
 
+    public FileDTO selectOne (int fileId){
+        return  session.selectOne(NAMESPACE+".selectOne", fileId);
+    }
 
+    public void update(Map<String, Object> map){
+        session.update(NAMESPACE+".update" ,map);
+    }
 }

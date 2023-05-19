@@ -6,20 +6,33 @@ import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.FileService;
 import com.inzent.injoy.service.FolderService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.catalina.Context;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Controller
 @RequestMapping("/file")
@@ -60,7 +73,9 @@ public class FileController {
 
         }
 
-
+        System.out.println("projectId +: " + projectId);
+        System.out.println("folderRoot +: " + folderRoot);
+        System.out.println("folderName +: " + folderName);
         FolderDTO folder = folderService.selectFolder(map);
         int folderId = folder.getFolderId();
 
@@ -111,7 +126,7 @@ public class FileController {
     @GetMapping("fileList")
     public List<FileDTO> selectProject(String folderRoot, Integer projectId) {
 
-         int NameIdx = folderRoot.lastIndexOf("/");
+        int NameIdx = folderRoot.lastIndexOf("/");
 
         String folderName = folderRoot.substring(NameIdx + 1);
 
@@ -147,10 +162,10 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("searchFile")
-    public List<FileDTO> searchFile( Integer projectId, String keyword) {
+    public List<FileDTO> searchFile(Integer projectId, String keyword) {
         Map<String, Object> map = new HashMap<>();
-        map.put("projectId" , projectId);
-        map.put("keyword",keyword);
+        map.put("projectId", projectId);
+        map.put("keyword", keyword);
 
         System.out.println("fileService.searchFile(map) : " + fileService.searchFile(map));
         return fileService.searchFile(map);
@@ -158,10 +173,10 @@ public class FileController {
 
     @ResponseBody
     @PostMapping("delete")
-    public String delete(String fileArr ){
+    public String delete(String fileArr) {
 
 
-        for(String num : fileArr.split(",")){
+        for (String num : fileArr.split(",")) {
 
             fileService.delete(Integer.parseInt(num));
         }
@@ -169,4 +184,65 @@ public class FileController {
     }
 
 
+    @ResponseBody
+    @PostMapping("update")
+    public String update(String root, String fileArr ) {
+        Map<String, Object> map = new HashMap<>();
+
+
+        for (String num : fileArr.split(",")) {
+            map.put("fileId", num);
+            map.put("root", root);
+
+            fileService.update(map);
+        }
+        return "redirect:/project/myProject";
+    }
+
+
+    @ResponseBody
+    @GetMapping("downloadFile")
+    public void downloadFile(String fileArr, HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        System.out.println("fileArr : " + fileArr);
+        List<FileDTO> fileList = new ArrayList<>();
+
+        for (String id : fileArr.split(",")) {
+
+            fileList.add(fileService.selectOne(Integer.parseInt(id)));
+
+            System.out.println("fileService.selectOne(Integer.parseInt(id) : " + fileService.selectOne(Integer.parseInt(id)));
+        }
+
+
+        for (FileDTO f : fileList) {
+
+            int num = f.getFileRealPath().toString().lastIndexOf('/');
+
+            String fileUrl = f.getFileRealPath().toString().substring(num);
+
+            File file = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + fileUrl);
+            // file 다운로드 설정
+            response.setContentType("application/download");
+            response.setContentLength((int) file.length());
+
+            response.setHeader("Content-disposition", "attachment; filename=\\" + f.getFileName() + "\\");
+
+            // response 객체를 통해서 서버로부터 파일 다운로드
+            OutputStream os = response.getOutputStream();
+            // 파일 입력 객체 생성
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream out = response.getOutputStream();
+
+            int read = 0;
+            byte[] buffer = new byte[1024];
+            while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+                out.write(buffer, 0, read);
+            }
+
+
+        }
+
+
+    }
 }

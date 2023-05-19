@@ -131,7 +131,7 @@ public class ProjectController {
 
         FolderDTO folderDTO = new FolderDTO();
 
-        folderDTO.setFolderName("");
+
         folderDTO.setFolderRoot("/");
         folderDTO.setUserId(login.getUserDTO().getId());
         folderDTO.setProjectId(projectDTO.getProjectId());

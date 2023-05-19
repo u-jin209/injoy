@@ -34,19 +34,21 @@ document.getElementById("addFileBtn").onclick =function (){
                 e.preventDefault();
                 e.stopPropagation();
                 myDropzone.processQueue();
-                myDropzone.destroy();
-                $(".btn-close").click();// 업로드 큐 처리
+
+
 
             });
             this.on("success", function(file, response) {
+                $(".btn-close").click();// 업로드 큐 처리
                 printFolder(document.getElementById("root").innerText)
                 console.log("파일 업로드 성공: " + response);
-
+                myDropzone.destroy();
 
             });
             this.on("error", function(file, errorMessage) {
                 console.log("파일 업로드 오류: " + errorMessage);
             });
+
         }
     });
 
@@ -81,7 +83,7 @@ function addFolder() {
 function printFolder(folderRoot) {
 
     console.log("folderRoot :" + folderRoot)
-
+    $('#moveBody').empty();
     $('#listBody').empty();
     const urlParams = new URL(location.href);
     const projectId = urlParams.pathname.split('/')[2];
@@ -110,6 +112,15 @@ function printFolder(folderRoot) {
                     "<td class='h-none'></td>" +
                     "</tr>"
                 )
+                $('#moveBody').append(
+                    "<tr class='folder-tr' onclick='backFolder()' >" +
+
+                    "<td class='h-none'>" +
+                    "<i class='fa-solid fa-chevron-up fa-fade' style='margin-right: 30px'></i>" +
+                    "뒤로가기</td>" +
+
+                    "</tr>"
+                )
             }
 
             if (result.length >= 1) {
@@ -118,6 +129,23 @@ function printFolder(folderRoot) {
                     const root = document.getElementById("root")
                     root.name= item.folderId
                     if (item.folderName != undefined){
+
+
+                        $('#moveBody').append(
+                            "<tr class='folder-tr'>" +
+
+                            "<td class='folder-name-area'  onclick='moveFolder(" + item.folderId + ")'>" +
+
+                            "<div class='folder-img'>" +
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#FFB30D' class='bi bi-folder-fill' viewBox='0 0 16 16'><path d='M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z'/></svg>" +
+                            "</div>" +
+                            "<span class='folder-name'  id='folderName" + item.folderId + "' >" + item.folderName + "</span>" +
+                            "</td>" +
+
+                            "</tr>"
+                        )
+
+
                         $('#listBody').append(
                             "<tr class='folder-tr'>" +
                             "<td class='h-none text-center'>" +
@@ -133,6 +161,16 @@ function printFolder(folderRoot) {
                             "<td class='text-center' >-</td>" +
                             "<td class='text-center'  >" + item.name + "</td>" +
                             "<td class='text-center' >" + item.crtDate + "</td>" +
+                            "</tr>"
+                        )
+                    }else if(result.length == 1 && item.folderName == undefined){
+                        $('#listBody').append(
+                            "<tr class='folder-tr' id='emptyFolder'>" +
+                            "<td class='h-none text-center' ></td>" +
+                            "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
+                            "<td class='h-none'></td>" +
+                            "<td class='h-none'></td>" +
+                            "<td class='h-none'></td>" +
                             "</tr>"
                         )
                     }
@@ -166,11 +204,11 @@ function backFolder() {
     const nowRoot = document.getElementById("root").innerText.toString().slice(0, -1)
     const back = nowRoot.lastIndexOf("/")
     const backRoot = nowRoot.slice(0, back + 1)
-
+    const moveNowRoot = document.getElementById("moveNowRoot")
 
     root.innerText = backRoot
 
-
+    moveNowRoot.innerText = backRoot
     printFolder(backRoot)
 
 
@@ -180,46 +218,14 @@ function moveFolder(folderId) {
     const root = document.getElementById("root")
     const name = document.getElementById("folderName" + folderId).innerText
     const newRoot = root.innerText + name + "/"
-
+    const moveNowRoot = document.getElementById("moveNowRoot")
     root.innerText = newRoot
+    moveNowRoot.innerText = newRoot;
 
     printFolder(newRoot)
 }
 
 
-function folderDeleteClick() {
-    const root = document.getElementById("root")
-
-    var folderArr = "";
-    $("input:checkbox[name='checkfolder']:checked").each(function () {
-        folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
-    })
-
-
-
-
-    if (folderArr.length != 0) {
-        $.ajax({
-            type: "POST",
-            url: "/folder/delete",
-            data: {
-                folderArr: folderArr        // folder seq 값을 가지고 있음.
-            },
-            success: function (result) {
-                printFolder(root.innerText)
-            }
-        });
-
-
-    } else {
-        Swal.fire({
-            title: "선택 항목이 없습니다.",
-            icon: "question"
-        });
-    }
-
-
-}
 
 
 function deleteClick(){
@@ -241,6 +247,7 @@ function deleteClick(){
     }
     if (folderArr.length != 0) {
 
+
         Swal.fire({
             title: '모든 하위폴더와 파일이 삭제 됩니다. ', text: '그래도 삭제하시겠습니까?', icon: 'warning',
             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -252,55 +259,40 @@ function deleteClick(){
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: '',
+                    url: '/folder/delete',
                     type: 'post',
-                    data: formData,
+                    data: {"folderArr":folderArr},
                     success: () => {
-                        location.reload()
+                        if(fileArr.length != 0){
+                            $.ajax({
+                                url: '/file/delete',
+                                type: 'post',
+                                data: {
+                                    "fileArr" : fileArr
+                                },
+                                success: () => {
+
+                                }
+                            })
+                        }
+                        printFolder(root.innerText)
                     }
                 })
             }
         })
     }
-    if(fileArr.length != 0){
+    else if (fileArr.length != 0){
         $.ajax({
-            url: '',
+            url: '/file/delete',
             type: 'post',
-            data: formData,
+            data: {
+                "fileArr" : fileArr
+            },
             success: () => {
-                location.reload()
+                printFolder(root.innerText)
             }
         })
     }
-
-}
-function fileDeleteClick() {
-    const root = document.getElementById("root")
-
-    var fileArr = "";
-    $("input:checkbox[name='checkFile']:checked").each(function () {
-        fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
-    })
-    if (fileArr.length != 0) {
-        $.ajax({
-            type: "POST",
-            url: "/file/delete",
-            data: {
-                fileArr: fileArr        // folder seq 값을 가지고 있음.
-            },
-            success: function (result) {
-                printFolder(root.innerText)
-            }
-        });
-
-
-    } else {
-        Swal.fire({
-            title: "선택 항목이 없습니다.",
-            icon: "question"
-        });
-    }
-
 
 }
 
@@ -351,6 +343,8 @@ function printFile(folderRoot){
 
 
                 result.forEach(function (item) {
+
+
 
                     $('#listBody').append(
                         "<tr class='file-tr'>" +
@@ -423,6 +417,7 @@ function searchProject(keyword) {
                     result.forEach(function (item) {
 
 
+
                             $('#listBody').append(
                                 "<tr class='file-tr'>" +
                                 "<td class='h-none text-center'>" +
@@ -466,8 +461,98 @@ function searchProject(keyword) {
 
 }
 
-function printModal(){
+function  downloadFile(){
+    const root = document.getElementById("root")
+
+    var folderArr = "";
+    $("input:checkbox[name='checkfolder']:checked").each(function () {
+        folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    var fileArr = "";
+    $("input:checkbox[name='checkFile']:checked").each(function () {
+        fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    $.ajax({
+        url: '/file/downloadFile',
+        type: 'GET',
+        data: {"fileArr":fileArr},
+        success: () => {}
+    })
+
+}
 
 
-    $('#moveBody').append($('.table'))
+
+
+function modalPrint(){
+
+
+}
+
+
+
+function moveFile(){
+
+    const root = document.getElementById("moveNowRoot")
+
+    var folderArr = "";
+    $("input:checkbox[name='checkfolder']:checked").each(function () {
+        folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    console.log("move folderArr : "+ folderArr);
+    var fileArr = "";
+    $("input:checkbox[name='checkFile']:checked").each(function () {
+        fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
+    })
+    console.log("move fileArr : "+ fileArr);
+    if (fileArr.length == 0 && folderArr.length == 0 ) {
+        Swal.fire({
+            title: "선택 항목이 없습니다.",
+            icon: "question"
+        });
+    }
+    if (folderArr.length != 0) {
+
+
+
+            $.ajax({
+                url: '/folder/update',
+                type: 'post',
+                data: { "root" :root.innerText,
+                    "folderArr":folderArr},
+                success: () => {
+
+                    printFolder(root.innerText)
+                }
+            })
+            if (fileArr.length != 0){
+                $.ajax({
+                    url: '/file/update',
+                    type: 'post',
+                    data: {
+                        "root" :root.innerText,
+                        "fileArr" : fileArr
+                    },
+                    success: () => {
+                        printFolder(root.innerText)
+                    }
+                })
+            }
+
+    }
+    else if (fileArr.length != 0){
+        $.ajax({
+            url: '/file/update',
+            type: 'post',
+            data: {
+                "root" :root.innerText,
+                "fileArr" : fileArr
+            },
+            success: () => {
+                printFolder(root.innerText)
+            }
+        })
+    }
+
+
 }

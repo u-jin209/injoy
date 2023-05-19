@@ -33,6 +33,9 @@ public class FolderService {
     public FolderDTO selectFolder(Map<String ,Object> map){
         return session.selectOne(NAMESPACE+".selectFolder",map);
     }
+    public void update(Map<String ,Object> map){
+         session.update(NAMESPACE+".update",map);
+    }
     public int checkName(FolderDTO folderDTO){
         return session.selectOne(NAMESPACE+".checkName", folderDTO);
     }

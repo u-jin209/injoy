@@ -55,6 +55,22 @@ public class FolderController {
         }
         return "redirect:/project/myProject";
     }
+
+
+    @ResponseBody
+    @PostMapping("update")
+    public String update(String root, String folderArr ) {
+        Map<String, Object> map = new HashMap<>();
+
+        for (String num : folderArr.split(",")) {
+            map.put("root", root);
+            map.put("folderId", num);
+
+            folderService.update(map);
+        }
+        return "redirect:/project/myProject";
+    }
+
     @ResponseBody
     @GetMapping("folderList")
     public List<FolderDTO> selectProject(String folderRoot, Integer projectId){
