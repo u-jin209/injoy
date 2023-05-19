@@ -538,14 +538,22 @@ function dateFormat(date) {
 function dateWeek(date) {
     const TIME_ZONE = 9 * 60 * 60 * 1000;
     const d = new Date(date);
-    let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
+    const localDate = new Date(d.getTime() + TIME_ZONE);
+
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+
     const week = ['일', '월', '화', '수', '목', '금', '토'];
+    const dayOfWeek = week[localDate.getDay()];
 
-    const dayOfWeek = week[(new Date(date)).getDay()];
-    console.log(format_date)
+    console.log(formattedDate);
 
-    return format_date + ' (' + dayOfWeek + ')';
+    return formattedDate + ' (' + dayOfWeek + ')';
 }
+
 
 function showTaskDetail(result) {
     console.log(result)

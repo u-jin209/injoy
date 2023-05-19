@@ -66,4 +66,8 @@ public class TaskService {
     public void deleteTask(int taskId){
         session.delete(NAMESPACE+".deleteTask", taskId);
     }
+
+    public void update(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updateTask", taskDTO);
+    }
 }

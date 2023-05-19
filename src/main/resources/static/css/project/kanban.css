@@ -56,7 +56,7 @@
 }
 /*업무 추가 부분*/
 
-.kanban-addEndDate, .kanban-addStartDate{
+.kanban-addEndDate, .kanban-addStartDate, .kanban-modal-addEndDate , .kanban-modal-addStartDate{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
@@ -66,8 +66,38 @@
     vertical-align: top;
 }
 
-.kanban-addEndDate::before, .kanban-addStartDate::before{
+.kanban-addEndDate::before, .kanban-addStartDate::before, .kanban-modal-addEndDate::before , .kanban-modal-addStartDate::before{
     text-align: start !important;
+}
+
+.kanban-startDate-exist, .kanban-endDate-exist{
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.kanban-taskTitle-input{
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: auto;
+}
+
+.kanban-modal-content{
+    width: 400px;
+    min-height: 200px;
+    border: none;
+}
+
+
+.addPriority-kanban{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #999;
+    text-underline-position: under;
+    text-decoration: underline;
+    vertical-align: top;
 }
 
 .modal-body {

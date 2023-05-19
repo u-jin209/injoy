@@ -80,6 +80,21 @@ public class TaskController {
         return taskService.selectOne(taskId);
     }
 
+    @PostMapping("updateTask")
+    @ResponseBody
+    public TaskDTO updateTitle(TaskDTO taskDTO){
+        TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
+
+        updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
+        updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
+        updateTaskDTO.setStartDate(taskDTO.getStartDate());
+        updateTaskDTO.setClosingDate(taskDTO.getClosingDate());
+
+        taskService.update(updateTaskDTO);
+
+        return updateTaskDTO;
+    }
+
     @PostMapping("updateTitle")
     public String updateTitle(String taskTitle, int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);

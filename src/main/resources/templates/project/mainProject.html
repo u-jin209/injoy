@@ -59,10 +59,8 @@
     <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
 
     </div>
-
     <div class="tab-pane" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="4">
-        <div th:insert="~{/project/projectFile :: projectFileContent(${project},${logIn})}" ></div>
-
+        <div th:insert="~{/project/projectFile :: projectFileContent(${project},${logIn})}"></div>
     </div>
     <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="5">
         <div th:insert="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>

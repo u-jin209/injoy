@@ -31,8 +31,7 @@ $(document).ready(function () {
     //     taskCommentCount.text("222")
     // })
 
-    limitComment()
-
+    limitTComment()
 })
 
 function set_priority() {
@@ -538,7 +537,7 @@ function modifyTComment(e) {
     $(e).parents('.comment-li').find('.edit-tComment-form').css('display', 'block')
 }
 
-function limitComment() {
+function limitTComment() {
     $('.boardBox').each(function () {
         let taskId = $(this).find('.taskId-comment').val()
         let projectId = $(this).find('.projectId-comment').val()
@@ -547,7 +546,6 @@ function limitComment() {
                 taskId: taskId,
                 projectId: projectId,
             }
-            console.log(formData)
 
             $.ajax({
                 url: '/tComment/showAll',
@@ -563,6 +561,9 @@ function limitComment() {
                             $(this).find('.comment-header').css('display', 'none')
                         }
                         $(this).find('.task-comment-count').text("("+ (result.length - 2) + ")")
+
+
+
                         if (i < 2) {
                             $(this).find('.post-comment-group').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
                                 "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
@@ -573,7 +574,7 @@ function limitComment() {
                                 "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
                                 "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                 "                                        </div>\n" +
-                                "                                        <div class=\"comment-writer-menu\" th:style=\"${(tComment.authorUserId != login.id) ? 'display:none' : 'display:block'}\">\n" +
+                                "                                        <div class=\"comment-writer-menu\">\n" +
                                 "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
                                 "                                                수정</button>\n" +
                                 "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
@@ -591,7 +592,7 @@ function limitComment() {
                                 "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
                                 "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
                                 "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
-                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 366px\"/>\n" +
+                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
                                 "                                    </form>\n" +
                                 "                                </div></li>")
 
@@ -605,7 +606,7 @@ function limitComment() {
                                 "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
                                 "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                 "                                        </div>\n" +
-                                "                                        <div class=\"comment-writer-menu\" th:style=\"${(tComment.authorUserId != login.id) ? 'display:none' : 'display:block'}\">\n" +
+                                "                                        <div class=\"comment-writer-menu\">\n" +
                                 "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
                                 "                                                수정</button>\n" +
                                 "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
@@ -623,10 +624,12 @@ function limitComment() {
                                 "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
                                 "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
                                 "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
-                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 366px\"/>\n" +
+                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
                                 "                                    </form>\n" +
                                 "                                </div></li>")
                         }
+
+
                     }
                 }
             })
@@ -635,66 +638,14 @@ function limitComment() {
 
 }
 
-function showAllTComment(taskId, projectId) {
-    var commentList = document.getElementById("commentGroup").getElementsByTagName("li");
+function showAllTComment() {
+    let commentList = document.getElementById("commentGroup").getElementsByTagName("li");
 
     // 숨겨진 댓글 보이기
-    for (var i = 2; i < commentList.length; i++) {
+    for (let i = 2; i < commentList.length; i++) {
         commentList[i].classList.remove("hidden-comment");
     }
     document.querySelector(".comment-more-button").style.display = "none";
-
-    // let formData = {
-    //     taskId: taskId,
-    //     projectId: projectId,
-    // }
-    // console.log(formData)
-    //
-    // $.ajax({
-    //     url: '/tComment/showAll',
-    //     type: 'get',
-    //     data: formData,
-    //     success: (result) => {
-    //         for (let i = 0; i < result.length; i++) {
-    //             const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
-    //
-    //             const date = new Date(result[i].crtDate);
-    //             let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
-    //
-    //             $(this).find('.post-comment-group').innerHTML = "<div class=\"comment-thumbnail\">\n" +
-    //                 "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
-    //                 "                                </div>\n" +
-    //                 "                                <div class=\"comment-container on\">\n" +
-    //                 "                                    <div class=\"comment-user-area\">\n" +
-    //                 "                                        <div class=\"comment-user\">\n" +
-    //                 "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
-    //                 "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
-    //                 "                                        </div>\n" +
-    //                 "                                        <div class=\"comment-writer-menu\" th:style=\"${(tComment.authorUserId != login.id) ? 'display:none' : 'display:block'}\">\n" +
-    //                 "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\">\n" +
-    //                 "                                                수정</button>\n" +
-    //                 "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
-    //                 "                                                삭제</button>\n" +
-    //                 "                                        </div>\n" +
-    //                 "                                    </div>\n" +
-    //                 "                                    <div class=\"comment-content\">\n" +
-    //                 "                                        <div class=\"comment-text-area\">\n" +
-    //                 "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
-    //                 "                                        </div>\n" +
-    //                 "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
-    //                 "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
-    //                 "                                    </div>\n" +
-    //                 "                                </div>\n" +
-    //                 "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
-    //                 "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
-    //                 "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
-    //                 "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 366px\"/>\n" +
-    //                 "                                    </form>\n" +
-    //                 "                                </div>"
-    //
-    //         }
-    //     }
-    // })
 }
 
 function deleteTComment(commentId) {

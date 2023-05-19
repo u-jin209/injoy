@@ -684,7 +684,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: inline-block;
 }
 
-.task-number{
+.task-number, .kanban-taskTitle{
     margin-left: 10px;
     height: 27px;
     padding: 4px 10px;
@@ -713,13 +713,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 25px;
 }
 
-.task-content-group, .home-content-group{
+.task-content-group, .home-content-group, .kanban-content-group{
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.task-content-group>li, .home-content-group>li{
+.task-content-group>li, .home-content-group>li, .kanban-content-group>li{
     display: flex;
     -webkit-box-pack: start;
     justify-content: flex-start;
@@ -729,7 +729,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 46px;
 }
 
-.task-content-group> li + li , .home-content-group >li+li{
+.task-content-group> li + li , .home-content-group >li+li, .kanban-content-group>li+li{
     padding-top: 24px !important;
 }
 
@@ -862,7 +862,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #777;
 }
 
-.post-taskContent{
+.post-taskContent, .kanban-taskContent{
     margin: 30px 0 50px 0;
 }
 
