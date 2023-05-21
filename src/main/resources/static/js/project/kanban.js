@@ -1,8 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // 모달 창이 열릴 때 발생하는 이벤트
-    $('#kanbanModal').on('show.bs.modal', function() {
+    $('#kanbanModal').on('show.bs.modal', function () {
         $('.modal-footer').hide(); // modal-footer 숨기기
         $('.kanban-setUp').hide()
+        $('.updateBtn-kanban-priority').remove()
+        $('#kanban-update-priority').remove()
     });
 });
 
@@ -214,6 +216,7 @@ $(function () {
         })
     })
 
+    //업무 수정하기
     $('.modify-kanban').click(function () {
         let taskId = $(this).parents('.postHeader').parent().find('.kanban-taskId em').text()
         let formData = {taskId: taskId}
@@ -241,59 +244,166 @@ $(function () {
                     "                        </label>\n" +
                     "                    </div>")
 
+                // 상태 수정하기
+                $('.process-layer').find('.process-modal-button').css('pointer-events','auto')
+                $('.kanban-process-btn').click(function (e) {
+                    let btn = document.querySelectorAll(".kanban-process-btn");
+                    btn.forEach(function (btn, i) {
+                        if (e.currentTarget === btn) {
+                            btn.classList.add("active");
+                        } else {
+                            btn.classList.remove("active");
+                        }
+                    });
+                })
+
+
                 // 업무 우선순위 수정하기
-                if (result.priority === null){
+                if (result.priority === null) {
                     $('.addPriority-kanban').css('display', 'block')
                 } else {
-                    $('.prioritySpan-kanban').append("<button class=\"addPriority-kanban\"\n" +
-                        "                                                style=\"margin-left: 10px;border: none; background-color: transparent;\">우선순위 변경\n" +
-                        "                                        </button>")
+                    $('.prioritySpan-kanban').append("<button class=\"updateBtn-kanban-priority\"\n style=\"margin-left: 10px;border: none; background-color: transparent;\">우선순위 변경\n" +
+                        "                                        </button>" +
+                        "                                           <div class=\"kanban-priority_ul\" id=\"kanban-update-priority\"\n" +
+                        "                                             style=\"display: none\">\n" +
+                        "                                            <ul class=\"button_priority\"\n" +
+                        "                                                style=\"position: absolute; transform: none; top: 25px; left: 65px; width: 80px; text-align: start\">\n" +
+                        "                                                <li class=\"mb-1 px-2\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
+                        "                                                             height=\"15\"\n" +
+                        "                                                             fill=\"red\"\n" +
+                        "                                                             class=\"bi bi-exclamation-octagon-fill\"\n" +
+                        "                                                             viewBox=\"0 0 16 16\">\n" +
+                        "                                                            <path d=\"M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z\"/>\n" +
+                        "                                                        </svg>\n" +
+                        "                                                        <span class=\"priorityText\">긴급</span>\n" +
+                        "                                                    </button>\n" +
+                        "                                                </li>\n" +
+                        "                                                <li class=\"mb-1  px-2\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
+                        "                                                             height=\"15\"\n" +
+                        "                                                             fill=\"orange\"\n" +
+                        "                                                             class=\"bi bi-arrow-up\" viewBox=\"0 0 16 16\">\n" +
+                        "                                                            <path fill-rule=\"evenodd\"\n" +
+                        "                                                                  d=\"M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z\"/>\n" +
+                        "                                                        </svg>\n" +
+                        "                                                        <span class=\"priorityText\">높음</span>\n" +
+                        "                                                    </button>\n" +
+                        "                                                </li>\n" +
+                        "                                                <li class=\"mb-1  px-2\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
+                        "                                                             height=\"15\"\n" +
+                        "                                                             fill=\"green\"\n" +
+                        "                                                             class=\"bi bi-dash\" viewBox=\"0 0 16 16\">\n" +
+                        "                                                            <path d=\"M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z\"/>\n" +
+                        "                                                        </svg>\n" +
+                        "                                                        <span class=\"priorityText\">보통</span>\n" +
+                        "                                                    </button>\n" +
+                        "                                                </li>\n" +
+                        "                                                <li class=\"mb-1  px-2\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
+                        "                                                             height=\"15\"\n" +
+                        "                                                             fill=\"dark-violet\"\n" +
+                        "                                                             class=\"bi bi-arrow-down\" viewBox=\"0 0 16 16\">\n" +
+                        "                                                            <path fill-rule=\"evenodd\"\n" +
+                        "                                                                  d=\"M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z\"/>\n" +
+                        "                                                        </svg>\n" +
+                        "                                                        <span class=\"priorityText\">낮음</span>\n" +
+                        "                                                    </button>\n" +
+                        "                                                </li>\n" +
+                        "                                                <li class=\" px-2\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
+                        "                                                             height=\"15\"\n" +
+                        "                                                             fill=\"gray\"\n" +
+                        "                                                             class=\"bi bi-x-lg\" viewBox=\"0 0 16 16\">\n" +
+                        "                                                            <path d=\"M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z\"/>\n" +
+                        "                                                        </svg>\n" +
+                        "                                                        <span class=\"priorityText\">없음</span>\n" +
+                        "                                                    </button>\n" +
+                        "                                                </li>\n" +
+                        "                                            </ul>\n" +
+                        "                                        </div>")
                 }
+                $('.updateBtn-kanban-priority').click(function () {
+                    if ($('#kanban-update-priority').css('display') === 'block') {
+                        $('#kanban-update-priority').css('display', 'none')
+                    } else {
+                        $('#kanban-update-priority').css('display', 'block')
+                    }
+
+                })
+
+                $('#kanban-update-priority').find('.priorityBtn').click(function (){
+                    let btnTag = $(this).html()
+                    console.log(btnTag)
+                    $('#kanban-update-priority').css('display', 'none')
+                    $('.updateBtn-kanban-priority').prev().remove()
+                    $('.updateBtn-kanban-priority').prev().replaceWith(btnTag);
+                })
 
                 //시작일 수정하기
 
-                if (result.startDate === undefined){
+                if (result.startDate === undefined) {
                     $('.kanban-startDate-value').html("<input class=\"kanban-modal-addStartDate\" data-placeholder=\"시작일 선택\"\n" +
                         "                                                       required\n" +
                         "                                                       aria-required=\"true\" type=\"date\"\n" +
                         "                                                       style=\"border: 0 solid black\"/>")
                 } else {
-                    $('.kanban-startDate-value').html("<input class=\"kanban-modal-addStartDate\" data-placeholder=\""+formatDate(result.startDate)+"\"\n" +
+                    $('.kanban-startDate-value').html("<input class=\"kanban-modal-addStartDate\" data-placeholder=\"" + formatDate(result.startDate) + "\"\n" +
                         "                                                       required\n" +
                         "                                                       aria-required=\"true\" type=\"date\"\n" +
-                        "                                                       style=\"border: 0 solid black\" value=\""+formatDate(result.startDate)+"\"/>")
+                        "                                                       style=\"border: 0 solid black\" value=\"" + formatDate(result.startDate) + "\"/>")
                 }
 
                 // 마감일 수정하기
-                if (result.closingDate === undefined){
+                if (result.closingDate === undefined) {
                     $('.kanban-endDate-value').html("<input class=\"kanban-modal-addEndDate\" data-placeholder=\"마감일 선택\"\n" +
                         "                                                       required\n" +
                         "                                                       aria-required=\"true\" type=\"date\"\n" +
                         "                                                       style=\"border: 0 solid black\"/>")
 
                 } else {
-                    $('.kanban-endDate-value').html("<input class=\"kanban-modal-addEndDate\" data-placeholder=\""+formatDate(result.closingDate)+"\"\n" +
+                    $('.kanban-endDate-value').html("<input class=\"kanban-modal-addEndDate\" data-placeholder=\"" + formatDate(result.closingDate) + "\"\n" +
                         "                                                       required\n" +
                         "                                                       aria-required=\"true\" type=\"date\"\n" +
-                        "                                                       style=\"border: 0 solid black\" value=\""+formatDate(result.closingDate)+"\"/>")
+                        "                                                       style=\"border: 0 solid black\" value=\"" + formatDate(result.closingDate) + "\"/>")
                 }
 
                 //날짜 최소값 설정하기
                 $('.kanban-modal-addStartDate').attr('min', min)
-                if (result.startDate == null){
+                if (result.startDate == null) {
                     $('.kanban-modal-addEndDate').attr('min', min)
                 } else {
                     $('.kanban-modal-addEndDate').attr('min', formatDate(result.startDate))
                 }
 
-                $('.kanban-modal-addStartDate').change(function (){
+                $('.kanban-modal-addStartDate').change(function () {
                     $('.kanban-modal-addEndDate').attr('min', $(this).val())
                 })
+
+
+                //진척도 변경
+                $('.progress-input').html("<input id=\"kanban-rangeInput-modal\" class=\"kanban-rangeInput\" max=\"100\" min=\"0\" step=\"10\" type=\"range\" value=\"" + result.progress + "\" style=\"background: linear-gradient(to right, #FFE283 0%, #FFE283 " + result.progress + "%, #ececec " + result.progress + "%, #ececec 100%)!important\"/>" +
+                    "                                            <span class=\"progress-txt kanban-progress\">" + result.progress + "%</span>\n")
+
+                document.querySelector('#kanban-rangeInput-modal').addEventListener('input', function (event) {
+                    let gradient_value = 100 / event.target.attributes.max.value;
+                    console.log(event.target.value)
+                    event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
+                    $('.kanban-progress').text(event.target.value+'%')
+                });
 
             }
         })
 
     })
+
+
     kanbanUpdateTask()
     kanbanDeleteTask()
 
@@ -339,7 +449,7 @@ function showKanbanDetail(result) {
         $('.prioritySpan-kanban').css('display', 'none')
     } else {
         kanban_priority(result.priority)
-        $('.prioritySpan-kanban').css('display','block')
+        $('.prioritySpan-kanban').css('display', 'block')
         $('.priority-layer-kanban').css('display', 'flex')
         $('.kanban-priority-value').text(result.priority)
         $('.addPriority-kanban').css('display', 'none')
@@ -396,13 +506,25 @@ function kanbanUpdateTask() {
     let taskContent = $('.kanban-modal-content').val()
     let startDate = to_date2($('.kanban-modal-addStartDate').val())
     let closingDate = to_date2($('.kanban-modal-addEndDate').val())
+    let process
+    let btn = document.querySelectorAll(".kanban-process-btn");
+    btn.forEach(function (btn, i) {
+        if (btn.classList.contains('active')) {
+            process = btn.textContent;
+        }
+    });
+    let priority = $('.prioritySpan-kanban').find('.priorityText').first().text()
+    let progress = $('#kanban-rangeInput-modal').val()
 
     let formData = {
         taskId: taskId,
         taskTitle: taskTitle,
         taskContent: taskContent,
-        startDate : startDate,
-        closingDate : closingDate,
+        startDate: startDate,
+        closingDate: closingDate,
+        progress: progress,
+        process : process,
+        priority : priority
     }
 
     console.log(formData)

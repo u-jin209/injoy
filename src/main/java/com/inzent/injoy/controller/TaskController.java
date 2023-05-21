@@ -89,6 +89,10 @@ public class TaskController {
         updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
         updateTaskDTO.setStartDate(taskDTO.getStartDate());
         updateTaskDTO.setClosingDate(taskDTO.getClosingDate());
+        updateTaskDTO.setProcess(taskDTO.getProcess());
+        updateTaskDTO.setPriority(taskDTO.getPriority());
+        updateTaskDTO.setProgress(taskDTO.getProgress());
+
 
         taskService.update(updateTaskDTO);
 
