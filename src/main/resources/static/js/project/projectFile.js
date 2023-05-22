@@ -82,8 +82,7 @@ function addFolder() {
 
 function printFolder(folderRoot) {
 
-    console.log("folderRoot :" + folderRoot)
-    $('#moveBody').empty();
+
     $('#listBody').empty();
     const urlParams = new URL(location.href);
     const projectId = urlParams.pathname.split('/')[2];
@@ -112,15 +111,7 @@ function printFolder(folderRoot) {
                     "<td class='h-none'></td>" +
                     "</tr>"
                 )
-                $('#moveBody').append(
-                    "<tr class='folder-tr' onclick='backFolder()' >" +
 
-                    "<td class='h-none'>" +
-                    "<i class='fa-solid fa-chevron-up fa-fade' style='margin-right: 30px'></i>" +
-                    "뒤로가기</td>" +
-
-                    "</tr>"
-                )
             }
 
             if (result.length >= 1) {
@@ -130,20 +121,6 @@ function printFolder(folderRoot) {
                     root.name= item.folderId
                     if (item.folderName != undefined){
 
-
-                        $('#moveBody').append(
-                            "<tr class='folder-tr'>" +
-
-                            "<td class='folder-name-area'  onclick='moveFolder(" + item.folderId + ")'>" +
-
-                            "<div class='folder-img'>" +
-                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#FFB30D' class='bi bi-folder-fill' viewBox='0 0 16 16'><path d='M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z'/></svg>" +
-                            "</div>" +
-                            "<span class='folder-name'  id='folderName" + item.folderId + "' >" + item.folderName + "</span>" +
-                            "</td>" +
-
-                            "</tr>"
-                        )
 
 
                         $('#listBody').append(
@@ -204,11 +181,13 @@ function backFolder() {
     const nowRoot = document.getElementById("root").innerText.toString().slice(0, -1)
     const back = nowRoot.lastIndexOf("/")
     const backRoot = nowRoot.slice(0, back + 1)
+    const moveRoot = document.getElementById("moveRoot")
     const moveNowRoot = document.getElementById("moveNowRoot")
 
     root.innerText = backRoot
 
-    moveNowRoot.innerText = backRoot
+    moveRoot.innerText = backRoot
+    moveNowRoot.innerText= backRoot
     printFolder(backRoot)
 
 
@@ -218,18 +197,46 @@ function moveFolder(folderId) {
     const root = document.getElementById("root")
     const name = document.getElementById("folderName" + folderId).innerText
     const newRoot = root.innerText + name + "/"
+    const moveRoot = document.getElementById("moveRoot")
     const moveNowRoot = document.getElementById("moveNowRoot")
     root.innerText = newRoot
+
+    moveRoot.innerText = newRoot
+    moveNowRoot.innerText = newRoot
+    printFolder(newRoot)
+}
+
+function modalBackFolder() {
+
+
+    const nowRoot = document.getElementById("moveNowRoot").innerText.toString().slice(0, -1)
+    const back = nowRoot.lastIndexOf("/")
+    const backRoot = nowRoot.slice(0, back + 1)
+    const moveNowRoot = document.getElementById("moveNowRoot")
+
+    moveNowRoot.innerText = backRoot
+    movePrint(backRoot)
+
+
+}
+
+function  modalMoveFolder(folderId) {
+    const moveNowRoot = document.getElementById("moveNowRoot")
+    const name = document.getElementById("modalFolder" + folderId).innerText
+    const newRoot = moveNowRoot.innerText + name + "/"
+
+
     moveNowRoot.innerText = newRoot;
 
-    printFolder(newRoot)
+    movePrint(newRoot)
+
+
 }
 
 
 
-
 function deleteClick(){
-    const root = document.getElementById("root")
+    const root = document.getElementById("moveNowRoot")
 
     var folderArr = "";
     $("input:checkbox[name='checkfolder']:checked").each(function () {
@@ -328,7 +335,7 @@ function checkFolderName() {
 
 function printFile(folderRoot){
 
-    console.log("printFile folderId: "  +folderRoot)
+    console.log("printFile folderRoot: "  +folderRoot)
     $.ajax({
         url: '/file/fileList', //Controller에서 요청 받을 주소
         type: 'GET', //POST 방식으로 전달
@@ -472,28 +479,111 @@ function  downloadFile(){
     $("input:checkbox[name='checkFile']:checked").each(function () {
         fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
     })
+    if (folderArr.length != 0 || fileArr.length != 0){
+
+        $.ajax({
+            url: '/file/downloadFile',
+            type: 'GET',
+            data: {"fileArr":fileArr},
+            success: () => {}
+        })
+    }else{
+        Swal.fire({
+            title: '선택 항목이 없습니다!',
+            icon: 'warning'
+        })
+    }
+
+
+}
+
+
+
+
+function movePrint(folderRoot){
+    console.log("folderRoot :" + folderRoot)
+    $('#moveBody').empty();
+
+    const urlParams = new URL(location.href);
+    const projectId = urlParams.pathname.split('/')[2];
     $.ajax({
-        url: '/file/downloadFile',
         type: 'GET',
-        data: {"fileArr":fileArr},
-        success: () => {}
+        url: "/folder/folderList",
+        data: {
+            "folderRoot": folderRoot,
+            "projectId": projectId
+        },
+
+        success: function (result) {
+
+            if (folderRoot != "/") {
+
+                $('#moveBody').append(
+                    "<tr class='folder-tr' onclick='modalBackFolder()' >" +
+
+                    "<td class='h-none'>" +
+                    "<i class='fa-solid fa-chevron-up fa-fade' style='margin-right: 30px'></i>" +
+                    "뒤로가기</td>" +
+
+                    "</tr>"
+                )
+            }
+
+            if (result.length >= 1) {
+
+                result.forEach(function (item) {
+                    const root = document.getElementById("moveNowRoot")
+                    root.name= item.folderId
+                    if (item.folderName != undefined){
+
+
+                        $('#moveBody').append(
+                            "<tr class='folder-tr'>" +
+
+                            "<td class='folder-name-area'  onclick='modalMoveFolder(" + item.folderId + ")'>" +
+
+                            "<div class='folder-img'>" +
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#FFB30D' class='bi bi-folder-fill' viewBox='0 0 16 16'><path d='M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z'/></svg>" +
+                            "</div>" +
+                            "<span class='folder-name'  id='modalFolder" + item.folderId + "' >" + item.folderName + "</span>" +
+                            "</td>" +
+
+                            "</tr>"
+                        )
+
+
+
+                    }else if(result.length == 1 && item.folderName == undefined){
+                        $('#moveBody').append(
+                            "<tr class='folder-tr' id='emptyFolder'>" +
+
+                            "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
+                            "</tr>"
+                        )
+                    }
+
+
+                })
+
+            } else {
+
+                $('#moveBody').append(
+                    "<tr class='folder-tr' id='emptyFolder'>" +
+
+                    "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
+                    "</tr>"
+                )
+
+            }
+        }
     })
 
 }
 
-
-
-
-function modalPrint(){
-
-
-}
-
-
-
-function moveFile(){
-
+function openMoveModal(){
     const root = document.getElementById("moveNowRoot")
+    movePrint(root.innerText);
+
 
     var folderArr = "";
     $("input:checkbox[name='checkfolder']:checked").each(function () {
@@ -504,55 +594,83 @@ function moveFile(){
     $("input:checkbox[name='checkFile']:checked").each(function () {
         fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
     })
-    console.log("move fileArr : "+ fileArr);
     if (fileArr.length == 0 && folderArr.length == 0 ) {
         Swal.fire({
             title: "선택 항목이 없습니다.",
             icon: "question"
         });
+    }else{
+
+
+
+        setCookie("folderArr", folderArr, 1);
+        setCookie("fileArr", fileArr, 1);
+
+
+        $('#moveModal').modal('show');
     }
-    if (folderArr.length != 0) {
 
 
+}
 
-            $.ajax({
-                url: '/folder/update',
-                type: 'post',
-                data: { "root" :root.innerText,
-                    "folderArr":folderArr},
-                success: () => {
+function moveFile(){
 
-                    printFolder(root.innerText)
+    const root = document.getElementById("moveNowRoot")
+
+    const fileArr = getCookie("fileArr");
+    const folderArr = getCookie("folderArr");
+
+    console.log("folderArr not null " + folderArr.length)
+
+    if(folderArr.length != 0){
+        $.ajax({
+            url: '/folder/update',
+            type: 'get',
+            data: { "root" :root.innerText,
+                "folder":folderArr},
+            success: () => {
+                deleteCookie(folderArr)
+                if(fileArr.length == 0){
+                    deleteCookie(fileArr)
                 }
-            })
-            if (fileArr.length != 0){
-                $.ajax({
-                    url: '/file/update',
-                    type: 'post',
-                    data: {
-                        "root" :root.innerText,
-                        "fileArr" : fileArr
-                    },
-                    success: () => {
-                        printFolder(root.innerText)
-                    }
-                })
+                printFolder( document.getElementById("moveRoot").innerText)
             }
-
+        })
     }
-    else if (fileArr.length != 0){
+
+    if (fileArr.length != 0){
         $.ajax({
             url: '/file/update',
-            type: 'post',
+            type: 'get',
             data: {
                 "root" :root.innerText,
-                "fileArr" : fileArr
+                "file" : fileArr
             },
             success: () => {
-                printFolder(root.innerText)
+                deleteCookie(folderArr)
+                deleteCookie(fileArr)
+                printFolder( document.getElementById("moveRoot").innerText)
             }
         })
     }
 
 
+
+
+}
+
+
+var setCookie = function(name, value, exp) {
+    var date = new Date();
+    date.setTime(date.getTime() + exp*24*60*60*1000);
+    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+};
+
+var getCookie = function(name) {
+    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return value? value[2] : null;
+};
+
+var deleteCookie = function(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 }

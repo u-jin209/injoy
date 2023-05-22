@@ -37,6 +37,9 @@ public class FileService {
     }
 
     public void update(Map<String, Object> map){
+
+        System.out.println("map = " + map);
+
         session.update(NAMESPACE+".update" ,map);
     }
 }

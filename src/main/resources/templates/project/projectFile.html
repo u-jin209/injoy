@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="tool-document">
-            <button id="fileMoveButton" type="button" data-toggle="modal" data-target="#moveModal">
+            <button id="fileMoveButton" type="button"  onclick="openMoveModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrows-move" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -213,6 +213,7 @@
     jQuery(document).ready(function () {
 
         printFolder('/');
+
 
     });
 

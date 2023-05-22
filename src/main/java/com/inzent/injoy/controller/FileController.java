@@ -185,15 +185,25 @@ public class FileController {
 
 
     @ResponseBody
-    @PostMapping("update")
-    public String update(String root, String fileArr ) {
+    @GetMapping("update")
+    public String update(String root, String file ) {
+
+        System.out.println("root = " + root);
+        System.out.println("file = " + file);
+
+
+
         Map<String, Object> map = new HashMap<>();
 
 
-        for (String num : fileArr.split(",")) {
-            map.put("fileId", num);
-            map.put("root", root);
+        for (String num : file.split(",")) {
+            map.put("fileId", Integer.parseInt(num));
 
+            if (!Objects.equals(root, "/")){
+                map.put("root",root.substring(0,root.lastIndexOf("/")));
+            }else {
+                map.put("root",root);
+            }
             fileService.update(map);
         }
         return "redirect:/project/myProject";

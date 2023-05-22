@@ -58,13 +58,15 @@ public class FolderController {
 
 
     @ResponseBody
-    @PostMapping("update")
-    public String update(String root, String folderArr ) {
+    @GetMapping("update")
+    public String update(String root, String folder ) {
+        System.out.println("root = " + root);
+        System.out.println("folder = " + folder);
         Map<String, Object> map = new HashMap<>();
 
-        for (String num : folderArr.split(",")) {
+        for (String num : folder.split(",")) {
             map.put("root", root);
-            map.put("folderId", num);
+            map.put("folderId", Integer.parseInt(num));
 
             folderService.update(map);
         }
