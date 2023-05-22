@@ -136,7 +136,7 @@ function printFolder(folderRoot) {
                             "<span class='folder-name'  id='folderName" + item.folderId + "' >" + item.folderName + "</span>" +
                             "</td>" +
                             "<td class='text-center' >-</td>" +
-                            "<td class='text-center'  >" + item.name + "</td>" +
+                            "<td class='text-center'  >" + item.name  +"</td>" +
                             "<td class='text-center' >" + item.crtDate + "</td>" +
                             "</tr>"
                         )
@@ -362,7 +362,7 @@ function printFile(folderRoot){
                         "<div class='file-img'>" +
                         "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
                         "</div> " +
-                        "<span class='file-name '>"+item.fileName+"</span> " +
+                        "<span class='file-name '>"+item.fileName+item.fileExtension+"</span> " +
                         "</td>" +
                         "<td class='text-center'>"+item.fileSize+"</td>" +
                         "   <td class='text-center'>"+item.name+"</td>" +
@@ -632,6 +632,7 @@ function moveFile(){
                 deleteCookie(folderArr)
                 if(fileArr.length == 0){
                     deleteCookie(fileArr)
+                    $("#moveModal").modal('hide');
                 }
                 printFolder( document.getElementById("moveRoot").innerText)
             }
@@ -649,9 +650,13 @@ function moveFile(){
             success: () => {
                 deleteCookie(folderArr)
                 deleteCookie(fileArr)
+                $("#moveModal").modal('hide');
                 printFolder( document.getElementById("moveRoot").innerText)
+
             }
         })
+
+
     }
 
 

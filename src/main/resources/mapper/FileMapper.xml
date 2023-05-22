@@ -5,8 +5,8 @@
 <mapper namespace="mapper.FileMapper">
 
     <insert id="insert" parameterType="FileDTO" >
-        INSERT INTO injoy.file( "projectId", "userId", "fileName", "fileSize", "folderId", "fileRealPath")
-        VALUES ( #{projectId}, #{userId}, #{fileName}, #{fileSize}, #{folderId}, #{fileRealPath});
+        INSERT INTO injoy.file( "projectId", "userId", "fileName", "fileSize", "folderId", "fileRealPath", "uniqueName", "fileExtension")
+        VALUES ( #{projectId}, #{userId}, #{fileName}, #{fileSize}, #{folderId}, #{fileRealPath}, #{uniqueName}, #{fileExtension});
     </insert>
 
     <delete id="delete" parameterType="int">
@@ -39,7 +39,14 @@
         inner join (SELECT "folderId",  "folderRoot" || "folderName" root
         FROM injoy.folder) f2
         on f1."folderId" = f2."folderId"
-        where root = #{root} )
+
+        <if test='folderRoot == "/"'>
+            where   root is null)
+        </if>
+        <if test='folderRoot != "/"'>
+            where   root = #{root})
+        </if>
+
         WHERE "fileId" =#{fileId} ;
 
     </update>

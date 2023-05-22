@@ -7,31 +7,24 @@ import com.inzent.injoy.service.FileService;
 import com.inzent.injoy.service.FolderService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.Context;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Controller
@@ -92,7 +85,7 @@ public class FileController {
         fileDTO.setFileSize(roundedValue + "MB");
         fileDTO.setProjectId(projectId);
         fileDTO.setUserId(logIn.getUserDTO().getId());
-        fileDTO.setFileName(fileRealName);
+        fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
         fileDTO.setFolderId(folderId);
 
 
@@ -113,7 +106,9 @@ public class FileController {
             String[] filePath = String.valueOf(saveFile).split("web");
 
             System.out.println("filePath : " + filePath);
-            fileDTO.setFileRealPath(FileDirPath + "uploadFile/" + uniqueName + fileExtension);
+            fileDTO.setFileRealPath(FileDirPath + "uploadFile/" );
+            fileDTO.setUniqueName(uniqueName);
+            fileDTO.setFileExtension(fileExtension);
         }
 
         fileService.insert(fileDTO);
@@ -212,7 +207,7 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("downloadFile")
-    public void downloadFile(String fileArr, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public void downloadFile(String fileArr, HttpServletRequest request) throws IOException {
 
         System.out.println("fileArr : " + fileArr);
         List<FileDTO> fileList = new ArrayList<>();
@@ -227,32 +222,56 @@ public class FileController {
 
         for (FileDTO f : fileList) {
 
-            int num = f.getFileRealPath().toString().lastIndexOf('/');
-
-            String fileUrl = f.getFileRealPath().toString().substring(num);
-
-            File file = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + fileUrl);
-            // file 다운로드 설정
-            response.setContentType("application/download");
-            response.setContentLength((int) file.length());
-
-            response.setHeader("Content-disposition", "attachment; filename=\\" + f.getFileName() + "\\");
-
-            // response 객체를 통해서 서버로부터 파일 다운로드
-            OutputStream os = response.getOutputStream();
-            // 파일 입력 객체 생성
-            FileInputStream fileInputStream = new FileInputStream(file);
-            OutputStream out = response.getOutputStream();
-
-            int read = 0;
-            byte[] buffer = new byte[1024];
-            while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
-                out.write(buffer, 0, read);
-            }
-
+            file(f,request);
 
         }
 
+    }
+
+    @ResponseBody
+    @GetMapping("file")
+    public ResponseEntity<Object> file(FileDTO f, HttpServletRequest request) throws IOException {
+        String path = request.getServletContext().getRealPath(FileDirPath) + "uploadFile/"; // 파일이 저장된 디렉토리 경로
+        String savePath = request.getServletContext().getRealPath(FileDirPath) + "save/"; // 저장할 디렉토리 경로
+        try {
+            Path filePath = Paths.get(path + f.getUniqueName() + f.getFileExtension());
+            Resource resource = new FileSystemResource(filePath.toFile());
+
+            String newFileName = getUniqueFileName(savePath, f.getFileName(), f.getFileExtension());
+            String saveFilePath = savePath + newFileName;
+            Files.copy(filePath, Paths.get(saveFilePath), StandardCopyOption.REPLACE_EXISTING);
+
+
+
+            // 다운로드할 파일의 MIME 타입 설정
+            String mimeType = request.getServletContext().getMimeType(saveFilePath);
+
+            // 다운로드할 파일의 Content-Disposition 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(f.getFileName()).build());
+            headers.setCacheControl("no-cache");
+            headers.setContentType(MediaType.parseMediaType(mimeType));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(resource.contentLength())
+                    .body(resource);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
+    private String getUniqueFileName(String directory, String baseName, String extension) {
+        String fileName = baseName + extension;
+        String newFileName = fileName;
+        int count = 1;
+        Path filePath = Paths.get(directory + newFileName);
+        while (Files.exists(filePath)) {
+            newFileName = baseName + "(" + count+")" + extension;
+            filePath = Paths.get(directory + newFileName);
+            count++;
+        }
+        return newFileName;
+    }
 }
+

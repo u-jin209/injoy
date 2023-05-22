@@ -13,6 +13,8 @@ public class FileDTO {
     private String fileName;
     private String fileRealPath;
     private String fileSize;
+    private String uniqueName;
+    private String fileExtension;
 
     private Date crtDate;
     private String name;
