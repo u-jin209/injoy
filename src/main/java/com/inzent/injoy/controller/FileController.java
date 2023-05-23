@@ -17,6 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -208,6 +212,9 @@ public class FileController {
     @ResponseBody
     @GetMapping("downloadFile")
     public void downloadFile(String fileArr, HttpServletRequest request) throws IOException {
+        String userName = System.getProperty("user.name");
+        System.out.println("Windows 사용자 계정 이름: " + userName);
+
 
         System.out.println("fileArr : " + fileArr);
         List<FileDTO> fileList = new ArrayList<>();
@@ -222,7 +229,7 @@ public class FileController {
 
         for (FileDTO f : fileList) {
 
-            file(f,request);
+            file(f, userName, request);
 
         }
 
@@ -230,12 +237,30 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("file")
-    public ResponseEntity<Object> file(FileDTO f, HttpServletRequest request) throws IOException {
+    public ResponseEntity<Object> file(FileDTO f,String userName, HttpServletRequest request) throws IOException {
         String path = request.getServletContext().getRealPath(FileDirPath) + "uploadFile/"; // 파일이 저장된 디렉토리 경로
-        String savePath = request.getServletContext().getRealPath(FileDirPath) + "save/"; // 저장할 디렉토리 경로
+//        Path downloadsPath = Paths.get("C:\\Users", userName, "Downloads");
+//        String savePath =  downloadsPath.toString();
+
+        String savePath = System.getProperty("user.home") + "\\Downloads\\";
+
+
+
+
+        System.out.println("savePath = " + savePath);
         try {
             Path filePath = Paths.get(path + f.getUniqueName() + f.getFileExtension());
             Resource resource = new FileSystemResource(filePath.toFile());
+
+
+            // 현재 시간을 한국 시간대로 가져옴
+            ZoneId zoneId = ZoneId.of("Asia/Seoul");
+            ZonedDateTime currentTime = ZonedDateTime.now(zoneId);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            String formattedTime = currentTime.format(formatter);
+
+            System.out.println("formattedTime = " + formattedTime);
+
 
             String newFileName = getUniqueFileName(savePath, f.getFileName(), f.getFileExtension());
             String saveFilePath = savePath + newFileName;
@@ -248,9 +273,11 @@ public class FileController {
 
             // 다운로드할 파일의 Content-Disposition 헤더 설정
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(f.getFileName()).build());
+
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(formattedTime+"_"+f.getFileName()).build());
             headers.setCacheControl("no-cache");
             headers.setContentType(MediaType.parseMediaType(mimeType));
+            headers.set(HttpHeaders.DATE, formattedTime);
 
             return ResponseEntity.ok()
                     .headers(headers)

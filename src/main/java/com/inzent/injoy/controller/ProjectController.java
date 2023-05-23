@@ -70,7 +70,13 @@ public class ProjectController {
 
         return "/project/newProject";
     }
+    @GetMapping("convert")
+    public String convert(Model model) {
 
+        model.addAttribute("organList" ,organService.selectAll());
+
+        return "/project/convert";
+    }
     @GetMapping("newProjectMain")
     public String newProjectMain() {
 
