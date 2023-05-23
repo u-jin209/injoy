@@ -18,7 +18,9 @@ public class TaskService {
     public TaskService(SqlSession session){
         this.session = session;
     }
-
+    public List<TaskDTO> viewAll(int projectId) {
+        return session.selectList(NAMESPACE + ".viewAll", projectId);
+    }
     public List<TaskDTO> selectAll(int projectId) {
         return session.selectList(NAMESPACE + ".selectAll", projectId);
     }
@@ -63,5 +65,9 @@ public class TaskService {
 
     public void deleteTask(int taskId){
         session.delete(NAMESPACE+".deleteTask", taskId);
+    }
+
+    public void update(TaskDTO taskDTO) {
+        session.update(NAMESPACE + ".updateTask", taskDTO);
     }
 }

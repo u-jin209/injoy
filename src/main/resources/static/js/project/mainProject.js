@@ -21,4 +21,11 @@ $(function (){
 
     }
 
+    $('.mainNav').click(function (){
+        let tabPane = $(this).attr('data-bs-target')
+
+        //$(tabPane).load(location.href + ' ' + tabPane)
+
+    })
+
 })

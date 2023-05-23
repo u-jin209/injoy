@@ -132,13 +132,6 @@ td:hover {
     border: 3px solid #3064B3 !important;
 }
 
-
-td.h-none:hover {
-    border:0px solid #3064B3 !important;
-
-
-}
-
 .detail {
     text-decoration: underline !important;
     margin-top: 3px !important;
@@ -197,6 +190,68 @@ td.h-none:hover {
     border : none !important;
     background-color: white !important;
     font-size: 15px!important;
+}
+
+.progress-item {
+    display: flex;
+    align-items: center;
+}
+
+.progress-item .progress-bar {
+    background-color: #ddd;
+}
+
+.progress-bar {
+    margin-top: 0;
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    max-width: 70%;
+    height: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    /*background: #eee;*/
+    text-align: left;
+}
+
+.progress-bar span{
+    display: inline-block;
+    height: 4px;
+    background: #00b01c;
+    vertical-align: top;
+}
+
+.progress-percent-num {
+    min-width: 28px;
+    margin-left: 3px;
+    font-weight: 400;
+    font-size: 11px;
+    color: #333;
+    text-align: center;
+}
+
+.button_progress{
+    z-index: 100;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #777;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.15);
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.button_progress button {
+    border: none !important;
+    background-color: transparent !important;
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: right;
+    color: #555;
 }
 
 .startDate:hover{
@@ -629,7 +684,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: inline-block;
 }
 
-.task-number{
+.task-number, .kanban-taskTitle{
     margin-left: 10px;
     height: 27px;
     padding: 4px 10px;
@@ -658,13 +713,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 25px;
 }
 
-.task-content-group, .home-content-group{
+.task-content-group, .home-content-group, .kanban-content-group{
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.task-content-group>li, .home-content-group>li{
+.task-content-group>li, .home-content-group>li, .kanban-content-group>li{
     display: flex;
     -webkit-box-pack: start;
     justify-content: flex-start;
@@ -674,7 +729,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 46px;
 }
 
-.task-content-group> li + li , .home-content-group >li+li{
+.task-content-group> li + li , .home-content-group >li+li, .kanban-content-group>li+li{
     padding-top: 24px !important;
 }
 
@@ -778,12 +833,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: middle;
 }
 
-.rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput{
+.rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput, .task-detail-rangeInput{
     width: 100%;
-    background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
+    background: linear-gradient(to right, #FFE283 0%, #FFE283 0%, #ececec 0%, #ececec 100%);
     border-radius: 8px;
     outline: none;
-    transition: background 450ms ease-in;
+    /*transition: background 450ms ease-in;*/
     -webkit-appearance: none;
     accent-color: #ffca1d;
 }
@@ -807,7 +862,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #777;
 }
 
-.post-taskContent{
+.post-taskContent, .kanban-taskContent, .task-taskContent{
     margin: 30px 0 50px 0;
 }
 
@@ -827,7 +882,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.addEndDate, .addStartDate{
+.task-addEndDate, .addEndDate, .task-addStartDate, .addStartDate, .task-detail-addStartDate , .task-detail-addEndDate{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
@@ -837,7 +892,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.addEndDate::before, .addStartDate::before{
+.task-addEndDate::before, .addEndDate::before, .task-addStartDate::before, .addStartDate::before, .task-detail-addStartDate::before, .task-detail-addEndDate::before{
     text-align: start !important;
 }
 
@@ -850,4 +905,19 @@ input[type='date']::before {
 input[type='date']:focus::before,
 input[type='date']:valid::before {
     display: none;
+}
+
+/*업무 수정부분*/
+
+.task-detail-taskTitle-input{
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: auto;
+}
+
+.task-detail-content{
+    width: 400px;
+    min-height: 200px;
+    border: none;
 }

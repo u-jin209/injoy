@@ -194,5 +194,12 @@ public class UserController {
         return "redirect:/user/userInfo";
     }
 
+    @GetMapping("getUserInfo")
+    @ResponseBody
+    public UserDTO getUserInfo(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        UserDTO userDTO = login.getUserDTO();
+        return userDTO;
+    }
 
 }

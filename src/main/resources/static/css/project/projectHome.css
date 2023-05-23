@@ -1,3 +1,42 @@
+.content-none-area{
+    margin: 0 0 15px 0;
+}
+
+.none-title{
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+.none-title h4{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+}
+
+.none-content{
+    text-align: end;
+    margin: 60px auto;
+}
+
+.none-text {
+    margin-top: 22px;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -.02em;
+    color: #999;
+    margin-left: 120px;
+}
+
 .project-content{
     width: 80%;
 }
@@ -291,7 +330,7 @@
     margin-left: auto;
 }
 
-.taks-report {
+.task-report {
     height: auto;
     padding: 5px 0 25px;
     border-top: none;
@@ -400,4 +439,105 @@ ul, li, span{
 
 .chart-info-percent {
     margin-left: 6px;
+}
+
+.show-comment{
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+    background: #f9f9f9;
+}
+
+.comment-header {
+    padding: 0 30px 0 30px;
+    border-top: 1px solid #ddd;
+}
+
+.comment-more-button.on {
+    display: block;
+    margin-top: 10px;
+}
+
+.comment-more-button {
+    /*display: none;*/
+    font-size: 13px;
+    color: #777;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.post-comment-group {
+    color: #555;
+}
+
+.post-comment-group>li:first-child {
+    padding-top: 20px;
+}
+.post-comment-group>li {
+    display: flex;
+    margin-top: -1px;
+    padding: 10px 30px;
+    border-bottom: 1px solid #eee;
+    background-color: #eee;
+}
+
+.comment-thumbnail {
+    width: 40px;
+}
+
+.comment-container.on {
+    display: block;
+}
+.comment-container {
+    /*display: none;*/
+    position: relative;
+    width: calc(100% - 50px);
+    margin-left: 10px;
+    box-sizing: border-box;
+}
+.comment-container, .comment-thumbnail, .comment-user {
+    float: left;
+}
+
+.comment-user-area {
+    width: 100%;
+    line-height: 21px;
+}
+
+.comment-user span {
+    display: inline-block;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.record-date {
+    margin-top: -2px;
+    font-size: 14px;
+    color: #999;
+}
+
+.comment-writer-menu {
+    float: right;
+}
+
+.comment-writer-button.on {
+    display: inline-block;
+}
+
+.comment-writer-button {
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+    display: none;
+}
+
+.hidden-comment {
+    display: none !important;
+}
+
+.comment-user-area::after {
+    display: block;
+    content: "";
+    clear: both;
 }

@@ -57,11 +57,11 @@ public class TaskController {
         System.out.println(taskDTO);
 
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
-        if (Objects.equals(taskDTO.getClosingDate(), new Date("1899-11-30"))){
+        if (Objects.equals(taskDTO.getClosingDate(), new Date(0))){
             taskDTO.setClosingDate(null);
         }
 
-        if (Objects.equals(taskDTO.getStartDate(), new Date("1899-11-30"))){
+        if (Objects.equals(taskDTO.getStartDate(), new Date(0))){
             taskDTO.setStartDate(null);
         }
 
@@ -78,6 +78,25 @@ public class TaskController {
     @ResponseBody
     public TaskDTO detailTask(int taskId){
         return taskService.selectOne(taskId);
+    }
+
+    @PostMapping("updateTask")
+    @ResponseBody
+    public TaskDTO updateTitle(TaskDTO taskDTO){
+        TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
+
+        updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
+        updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
+        updateTaskDTO.setStartDate(taskDTO.getStartDate());
+        updateTaskDTO.setClosingDate(taskDTO.getClosingDate());
+        updateTaskDTO.setProcess(taskDTO.getProcess());
+        updateTaskDTO.setPriority(taskDTO.getPriority());
+        updateTaskDTO.setProgress(taskDTO.getProgress());
+
+
+        taskService.update(updateTaskDTO);
+
+        return updateTaskDTO;
     }
 
     @PostMapping("updateTitle")
