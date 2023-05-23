@@ -11,59 +11,17 @@
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 
     <link rel="stylesheet" href="/css/injoyMain.css">
-    <script th:src="@{/js/project/projectFile.js}" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
 
 </head>
 
 <body>
-<div class="container-fluid">
-    <div id="dropzone">
-        <form action="https://httpbin.org/post" class="dropzone needsclick" id="demo-upload">
-            <div class="dz-message needsclick">
-      <span class="text">
-      <img src="http://www.freeiconspng.com/uploads/------------------------------iconpngm--22.png" alt="Camera"/>
-      Drop files here or click to upload.
-      </span>
-                <span class="plus">+</span>
-            </div>
-        </form>
-    </div>
-
-    <div class="row">
-
-        <div class="col mb-3">
-            <input type="checkbox" onclick="selectAll(this)"> 전체선택
-            <button class="btn btn-green" type="button" onclick="openDrop()" style="float: right">
-                <i class="fa-solid fa-plus fa-bounce fa-sm" style="margin-right: 5px; "></i>파일 업로드
-            </button>
 
 
-        </div>
-
-
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-2">
-
-            <div class="card">
-                <h5 class="card-header">
-                    <input type="checkbox">
-                    파일 1</h5>
-                <div class="card-body" style="text-align: center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
-                         class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+<script th:src="@{/js/project/projectFile.js}" defer></script>
 <div class="document">
+
     <div class="document-search-wrap">
         <div class="document-search">
             <div class="search-file">
@@ -71,11 +29,11 @@
                      viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
-                <input class="search-file-input" type="search" placeholder="파일명을 입력해주세요"/>
+                <input class="search-file-input" id="searchFile" onkeyup="FileSearchEnter(this)" type="search" placeholder="파일명을 입력해주세요"/>
             </div>
         </div>
         <div class="tool-document">
-            <button id="fileMoveButton">
+            <button id="fileMoveButton" type="button"  onclick="openMoveModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrows-move" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -83,7 +41,7 @@
                 </svg>
                 이동
             </button>
-            <button id="fileDownloadButton">
+            <button id="fileDownloadButton" onclick="downloadFile()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-download" viewBox="0 0 16 16">
                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -91,55 +49,46 @@
                 </svg>
                 다운로드
             </button>
-            <button id="fileDeleteButton" class="task-setting">
+            <!--            <button id="folderDeleteButton" class="task-setting" onclick="folderDeleteClick()">-->
+            <!--                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"-->
+            <!--                     viewBox="0 0 16 16">-->
+            <!--                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>-->
+            <!--                </svg>-->
+            <!--                폴더 삭제-->
+            <!--            </button>-->
+
+            <button id="fileDeleteButton" class="task-setting" onclick="deleteClick()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
                      viewBox="0 0 16 16">
                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                 </svg>
-                폴더 삭제
+                삭제
             </button>
-            <button id="addFolder" class="js-file-add-button collect-add-button" style="display: inline-block;">+ 폴더
-                추가
+            <button type="button" class="js-file-add-button collect-add-button" id="addFolderBtn"
+                    style="display: inline-block;" data-toggle="modal" data-target="#addFolderModal">
+                + 폴더추가
             </button>
+
+            <button type="button" class="collect-fileAdd-button btn btn-green" id="addFileBtn"
+                    style="display: inline-block;" data-toggle="modal" data-target="#addFileModal" >+파일 업로드
+            </button>
+
+
         </div>
     </div>
     <div class="document-table-area">
         <table class="table">
             <thead class="text-center" style="background-color: #fafafa; ">
+            <th style="width: 5%; color: #888;"></th>
             <th style="width: 60%; color: #888;">파일명</th>
             <th style="width: 10%; color: #888;">용량</th>
             <th style="width: 10%; color: #888;">등록자</th>
             <th style="width: 18%; color: #888;">등록일</th>
             </thead>
-            <tbody>
-            <tr class="folder-tr">
-                <td class="folder-name-area">
-                    <input class="folder-checkBox" type="checkbox"/>
-                    <div class="folder-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#FFB30D" class="bi bi-folder-fill" viewBox="0 0 16 16">
-                            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-                        </svg>
-                    </div>
-                    <span class="folder-name">폴더 이름</span>
-                </td>
-                <td class="text-center">-</td>
-                <td class="text-center" >폴더 등록자</td>
-                <td class="text-center">폴더 등록일</td>
-            </tr>
-            <tr class="file-tr">
-                <td class="file-name-area">
-                    <input class="file-checkBox" type="checkbox"/>
-                    <div class="file-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3064B3" class="bi bi-image-fill" viewBox="0 0 16 16">
-                            <path d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
-                        </svg>
-                    </div>
-                    <span class="file-name">파일 이름</span>
-                </td>
-                <td class="text-center">파일 용량</td>
-                <td class="text-center">파일 등록자</td>
-                <td class="text-center">파일 등록일</td>
-            </tr>
+            <tbody id="listBody">
+
+
+
             </tbody>
         </table>
     </div>
@@ -147,5 +96,128 @@
 
 
 
+<!--이동 모달-->
+
+<div class="modal fade" id="moveModal" tabindex="-1" aria-labelledby="moveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="moveModalLabel">이동</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" >
+
+                <div>
+                    <label th:target="moveRoot"> 현재 경로 </label>
+                    <div id="moveRoot" >/</div>
+                    <br>
+                    <label th:target="moveNowRoot"> 이동 경로 </label>
+                    <div id="moveNowRoot" >/</div>
+                    <br>
+
+                </div>
+                <div class="document-table-area scrollDiv" style="height: 350px">
+                    <table class="table " >
+                        <thead class="text-center" style="background-color: #fafafa; ">
+
+                        <th style="width: 60%; color: #888;">폴더명</th>
+                        </thead>
+
+                        <tbody id="moveBody">
+
+
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-green" onclick="moveFile()">이동</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--폴더 추가 모달-->
+
+<div class="modal fade" id="addFolderModal" tabindex="-1" aria-labelledby="addFolderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addFolderModalLabel">새폴더</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <label th:target="root"> 현재 경로 </label>
+                    <div id="root" >/</div>
+                    <br>
+                </div>
+
+                <label th:target="folderName"> 새 폴더 이름</label>
+                <input type="text" class="form-control" id="folderName" oninput="checkFolderName()"
+                       placeholder="폴더이름을 입력해주세요">
+                <span class="mt-1" id="existFolderName" style="color: #F5544D; display: none">이미 등록된 폴더이름입니다.</span>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-green" onclick="addFolder()">생성</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--파일업로드 모달-->
+
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addFileModalLabel">파일 업로드</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+                    <div id="dropzone">
+                        <form action="/file/insert" id="my-dropzone" class="dropzone" enctype="multipart/form-data"
+                              style="border-radius: 10px;text-align: center;" >
+                            <div class="dz-message needsclick" id="uploadFileList">
+                              <span class="text">
+
+                              파일을 드래그 하거나 눌러서 선택해주세요
+                              </span>
+                                <span class="plus">+</span>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-green" id="upload-btn">업로드</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function () {
+
+        printFolder('/');
+
+
+    });
+
+</script>
 </body>
 </html>

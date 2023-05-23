@@ -678,8 +678,8 @@ companyInput:focus {
 
 
 /* projectFile 관련 css 시작 */
-.fileBack{
-margin: 10px;
+.fileBack {
+    margin: 10px;
     width: 200px;
     height: 200px;
     background-color: #fff;
@@ -689,7 +689,7 @@ margin: 10px;
     border-color: #D0D0D0;
 }
 
-.document{
+.document {
     position: relative;
     -webkit-box-flex: 1;
     flex: 1;
@@ -702,7 +702,7 @@ margin: 10px;
 }
 
 
-.document-search-wrap{
+.document-search-wrap {
     padding: 10px 10px 5px 30px;
     margin-bottom: 0;
     display: flex;
@@ -713,12 +713,12 @@ margin: 10px;
 }
 
 
-.document-search-wrap .document-search{
+.document-search-wrap .document-search {
     display: inline-block;
 }
 
 
-.document-search{
+.document-search {
     margin: 0;
     width: 100%;
     max-width: 355px;
@@ -731,14 +731,12 @@ margin: 10px;
     top: 50% !important;
     left: 14px !important;
     transform: translateY(-50%) !important;
-    color: #555!important;
-    font-size: 16px!important;
+    color: #555 !important;
+    font-size: 16px !important;
 }
 
 
-
-
-.search-file{
+.search-file {
     width: 100%;
     position: relative;
     display: inline-block;
@@ -785,7 +783,7 @@ margin: 10px;
     line-height: 28px;
     padding: 0 12px 0 34px;
     border: 1px solid #ddd;
-    background: #fff;
+    /*background: #fff;*/
     -webkit-border-radius: 4px;
     border-radius: 4px;
     font-size: 13px;
@@ -808,7 +806,7 @@ margin: 10px;
 }
 
 
-.tool-document button+button {
+.tool-document button + button {
     margin-left: 10px;
 }
 
@@ -824,7 +822,18 @@ margin: 10px;
 }
 
 
-.document-table-area{
+.tool-document button.collect-fileAdd-button {
+    width: auto;
+    height: 30px;
+    padding: 0 10px;
+    background: #00B01C;
+    border: 1px solid;
+    color: #fff;
+    margin: 0 0 0 10px;
+}
+
+
+.document-table-area {
     margin-top: 5px;
 }
 
@@ -844,11 +853,12 @@ margin: 10px;
 }
 
 
-.folder-checkBox, .file-checkBox{
+.folder-checkBox, .file-checkBox {
     position: relative;
     top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
+
+    zoom: 1.5
+
 }
 
 
@@ -864,6 +874,20 @@ margin: 10px;
 .folder-img, .file-img {
     position: absolute;
     top: 50%;
+
+    transform: translateY(-50%);
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+
+    margin-right: 25px;
+    vertical-align: middle;
+}
+
+
+.folder-back-img, .file-back-img {
+    position: absolute;
+
     left: 43px;
     transform: translateY(-50%);
     display: inline-block;
@@ -874,19 +898,35 @@ margin: 10px;
     vertical-align: middle;
 }
 
-
-.folder-name, .file-name{
+.folder-back, .file-back {
     overflow: hidden;
     position: absolute;
-    top: 50%;
     left: 123px;
     transform: translateY(-45%);
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+.folder-name, .file-name {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 59px;
+    transform: translateY(-45%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
 /* projectFile 관련 css 끝 */
 
 /*drop file 관련 css 시작 */
-
+.upload-box{
+    width:auto;
+    height: 300px;
+    border:1px solid gray;
+    border-radius: 10px;
+    box-shadow: 2px 3px 9px hsl(0, 0%, 47%);
+    padding:10px;
+}
 /*drop file 관련 css 끝 */
