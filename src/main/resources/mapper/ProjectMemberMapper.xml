@@ -38,7 +38,7 @@
         and ("name" LIKE CONCAT('%', #{keyword}, '%')
         or  "phoneNumber" LIKE CONCAT('%', #{keyword}, '%')
         or "email" LIKE CONCAT('%', #{keyword}, '%')
-        or "username" LIKE CONCAT('%', #{keyword}, '%'))
+        or "username" LIKE CONCAT('%', #{v}, '%'))
     </select>
 
 

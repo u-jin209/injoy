@@ -70,7 +70,7 @@ function outProject(value) {
                 type: "GET",
             }).done(function () {
 
-                location.href = "project/myProject"
+                location.href = "redirect:project/myProject"
 
             })
         }

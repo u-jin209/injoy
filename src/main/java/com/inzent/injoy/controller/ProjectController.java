@@ -1,19 +1,13 @@
 package com.inzent.injoy.controller;
 
 
-import com.inzent.injoy.model.OrganDTO;
-import com.inzent.injoy.model.ProjectDTO;
+import com.inzent.injoy.model.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import com.inzent.injoy.model.ProjectMemberDTO;
-import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.service.OrganService;
-import com.inzent.injoy.service.ProjectMemberService;
-import com.inzent.injoy.service.ProjectService;
-import com.inzent.injoy.service.UserService;
+import com.inzent.injoy.service.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
@@ -29,14 +23,15 @@ public class ProjectController {
     private final ProjectMemberService projectMemberService;
 
     private final OrganService organService;
+    private FolderService folderService;
 
     public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService,
-                             OrganService organService) {
+                             OrganService organService, FolderService folderService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
         this.organService = organService;
-
+        this.folderService = folderService;
 
     }
 
@@ -55,6 +50,7 @@ public class ProjectController {
     @GetMapping("joinProject")
     public String joinProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
         model.addAttribute("waitList", projectService.selectWaitProject(login.getUserDTO().getId()));
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
         return "/project/joinProject";
     }
 
@@ -74,7 +70,13 @@ public class ProjectController {
 
         return "/project/newProject";
     }
+    @GetMapping("convert")
+    public String convert(Model model) {
 
+        model.addAttribute("organList" ,organService.selectAll());
+
+        return "/project/convert";
+    }
     @GetMapping("newProjectMain")
     public String newProjectMain() {
 
@@ -126,7 +128,22 @@ public class ProjectController {
         projectService.insert(projectDTO);
 
 
-        return "redirect:/member/insert/-1/MANAGER";
+        ProjectMemberDTO memberDTO = new ProjectMemberDTO();
+
+        memberDTO.setAuthority("MANAGER");
+        memberDTO.setUserId(login.getUserDTO().getId());
+        memberDTO.setProjectId(projectDTO.getProjectId());
+        projectMemberService.insert(memberDTO);
+
+        FolderDTO folderDTO = new FolderDTO();
+
+
+        folderDTO.setFolderRoot("/");
+        folderDTO.setUserId(login.getUserDTO().getId());
+        folderDTO.setProjectId(projectDTO.getProjectId());
+        folderService.insert(folderDTO);
+
+        return "redirect:/project/myProject";
     }
 
     @ResponseBody

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.FileMapper">
+
+    <insert id="insert" parameterType="FileDTO" >
+        INSERT INTO injoy.file( "projectId", "userId", "fileName", "fileSize", "folderId", "fileRealPath", "uniqueName", "fileExtension")
+        VALUES ( #{projectId}, #{userId}, #{fileName}, #{fileSize}, #{folderId}, #{fileRealPath}, #{uniqueName}, #{fileExtension});
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy."file"
+        WHERE "fileId"=#{fileId};
+    </delete>
+
+    <select id="selectOne" parameterType="int" resultType="FileDTO">
+        select * from injoy."file"
+        WHERE "fileId"=#{fileId};
+    </select>
+
+    <select id="selectFile" parameterType="FileDTO" resultType="FileDTO">
+        SELECT * FROM injoy."file" f
+        inner join injoy."user" u
+        on f."userId" = u."id"
+        where "projectId" = #{projectId} and "folderId" = #{folderId};
+    </select>
+
+    <select id="searchFile" parameterType="FileDTO" resultType="FileDTO">
+        SELECT * FROM injoy."file" f
+        inner join injoy."user" u
+        on f."userId" = u."id"
+        where "projectId" = #{projectId} and "fileName" like concat('%', #{keyword},'%');
+    </select>
+
+    <update id="update" parameterType="hashmap"  >
+        UPDATE injoy.file
+        SET  "folderId" = ( SELECT f1."folderId" FROM injoy.folder f1
+        inner join (SELECT "folderId",  "folderRoot" || "folderName" root
+        FROM injoy.folder) f2
+        on f1."folderId" = f2."folderId"
+
+        <if test='folderRoot == "/"'>
+            where   root is null)
+        </if>
+        <if test='folderRoot != "/"'>
+            where   root = #{root})
+        </if>
+
+        WHERE "fileId" =#{fileId} ;
+
+    </update>
+
+</mapper>
