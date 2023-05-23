@@ -42,6 +42,9 @@
 .el {
     display: inline-block;
     vertical-align: middle;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 
 .kanbanBtn{
@@ -90,7 +93,7 @@
 }
 
 
-.addPriority-kanban, .updateBtn-kanban-priority{
+.addPriority-kanban, .addPriority-task-detail, .updateBtn-kanban-priority, .updateBtn-task-priority{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;

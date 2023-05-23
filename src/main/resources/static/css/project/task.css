@@ -833,7 +833,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: middle;
 }
 
-.rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput{
+.rangeInput, .rangeInput-home, .task-rangeInput, .writeBox-rangeInput, .kanban-rangeInput, .task-detail-rangeInput{
     width: 100%;
     background: linear-gradient(to right, #FFE283 0%, #FFE283 0%, #ececec 0%, #ececec 100%);
     border-radius: 8px;
@@ -862,7 +862,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #777;
 }
 
-.post-taskContent, .kanban-taskContent{
+.post-taskContent, .kanban-taskContent, .task-taskContent{
     margin: 30px 0 50px 0;
 }
 
@@ -882,7 +882,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.task-addEndDate, .addEndDate, .task-addStartDate, .addStartDate{
+.task-addEndDate, .addEndDate, .task-addStartDate, .addStartDate, .task-detail-addStartDate , .task-detail-addEndDate{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
@@ -892,7 +892,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     vertical-align: top;
 }
 
-.task-addEndDate::before, .addEndDate::before, .task-addStartDate::before, .addStartDate::before{
+.task-addEndDate::before, .addEndDate::before, .task-addStartDate::before, .addStartDate::before, .task-detail-addStartDate::before, .task-detail-addEndDate::before{
     text-align: start !important;
 }
 
@@ -905,4 +905,19 @@ input[type='date']::before {
 input[type='date']:focus::before,
 input[type='date']:valid::before {
     display: none;
+}
+
+/*업무 수정부분*/
+
+.task-detail-taskTitle-input{
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.5);
+    width: 100%;
+    height: auto;
+}
+
+.task-detail-content{
+    width: 400px;
+    min-height: 200px;
+    border: none;
 }

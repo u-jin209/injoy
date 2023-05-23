@@ -443,10 +443,10 @@ function showKanbanDetail(result) {
     });
 
     //우선순위
-    console.log(result.priority)
     if (result.priority == null) {
         $('.priority-layer-kanban').css('display', 'none')
         $('.prioritySpan-kanban').css('display', 'none')
+        $('.addPriority-kanban').css('display', 'block')
     } else {
         kanban_priority(result.priority)
         $('.prioritySpan-kanban').css('display', 'block')

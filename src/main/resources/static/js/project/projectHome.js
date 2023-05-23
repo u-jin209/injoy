@@ -101,7 +101,6 @@ $(function () {
     $('.comment-more-button').click(function (e) {
         let commentList = $(this).parent().parent().find('#commentGroup li')
 
-        console.log(commentList)
         for (let i = 2; i < commentList.length; i++) {
             commentList[i].classList.remove("hidden-comment");
         }
@@ -571,6 +570,7 @@ function limitTComment() {
                                 "                                <div class=\"comment-container on\">\n" +
                                 "                                    <div class=\"comment-user-area\">\n" +
                                 "                                        <div class=\"comment-user\">\n" +
+                                "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\""+result[i].authorUserId+"\"/>\n" +
                                 "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
                                 "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                 "                                        </div>\n" +
@@ -603,6 +603,7 @@ function limitTComment() {
                                 "                                <div class=\"comment-container on\">\n" +
                                 "                                    <div class=\"comment-user-area\">\n" +
                                 "                                        <div class=\"comment-user\">\n" +
+                                "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\""+result[i].authorUserId+"\"/>\n" +
                                 "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
                                 "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                 "                                        </div>\n" +
@@ -631,6 +632,17 @@ function limitTComment() {
 
 
                     }
+                    $('.comment-writer-home').each(function() {
+                        let commentUserId = $(this).val();
+                        let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
+
+                        console.log(commentUserId)
+                        if (commentUserId === $('.home-comment-logIn').val()) {
+                            commentWriterMenu.show();
+                        } else {
+                            commentWriterMenu.hide();
+                        }
+                    });
                 }
             })
         }
