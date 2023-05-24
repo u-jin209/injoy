@@ -9,6 +9,17 @@ $(document).ready(function () {
 })
 
 $(function () {
+    $('.optionAddBtn').click(function () {
+        let ulTag = $(this).parent().find('.option-group')
+
+        ulTag.find('li').each(function () {
+            if ($(this).css('display') === 'none') {
+                $(this).css('display', 'flex')
+                $(this).parent().parent().find('.optionAddBtn').css('display', 'none')
+            }
+
+        })
+    })
         //시작일 부분
     $('.writeBox-addStartDate').attr('min', new Date().toISOString().split("T")[0])
     $('.writeBox-addEndDate').attr('min', new Date().toISOString().split("T")[0])
@@ -22,7 +33,7 @@ $(function () {
         $(this).css('display', 'none')
     })
 
-    $('.removeBtn-startDate').click(function (){
+    $('#writeBox-startDate-removeBtn').click(function (){
         $('.start-date-exist').css('display', 'none')
         $('.writeBox-addStartDate').css('display', 'block').val('')
     })
@@ -35,7 +46,7 @@ $(function () {
         $(this).css('display', 'none')
     })
 
-    $('.removeBtn-endDate').click(function (){
+    $('#writeBox-endDate-removeBtn').click(function (){
         $('.end-date-exist').css('display', 'none')
         $('.writeBox-addEndDate').css('display', 'block').val('')
     })
@@ -61,7 +72,7 @@ $(function () {
 
     })
 
-    $('.removeBtn-priority-writeBox').click(function (){
+    $('#writeBox-priority-removeBtn').click(function (){
         $('.addPriority-writeBox').css('display', 'block')
         $('.prioritySpan-writeBox').css('display', 'none')
         $(this).closest('svg').remove()
@@ -69,9 +80,12 @@ $(function () {
     })
 
     //진척도 값
-    $('.writeBox-rangeInput').change(function (){
+    document.querySelector('.writeBox-rangeInput').addEventListener('input', function (event) {
+        let gradient_value = 100 / event.target.attributes.max.value;
+        console.log(event.target.value)
+        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
         $('.writeBox-progress-txt').text($(this).val() + '%')
-    })
+    });
 
 
     $('.board_li').click(() => {
@@ -108,10 +122,9 @@ $(function () {
 
     })
 
-    $('.writeBoxTab').click(function () {
+    $('.writeBoxTab').click(function (event) {
         var activeTab = $(this);
 
-        $('#writeBoxContent').empty();
         if (activeTab.hasClass('active')) {
             activeTab.addClass('active');
             activeTab.find('a').trigger('click');
@@ -119,19 +132,51 @@ $(function () {
             if (activeTab.attr('id') === 'boardWrite-tab') {
                 console.log("board");
                 $('.submitWriteBtn').attr('id', 'boardWriteBtn');
-                boardWrite();
+
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
                 console.log("task");
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
-                taskWrite();
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
                 //scheduleWrite();
             }
         }
-    });
 
+        let targetElement = event.target;
+        let boardWriteTabPane = document.getElementById('boardWrite-tab-pane');
+        let taskWriteTabPane = document.getElementById('taskWrite-tab-pane');
+
+        // boardWrite-tab-pane 영역 이외의 클릭이 발생한 경우 값을 제거합니다.
+        if (targetElement !== boardWriteTabPane && !boardWriteTabPane.contains(targetElement)) {
+            document.getElementById('boardTitle').value = '';
+            let writeBoardContentElements = document.getElementsByClassName('writeBoardContent');
+            for (let i = 0; i < writeBoardContentElements.length; i++) {
+                writeBoardContentElements[i].value = '';
+            }
+        }
+
+        // taskWrite-tab-pane 영역 이외의 클릭이 발생한 경우 값을 제거합니다.
+        if (targetElement !== taskWriteTabPane && !taskWriteTabPane.contains(targetElement)){
+            document.getElementById('taskTitle').value = '';
+            $('.writeBox-requestBtn').trigger("click").addClass('active');
+
+            $('.writeBox-addStartDate').val(null).css('display','block')
+            $('.writeBox-startDate-exist').css('display','none')
+
+            $('.writeBox-addEndDate').val(null).css('display','block')
+            $('.writeBox-endDate-exist').css('display','none')
+
+            $('.addPriority-writeBox').css('display','block')
+            $('.prioritySpan-writeBox').css('display','none')
+
+
+            $('.writeBox-rangeInput').val(0).css('background','linear-gradient(to right, rgb(255, 226, 131) 0%, rgb(255, 226, 131) 0%, rgb(236, 236, 236) 0%, rgb(236, 236, 236) 100%)')
+            $('.writeBox-progress-txt').text('')
+
+            $('.writeContent').val('')
+        }
+    });
 
     $('.processBtn').click(function (e) {
         let btn = document.querySelectorAll(".processBtn");
@@ -144,6 +189,75 @@ $(function () {
         });
 
     })
+
+    $('.submitWriteBtn').click(function () {
+        if ($(this).attr('id')==='boardWriteBtn'){
+            let formData = {
+                bTitle: $('#boardTitle').val(),
+                bContent: $('.writeBoardContent').val(),
+                projectId: Number($('.projectIdInput').val())
+            }
+
+            $.ajax({
+                url: '/board/write',
+                data: formData,
+                type: 'post',
+                success: function(response) {
+                    console.log(response)
+                    if (response === "success") {
+                        location.reload(); // 성공적인 응답을 받은 경우 페이지 리로드
+                    } else {
+                        Swal.fire({
+                            "icon": "warning",
+                            "title": "글 제목을 입력하세요"
+                        });
+                    }
+                },
+            })
+
+        } else if ($(this).attr('id')==='taskWriteBtn') {
+            let formData = {
+                projectId: Number($('.writeProjectId').val()),
+                taskTitle: $('#taskTitle').val(),
+                taskContent: $('.writeContent').val(),
+                process: writeCurrentBtn(),
+                //managerId: $('.managerId').val(),
+                startDate :  $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date (0),
+                closingDate : $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date (0),
+                progress : Number($('.writeBox-rangeInput').val()),
+                priority : $('.prioritySpan-writeBox .priorityText').text()
+
+            }
+
+            console.log(formData)
+
+            $.ajax({
+                url: '/task/mainWrite',
+                data: formData,
+                type: 'post',
+                success: ((message) => {
+                    console.log(message)
+                    if (message === "success"){
+                        location.reload()
+                    } else {
+                        Swal.fire({
+                            "icon" : "warning",
+                            "title" : "업무 제목을 입력하세요"
+                        })
+                    }
+                })
+            })
+
+        }
+
+    })
+
+
+    Dropzone.autoDiscover = false; // deprecated 된 옵션. false로 해놓는걸 공식문서에서 명시
+
+    const dropzone = new Dropzone("#task-upload", {
+        url: "/file/taskUpload",
+    });
 
 })
 
@@ -167,25 +281,6 @@ function addWeek(date){
 }
 
 
-function boardWrite() {
-    $('#boardWriteBtn').click(function () {
-        let formData = {
-            bTitle: $('#boardTitle').val(),
-            bContent: $('.writeBoardContent').val(),
-            projectId: Number($('.projectIdInput').val())
-        }
-
-        $.ajax({
-            url: '/board/write',
-            data: formData,
-            type: 'post',
-            success: ((message) => {
-                location.reload()
-            })
-        })
-    })
-}
-
 function to_date2(date_str)
 {
     var yyyyMMdd = String(date_str);
@@ -197,33 +292,6 @@ function to_date2(date_str)
     return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
 }
 
-
-function taskWrite() {
-
-    $('#taskWriteBtn').click(function () {
-        let formData = {
-            projectId: Number($('.writeProjectId').val()),
-            taskTitle: $('#taskTitle').val(),
-            taskContent: $('.writeContent').val(),
-            process: writeCurrentBtn(),
-            //managerId: $('.managerId').val(),
-            startDate :  $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date (0),
-            closingDate : $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date (0),
-            progress : Number($('.writeBox-rangeInput').val()),
-            priority : $('.prioritySpan-writeBox .priorityText').text()
-
-        }
-
-        $.ajax({
-            url: '/task/mainWrite',
-            data: formData,
-            type: 'post',
-            success: ((message) => {
-                location.reload()
-            })
-        })
-    })
-}
 
 // function scheduleWrite() {
 // $('.scheduleWriteBtn').click(function () {

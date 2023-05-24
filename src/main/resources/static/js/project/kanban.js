@@ -167,7 +167,7 @@ $(function () {
         $(this).css('display', 'none')
     })
 
-    $('.removeBtn-startDate').click(function () {
+    $('#kanban-startDate-removeBtn').click(function () {
         $('.start-date-exist').css('display', 'none')
         $('.kanban-addStartDate').css('display', 'block').val('')
     })
@@ -180,7 +180,7 @@ $(function () {
         $(this).css('display', 'none')
     })
 
-    $('.removeBtn-endDate').click(function () {
+    $('#kanban-endDate-removeBtn').click(function () {
         $('.end-date-exist').css('display', 'none')
         $('.kanban-addEndDate').css('display', 'block').val('')
     })
@@ -206,7 +206,7 @@ $(function () {
 
     })
 
-    $('.removeBtn-priority').click(function () {
+    $('#kanban-priority-removeBtn').click(function () {
         $('.addPriority').css('display', 'block')
         $('.prioritySpan').css('display', 'none')
         $(this).closest('svg').remove()
@@ -686,7 +686,14 @@ function kanbanAddTask() {
         data: formData,
         type: 'post',
         success: ((message) => {
-            location.reload()
+            if (message === "success"){
+                location.reload()
+            } else {
+                Swal.fire({
+                    "icon" : "warning",
+                    "title" : "업무 제목을 입력하세요"
+                })
+            }
         })
     })
 }

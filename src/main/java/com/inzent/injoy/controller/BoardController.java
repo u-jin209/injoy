@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,11 +30,15 @@ public class BoardController {
     }
 
     @PostMapping("write")
+    @ResponseBody
     public String writeBoard(@AuthenticationPrincipal UserCustomDetails login, BoardDTO boardDTO){
         boardDTO.setBoardWriterId(login.getUserDTO().getId());
-
-        boardService.insert(boardDTO);
-        return "redirect:/project/" + boardDTO.getProjectId();
+        if (boardDTO.getBTitle().isEmpty()){
+            return "error";
+        } else {
+            boardService.insert(boardDTO);
+            return "success";
+        }
     }
 
     @PostMapping("deleteBoard")

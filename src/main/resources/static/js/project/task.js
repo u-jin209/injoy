@@ -1133,7 +1133,14 @@ function addTaskTab() {
         data: formData,
         type: 'post',
         success: ((message) => {
-            location.reload()
+            if (message === "success"){
+                location.reload()
+            } else {
+                Swal.fire({
+                    "icon" : "warning",
+                    "title" : "업무 제목을 입력하세요"
+                })
+            }
         })
     })
 }

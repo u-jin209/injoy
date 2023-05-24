@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:util="urn:org.thymeleaf.util"
       th:fragment="homeContent(project, boardList, taskList, memberList, login, allList)">
 <head>
     <meta charset="UTF-8">
@@ -91,14 +91,14 @@
                                     <span class="chart-info-text"><span>요청</span><em
                                             th:text="${#lists.size(taskList.?[process == '요청'])}"></em></span>
                                     <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
-                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '요청']) * 100 div #lists.size(taskList)), 2, 0)} + '%'"></span>
+                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '요청']) * 100.0 div #lists.size(taskList)), 2, 2)} + '%'"></span>
                                 </span>
                                 <span class="task-chart-info progress" data-code="1">
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>진행</span><em
                                             th:text="${#lists.size(taskList.?[process == '진행'])}"></em></span>
                                     <span class="chart-info-percent" th:if="${#lists.size(taskList) != 0}"
-                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '진행']) * 100 div #lists.size(taskList)), 2, 0)} + '%'"></span>
+                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '진행']) * 100.0 div #lists.size(taskList)), 2, 2)} + '%'"></span>
                                 </span>
                             </li>
                             <li>
@@ -107,14 +107,14 @@
                                     <span class="chart-info-text"><span>피드백</span><em
                                             th:text="${#lists.size(taskList.?[process == '피드백'])}"></em></span>
                                     <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
-                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '피드백']) * 100 div #lists.size(taskList)), 2, 0)} + '%'"></span>
+                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '피드백']) * 100.0 div #lists.size(taskList)), 2, 2)} + '%'"></span>
                                 </span>
                                 <span class="task-chart-info complete" data-code="2">
                                     <i class="chart-info-label"></i>
                                     <span class="chart-info-text"><span>완료</span><em
                                             th:text="${#lists.size(taskList.?[process == '완료'])}"></em></span>
                                     <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
-                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '완료']) * 100 div #lists.size(taskList)), 2, 0)} + '%'"></span>
+                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '완료']) * 100.0 div #lists.size(taskList)), 2, 2)} + '%'"></span>
                                 </span>
                             </li>
                             <li>
@@ -123,7 +123,7 @@
                                     <span class="chart-info-text"><span>보류</span><em
                                             th:text="${#lists.size(taskList.?[process == '보류'])}"></em></span>
                                     <span class="chart-info-percent" th:if="${#lists.size(taskList)} != 0"
-                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '보류']) * 100 div #lists.size(taskList)), 2, 0)} + '%'"></span>
+                                          th:text="${#numbers.formatDecimal((#lists.size(taskList.?[process == '보류']) * 100.0 div #lists.size(taskList)), 2, 2)} + '%'"></span>
                                 </span>
                             </li>
                         </ul>
@@ -458,7 +458,7 @@
                     <div class="show-comment">
                         <div class="comment-header" style="display: none">
                             <input type="hidden" id="home-taskId" th:value="${task.taskId}"/>
-                            <button type="button" class="comment-more-button" style="border: none; background-color: transparent" th:onclick="|showAllTComment(${task.taskId}, ${task.projectId})|">
+                            <button type="button" class="comment-more-button" style="border: none; background-color: transparent">
                                 이전 댓글 더보기 <span class="task-comment-count"></span>
                             </button>
                         </div>
@@ -579,13 +579,25 @@
                         </div>
                     </div>
                     <hr style="margin-bottom: 0"/>
+                    <div class="show-comment">
+                        <div class="comment-header" style="display: none">
+                            <input type="hidden" id="home-boardId" th:value="${task.boardId}"/>
+                            <button type="button" class="comment-more-button" style="border: none; background-color: transparent">
+                                이전 댓글 더보기 <span class="board-comment-count"></span>
+                            </button>
+                        </div>
+                        <ul class="post-comment-group" id="commentGroup-board">
+                        </ul>
+                    </div>
                     <div class="comment-input-wrap" style="background-color: #eee">
                         <div class="user-profile-thumbnail">
                             <span class="thumbnail size40 radius16"
                                   th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
                         </div>
-                        <form class="comment-container" style="padding: 0;">
-                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요."
+                        <form  action="/bComment/insert" method="post" class="comment-container" style="padding: 0;">
+                            <input type="hidden" name="projectId" class="projectId-comment" th:value="${project.projectId}"/>
+                            <input type="hidden" name="boardId" class="boardId-comment" th:value="${task.boardId}"/>
+                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="bComment"
                                    aria-label="Recipient's username" aria-describedby="button-addon2">
                         </form>
                     </div>
@@ -601,22 +613,22 @@
                     <span th:text="${memberList.size}" style="color:#777777"></span>
                 </div>
 
-                <span class="col text-end" style="font-size: 12px;">전체보기</span>
-            </div>
-        </div>
-        <div class="currentMember-chatting">
-            <div class="currentMember">
-                <div class="currentMember-authority mb-2" style="font-size: 12px">프로젝트 관리자</div>
-                <div class="row mb-3">
-                    <div class="col-2">
-                    <span class="postProfile thumbnail"
-                          th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
-                    </div>
-                    <div class="col ml-2" th:text="${login.name}"></div>
+                    <span class="col text-end" style="font-size: 12px;">전체보기</span>
                 </div>
             </div>
-            <div class="chatMenu">
-                <button class="chatBtn">
+            <div class="currentMember-chatting">
+                <div class="currentMember">
+                    <div class="currentMember-authority mb-2" style="font-size: 12px">프로젝트 관리자</div>
+                    <div class="row mb-3">
+                        <div class="col-2">
+                    <span class="postProfile thumbnail"
+                          th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
+                        </div>
+                        <div class="col ml-2" th:text="${login.name}"></div>
+                    </div>
+                </div>
+                <div class="chatMenu">
+                    <button class="chatBtn">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-chat-text mr-2" viewBox="0 0 16 16">

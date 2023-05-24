@@ -854,7 +854,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     table-layout: fixed;
 }
 
-.progress-txt {
+.progress-txt , .writeBox-progress-txt{
     position: absolute;
     top: -5px;
     right: -40px;
