@@ -31,47 +31,61 @@ public class TaskController {
     }
 
     @PostMapping("mainWrite")
+    @ResponseBody
     public String writeTask(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
-        System.out.println(taskDTO);
+        String result1;
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
-        if (Objects.equals(taskDTO.getClosingDate(), new Date(0))){
-            taskDTO.setClosingDate(null);
+
+        if (taskDTO.getTaskTitle().isEmpty()){
+            result1 = "error";
+        } else {
+            if (Objects.equals(taskDTO.getClosingDate(), new Date(0))) {
+                taskDTO.setClosingDate(null);
+            }
+
+            if (Objects.equals(taskDTO.getStartDate(), new Date(0))) {
+                taskDTO.setStartDate(null);
+            }
+
+            if (Objects.equals(taskDTO.getPriority(), "")) {
+                taskDTO.setPriority(null);
+            }
+
+            taskService.insert(taskDTO);
+            result1 = "success";
         }
 
-        if (Objects.equals(taskDTO.getStartDate(), new Date(0))){
-            taskDTO.setStartDate(null);
-        }
-
-        if (Objects.equals(taskDTO.getPriority(), "")){
-            taskDTO.setPriority(null);
-        }
-
-        taskService.insert(taskDTO);
-
-        return "redirect:/project/" + taskDTO.getProjectId();
+        return result1;
 
     }
 
     @PostMapping("taskPageWrite")
+    @ResponseBody
     public String writeTaskPage(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO){
-        System.out.println(taskDTO);
-
+        String result;
         taskDTO.setAuthorUserId(login.getUserDTO().getId());
-        if (Objects.equals(taskDTO.getClosingDate(), new Date(0))){
-            taskDTO.setClosingDate(null);
+        if (taskDTO.getTaskTitle().isEmpty()){
+            result = "error";
+        } else {
+
+            if (Objects.equals(taskDTO.getClosingDate(), new Date(0))) {
+                taskDTO.setClosingDate(null);
+            }
+
+            if (Objects.equals(taskDTO.getStartDate(), new Date(0))) {
+                taskDTO.setStartDate(null);
+            }
+
+            if (Objects.equals(taskDTO.getPriority(), "")) {
+                taskDTO.setPriority(null);
+            }
+
+            taskService.insert(taskDTO);
+            result = "success";
+
         }
 
-        if (Objects.equals(taskDTO.getStartDate(), new Date(0))){
-            taskDTO.setStartDate(null);
-        }
-
-        if (Objects.equals(taskDTO.getPriority(), "")){
-            taskDTO.setPriority(null);
-        }
-
-        taskService.insert(taskDTO);
-
-        return "redirect:/project/" + taskDTO.getProjectId();
+        return result;
     }
 
     @GetMapping("detailTask")

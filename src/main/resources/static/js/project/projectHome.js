@@ -24,6 +24,8 @@ $(document).ready(function () {
     })
 
     limitTComment()
+    limitBComment()
+
 })
 
 function set_priority() {
@@ -92,7 +94,7 @@ function toggleCollapse() {
 $(function () {
 
     $('.comment-more-button').click(function (e) {
-        let commentList = $(this).parent().parent().find('#commentGroup li')
+        let commentList = $(this).parent().parent().find('.post-comment-group li')
 
         for (let i = 2; i < commentList.length; i++) {
             commentList[i].classList.remove("hidden-comment");
@@ -523,6 +525,132 @@ function modifyTComment(e) {
     $(e).parents('.comment-li').find('.edit-tComment-form').css('display', 'block')
 }
 
+function modifyBComment(e){
+    $(e).closest('.comment-container').css('display', 'none')
+    $(e).parents('.comment-li').find('.edit-bComment-form').css('display', 'block')
+}
+
+function limitBComment(){
+    $('.boardBox').each(function () {
+        let boardId = $(this).find('.boardId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (boardId !== undefined && projectId !== undefined) {
+            let formData = {
+                boardId: boardId,
+                projectId: projectId,
+            }
+
+            $.ajax({
+                url: '/bComment/showAll',
+                type: 'get',
+                data: formData,
+                success: (result) => {
+                    if (result.length === 0) {
+                        $(this).find('.comment-header').css('display', 'none')
+                    } else {
+
+                        for (let i = 0; i < result.length; i++) {
+                            const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+                            const date = new Date(result[i].crtDate);
+                            let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+                            if (result.length < 3) {
+                                $(this).find('.comment-header').css('display', 'none')
+
+                            } else {
+                                $(this).find('.comment-header').css('display', 'block')
+                                $(this).find('.board-comment-count').text("(" + (result.length - 2) + ")")
+                            }
+
+
+                            if (i < 2) {
+                                $(this).find('#commentGroup-board').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].authorUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].bCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].bComment + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                                    "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-bComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/bComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"bCommentId\" class=\"bCommentId-comment\" value=\"" + result[i].bCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].bComment + "\" name=\"bComment\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+
+                            } else {
+                                $(this).find('#commentGroup-board').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].authorUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].bCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].bComment + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                                    "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-bComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/bComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"bCommentId\" class=\"bCommentId-comment\" value=\"" + result[i].bCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].bComment + "\" name=\"bComment\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+                            }
+
+
+                        }
+
+                    }
+                    $('.comment-writer-home').each(function () {
+                        let commentUserId = $(this).val();
+                        let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
+
+                        if (commentUserId === $('.home-comment-logIn').val()) {
+                            commentWriterMenu.show();
+                        } else {
+                            commentWriterMenu.hide();
+                        }
+                    });
+                }
+            })
+        }
+    })
+
+}
+
 function limitTComment() {
     $('.boardBox').each(function () {
         let taskId = $(this).find('.taskId-comment').val()
@@ -557,7 +685,7 @@ function limitTComment() {
 
 
                             if (i < 2) {
-                                $(this).find('.post-comment-group').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                                $(this).find('#commentGroup').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
                                     "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
                                     "                                </div>\n" +
                                     "                                <div class=\"comment-container on\">\n" +
@@ -590,7 +718,7 @@ function limitTComment() {
                                     "                                </div></li>")
 
                             } else {
-                                $(this).find('.post-comment-group').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
+                                $(this).find('#commentGroup').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
                                     "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
                                     "                                </div>\n" +
                                     "                                <div class=\"comment-container on\">\n" +
@@ -644,16 +772,31 @@ function limitTComment() {
 
 }
 
-function showAllTComment() {
-    let commentList = document.getElementById("commentGroup").getElementsByTagName("li");
-
-    // 숨겨진 댓글 보이기
-    for (let i = 2; i < commentList.length; i++) {
-        commentList[i].classList.remove("hidden-comment");
-    }
-    document.querySelector(".comment-more-button").style.display = "none";
+function deleteBComment(commentId){
+    Swal.fire({
+        text: '댓글을 삭제하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formData = {
+                bCommentId: commentId
+            }
+            $.ajax({
+                url: '/bComment/delete',
+                type: 'get',
+                data: formData,
+                success: () => {
+                    location.reload()
+                }
+            })
+        }
+    })
 }
-
 function deleteTComment(commentId) {
     Swal.fire({
         text: '댓글을 삭제하시겠습니까?',
