@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.js"></script>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" >
 
     <div class="container " style="content-align: center; padding: 2%;">
         <h1 class="title">프로필</h1>
@@ -27,7 +27,8 @@
                 <div class="row" style="justify-content: center;">
 
 
-                    <div id="profile_container" class="memberImgDiv"><img id="profile" class="memberImgDiv"th:src="@{${logIn.profilePhoto}}", onerror=this.src="/img/user.jpg">
+                    <div id="profile_container" class="memberImgDiv">
+                        <img id="profile" class="memberImgDiv"th:src="@{${logIn.profilePhoto}}", onerror=this.src="/img/user.jpg">
                     </div>
                 </div>
 

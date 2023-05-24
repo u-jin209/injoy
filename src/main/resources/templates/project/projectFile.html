@@ -162,7 +162,7 @@
                 </div>
 
                 <label th:target="folderName"> 새 폴더 이름</label>
-                <input type="text" class="form-control" id="folderName" oninput="checkFolderName()"
+                <input type="text" class="form-control" id="folderName" onkeydown="characterCheck(this)" oninput="checkFolderName()"
                        placeholder="폴더이름을 입력해주세요">
                 <span class="mt-1" id="existFolderName" style="color: #F5544D; display: none">이미 등록된 폴더이름입니다.</span>
             </div>

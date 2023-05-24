@@ -211,7 +211,7 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("downloadFile")
-    public void downloadFile(String fileArr, HttpServletRequest request) throws IOException {
+    public String downloadFile(String fileArr, HttpServletRequest request) throws IOException {
         String userName = System.getProperty("user.name");
         System.out.println("Windows 사용자 계정 이름: " + userName);
 
@@ -232,7 +232,7 @@ public class FileController {
             file(f, userName, request);
 
         }
-
+        return "redirect:/project/myProject";
     }
 
     @ResponseBody
