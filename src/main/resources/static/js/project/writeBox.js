@@ -252,9 +252,6 @@ $(function () {
 
     })
 
-
-    Dropzone.autoDiscover = false; // deprecated 된 옵션. false로 해놓는걸 공식문서에서 명시
-
     const dropzone = new Dropzone("#task-upload", {
         url: "/file/taskUpload",
     });
