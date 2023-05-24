@@ -4,7 +4,7 @@ $(document).ready(function () {
     startDateValue()
     endDateValue()
 
-    $('.titleTd').click(function(event) {
+    $('.titleTd').click(function (event) {
         // Check if the click happened within the input field or its sibling elements
         if ($(event.target).is('.taskTitle')) {
             return; // If clicked on the input field or its sibling elements, do nothing
@@ -39,10 +39,10 @@ $(document).on('click', function (e) {
     }
 });
 
-function startDateValue(){
+function startDateValue() {
     // 현재 날짜 가져오기
     let currentDate = new Date().toISOString().split('T')[0];
-    $('.startDate').each(function (){
+    $('.startDate').each(function () {
         let startDate = $(this).find('#startDate')
         // 현재 날짜보다 이전인 경우 플레이스홀더로 설정
         if (startDate.val() < currentDate) {
@@ -52,10 +52,10 @@ function startDateValue(){
 
 }
 
-function endDateValue(){
+function endDateValue() {
     // 현재 날짜 가져오기
     let currentDate = new Date().toISOString().split('T')[0];
-    $('.endDate').each(function (){
+    $('.endDate').each(function () {
         let endDate = $(this).find('#endDate')
         // 현재 날짜보다 이전인 경우 플레이스홀더로 설정
         if (endDate.val() < currentDate) {
@@ -135,7 +135,6 @@ function btnColor() {
 
 $(function () {
     all()
-
 
 
     $('.comment-more-button').click(function (e) {
@@ -533,17 +532,78 @@ function all() {
         $('.taskPage-requestBtn').trigger("click").addClass('active')
     })
 
-    // document.querySelector('.rangeInput').addEventListener('input', function (event) {
-    //     let gradient_value = 100 / event.target.attributes.max.value;
-    //     console.log(event.target.value)
-    //     event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
-    // });
+    document.querySelector('.task-rangeInput').addEventListener('input', function (event) {
+        let gradient_value = 100 / event.target.attributes.max.value;
 
- //업무 작성하기 부분 설정
+        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
+        $('.task-add-progress').text(event.target.value + '%')
+    });
 
+
+
+    //업무 작성하기 부분 설정
+
+    // 업무 추가 항목 추가입력 클릭시
+    $('#taskPage-addOption').click(function () {
+        $('#taskPage-AddUl').find('li').each(function () {
+            if ($(this).css('display') === 'none') {
+                $(this).css('display', 'flex')
+                $('#taskPage-addOption').css('display', 'none')
+            } else {
+                document.querySelector("body").addEventListener("click", function (e) {
+                    if (e.target.className === e.currentTarget.querySelector("#addTaskModal").className) {
+                        console.log("correct")
+                        $('#taskPage-AddUl').find('li').each(function () {
+
+                            if ($(this).attr('class') === 'process-layer' || $(this).attr('class') === 'manager-layer') {
+                                $(this).css('display', 'flex')
+                            } else {
+                                $(this).css('display', 'none')
+                            }
+                        })
+
+                        $('#taskPage-addOption').css('display', 'block')
+                    }
+                })
+            }
+        })
+    })
+
+    //우선순위
+    // 우선순위 추가 부분
+    $('.taskPage-addPriority').click(function () {
+        let priority_ul = $('.taskPage-addPriority_ul')
+        if (priority_ul.css('display') === 'none') {
+            priority_ul.css('display', 'block')
+            priority_ul.find('button').click(function (e) {
+
+                const element = document.getElementsByClassName('task-priority-value')[0];
+                element.innerHTML = ($(this).context.innerHTML)
+
+                $('.taskPage-addPriority').css('display', 'none')
+                $('.prioritySpan-add-taskPage').css('display', 'block')
+                priority_ul.css('display', 'none')
+            })
+        } else {
+            priority_ul.css('display', 'none')
+
+        }
+
+    })
+    //우선순위 삭제 부분
+    $('.removeBtn-priority-taskPage').click(function (){
+        $('.taskPage-addPriority').css('display', 'block')
+        $('.prioritySpan-add-taskPage').css('display', 'none')
+        $(this).closest('svg').remove()
+        $(this).closest('.priorityText').remove()
+    })
     //시작일
     $('.task-addStartDate').attr('min', new Date().toISOString().split("T")[0])
     $('.task-addEndDate').attr('min', new Date().toISOString().split("T")[0])
+    $('.task-addStartDate').change(function (){
+        $('.task-addEndDate').attr('min', $(this).val())
+
+    })
 
     //업무 디테일 부분
     $('.task-optionAddBtn-detail').click(function () {
@@ -559,7 +619,7 @@ function all() {
     })
 
     $('.set-btn').click(function () {
-        console.log('click')
+
         let nowSetUp = $(this).parent().find('.task-setUp')
         if (nowSetUp.css('display') === 'block') {
             nowSetUp.css('display', 'none')
@@ -590,14 +650,14 @@ function all() {
                 $('.task-detail-taskTitle').html("<input class='task-detail-taskTitle-input' type='text' value='" + result.taskTitle + "'/>")
 
                 // 업무 내용 수정하기
-                $('.post-taskContent-detail').html("<div class=\"writeContentDiv\">\n" +
+                $('.task-taskContent').html("<div class=\"writeContentDiv\">\n" +
                     "                        <label>\n" +
                     "                            <textarea class=\"task-detail-content\">" + result.taskContent + "</textarea>\n" +
                     "                        </label>\n" +
                     "                    </div>")
 
                 // 상태 수정하기
-                $('.process-layer-task').find('.task-detail-processBtn').css('pointer-events','auto')
+                $('.process-layer-task').find('.task-detail-processBtn').css('pointer-events', 'auto')
                 $('.task-process-btn').click(function (e) {
                     let btn = document.querySelectorAll(".task-process-btn");
                     btn.forEach(function (btn, i) {
@@ -690,9 +750,9 @@ function all() {
 
                 })
 
-                $('#task-update-priority').find('.priorityBtn').click(function (){
+                $('#task-update-priority').find('.priorityBtn').click(function () {
                     let btnTag = $(this).html()
-                    console.log(btnTag)
+
                     $('#task-update-priority').css('display', 'none')
                     $('.updateBtn-task-priority').prev().remove()
                     $('.updateBtn-task-priority').prev().replaceWith(btnTag);
@@ -745,15 +805,43 @@ function all() {
 
                 document.querySelector('#task-detail-rangeInput').addEventListener('input', function (event) {
                     let gradient_value = 100 / event.target.attributes.max.value;
-                    console.log(event.target.value)
+
                     event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
-                    $('.task-detail-progress').text(event.target.value+'%')
+                    $('.task-detail-progress').text(event.target.value + '%')
                 });
 
             }
         })
 
     })
+
+
+// 업무 상세 보기 우선순위 추가 부분
+    $('.addPriority-task-detail').click(function () {
+        let updateBtn = $('.updateBtn-task-priority')
+        updateBtn.prev().remove()
+        let priority_ul = $('#task-detail-priority_ul')
+        if (priority_ul.css('display') === 'none') {
+            priority_ul.css('display', 'block')
+            priority_ul.find('button').click(function (e) {
+                let btnTag = $(this).html()
+
+
+                updateBtn.prev().replaceWith(btnTag);
+
+
+                $('.addPriority-task-detail').css('display', 'none')
+                $('.prioritySpan-task-detail').css('display', 'block')
+                priority_ul.css('display', 'none')
+            })
+        } else {
+            priority_ul.css('display', 'none')
+
+        }
+
+    })
+
+    taskPageDeleteTask()
 }
 
 function dateFormat(date) {
@@ -779,8 +867,6 @@ function dateWeek(date) {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = week[localDate.getDay()];
 
-    console.log(formattedDate);
-
     return formattedDate + ' (' + dayOfWeek + ')';
 }
 
@@ -788,46 +874,46 @@ function dateWeek(date) {
 function taskDetail_priority(value) {
     let priority = $('.taskDetail-priority-value')
     priority.prevAll().remove();
-        switch (value) {
-            case '긴급' :
-                priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
-                    '                                                                     fill="red"\n' +
-                    '                                                                     class="bi bi-exclamation-octagon-fill mr-2" viewBox="0 0 16 16">\n' +
-                    '                                                                    <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>\n' +
-                    '                                                                </svg>')
-                break;
-            case '높음' :
-                priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
-                    '                                                                     fill="orange"\n' +
-                    '                                                                     class="bi bi-arrow-up mr-2" viewBox="0 0 16 16">\n' +
-                    '                                                                    <path fill-rule="evenodd"\n' +
-                    '                                                                          d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>\n' +
-                    '                                                                </svg>');
-                break
-            case '보통' :
-                priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
-                    '                                                                     fill="green"\n' +
-                    '                                                                     class="bi bi-dash mr-2" viewBox="0 0 16 16">\n' +
-                    '                                                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>\n' +
-                    '                                                                </svg>');
-                break;
-            case '낮음' :
-                priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
-                    '                                                                     fill="dark-violet"\n' +
-                    '                                                                     class="bi bi-arrow-down mr-2" viewBox="0 0 16 16">\n' +
-                    '                                                                    <path fill-rule="evenodd"\n' +
-                    '                                                                          d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>\n' +
-                    '                                                                </svg>');
-                break;
-            case '없음' :
-                priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
-                    '                                                                     fill="gray"\n' +
-                    '                                                                     class="bi bi-x-lg mr-2" viewBox="0 0 16 16">\n' +
-                    '                                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>\n' +
-                    '                                                                </svg>');
-                break;
+    switch (value) {
+        case '긴급' :
+            priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
+                '                                                                     fill="red"\n' +
+                '                                                                     class="bi bi-exclamation-octagon-fill mr-2" viewBox="0 0 16 16">\n' +
+                '                                                                    <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>\n' +
+                '                                                                </svg>')
+            break;
+        case '높음' :
+            priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
+                '                                                                     fill="orange"\n' +
+                '                                                                     class="bi bi-arrow-up mr-2" viewBox="0 0 16 16">\n' +
+                '                                                                    <path fill-rule="evenodd"\n' +
+                '                                                                          d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>\n' +
+                '                                                                </svg>');
+            break
+        case '보통' :
+            priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
+                '                                                                     fill="green"\n' +
+                '                                                                     class="bi bi-dash mr-2" viewBox="0 0 16 16">\n' +
+                '                                                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>\n' +
+                '                                                                </svg>');
+            break;
+        case '낮음' :
+            priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
+                '                                                                     fill="dark-violet"\n' +
+                '                                                                     class="bi bi-arrow-down mr-2" viewBox="0 0 16 16">\n' +
+                '                                                                    <path fill-rule="evenodd"\n' +
+                '                                                                          d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>\n' +
+                '                                                                </svg>');
+            break;
+        case '없음' :
+            priority.before('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"\n' +
+                '                                                                     fill="gray"\n' +
+                '                                                                     class="bi bi-x-lg mr-2" viewBox="0 0 16 16">\n' +
+                '                                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>\n' +
+                '                                                                </svg>');
+            break;
 
-        }
+    }
 }
 
 function showTaskDetail(result) {
@@ -879,8 +965,6 @@ function showTaskDetail(result) {
     $('.taskOffcanvas-progress-bar').css('width', result.progress)
     $('.taskOffcanvas-progress-percent').text(result.progress + '%')
 
-    console.log(result.startDate)
-    console.log(result.closingDate)
     //시작일, 마감일 설정
     if (result.startDate == null && result.startDate === undefined) {
         $('.startDate-layer-task').css('display', 'none')
@@ -898,12 +982,8 @@ function showTaskDetail(result) {
         $('.task-detail-addEndDate').css('display', 'none')
     }
 
-
     //내용
-    $('.post-taskContent-detail').text(result.taskContent)
-
-
-
+    $('.task-taskContent').text(result.taskContent)
     //댓글
     let formData = {
         taskId: result.taskId,
@@ -915,90 +995,100 @@ function showTaskDetail(result) {
         type: 'get',
         data: formData,
         success: (comment) => {
-            for (let i = 0; i < comment.length; i++) {
-                const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
 
-                const date = new Date(comment[i].crtDate);
-                let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
-                if (comment.length<3){
-                    $('.comment-header').css('display', 'none')
-                }
-                $('.task-comment-count').text("("+ (comment.length - 2) + ")")
+            if (comment.length === 0) {
+                $('.comment-header').css('display', 'none')
+            } else {
+
+                for (let i = 0; i < comment.length; i++) {
+                    const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+                    const date = new Date(comment[i].crtDate);
+                    let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+
+                    if (comment.length < 3) {
+                        $('.comment-header').css('display', 'none')
+
+                    } else {
+                        $('.comment-header').css('display', 'block')
+                        $('.task-comment-count').text("(" + (comment.length - 2) + ")")
+                    }
 
 
-                if (i < 2) {
-                    $('#commentGroup-task-detail').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
-                        "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + comment[i].profilePhoto + ");\"></span>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"comment-container on\">\n" +
-                        "                                    <div class=\"comment-user-area\">\n" +
-                        "                                        <div class=\"comment-user\">\n" +
-                        "                                           <input type=\"hidden\" class=\"comment-writer-task-detail\" value=\""+comment[i].authorUserId+"\"/>\n" +
-                        "                                            <span class=\"user-name\">" + comment[i].name + "</span>\n" +
-                        "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
-                        "                                        </div>\n" +
-                        "                                        <div class=\"comment-writer-menu\">\n" +
-                        "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
-                        "                                                수정</button>\n" +
-                        "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + comment[i].tCommentId + ")\">\n" +
-                        "                                                삭제</button>\n" +
-                        "                                        </div>\n" +
-                        "                                    </div>\n" +
-                        "                                    <div class=\"comment-content\">\n" +
-                        "                                        <div class=\"comment-text-area\">\n" +
-                        "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
-                        "                                        </div>\n" +
-                        "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
-                        "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
-                        "                                    </div>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
-                        "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
-                        "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + comment[i].tCommentId + "\"/>\n" +
-                        "                                        <input type=\"text\" class=\"commentInput\" value=\"" + comment[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
-                        "                                    </form>\n" +
-                        "                                </div></li>")
+                    if (i < 2) {
+                        $('#commentGroup-task-detail').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                            "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + comment[i].profilePhoto + ");\"></span>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"comment-container on\">\n" +
+                            "                                    <div class=\"comment-user-area\">\n" +
+                            "                                        <div class=\"comment-user\">\n" +
+                            "                                           <input type=\"hidden\" class=\"comment-writer-task-detail\" value=\"" + comment[i].authorUserId + "\"/>\n" +
+                            "                                            <span class=\"user-name\">" + comment[i].name + "</span>\n" +
+                            "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"comment-writer-menu\">\n" +
+                            "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
+                            "                                                수정</button>\n" +
+                            "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + comment[i].tCommentId + ")\">\n" +
+                            "                                                삭제</button>\n" +
+                            "                                        </div>\n" +
+                            "                                    </div>\n" +
+                            "                                    <div class=\"comment-content\">\n" +
+                            "                                        <div class=\"comment-text-area\">\n" +
+                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
+                            "                                        </div>\n" +
+                            "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                            "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                            "                                    </div>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                            "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                            "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + comment[i].tCommentId + "\"/>\n" +
+                            "                                        <input type=\"text\" class=\"commentInput\" value=\"" + comment[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
+                            "                                    </form>\n" +
+                            "                                </div></li>")
 
-                } else {
-                    $('#commentGroup-task-detail').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
-                        "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + comment[i].profilePhoto + ");\"></span>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"comment-container on\">\n" +
-                        "                                    <div class=\"comment-user-area\">\n" +
-                        "                                        <div class=\"comment-user\">\n" +
-                        "                                           <input type=\"hidden\" class=\"comment-writer-task-detail\" value=\""+comment[i].authorUserId+"\"/>\n" +
-                        "                                            <span class=\"user-name\">" + comment[i].name + "</span>\n" +
-                        "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
-                        "                                        </div>\n" +
-                        "                                        <div class=\"comment-writer-menu\">\n" +
-                        "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
-                        "                                                수정</button>\n" +
-                        "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + comment[i].tCommentId + ")\">\n" +
-                        "                                                삭제</button>\n" +
-                        "                                        </div>\n" +
-                        "                                    </div>\n" +
-                        "                                    <div class=\"comment-content\">\n" +
-                        "                                        <div class=\"comment-text-area\">\n" +
-                        "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
-                        "                                        </div>\n" +
-                        "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
-                        "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
-                        "                                    </div>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
-                        "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
-                        "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + comment[i].tCommentId + "\"/>\n" +
-                        "                                        <input type=\"text\" class=\"commentInput\" value=\"" + comment[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
-                        "                                    </form>\n" +
-                        "                                </div></li>")
+                    } else {
+                        $('#commentGroup-task-detail').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
+                            "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + comment[i].profilePhoto + ");\"></span>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"comment-container on\">\n" +
+                            "                                    <div class=\"comment-user-area\">\n" +
+                            "                                        <div class=\"comment-user\">\n" +
+                            "                                           <input type=\"hidden\" class=\"comment-writer-task-detail\" value=\"" + comment[i].authorUserId + "\"/>\n" +
+                            "                                            <span class=\"user-name\">" + comment[i].name + "</span>\n" +
+                            "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"comment-writer-menu\">\n" +
+                            "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
+                            "                                                수정</button>\n" +
+                            "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + comment[i].tCommentId + ")\">\n" +
+                            "                                                삭제</button>\n" +
+                            "                                        </div>\n" +
+                            "                                    </div>\n" +
+                            "                                    <div class=\"comment-content\">\n" +
+                            "                                        <div class=\"comment-text-area\">\n" +
+                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
+                            "                                        </div>\n" +
+                            "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                            "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                            "                                    </div>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                            "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                            "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + comment[i].tCommentId + "\"/>\n" +
+                            "                                        <input type=\"text\" class=\"commentInput\" value=\"" + comment[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
+                            "                                    </form>\n" +
+                            "                                </div></li>")
+                    }
+
                 }
 
             }
-            $('.comment-writer-task-detail').each(function() {
+            $('.comment-writer-task-detail').each(function () {
                 let commentUserId = $(this).val();
                 let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
 
-                console.log(commentUserId)
                 if (commentUserId === $('.taskDetail-comment-logIn').val()) {
                     commentWriterMenu.show();
                 } else {
@@ -1007,7 +1097,6 @@ function showTaskDetail(result) {
             });
         }
     })
-
 
 }
 
@@ -1027,14 +1116,14 @@ function addTaskTab() {
     let currentBtn = findCurrentBtn()
     let formData = {
         projectId: Number($('.projectIdInput').val()),
-        taskTitle: $('#taskAddTitle').val(),
-        taskContent: $('.writeTaskContent').val(),
+        taskTitle: $('#taskTitle-addTaskPage').val(),
+        taskContent: $('.write-taskAdd-content').val(),
         process: currentBtn,
         //managerId: $('#managerId').val(),
         startDate: $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date(0),
         closingDate: $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date(0),
         progress: Number($('.task-rangeInput').val()),
-        priority: $('.prioritySpan .priorityText').text()
+        priority: $('.prioritySpan-add-taskPage .priorityText').text()
 
 
     }
@@ -1049,6 +1138,38 @@ function addTaskTab() {
     })
 }
 
+function taskPageDeleteTask() {
+    $('.delete-task-detail').click(function () {
+        Swal.fire({
+            text: '업무를 삭제하시겠습니까?',
+            width: '300px',
+            showCancelButton: true,
+            confirmButtonColor: '#3064B3',
+            cancelButtonColor: 'red',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let taskId = $(this).parents('.postHeader').parent().find('.task-detail-taskId em').text()
+
+                let formData = {
+                    taskId: taskId,
+                }
+
+                console.log(formData)
+
+                $.ajax({
+                    url: '/task/deleteTask',
+                    type: 'post',
+                    data: formData,
+                    success: () => {
+                        location.reload()
+                    }
+                })
+            }
+        })
+    })
+}
 
 function searchTaskEnter(projectId) {
     if (event.keyCode === 13) {
@@ -1106,7 +1227,7 @@ function searchTaskEnter(projectId) {
 function taskDetailUpdate() {
     let taskId = $('.task-detail-taskId em').text()
     let taskTitle = $('.task-detail-taskTitle-input').val()
-    let taskContent = $('.post-taskContent-detail').val()
+    let taskContent = $('.task-detail-content').val()
     let startDate = to_date2($('.task-detail-addStartDate').val())
     let closingDate = to_date2($('.task-detail-addEndDate').val())
     let process
@@ -1126,11 +1247,9 @@ function taskDetailUpdate() {
         startDate: startDate,
         closingDate: closingDate,
         progress: progress,
-        process : process,
-        priority : priority
+        process: process,
+        priority: priority
     }
-
-    console.log(formData)
 
     $.ajax({
         url: '/task/updateTask',

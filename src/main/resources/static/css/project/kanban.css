@@ -93,7 +93,7 @@
 }
 
 
-.addPriority-kanban, .addPriority-task-detail, .updateBtn-kanban-priority, .updateBtn-task-priority{
+.addPriority-kanban, .addPriority-task-detail, .taskPage-addPriority,.updateBtn-kanban-priority, .updateBtn-task-priority{
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;

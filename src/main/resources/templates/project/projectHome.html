@@ -456,7 +456,7 @@
                     </div>
                     <hr style="margin-bottom: 0"/>
                     <div class="show-comment">
-                        <div class="comment-header">
+                        <div class="comment-header" style="display: none">
                             <input type="hidden" id="home-taskId" th:value="${task.taskId}"/>
                             <button type="button" class="comment-more-button" style="border: none; background-color: transparent" th:onclick="|showAllTComment(${task.taskId}, ${task.projectId})|">
                                 이전 댓글 더보기 <span class="task-comment-count"></span>

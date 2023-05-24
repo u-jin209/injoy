@@ -23,14 +23,6 @@ $(document).ready(function () {
         $(this).css('background', 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * value + '%, rgb(236, 236, 236) ' + gradient_value * value + '%, rgb(236, 236, 236) 100%)')
     })
 
-
-    // 이전 댓글 갯수
-    // let taskCommentCount = $(".task-comment-count");
-    // taskCommentCount.each(function (){
-    //     console.log($(this).parent().parent().find('#home-taskId').val())
-    //     taskCommentCount.text("222")
-    // })
-
     limitTComment()
 })
 
@@ -78,6 +70,7 @@ function set_priority() {
         }
     })
 }
+
 //업무리포트 토글부분
 function toggleCollapse() {
 
@@ -108,7 +101,6 @@ $(function () {
     })
 
     $('.toolBtn').click(function () {
-        console.log('click')
         let nowSetUp = $(this).parent().find('.setUp-group')
         if (nowSetUp.css('display') === 'block') {
             nowSetUp.css('display', 'none')
@@ -147,7 +139,6 @@ $(function () {
                     taskId: taskId,
                     process: $(this).text()
                 }
-                console.log(formData)
                 $.ajax({
                     url: '/task/updateProcess',
                     type: 'post',
@@ -368,7 +359,7 @@ $(function () {
 
     document.querySelector('.rangeInput-home').addEventListener('input', function (event) {
         let gradient_value = 100 / event.target.attributes.max.value;
-        console.log(event.target.value)
+
         event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
     });
 
@@ -483,8 +474,6 @@ function deleteTask() {
                     taskId: taskId,
                 }
 
-                console.log(formData)
-
                 $.ajax({
                     url: '/task/deleteTask',
                     type: 'post',
@@ -515,8 +504,6 @@ function deleteBoard() {
                 let formData = {
                     boardId: boardId,
                 }
-
-                console.log(formData)
 
                 $.ajax({
                     url: '/board/deleteBoard',
@@ -551,92 +538,99 @@ function limitTComment() {
                 type: 'get',
                 data: formData,
                 success: (result) => {
-                    for (let i = 0; i < result.length; i++) {
-                        const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+                    if (result.length === 0) {
+                        $(this).find('.comment-header').css('display', 'none')
+                    } else {
 
-                        const date = new Date(result[i].crtDate);
-                        let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
-                        if (result.length<3){
-                            $(this).find('.comment-header').css('display', 'none')
+                        for (let i = 0; i < result.length; i++) {
+                            const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+                            const date = new Date(result[i].crtDate);
+                            let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+                            if (result.length < 3) {
+                                $(this).find('.comment-header').css('display', 'none')
+
+                            } else {
+                                $(this).find('.comment-header').css('display', 'block')
+                                $(this).find('.task-comment-count').text("(" + (result.length - 2) + ")")
+                            }
+
+
+                            if (i < 2) {
+                                $(this).find('.post-comment-group').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].authorUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                                    "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+
+                            } else {
+                                $(this).find('.post-comment-group').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].authorUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
+                                    "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+                            }
+
+
                         }
-                        $(this).find('.task-comment-count').text("("+ (result.length - 2) + ")")
-
-
-
-                        if (i < 2) {
-                            $(this).find('.post-comment-group').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
-                                "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
-                                "                                </div>\n" +
-                                "                                <div class=\"comment-container on\">\n" +
-                                "                                    <div class=\"comment-user-area\">\n" +
-                                "                                        <div class=\"comment-user\">\n" +
-                                "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\""+result[i].authorUserId+"\"/>\n" +
-                                "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
-                                "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
-                                "                                        </div>\n" +
-                                "                                        <div class=\"comment-writer-menu\">\n" +
-                                "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
-                                "                                                수정</button>\n" +
-                                "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
-                                "                                                삭제</button>\n" +
-                                "                                        </div>\n" +
-                                "                                    </div>\n" +
-                                "                                    <div class=\"comment-content\">\n" +
-                                "                                        <div class=\"comment-text-area\">\n" +
-                                "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
-                                "                                        </div>\n" +
-                                "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
-                                "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
-                                "                                    </div>\n" +
-                                "                                </div>\n" +
-                                "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
-                                "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
-                                "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
-                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
-                                "                                    </form>\n" +
-                                "                                </div></li>")
-
-                        } else {
-                            $(this).find('.post-comment-group').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
-                                "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
-                                "                                </div>\n" +
-                                "                                <div class=\"comment-container on\">\n" +
-                                "                                    <div class=\"comment-user-area\">\n" +
-                                "                                        <div class=\"comment-user\">\n" +
-                                "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\""+result[i].authorUserId+"\"/>\n" +
-                                "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
-                                "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
-                                "                                        </div>\n" +
-                                "                                        <div class=\"comment-writer-menu\">\n" +
-                                "                                            <button type=\"button\" class=\"modify-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTComment(this)\">\n" +
-                                "                                                수정</button>\n" +
-                                "                                            <button type=\"button\" class=\"delete-tComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTComment(" + result[i].tCommentId + ")\">\n" +
-                                "                                                삭제</button>\n" +
-                                "                                        </div>\n" +
-                                "                                    </div>\n" +
-                                "                                    <div class=\"comment-content\">\n" +
-                                "                                        <div class=\"comment-text-area\">\n" +
-                                "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
-                                "                                        </div>\n" +
-                                "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
-                                "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
-                                "                                    </div>\n" +
-                                "                                </div>\n" +
-                                "                                <div class=\"edit-tComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
-                                "                                    <form  action=\"/tComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
-                                "                                        <input type=\"hidden\" name=\"tCommentId\" class=\"tCommentId-comment\" value=\"" + result[i].tCommentId + "\"/>\n" +
-                                "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].tComment + "\" name=\"tComment\" style=\"width: 100%\"/>\n" +
-                                "                                    </form>\n" +
-                                "                                </div></li>")
-                        }
-
 
                     }
-                    $('.comment-writer-home').each(function() {
+                    $('.comment-writer-home').each(function () {
                         let commentUserId = $(this).val();
                         let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
 
-                        console.log(commentUserId)
                         if (commentUserId === $('.home-comment-logIn').val()) {
                             commentWriterMenu.show();
                         } else {

@@ -142,14 +142,14 @@ header {
     font-weight: bold;
 }
 
-#taskTitle {
+#taskTitle, #taskTitle-addTaskPage {
     border: none;
     border-bottom: 1px solid rgba(0,0,0, 0.5);
     width: 100%;
     height: 60px;
 }
 
-#taskTitle::placeholder {
+#taskTitle::placeholder , #taskTitle-addTaskPage::placeholder{
     font-size: 20px;
     font-weight: bold;
 }

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // 모달 창이 열릴 때 발생하는 이벤트
     $('#kanbanModal').on('show.bs.modal', function () {
-        $('.modal-footer').hide(); // modal-footer 숨기기
+        $('.kanban-modal-footer').hide(); // modal-footer 숨기기
         $('.kanban-setUp').hide()
         $('.updateBtn-kanban-priority').remove()
         $('#kanban-update-priority').remove()
@@ -105,16 +105,16 @@ $(function () {
     dragAndDrop()
 
     // 업무 추가 항목 추가입력 클릭시
-    $('.optionAddBtn').click(function () {
-        $('.option-group').find('li').each(function () {
+    $('#kanbanAddOption').click(function () {
+        $('#optionKanbanAdd').find('li').each(function () {
             if ($(this).css('display') === 'none') {
                 $(this).css('display', 'flex')
-                $('.optionAddBtn').css('display', 'none')
+                $('#kanbanAddOption').css('display', 'none')
             } else {
                 document.querySelector("body").addEventListener("click", function (e) {
-                    if (e.target.className === e.currentTarget.querySelector(".modal").className) {
+                    if (e.target.className === e.currentTarget.querySelector("#kanbanAddModal").className) {
                         console.log("correct")
-                        $('.option-group').find('li').each(function () {
+                        $('#optionKanbanAdd').find('li').each(function () {
 
                             if ($(this).attr('class') === 'process-layer' || $(this).attr('class') === 'manager-layer') {
                                 $(this).css('display', 'flex')
@@ -123,11 +123,35 @@ $(function () {
                             }
                         })
 
-                        $('.optionAddBtn').css('display', 'block')
+                        $('#kanbanAddOption').css('display', 'block')
                     }
                 })
             }
         })
+    })
+
+    // 업무 상세 보기 우선순위 추가 부분
+    $('.addPriority-kanban').click(function () {
+        let updateBtn = $('.updateBtn-kanban-priority')
+        updateBtn.prev().remove()
+        let priority_ul = $('#kanban-priority_ul')
+        if (priority_ul.css('display') === 'none') {
+            priority_ul.css('display', 'block')
+            priority_ul.find('button').click(function (e) {
+                let btnTag = $(this).html()
+
+                updateBtn.prev().replaceWith(btnTag);
+
+
+                $('.addPriority-kanban').css('display', 'none')
+                $('.prioritySpan-kanban').css('display', 'block')
+                priority_ul.css('display', 'none')
+            })
+        } else {
+            priority_ul.css('display', 'none')
+
+        }
+
     })
 
     $('.kanban-addStartDate').attr('min', new Date().toISOString().split("T")[0])
@@ -167,7 +191,7 @@ $(function () {
         if (priority_ul.css('display') === 'none') {
             priority_ul.css('display', 'block')
             priority_ul.find('button').click(function (e) {
-                console.log()
+
                 const element = document.getElementsByClassName('kanban-priority-value')[0];
                 element.innerHTML = ($(this).context.innerHTML)
 
@@ -451,7 +475,7 @@ function showKanbanDetail(result) {
         kanban_priority(result.priority)
         $('.prioritySpan-kanban').css('display', 'block')
         $('.priority-layer-kanban').css('display', 'flex')
-        $('.kanban-priority-value').text(result.priority)
+        $('.kanban-modal-priority-value').text(result.priority)
         $('.addPriority-kanban').css('display', 'none')
     }
 
@@ -548,6 +572,7 @@ function kanbanUpdateTask() {
             })
             showKanbanDetail(result)
             $('.kanban-modal-footer').css('display', 'none')
+            $('.updateBtn-kanban-priority').css('display', 'none')
         }
     })
 
@@ -626,7 +651,6 @@ function kanbanCurrentBtn() {
             currentBtn = btn.textContent;
         }
     });
-    console.log(currentBtn)
     return currentBtn;
 }
 
@@ -668,7 +692,7 @@ function kanbanAddTask() {
 }
 
 function kanban_priority(value) {
-    let priority = $('.kanban-priority-value')
+    let priority = $('.kanban-modal-priority-value')
     priority.prevAll().remove();
     switch (value) {
         case '긴급' :
