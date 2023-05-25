@@ -622,25 +622,5 @@
         </div>
     </div>
 </div>
-<script>
-    window.addEventListener('load', function() {
-        var kanbanBoards = document.getElementsByClassName('kanbanBoard');
-
-        for (var i = 0; i < kanbanBoards.length+1; i++) {
-            var board = kanbanBoards[i];
-            var boardContent = board.querySelector('.kanbanBoardContent');
-            var button = board.querySelector('.kanbanBtn');
-
-            adjustBoardHeight(board, boardContent, button);
-        }
-    });
-
-    function adjustBoardHeight(board, boardContent,button) {
-        var boardContentHeight = boardContent.offsetHeight;
-        var buttonHeight = button.offsetHeight;
-        var totalHeight = boardContentHeight + buttonHeight;
-        board.style.height = totalHeight + 'px';
-    }
-</script>
 </body>
 </html>

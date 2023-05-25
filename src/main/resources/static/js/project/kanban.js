@@ -269,7 +269,7 @@ $(function () {
                     "                    </div>")
 
                 // 상태 수정하기
-                $('.process-layer').find('.process-modal-button').css('pointer-events','auto')
+                $('.process-layer').find('.process-modal-button').css('pointer-events', 'auto')
                 $('.kanban-process-btn').click(function (e) {
                     let btn = document.querySelectorAll(".kanban-process-btn");
                     btn.forEach(function (btn, i) {
@@ -362,7 +362,7 @@ $(function () {
 
                 })
 
-                $('#kanban-update-priority').find('.priorityBtn').click(function (){
+                $('#kanban-update-priority').find('.priorityBtn').click(function () {
                     let btnTag = $(this).html()
                     console.log(btnTag)
                     $('#kanban-update-priority').css('display', 'none')
@@ -419,7 +419,7 @@ $(function () {
                     let gradient_value = 100 / event.target.attributes.max.value;
                     console.log(event.target.value)
                     event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
-                    $('.kanban-progress').text(event.target.value+'%')
+                    $('.kanban-progress').text(event.target.value + '%')
                 });
 
             }
@@ -547,8 +547,8 @@ function kanbanUpdateTask() {
         startDate: startDate,
         closingDate: closingDate,
         progress: progress,
-        process : process,
-        priority : priority
+        process: process,
+        priority: priority
     }
 
     console.log(formData)
@@ -686,12 +686,12 @@ function kanbanAddTask() {
         data: formData,
         type: 'post',
         success: ((message) => {
-            if (message === "success"){
+            if (message === "success") {
                 location.reload()
             } else {
                 Swal.fire({
-                    "icon" : "warning",
-                    "title" : "업무 제목을 입력하세요"
+                    "icon": "warning",
+                    "title": "업무 제목을 입력하세요"
                 })
             }
         })
