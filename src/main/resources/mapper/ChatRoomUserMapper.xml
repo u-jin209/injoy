@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ChatRoomUserMapper">
+    <select id="selectProjectChatRoomUser" parameterType="String" resultType="ChatRoomUserDTO">
+        SELECT * FROM injoy."chatRoomUser"
+        where "chatRoomUserId"=#{chatRoomUserId}
+    </select>
+    <select id="selectChatRoomUserByUserIdAndChatRoomId" parameterType="map" resultType="ChatRoomUserDTO">
+        SELECT * FROM injoy."chatRoomUser"
+        where "username"=#{username} AND "chatRoomId"=#{chatRoomId}
+    </select>
+    <insert id="insert" parameterType="ChatRoomUserDTO">
+        insert into injoy."chatRoomUser"("username","name","chatRoomId")
+        values (#{username},#{name},#{chatRoomId})
+    </insert>
+
+</mapper>
