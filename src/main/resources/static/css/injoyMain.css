@@ -433,7 +433,8 @@ header {
 .memberImgDiv{
     height: 250px;
     width: 250px;
-    border: 1px solid #E6E6E6 ;
+    border: none;
+    border-radius: 10%;
     margin-bottom: 3%;
 }
 
