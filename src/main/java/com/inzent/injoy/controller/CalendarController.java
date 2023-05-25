@@ -1,5 +1,7 @@
 package com.inzent.injoy.controller;
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.inzent.injoy.model.CalendarDTO;
+import com.inzent.injoy.service.CalendarService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,6 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +24,30 @@ import java.util.Map;
 
 @Controller
 public class CalendarController {
+    private CalendarService calendarService;
+
+    public CalendarController(CalendarService calendarService) {
+        this.calendarService = calendarService;
+    }
+
+    @GetMapping("/cherry")
+    public void cherry(Model model, HttpServletRequest request) throws ParseException  {
+        CalendarDTO c = new CalendarDTO();
+        c.setTitle(request.getParameter("scheduleTitle"));
+        c.setContent(request.getParameter("writeScheduleContent"));
+//        c.setStart(request.getParameter("startDate"));
+//        c.setEnd(request.getParameter("endDate"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date strDate = new Date(sdf.parse(request.getParameter("startDate")).getTime());
+        Date endDate = new Date(sdf.parse(request.getParameter("endDate")).getTime());
+        System.out.println("strDate = " + strDate);
+        System.out.println("endDate = " + endDate);
+        c.setColor("black");
+        System.out.println("ccccccccccccccc = " + c);
+        System.out.println("c.gettil = " + c.getTitle());
+        calendarService.insert(c);
+    }
 
     @GetMapping("/orange")
     public String orange(Model model, HttpServletRequest request){
@@ -28,6 +61,9 @@ public class CalendarController {
     @ResponseBody
     @GetMapping("/logic")
     public List<Map<String, Object>> monthPlan(HttpServletRequest request){
+        String str = request.getParameter("activeStart");
+        System.out.println("str : " + str);
+
         JSONObject jsonObj = new JSONObject();
         JSONArray jsonArr = new JSONArray();
 
@@ -37,6 +73,8 @@ public class CalendarController {
         hash.put("start", "2023-05-09 17:30");
         hash.put("end", "2023-05-12 00:01");
         hash.put("color", "#545de8");
+        hash.put("textColor", "");
+        hash.put("borderColor", "");
         jsonObj = new JSONObject(hash);
         jsonArr.add(jsonObj);
 
@@ -45,7 +83,7 @@ public class CalendarController {
         hash.put("end", "2023-05-13 00:01");
         hash.put("color", "#ffff37");
         hash.put("textColor", "black");
-        hash.put("borderColor", "blue");
+        hash.put("borderColor", "");
         jsonObj = new JSONObject(hash);
         jsonArr.add(jsonObj);
 
@@ -55,34 +93,33 @@ public class CalendarController {
         jsonObj = new JSONObject(hash);
         jsonArr.add(jsonObj);
 
-//        hash.put("title", "이것은 컨트롤러로부터 온 첫 번째 데이터입니다.");
-//        hash.put("start", "2023-05-10 15:30:00");
-//        hash.put("end", "2023-05-13 13:30:00");
-//        hash.put("color", "#454ff6");
-//        hash.put("allDay", "true");
-//
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "이것은 컨트롤러로부터 온 두 번째 데이터가 왔습니다람쥐이ㅣㅣㅣㅣㅣㅣㅣ.");
-//        hash.put("start", "2023-05-09");
-//        hash.put("end", "2023-05-12");
-//        hash.put("color", "#f5f21d");
-//        hash.put("allDay", "true");
-//
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "당일일정데이터");
-//        hash.put("start", "2023-05-24 14:30:00");
-//        hash.put("end", "2023-05-24 14:30:00");
-//        hash.put("color", "#454ff6");
-//        hash.put("borderColor", "blue");
-//        hash.put("allDay", "true");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
 
-//        System.out.println("jsonArr : "+jsonArr);//값 확인하기
+
+        hash.put("title", "color");
+        hash.put("start", "2023-05-16 00:01");
+        hash.put("end", "2023-05-18 00:01");
+        hash.put("color", "#A2F3A0FF");
+        hash.put("textColor", "white");
+        hash.put("borderColor", "#A2F3A0FF");
+        jsonObj = new JSONObject(hash);
+        jsonArr.add(jsonObj);
+
+        hash.put("title", "color");
+        hash.put("start", "2023-05-23 00:01");
+        hash.put("end", "2023-05-25 00:01");
+        hash.put("color", "#F6C7EFFF");
+        hash.put("borderColor", "#F6C7EFFF");
+        jsonObj = new JSONObject(hash);
+        jsonArr.add(jsonObj);
+
+
+        hash.put("title", "color");
+        hash.put("start", "2023-05-23 00:01");
+        hash.put("end", "2023-05-25 00:01");
+        hash.put("color", "#F52A2AFF");
+        jsonObj = new JSONObject(hash);
+        jsonArr.add(jsonObj);
+
 
         return jsonArr;
     }
@@ -96,15 +133,54 @@ public class CalendarController {
 
     @ResponseBody
     @PostMapping(value = "/receive")
-    public void receiveMethod(HttpServletRequest request){
+    public void receiveMethod(HttpServletRequest request) throws ParseException {
+        CalendarDTO c = new CalendarDTO();
 
-        String title = request.getParameter("scheduleTitle");
+//        c.setProjectId( 프로젝트 아이디 넣어주세요 );
+//        c.setUserId( 유저 아이디 넣어주세요 );
+        c.setTitle(request.getParameter("scheduleTitle"));
+        c.setContent(request.getParameter("writeScheduleContent"));
+
+
+        System.out.println("startDate = " + request.getParameter("startDate"));
+        System.out.println("endDate = " + request.getParameter("endDate"));
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        System.out.println("title : " + title);
-        System.out.println("startdate : " + startDate);
-        System.out.println("enddate : " + endDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+
+        System.out.println("start = " + start);
+        System.out.println("end = " + end);
+
+        c.setEnd(Timestamp.valueOf(end));
+        c.setStart(Timestamp.valueOf(start));
+
+        LocalDateTime now = LocalDateTime.now();
+        c.setRegister_date(Timestamp.valueOf(now));
+
+//        color, textcolor, borderColor
+        String[][] colorArr = {
+                {"#545de8", "",""},
+                {"#ffff37","black", ""},
+                {"#A2F3A0FF","white", "#A2F3A0FF"},
+                {"#F6C7EFFF","", "#F6C7EFFF"},
+                {"#F52A2AFF","",""}
+        };
+
+        int n = (int)(Math.random() * 5);
+
+        c.setColor(colorArr[n][0]);
+        c.setTextColor(colorArr[n][1]);
+        c.setBorderColor(colorArr[n][2]);
+
+        c.setAddress(request.getParameter("addressInputId"));
+        c.setImgSrc(request.getParameter("mapImage"));
+        System.out.println("SRC : " + request.getParameter("mapImage"));
+
+        System.out.println("c = " + c);
+//        calendarService.insert(c);
 
     }
 }

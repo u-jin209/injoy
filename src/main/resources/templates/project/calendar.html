@@ -37,7 +37,46 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"></script>
 
 
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+
+
     <style>
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Pretendard-Regular', serif;
+
+            border-collapse: collapse;
+        }
+
+        /*캘린더 사이즈*/
+        #calendarBox{
+            width: 80%;
+            height: 80%;
+        }
+
+
         #scheduleTitle {
             border: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.5);
@@ -143,6 +182,10 @@
             right: 0;
         }
 
+        .header-cart::-webkit-scrollbar { /* 스크롤 없애기 */
+            display: none;
+        }
+
 
 
 
@@ -185,11 +228,109 @@
         }
 
 
-        /*캘린더 사이즈*/
-        #calendarBox{
-            width: 80%;
-            height: 80%;
+        /*캘린더 사진*/
+        .cal {
+            display: inline-block;
+            background-color: #FFF;
+            width: 70px;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
+
+        .cal .month {
+            height: 30px;
+            line-height: 30px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            background-color: #FFF;
+            color: #00B19c;
+            font-weight: 800;
+        }
+
+        .cal .date {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFF;
+            line-height: 44px;
+            background-color: #00B19c;
+        }
+
+        .date {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .month {
+            border: 1px solid #CCCAC5;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+        }
+
+
+        /*                      댓글창                          */
+        .comment-input-wrap {
+            overflow: hidden;
+            padding: 14px 30px;
+        }
+
+        .comment-input-wrap p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .user-profile-thumbnail {
+            width: 40px;
+            float: left;
+        }
+
+        .thumbnail.size40.radius16 {
+            border-radius: 16px;
+            cursor: default;
+        }
+
+        .thumbnail.size40 {
+            width: 40px;
+            height: 40px;
+        }
+
+        .thumbnail {
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-color: #fff;
+            border: 1px solid #eee;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+
+        .comment-container {
+            display: block;
+            float: left;
+            position: relative;
+            width: calc(100% - 50px);
+            margin-left: 10px;
+            box-sizing: border-box;
+        }
+
+        .commentInput {
+            width: 100%;
+            padding: 11px 75px 11px 20px;
+            min-height: 40px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #555;
+            word-break: break-word;
+            white-space: pre-wrap;
+            cursor: text;
+        }
+        /*                      댓글창                          */
     </style>
 
 </head>
@@ -214,7 +355,7 @@
                             <span class="modal-title mr-2" id="addTaskModalLabel" style="font-weight: 900">
                                 일정 작성 |
                             </span>
-                    <div style="width: 15px; height: 15px; border-radius: 4px; background-color: blue;"></div>
+                <div style="width: 15px; height: 15px; border-radius: 4px; background-color: blue;"></div>
                 <div style="padding-left: 8px; font-size: 14px;"><span>프로젝트명</span></div>
 
 
@@ -223,8 +364,8 @@
             </div>
 
 
-<!--            <form name="frm" action="/watermelon" method="get">-->
-            <form name="frm" id="frm" method="post" >
+            <!--            <form name="frm" action="/watermelon" method="get">-->
+            <form name="frm" id="frm" method="post"action="/cherry" >
                 <div class="modal-body text-start">
                     <div>
                         <input id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요" style=""/>
@@ -276,13 +417,13 @@
                                 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                             </svg>
 
-                                <label>
-                                    <input type="text" id="addressInputId" value="" onkeyup="if(window.event.keyCode==13){codeAddress()}" placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
-                                </label>
+                            <label>
+                                <input type="text" id="addressInputId" name="addressInputId" value="" onkeyup="if(window.event.keyCode==13){codeAddress()}" placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
+                            </label>
 
-                                <div id="imgDiv">
-<!--                                    <img id="mapImage" src="" alt="static map" style="width: 514px; height: 185px; visibility: hidden; border-radius: 15px;">-->
-                                </div>
+                            <div id="imgDiv">
+                                <!--                                    <img id="mapImage" src="" alt="static map" style="width: 514px; height: 185px; visibility: hidden; border-radius: 15px;">-->
+                            </div>
 
                         </div>
 
@@ -296,8 +437,8 @@
                                 </svg>
                             </div>
                             <label>
-<!--                                <input class="writeScheduleContent" placeholder="내용을 입력하세요." style="border: none;"/>-->
-                                <textarea id="writeScheduleContent" rows="11" cols="60" placeholder="내용을 입력하세요."  style="border: none;"></textarea>
+                                <!--                                <input class="writeScheduleContent" placeholder="내용을 입력하세요." style="border: none;"/>-->
+                                <textarea id="writeScheduleContent" name="writeScheduleContent" rows="11" cols="60" placeholder="내용을 입력하세요."  style="border: none;"></textarea>
                             </label>
                         </div>
 
@@ -307,14 +448,16 @@
 
                 </div>
                 <div class="modal-footer" style="justify-content: end !important;">
-<!--                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
-<!--                                           class="bi bi-paperclip" viewBox="0 0 16 16">-->
-<!--                                          <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
-<!--                                      </svg>-->
-<!--                                          <button type="button" class="btn taskAddButton"-->
+                    <!--                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
+                    <!--                                           class="bi bi-paperclip" viewBox="0 0 16 16">-->
+                    <!--                                          <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
+                    <!--                                      </svg>-->
+                    <!--                                          <button type="button" class="btn taskAddButton"-->
                     <button type="submit" class="btn taskAddButton"
                             style="background-color: #001542; color: white" id="submitShedule">등록
                     </button>
+
+
                 </div>
             </form>
 
@@ -330,21 +473,199 @@
     <div class="s-full js-hide-cart"></div>
 
     <div class="header-cart flex-col-l p-l-65 p-r-25">
-        <div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-<!--					여기에 내용을 넣어주세용~-->
-				</span>
 
-            <div class="trans-04 js-hide-cart">
-                <!--                  <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">-->
-                <!--                      <i class="zmdi zmdi-close"></i>-->
-                <!--                  </div>-->
-                <div style="width: 100%;display: flex;justify-content: end">
-                    <div type="button" class="btn-close" aria-label="Close" onclick="closeTab()"></div>
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+
+            <div class="modal-header p-2">
+
+                <div class="col-0.5">
+                    <div style="width: 15px; height: 15px; border-radius: 4px; background-color: blue;margin-left: 10px"></div>
+                </div>
+
+                <div class="col-10" style="padding: 0;margin-right: 33px">
+                    <span style="font-size: 12px">프로젝트 이름</span>
+                </div>
+
+                <div class="trans-04 js-hide-cart col-1.5">
+                    <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                        <div type="button" class="btn-close" aria-label="Close" onclick="closeTab()"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-body" style="padding: 10px; ">
+
+            <div class="m-3" style="display: flex;">
+
+                <div class="col-10" style="display: flex; padding: 0;">
+                    <!--                    <span>프사</span>-->
+                    <div class="user-profile-thumbnail">
+                        <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
+                    </div>
+
+                    <div class="m-2" style="display: flex;">
+                        <div class="" style="font-size: 14px;"><strong>닉네임ffffsadfsdf</strong></div>
+                        <div class="" style="font-size: 14px; color: #AAAAAA">2023-05-08 13:50</div>
+                    </div>
+
+                </div>
+
+                <div class="col-2" style="display: flex; padding: 0;">
+                    <a href="" style="font-size: 12px; font-weight: bolder; padding: 0;" class="col-10">게시글 보기 </a>
+                    <!--          <div>구냥</div>-->
+                    <div class="col-2">
+                        <div class="dropdown">
+                            <a class="bi bi-three-dots-vertical" type="button" id="dropdownMenuButton1"
+                               data-bs-toggle="dropdown" aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-card-text"></i>
+                                    수정</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크
+                                    복사</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-trash3"></i> 삭제</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="m-3" style="display: flex;">
+                <div class="col-2 m-1" style="padding: 0; ">
+                    <div class="cal">
+                        <div class="month">2023-12</div>
+                        <div class="date">27</div>
+                    </div>
+                </div>
+
+                <div class=" col-10 m-2">
+                    <div class="">
+                        프로젝트 이름을 넣어주세요~
+                    </div>
+
+
+                    <div class="" style="display: flex;">2023-05-16 (화), 12:40 2023-05-18 (목), 13:40</div>
                 </div>
             </div>
 
-            H e l l o W o r l d
+
+            <hr>  <!--      선-->
+
+
+            <div style="display: flex;">
+                <div class="col-2">
+                    <br>
+                    <i class="bi bi-card-text"></i>
+                </div>
+                <div class="col-10">
+                    <br>
+
+                    <div>
+                        여기는 내용이 들어가는 곳입니다.
+                        여기는 내용이 들어가는 곳입니다. 나중에 수정해 주세요.
+                        여기는 내용이 들어가는 곳입니다. 감사합니다.
+                    </div>
+                    <br>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div>아 여기에 댓글 총 갯수</div>
+        <!--        <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">-->
+
+        <div style="background-color: #eee">
+            <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">
+
+
+            <ul class="comment_list" style=" list-style:none; padding: 0;">
+
+                <li>
+                    <div style="display: flex;" class="m-3">
+                        <div class="col-1">
+                            <span class="thumbnail size40 radius16"
+                                  style="background-image: url(/img/penguin.jpg)"></span>
+                        </div>
+
+                        <div class="col-11">
+                            <div style="display: flex; justify-content: space-between">
+
+                                <div style="display: flex; flex-direction: row">
+                                    <div class="" style="margin-right: 10px;"><strong>닉네이이임</strong></div>
+                                    <div class="" style="font-size: 14px; padding-top: 3px; color: #AAAAAA;">2023-05-08
+                                        14:12
+                                    </div>
+                                </div>
+
+                                <div style="display: flex;flex-direction: row">
+
+
+                                    <div class="" style="margin-right: 5px"><!--수정-->
+                                        <a class="bi bi-pencil-square" type="button" style="color: #AAAAAA;" href="#"
+                                           onclick="method()"></a>
+                                    </div>
+                                    <div class=""><!--삭제-->
+                                        <a class="bi bi-trash3" type="button" style="color: #AAAAAA;" href="#"
+                                           onclick="method()"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="padding-top: 8px; font-size: 15px;">
+                                여기는 댓글이
+                                들어갑니다.fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff기붕니
+                                오늘은 기분이 너무나 좋네요.
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr style="color: rgb(126,125,125);">
+                </li>
+
+
+            </ul>
+
+
+            <!--            <div>-->
+            <!--&lt;!&ndash;                <hr>  &lt;!&ndash;        얇게 그리고 그림자 추가하기&ndash;&gt;&ndash;&gt;-->
+            <!--                <div style="display: flex;" class="m-3">-->
+            <!--                    <div class="col-1">프사</div>-->
+            <!--                    <div class="col-11" style="display: flex;">-->
+            <!--                        <div class="col-12" style="padding: 0;">-->
+            <!--                            <input type="text" class="form-control" id="post_comment_input" placeholder="입력은 Enter 입니다🍓"-->
+            <!--                                   onkeyup="if( window.event.keyCode==13){sendComment()}"/>&lt;!&ndash;이름 바꿔주기!!!!!!!!!!!!!!!!!&ndash;&gt;-->
+
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+            <div class="comment-input-wrap" style="background-color: #eee">
+                <div class="user-profile-thumbnail">
+                    <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
+                </div>
+
+                <!--  <form class="comment-container" style="padding: 0;" >-->
+                <div class="comment-container" style="padding: 0;">
+                    <input type="text" class="commentInput" id="post_comment_input"
+                           placeholder="댓글을 입력은 Enter 입니다."
+                           aria-label="Recipient's username" aria-describedby="button-addon2"
+                           onkeyup="if( window.event.keyCode==13){sendComment()}"/>
+                    <!--  </form>-->
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -498,7 +819,13 @@
 
             console.log("폼입니다 : " + form1);
             console.log("폼입니다 : " + form1.scheduleTitle);
+            console.log("폼입니다 : " + form1.startDate);
             console.log("폼입니다 : " + form1.endDate);
+
+            console.log("폼입니다 : " + form1.writeScheduleContent);
+            console.log("폼입니다 : " + form1.addressInputId);
+            var imageUrl = $('#mapImage').attr('src');
+            form1.mapImage = imageUrl;
 
             $.ajax({
                 type: "post",
@@ -570,9 +897,11 @@
     function codeAddress() {
         var imgTag = document.createElement('img');
         imgTag.id = "mapImage";
+        imgTag.name = "mapImage"
         imgTag.src = "";
         imgTag.alt = "static img";
         imgTag.style = "visibility: hidden";
+
         document.getElementById("imgDiv").append(imgTag);
 
         var geocoder;
@@ -649,6 +978,89 @@
     function getAddress(address){ // (4) should log the address
         console.log("Finally : " + address);
         document.getElementById("addressInputId").value = address
+    }
+</script>
+
+
+
+
+<!--            댓글          -->
+<script>
+
+    function sendComment() {
+        const commentInput = document.getElementById('post_comment_input');
+
+        // 댓글 입력시 요소 생성
+        const addNewComment = () => {
+            const newCommentLocation = document.getElementsByClassName('comment_list')[0];
+            const newComment = document.createElement('li');
+
+            //   newComment.innerHTML = `
+            //   <div class="user_desc">
+            //     <span>닉네임</span>
+            //     <span>${commentInput.value}</span>
+            //   </div>
+            // `;
+
+            newComment.innerHTML = `
+            <div style="display: flex;" class="m-3">
+                        <div class="col-1">
+                            <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
+                        </div>
+
+                        <div class="col-11">
+                            <div style="display: flex; justify-content: space-between">
+
+                                <div style="display: flex; flex-direction: row">
+                                    <div class="" style="margin-right: 10px;"><strong>닉네이이임</strong></div>
+                                    <div class="" style="font-size: 14px; padding-top: 3px; color: #AAAAAA;">2023-05-08
+                                        14:12
+                                    </div>
+                                </div>
+
+                                <div style="display: flex;flex-direction: row">
+
+
+                                    <div class="" style="margin-right: 5px"><!--수정-->
+                                        <a class="bi bi-pencil-square" type="button" style="color: #AAAAAA;" href="#"
+                                           onclick="method()"></a>
+                                    </div>
+                                    <div class=""><!--삭제-->
+                                        <a class="bi bi-trash3" type="button" style="color: #AAAAAA;" href="#"
+                                           onclick="method()"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="padding-top: 8px; font-size: 15px;">
+                                 ${commentInput.value}
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr style="color: rgb(126,125,125);">
+
+    `;
+
+            // newComment.innerHTML += `<h5>이런식으로 추가가 가능합니다.</h5>`;
+
+
+            newCommentLocation.appendChild(newComment);
+            commentInput.value = '';
+        }
+
+
+        if (commentInput.value) {
+            addNewComment();
+        } else {
+            alert('댓글이 입력되지 않았습니다 😳');
+        }
+
+    }
+
+
+    function method() {
+        alert("Hello World");
     }
 
 
