@@ -108,7 +108,7 @@
                             <li>
                                 <span class="task-chart-info hold" data-code="3">
                                     <i class="chart-info-label"></i>
-                                    <span class="chart-info-text"><span>보류</span><em
+                                     <span class="chart-info-text"><span>보류</span><em
                                             th:text="${#lists.size(taskList.?[process == '보류'])}"></em></span>
                                     <span class="chart-info-percent"  th:if="${#lists.size(taskList)} != 0"
                                           th:text="${#lists.size(taskList.?[process == '보류'])} div ${#lists.size(taskList)} * 100 + '%'"></span>

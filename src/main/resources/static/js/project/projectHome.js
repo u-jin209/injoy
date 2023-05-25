@@ -329,12 +329,14 @@ $(function () {
             taskId: $(this).parents('.post-content').find('#taskId-post').val(),
             progress: $(this).val(),
         }
+
         $.ajax({
             url: '/task/updateProgress',
             data: formData,
             type: 'post',
             success: () => {
                 location.reload()
+
             },
         })
     })
@@ -477,6 +479,11 @@ function deleteBoard() {
         })
     })
 }
+
+document.getElementById("openProjectChatRoomBtn").addEventListener("click", function () {
+    let url = '/chatRoom/projectChatRoom'
+    let newWindow = window.open(url,'_blank','top=100,left=100,width=420,height=650');
+});
 
 // document.getElementById("openProjectChatRoomBtn").addEventListener("click", function () {
 //     let url = '/chatRoom/projectChatRoom'
