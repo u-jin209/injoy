@@ -26,40 +26,41 @@ public class ChatController {
     private final ChatRoomUserService chatRoomUserService;
     private final ChatService chatService;
 
+
     @MessageMapping("/chat/enterUser")
-    public void enterUser(@Payload ChatDTO chatDTO, SimpMessageHeaderAccessor headerAccessor,@AuthenticationPrincipal UserCustomDetails login) {
+    public void enterUser(ChatDTO chatDTO,UserDTO userDTO, SimpMessageHeaderAccessor headerAccessor) {
         //채팅방 유저 등록
-        UserDTO logIn = login.getUserDTO();
         LocalDateTime now = LocalDateTime.now();
-        if (chatRoomUserService.selectChatRoomUserByUserNameAndChatRoomId(logIn.getUsername(), chatDTO.getChatRoomId())==null) {
+        ChatRoomUserDTO newChatRoomUserDTO = chatRoomUserService.selectChatRoomUserByUserNameAndChatRoomId(userDTO.getUsername(), chatDTO.getChatRoomId());
+
+        if (newChatRoomUserDTO==null) {
             ChatRoomUserDTO chatRoomUserDTO = new ChatRoomUserDTO();
             chatRoomUserDTO.setChatRoomId(chatDTO.getChatRoomId());
-            chatRoomUserDTO.setUsername(logIn.getUsername());
-            chatRoomUserDTO.setName(logIn.getName());
+            chatRoomUserDTO.setUsername(userDTO.getUsername());
+            chatRoomUserDTO.setName(userDTO.getName());
             chatRoomUserService.insert(chatRoomUserDTO);
             ChatDTO newChatDTO = new ChatDTO();
             newChatDTO.setType(chatDTO.getType());
-            newChatDTO.setSender(logIn.getName());
+            newChatDTO.setSender(userDTO.getName());
             newChatDTO.setChatRoomId(chatDTO.getChatRoomId());
-            newChatDTO.setUserId(logIn.getId());
+            newChatDTO.setUserId(userDTO.getId());
             newChatDTO.setTime(Timestamp.valueOf(now));
             chatService.insert(chatDTO);
         }
     }
 
     @MessageMapping("/chat/sendMessage")
-    public void sendMessage(@Payload ChatDTO chatDTO, @AuthenticationPrincipal UserCustomDetails login) {
-        UserDTO logIn = login.getUserDTO();
+    public void sendMessage(@Payload ChatDTO chatDTO,@Payload UserDTO userDTO) {
         LocalDateTime now = LocalDateTime.now();
         ChatDTO newChatDTO = new ChatDTO();
         newChatDTO.setType(chatDTO.getType());
-        newChatDTO.setSender(logIn.getName());
+        newChatDTO.setSender(userDTO.getName());
         newChatDTO.setMessage(chatDTO.getMessage());
         newChatDTO.setTime(Timestamp.valueOf(now));
         newChatDTO.setChatRoomId(chatDTO.getChatRoomId());
-        newChatDTO.setUserId(logIn.getId());
-        newChatDTO.setName(logIn.getName());
-        newChatDTO.setProfilePhoto(logIn.getProfilePhoto());
+        newChatDTO.setUserId(userDTO.getId());
+        newChatDTO.setName(userDTO.getName());
+        newChatDTO.setProfilePhoto(userDTO.getProfilePhoto());
         template.convertAndSend("/sub/chat/room/" + chatDTO.getChatRoomId(), newChatDTO);
         chatService.insert(newChatDTO);
     }

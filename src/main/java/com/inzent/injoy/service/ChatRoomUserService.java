@@ -25,6 +25,7 @@ public class ChatRoomUserService {
         Map<String, Object> params = new HashMap<>();
         params.put("username", username);
         params.put("chatRoomId", chatRoomId);
+        System.out.println(params);
         return session.selectOne(NAMESPACE + ".selectChatRoomUserByUserNameAndChatRoomId", params);
     }
 

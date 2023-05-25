@@ -12,10 +12,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatDTO {
-    public enum MessageType{
-        ENTER, TALK, LEAVE;
-    }
-    private MessageType type;
+    private int chatId;
+    private String  type;
     private String  chatRoomId;
     private String sender;
     private String message;

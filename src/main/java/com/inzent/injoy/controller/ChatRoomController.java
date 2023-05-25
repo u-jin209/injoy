@@ -5,7 +5,9 @@ import com.inzent.injoy.service.ChatRoomService;
 import com.inzent.injoy.service.ChatRoomUserService;
 import com.inzent.injoy.service.ChatService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,7 @@ public class ChatRoomController {
     public String openProjectChatRoom(@RequestParam String chatRoomId, Model model,@AuthenticationPrincipal UserCustomDetails login) {
         UserDTO logIn = login.getUserDTO();
         List<ChatDTO> chatList = chatService.selectChatByChatRoomIdWithProfile(chatRoomId);
+        System.out.println("chatList = " + chatList);
         ChatRoomDTO chatRoomDTO = chatRoomService.selectChatRoom(chatRoomId);
         model.addAttribute("chatRoomId", chatRoomId);
         model.addAttribute("chatList", chatList);

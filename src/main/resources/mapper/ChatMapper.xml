@@ -13,10 +13,11 @@
         inner join injoy."user" u
         on c."userId" = u."id"
         where "chatRoomId"=#{chatRoomId}
+        ORDER BY "time" ASC
     </select>
 
     <insert id="insert" parameterType="ChatDTO">
-        insert into injoy."chatRoom"("type","sender","message","time","chatRoomId","userId")
+        insert into injoy."chat"("type","sender","message","time","chatRoomId","userId")
         values (#{type},#{sender},#{message},CURRENT_TIMESTAMP,#{chatRoomId},#{userId})
     </insert>
 

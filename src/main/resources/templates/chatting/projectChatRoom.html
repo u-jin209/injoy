@@ -74,17 +74,6 @@
 
         main {
             flex: 1;
-            /*width: 100%;*/
-            /*height: 100%;*/
-            /*display: flex;*/
-            /*flex-direction: column;*/
-            /*align-items: end;*/
-            /*padding: 0 30px;*/
-            /*overflow: auto;*/
-            /*overflow-x: hidden;*/
-        }
-
-        .main_box{
             width: 100%;
             height: 100%;
             display: flex;
@@ -93,6 +82,12 @@
             padding: 0 30px;
             overflow: auto;
             overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .main_box {
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         footer {
@@ -344,7 +339,7 @@
             width: 100%;
             min-width: 350px;
             min-height: 44px;
-            margin-top: 20px;
+            /*margin-top: 20px;*/
             display: flex;
             justify-content: end;
         }
@@ -372,7 +367,7 @@
             flex-direction: row;
             width: 100%;
             min-width: 350px;
-            margin-top: 15px;
+            /*margin-top: 15px;*/
         }
 
         .chat_left_img {
@@ -487,14 +482,14 @@
                 <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
             </svg>
             <div class="header_title_right">
-                <p style="font-weight: bold">프로젝트 채팅방</p>
+                <p style="font-weight: bold" th:text="${roomName}"></p>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                          class="bi bi-person"
                          viewBox="0 0 16 16">
                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                     </svg>
-                    <p style="font-size: 13px;font-weight: lighter;margin-left: 4px;font-weight: lighter">3</p>
+                    <p style="font-size: 13px;font-weight: lighter;margin-left: 4px;font-weight: lighter" th:text="${userCount}"></p>
                 </div>
             </div>
 
@@ -512,18 +507,18 @@
             </svg>
         </div>
     </header>
-    <main >
+    <main id="main">
         <div class="main_box" th:each="chat: ${chatList}">
-        <div th:if="${chat.userId eq logIn.userId}" class="chat_right">
-            <div class="chat_right_message"><p>pp</p></div>
-        </div>
-        <div th:unless="${chat.userId eq logIn.userId}" class="chat_left">
-            <div class="chat_left_img"><img th:src="@{${logIn.profilePhoto}}"></div>
-            <div class="chat_left_member">
-                <p class="chat_left_member_name" th:text="${logIn.name}"></p>
-                <div class="chat_left_message"><p th:text="${chat.message}"></p></div>
+            <div th:if="${chat.userId eq userDTO.id}" class="chat_right">
+                <div class="chat_right_message"><p th:text="${chat.message}"></p></div>
             </div>
-        </div>
+            <div th:unless="${chat.userId eq userDTO.id}" class="chat_left">
+                <div class="chat_left_img"><img th:src="@{${chat.profilePhoto}}"></div>
+                <div class="chat_left_member">
+                    <p class="chat_left_member_name" th:text="${chat.name}"></p>
+                    <div class="chat_left_message"><p th:text="${chat.message}"></p></div>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
@@ -546,17 +541,24 @@
     const overlay = document.getElementById("overlay");
     const messageForm = document.getElementById('messageForm');
     const chatRoomId = /*[[ ${chatRoomId} ]]*/ ""
+    const userDTO = /*[[ ${userDTO} ]]*/ ""
+    const mainDiv = document.getElementById("main"); // main div의 id를 가져옵니다.
+    mainDiv.scrollTop = mainDiv.scrollHeight; // 스크롤을 맨 아래로 이동합니다.
     //로드하면서 socket 설정
     window.onload = function () {
-        // console.log((chatRoomId))
+        const chatList = /*[[ ${chatList} ]]*/ ""
+        console.log(chatList)
+        console.log()
         slideMenu.style.right = "-330px";
         // 연결하고자하는 Socket 의 endPoint
         if (typeof SockJS !== 'undefined') {
 
-        var socket = new SockJS('/ws-stomp');
-        stompClient = Stomp.over(socket);
-        console.log(111111114)
-        stompClient.connect({}, onConnected, onError);
+            var socket = new SockJS('/ws-stomp');
+            stompClient = Stomp.over(socket);
+            console.log(111111114)
+            console.log(userDTO)
+            var authToken = /*[[ ${authToken} ]]*/ "";
+            stompClient.connect({}, onConnected, onError);
         } else {
             console.error('SockJS library is not loaded.');
         }
@@ -566,17 +568,22 @@
         // sub 할 url => /sub/chat/room/chatRoomId 로 구독한다
         stompClient.subscribe('/sub/chat/room/' + chatRoomId, onMessageReceived);
         console.log(111111112)
+        console.log(userDTO)
         // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
         // /pub/chat/enterUser 로 메시지를 보냄
         stompClient.send("/pub/chat/enterUser",
             {},
             JSON.stringify({
                 "chatRoomId": chatRoomId,
-                type: 'ENTER'
+                type: 'ENTER',
+                username: userDTO.username,
+                name:userDTO.name,
+                id:userDTO.id,
             })
         )
         console.log(111111113)
     }
+
     function onError(error) {
         console.log('Could not connect to WebSocket server.')
     }
@@ -590,10 +597,14 @@
             let chatMessage = {
                 "chatRoomId": chatRoomId,
                 message: textarea.value,
-                type: 'TALK'
+                type: 'TALK',
+                username: userDTO.username,
+                name:userDTO.name,
+                id:userDTO.id,
+                profilePhoto:userDTO.profilePhoto
             };
             stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
-            textarea.value = '';
+
             let chatRightDiv = document.createElement("div");
             chatRightDiv.className = "chat_right";
             let chatRightMessageDiv = document.createElement("div");
@@ -602,11 +613,16 @@
             chatRightMessageParagraph.innerText = textarea.value;
             chatRightMessageDiv.appendChild(chatRightMessageParagraph);
             chatRightDiv.appendChild(chatRightMessageDiv);
-            let mainBox = document.querySelector(".main_box");
+            let mainBox = document.createElement("div");
+            mainBox.className = "main_box";
             mainBox.appendChild(chatRightDiv);
+            mainDiv.appendChild(mainBox)
+            mainDiv.scrollTop = mainDiv.scrollHeight;
+            textarea.value = '';
         }
         event.preventDefault();
     }
+
     function onMessageReceived(payload) {
         var chatDTO = JSON.parse(payload.body);
         // 채팅 데이터 추출
@@ -651,9 +667,12 @@
         chatLeftDiv.appendChild(chatLeftMemberDiv);
         chatLeftDiv.appendChild(chatLeftImgDiv);
 
-        // main_box에 chat_left div 추가
-        var mainBox = document.querySelector(".main_box");
+        let mainBox = document.createElement("div");
+        mainBox.className = "main_box";
         mainBox.appendChild(chatLeftDiv);
+        mainDiv.appendChild(mainBox)
+        mainDiv.scrollTop = mainDiv.scrollHeight;
+        textarea.value = '';
 
     }
 
@@ -676,7 +695,7 @@
     });
 
     function openSlideMenu() {
-        let testNum= /*[[ ${width} ]]*/ "";
+        let testNum = /*[[ ${width} ]]*/ "";
         console.log(testNum);
         slideMenu.style.right = slideMenu.style.right === "-330px" ? "0" : "-330px";
         overlay.style.display = "block"; // 레이어 표시

@@ -7,7 +7,7 @@
         SELECT * FROM injoy."chatRoomUser"
         where "chatRoomUserId"=#{chatRoomUserId}
     </select>
-    <select id="selectChatRoomUserByUserIdAndChatRoomId" parameterType="map" resultType="ChatRoomUserDTO">
+    <select id="selectChatRoomUserByUserNameAndChatRoomId" parameterType="map" resultType="ChatRoomUserDTO">
         SELECT * FROM injoy."chatRoomUser"
         where "username"=#{username} AND "chatRoomId"=#{chatRoomId}
     </select>

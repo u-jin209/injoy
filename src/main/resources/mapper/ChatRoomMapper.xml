@@ -15,7 +15,7 @@
 
     <insert id="insert" parameterType="ChatRoomDTO">
         insert into injoy."chatRoom"("chatRoomId","roomName","userCount","projectId","type","host","guest")
-        values (#{chatRoomId},#{chatRoomId},#{userCount},#{projectId},#{type},#{host},#{guest})
+        values (#{chatRoomId},#{roomName},#{userCount},#{projectId},#{type},#{host},#{guest})
     </insert>
 
 </mapper>
