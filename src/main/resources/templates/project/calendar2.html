@@ -265,16 +265,20 @@
         document.addEventListener('DOMContentLoaded', function () {
             $(function () {
                 var calendarEll = document.getElementById('calendar');
-                var calendarr= new FullCalendar.Calendar(calendarEll, {});
+                var calendarr = new FullCalendar.Calendar(calendarEll, {});
                 console.log("시작 : " + calendarr.view.activeStart);
                 console.log("끝 : " + calendarr.view.activeEnd);
-
+                let data = {
+                    "activeStart" : calendarr.view.activeStart,
+                    "activeEnd" : calendarr.view.activeEnd
+                }
 
 
                 var request = $.ajax({
                     url: "/logic", // URL 새로운거로 다시 넣어주기
                     method: "GET",
                     dataType: "json"
+                    ,data: data
                 });
 
 
