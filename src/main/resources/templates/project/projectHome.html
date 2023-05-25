@@ -148,7 +148,7 @@
                 </div>
             </div>
         </div>
-        <div class="project-content">
+        <div class="project-content" th:unless="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
             <div class="none-title" style="width: 80%; margin: 15px 30px;">
                 <h4>전체</h4>
             </div>
@@ -172,7 +172,7 @@
                                     </dd>
                                 </dl>
                             </div>
-                            <div>
+                            <div  th:style="${login.id != task.authorUserId ? 'display:none' : 'display:block'}">
                                 <div class="post-option">
                                     <div class="post-setting-button toolBtn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -207,7 +207,8 @@
                         </div>
                         <div class="home-title title-header">
                             <div class="postTitle">
-                                <h4 class="post-title-h4" th:text="${task.taskTitle}"></h4>
+                                <input type="hidden" class="modify-task-title" th:value="${task.taskTitle}"/>
+                                <h4 class="post-title-h4" id="post-task-title" th:text="${task.taskTitle}"></h4>
                             </div>
                             <div class="post-state">
                                 <span class="task-number d-inline-block">
@@ -450,7 +451,10 @@
                                         항목 추가 입력
                                     </button>
                                 </div>
-                                <div class="post-taskContent" th:text="${task.taskContent}"></div>
+                                <div class="post-taskContent">
+                                    <textarea class="modify-task-content" style="display: none" th:text="${task.taskContent}"></textarea>
+                                    <span id="post-task-content" th:text="${task.taskContent}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -463,38 +467,6 @@
                             </button>
                         </div>
                         <ul class="post-comment-group" id="commentGroup">
-<!--                            <li class="comment-li"  th:each="tComment, tCommentStat :${tComment}" th:if="${tComment.taskId == task.taskId}">-->
-<!--                                <div class="comment-thumbnail">-->
-<!--                                    <span class="thumbnail size40 radius16" th:style="'background-image:url('+ ${tComment.profilePhoto} +');'"></span>-->
-<!--                                </div>-->
-<!--                                <div class="comment-container on">-->
-<!--                                    <div class="comment-user-area">-->
-<!--                                        <div class="comment-user">-->
-<!--                                            <span class="user-name" th:text="${tComment.name}"></span>-->
-<!--                                            <span class="record-date" th:text="${#dates.format(tComment.crtDate, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
-<!--                                        </div>-->
-<!--                                        <div class="comment-writer-menu" th:style="${(tComment.authorUserId != login.id) ? 'display:none' : 'display:block'}">-->
-<!--                                            <button type="button" class="modify-tComment comment-writer-button on" style="background-color: transparent; border: none">-->
-<!--                                                수정</button>-->
-<!--                                            <button type="button" class="delete-tComment comment-writer-button on" style="background-color: transparent; border: none" th:onclick="|deleteTComment(${tComment.tCommentId})|">-->
-<!--                                                삭제</button>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="comment-content">-->
-<!--                                        <div class="comment-text-area">-->
-<!--                                            <div class="js-remark-text comment-text" th:text="${tComment.tComment}"></div>-->
-<!--                                        </div>-->
-<!--                                        <ul class="js-remark-upload-file upload-document-group"></ul>-->
-<!--                                        <ul class="js-remark-upload-img comment-upload-img"></ul>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="edit-tComment-form" style="overflow: hidden; width: 100%; margin-bottom: 10px; display: none">-->
-<!--                                    <form  action="/tComment/update" method="post" class="comment-container" style="padding: 0;">-->
-<!--                                        <input type="hidden" name="tCommentId" class="tCommentId-comment" th:value="${tComment.tCommentId}"/>-->
-<!--                                        <input type="text" class="commentInput" th:value="${tComment.tComment}" name="tComment" style="width: 366px"/>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </li>-->
                         </ul>
                     </div>
                     <div class="comment-input-wrap" style="background-color: #eee">
@@ -533,7 +505,7 @@
                                     </dd>
                                 </dl>
                             </div>
-                            <div>
+                            <div th:style="${login.id != task.boardWriterId ? 'display:none' : 'display:block'}">
                                 <div class="post-option">
                                     <div class="post-setting-button toolBtn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -569,12 +541,14 @@
                         <div class="home-title title-header">
                             <input id="boardId" type="hidden" th:value="${task.boardId}"/>
                             <div class="postTitle">
-                                <h4 class="post-title-h4" th:text="${task.bTitle}"></h4>
+                                <input class="modify-board-title" type="hidden" th:value="${task.bTitle}"/>
+                                <h4 class="post-title-h4" id="post-board-title" th:text="${task.bTitle}"></h4>
                             </div>
                         </div>
                         <div class="post-container">
                             <div class="post-board-content">
-                                <div th:text="${task.bContent}"></div>
+                                <textarea class="modify-board-content" th:text="${task.bContent}" style="display: none"></textarea>
+                                <div id="post-board-content" th:text="${task.bContent}"></div>
                             </div>
                         </div>
                     </div>

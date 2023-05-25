@@ -31,4 +31,8 @@ public class BoardService {
     public BoardDTO selectOne(int boardId) {
         return session.selectOne(NAMESPACE + ".selectOne", boardId);
     }
+
+    public void update(BoardDTO boardDTO) {
+        session.update(NAMESPACE+".updateBoard", boardDTO);
+    }
 }

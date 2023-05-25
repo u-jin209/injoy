@@ -916,8 +916,8 @@ input[type='date']:valid::before {
     height: auto;
 }
 
-.task-detail-content{
-    width: 400px;
+.task-detail-content, .modify-board-content, .modify-task-content{
+    width: 100%;
     min-height: 200px;
     border: none;
 }

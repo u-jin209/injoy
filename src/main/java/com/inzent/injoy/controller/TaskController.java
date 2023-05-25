@@ -94,9 +94,21 @@ public class TaskController {
         return taskService.selectOne(taskId);
     }
 
+    @PostMapping("update")
+    public String update(TaskDTO taskDTO){
+        TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
+
+        updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
+        updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
+
+        taskService.update(updateTaskDTO);
+
+        return "redirect:/project/" + updateTaskDTO.getProjectId();
+    }
+
     @PostMapping("updateTask")
     @ResponseBody
-    public TaskDTO updateTitle(TaskDTO taskDTO){
+    public TaskDTO updateTask(TaskDTO taskDTO){
         TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
 
         updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
