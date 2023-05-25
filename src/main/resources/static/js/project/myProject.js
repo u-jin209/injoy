@@ -261,8 +261,32 @@ function memberList(value) {
 
 
 }
+function printBookMark(){
 
 
+    $('#accordion-body').empty()
+    $.ajax({
+        url: '/project/bookmarkList', //Controller에서 요청 받을 주소
+        type: 'GET', //POST 방식으로 전달
+        success: function (result) {
+            if (result.length >= 1) {
+
+
+                result.forEach(function (item) {
+                    $('#accordion-body').append(
+                        "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 ) ;!important ' " +
+                        " onclick ='project("+item.projectId+")'>"+item.projectName +"</p>"
+                    )
+
+                })
+            }
+        }
+
+    })
+}
+function project(projectId){
+    location.href ="/project/"+projectId
+}
 
 function bookMark(projectId, userId) {
 
@@ -281,6 +305,7 @@ function bookMark(projectId, userId) {
             type: 'GET', url: "/bookMark/insert", data: data, success: function (result) {
                 star.style.display = "none";
                 starfill.style.display = "unset";
+                printBookMark();
             }
         });
     } else if (star.style.display == "none") {
@@ -289,6 +314,7 @@ function bookMark(projectId, userId) {
             type: 'GET', url: "/bookMark/delete", data: data, success: function (result) {
                 starfill.style.display = "none";
                 star.style.display = "unset";
+                printBookMark()
             }
         });
     }

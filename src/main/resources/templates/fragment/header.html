@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
-    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+
 </head>
 <body>
 <header>
@@ -25,7 +25,7 @@
 <!-- Example single danger button -->
                 <div class="btn-group" >
                   <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img style="height: 27px; width: 27px;border-radius: 30%" th:src="${logIn.profilePhoto}" onerror=this.src='/img/user.jpg'  >
+                    <img style="height: 27px; width: 27px;border-radius: 30%" th:src="@{${logIn.profilePhoto}}" onerror=this.src='/img/user.jpg'  >
                   </button>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item"  href="/user/userInfo">유저정보</a></li>

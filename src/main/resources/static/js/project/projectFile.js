@@ -700,7 +700,8 @@ function moveFile(){
             type: 'get',
             data: {
                 "root" :root.innerText,
-                "file" : fileArr
+                "file" : fileArr,
+                "projectId":projectId
             },
             success: () => {
                 deleteCookie(folderArr)

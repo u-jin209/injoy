@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import com.inzent.injoy.service.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,21 +69,19 @@ public class ProjectController {
 
         return "/project/newProject";
     }
-    @GetMapping("convert")
-    public String convert(Model model) {
 
-        model.addAttribute("organList" ,organService.selectAll());
-
-        return "/project/convert";
-    }
     @GetMapping("newProjectMain")
     public String newProjectMain() {
 
         return "/project/newProjectMain";
     }
 
+    @ResponseBody
+    @GetMapping("bookmarkList")
+    public  List<ProjectDTO> bookmarkList(@AuthenticationPrincipal UserCustomDetails login){
+        return  projectService.bookMarkProject(login.getUserDTO().getId());
+    }
     @GetMapping("myProject")
-
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
 
         if (login == null) {
@@ -95,6 +92,7 @@ public class ProjectController {
         model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
         model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
         model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
 
 
 

@@ -43,9 +43,16 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String test( ) {
-        return "/user/login";
+    public String test( ){
+        return "/index";
     }
+
+    @GetMapping("/login")
+    public String login(){
+
+            return "/user/login";
+    }
+
 
     @GetMapping("/imgTest")
     public String imgTest(Model model){
@@ -109,6 +116,8 @@ public class HomeController {
 
         model.addAttribute("logIn" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >
+
+
 
         return "project/mainProject";
 

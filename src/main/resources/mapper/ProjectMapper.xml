@@ -21,6 +21,19 @@
         on p."projectId" = b."projectId"
         where p."projectId"=#{id}
     </select>
+
+    <select id="bookMarkProject" parameterType="int" resultType="ProjectDTO">
+        SELECT * FROM injoy."project" P
+        inner join injoy."projectMember" m
+        on p."projectId" = m."projectId"
+
+        left join (select * from injoy."bookMark"  where "userId" = #{id}) b
+        on p."projectId" = b."projectId"
+
+        where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE' and
+         "bookMarkId" is not null
+    </select>
+
     <insert id="insert" parameterType="ProjectDTO" keyProperty="projectId" useGeneratedKeys="true">
         insert into injoy.project("projectName","explanation","creatorUserId","invitationCode","organId","domain")
         values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId},#{domain})

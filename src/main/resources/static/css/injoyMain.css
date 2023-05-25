@@ -604,6 +604,11 @@ input.minusBtn{
     color: #000;
     border: none;
 }
+.btn-acd:hover{
+    background-color: #3064B3;
+    border-radius: 0;
+    !important;
+}
 
 .btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
 
