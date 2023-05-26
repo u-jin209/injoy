@@ -25,6 +25,8 @@ $(document).ready(function () {
 
     limitTComment()
     limitBComment()
+    boardImg()
+    TaskImg()
 
 })
 
@@ -39,7 +41,7 @@ function set_priority() {
                     '                                                                </svg>')
                 break;
             case '높음' :
-                $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
+                $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n ' +
                     '                                                                     fill="orange"\n' +
                     '                                                                     class="bi bi-arrow-up mr-1" viewBox="0 0 16 16">\n' +
                     '                                                                    <path fill-rule="evenodd"\n' +
@@ -744,6 +746,79 @@ function limitBComment() {
 
 }
 
+function boardImg(){
+    $('.boardBox').each(function () {
+        let boardId = $(this).find('.boardId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (boardId !== undefined && projectId !== undefined) {
+            let formData = {
+                boardId: boardId
+            }
+
+            $.ajax({
+                url: '/board/getImg',
+                data: formData,
+                type: "get",
+                success: (response) => {
+                    const previewsContainer = $(this).find('.img-container');
+                    for (let i = 0; i < response.length; i++) {
+
+                        console.log(response[i])
+                        const preview = document.createElement('img');
+                        preview.classList.add('image-post-box');
+                        preview.style.width = '150px'
+                        preview.style.height = '150px'
+                        preview.style.borderRadius = '10%'
+                        preview.style.marginRight = '10px'
+                        preview.addEventListener('click', function() {
+                            downloadBoardImg(response[i].fileId);
+                        });
+                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+
+
+                        previewsContainer.append(preview);
+                    }
+                }
+
+            })
+        }
+    })
+}
+
+function downloadBoardImg(fileId){
+    let formData = {
+        fileId : fileId
+    }
+
+    $.ajax({
+        url :'/board/downloadFile',
+        type : 'get',
+        data : formData,
+        success : function (response){
+            Swal.fire({
+                text: '이미지를 다운로드 하시겠습니까?',
+                width: '300px',
+                showCancelButton: true,
+                confirmButtonColor: '#3064B3',
+                cancelButtonColor: 'red',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let element = document.createElement('a');
+                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('download', response.uniqueName + response.fileExtension);
+                    element.setAttribute('type', 'media_type')
+                    document.body.appendChild(element);
+                    element.click();
+                    //document.body.removeChild(element);
+                }
+            })
+        }
+    })
+
+}
+
 function limitTComment() {
     $('.boardBox').each(function () {
         let taskId = $(this).find('.taskId-comment').val()
@@ -858,6 +933,79 @@ function limitTComment() {
                             commentWriterMenu.hide();
                         }
                     });
+                }
+            })
+        }
+    })
+
+}
+
+function TaskImg(){
+    $('.boardBox').each(function () {
+        let taskId = $(this).find('.taskId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (taskId !== undefined && projectId !== undefined) {
+            let formData = {
+                taskId: taskId
+            }
+
+            $.ajax({
+                url: '/task/getImg',
+                data: formData,
+                type: "get",
+                success: (response) => {
+                    const previewsContainer = $(this).find('.img-container');
+                    for (let i = 0; i < response.length; i++) {
+
+                        console.log(response[i])
+                        const preview = document.createElement('img');
+                        preview.classList.add('image-post-box');
+                        preview.style.width = '150px'
+                        preview.style.height = '150px'
+                        preview.style.borderRadius = '10%'
+                        preview.style.marginRight = '10px'
+                        preview.addEventListener('click', function() {
+                            downloadTaskImg(response[i].fileId);
+                        });
+                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+
+
+                        previewsContainer.append(preview);
+                    }
+                }
+
+            })
+        }
+    })
+}
+
+function downloadTaskImg(fileId){
+    let formData = {
+        fileId : fileId
+    }
+
+    $.ajax({
+        url :'/task/downloadFile',
+        type : 'get',
+        data : formData,
+        success : function (response){
+            Swal.fire({
+                text: '이미지를 다운로드 하시겠습니까?',
+                width: '300px',
+                showCancelButton: true,
+                confirmButtonColor: '#3064B3',
+                cancelButtonColor: 'red',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let element = document.createElement('a');
+                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('download', response.uniqueName + response.fileExtension);
+                    element.setAttribute('type', 'media_type')
+                    document.body.appendChild(element);
+                    element.click();
+                    //document.body.removeChild(element);
                 }
             })
         }

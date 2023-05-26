@@ -132,10 +132,13 @@ $(function () {
             if (activeTab.attr('id') === 'boardWrite-tab') {
                 console.log("board");
                 $('.submitWriteBtn').attr('id', 'boardWriteBtn');
+                $('#file').attr('class', 'boardFile')
 
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
                 console.log("task");
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
+                $('#file').attr('class', 'taskFile')
+
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
@@ -192,18 +195,26 @@ $(function () {
 
     $('.submitWriteBtn').click(function () {
         if ($(this).attr('id') === 'boardWriteBtn') {
-            let formData = {
-                bTitle: $('#boardTitle').val(),
-                bContent: $('.writeBoardContent').val(),
-                projectId: Number($('.projectIdInput').val())
+            let formData = new FormData();
+
+            formData.append('bTitle', $('#boardTitle').val());
+            formData.append('bContent', $('.writeBoardContent').val());
+            formData.append('projectId', Number($('.projectIdInput').val()));
+
+            let files = document.querySelector('.boardFile').files;
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
             }
 
             $.ajax({
                 url: '/board/write',
                 data: formData,
                 type: 'post',
+                processData: false,
+                contentType: false,
                 success: function (response) {
-                    console.log(response)
+                    console.log(response);
                     if (response === "success") {
                         location.reload(); // 성공적인 응답을 받은 경우 페이지 리로드
                     } else {
@@ -213,20 +224,25 @@ $(function () {
                         });
                     }
                 },
-            })
+            });
 
         } else if ($(this).attr('id') === 'taskWriteBtn') {
-            let formData = {
-                projectId: Number($('.writeProjectId').val()),
-                taskTitle: $('#taskTitle').val(),
-                taskContent: $('.writeContent').val(),
-                process: writeCurrentBtn(),
-                //managerId: $('.managerId').val(),
-                startDate: $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date(0),
-                closingDate: $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date(0),
-                progress: Number($('.writeBox-rangeInput').val()),
-                priority: $('.prioritySpan-writeBox .priorityText').text()
 
+            let formData = new FormData();
+
+            formData.append('taskTitle', $('#taskTitle').val());
+            formData.append('taskContent',  $('.writeContent').val());
+            formData.append('projectId', Number($('.writeProjectId').val()));
+            formData.append('process',writeCurrentBtn());
+            formData.append('startDate', $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date(0));
+            formData.append('closingDate', $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date(0));
+            formData.append('progress', Number($('.writeBox-rangeInput').val()));
+            formData.append('priority', $('.prioritySpan-writeBox .priorityText').text());
+
+            let files = document.querySelector('.taskFile').files;
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
             }
 
             console.log(formData)
@@ -235,6 +251,8 @@ $(function () {
                 url: '/task/mainWrite',
                 data: formData,
                 type: 'post',
+                processData: false,
+                contentType: false,
                 success: ((message) => {
                     console.log(message)
                     if (message === "success") {
@@ -251,6 +269,36 @@ $(function () {
         }
 
     })
+
+    const fileDOM = document.querySelector('#file');
+    const previewsContainer = document.querySelector('.previews');
+
+    fileDOM.addEventListener('change', () => {
+        const files = fileDOM.files;
+
+        // 이미지 미리보기를 담을 컨테이너 초기화
+        previewsContainer.innerHTML = '';
+
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+
+            reader.onload = ({ target }) => {
+                const preview = document.createElement('img');
+                preview.classList.add('image-board-box');
+                preview.style.width = '100px'
+                preview.style.height = '100px'
+                preview.style.borderRadius = '10%'
+                preview.style.marginRight = '10px'
+                preview.src = target.result;
+
+                previewsContainer.appendChild(preview);
+            };
+
+            reader.readAsDataURL(files[i]);
+        }
+    });
+
+
 
 })
 
