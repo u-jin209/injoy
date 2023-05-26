@@ -20,11 +20,11 @@ $(function () {
 
         })
     })
-        //시작일 부분
+    //시작일 부분
     $('.writeBox-addStartDate').attr('min', new Date().toISOString().split("T")[0])
     $('.writeBox-addEndDate').attr('min', new Date().toISOString().split("T")[0])
 
-    $('.writeBox-addStartDate').change(function (){
+    $('.writeBox-addStartDate').change(function () {
         $('.start-date-exist').css('display', 'block')
         $('.startDate-value').text($(this).val() + addWeek($(this).val()) + ' 부터')
 
@@ -33,46 +33,46 @@ $(function () {
         $(this).css('display', 'none')
     })
 
-    $('#writeBox-startDate-removeBtn').click(function (){
+    $('#writeBox-startDate-removeBtn').click(function () {
         $('.start-date-exist').css('display', 'none')
         $('.writeBox-addStartDate').css('display', 'block').val('')
     })
 
     //마감일 부분
 
-    $('.writeBox-addEndDate').change(function (){
+    $('.writeBox-addEndDate').change(function () {
         $('.end-date-exist').css('display', 'block')
         $('.endDate-value').text($(this).val() + addWeek($(this).val()) + ' 까지')
         $(this).css('display', 'none')
     })
 
-    $('#writeBox-endDate-removeBtn').click(function (){
+    $('#writeBox-endDate-removeBtn').click(function () {
         $('.end-date-exist').css('display', 'none')
         $('.writeBox-addEndDate').css('display', 'block').val('')
     })
 
     // 우선순위 추가 부분
-    $('.addPriority-writeBox').click(function (){
+    $('.addPriority-writeBox').click(function () {
         let priority_ul = $('.addPriority_ul-writeBox')
-        if (priority_ul.css('display') === 'none'){
+        if (priority_ul.css('display') === 'none') {
             priority_ul.css('display', 'block')
             priority_ul.find('button').click(function (e) {
                 console.log()
                 const element = document.getElementsByClassName('writeBox-priority-value')[0];
                 element.innerHTML = ($(this).context.innerHTML)
 
-                $('.addPriority-writeBox').css('display','none')
+                $('.addPriority-writeBox').css('display', 'none')
                 $('.prioritySpan-writeBox').css('display', 'block')
                 priority_ul.css('display', 'none')
             })
-        } else{
+        } else {
             priority_ul.css('display', 'none')
 
         }
 
     })
 
-    $('#writeBox-priority-removeBtn').click(function (){
+    $('#writeBox-priority-removeBtn').click(function () {
         $('.addPriority-writeBox').css('display', 'block')
         $('.prioritySpan-writeBox').css('display', 'none')
         $(this).closest('svg').remove()
@@ -157,21 +157,21 @@ $(function () {
         }
 
         // taskWrite-tab-pane 영역 이외의 클릭이 발생한 경우 값을 제거합니다.
-        if (targetElement !== taskWriteTabPane && !taskWriteTabPane.contains(targetElement)){
+        if (targetElement !== taskWriteTabPane && !taskWriteTabPane.contains(targetElement)) {
             document.getElementById('taskTitle').value = '';
             $('.writeBox-requestBtn').trigger("click").addClass('active');
 
-            $('.writeBox-addStartDate').val(null).css('display','block')
-            $('.writeBox-startDate-exist').css('display','none')
+            $('.writeBox-addStartDate').val(null).css('display', 'block')
+            $('.writeBox-startDate-exist').css('display', 'none')
 
-            $('.writeBox-addEndDate').val(null).css('display','block')
-            $('.writeBox-endDate-exist').css('display','none')
+            $('.writeBox-addEndDate').val(null).css('display', 'block')
+            $('.writeBox-endDate-exist').css('display', 'none')
 
-            $('.addPriority-writeBox').css('display','block')
-            $('.prioritySpan-writeBox').css('display','none')
+            $('.addPriority-writeBox').css('display', 'block')
+            $('.prioritySpan-writeBox').css('display', 'none')
 
 
-            $('.writeBox-rangeInput').val(0).css('background','linear-gradient(to right, rgb(255, 226, 131) 0%, rgb(255, 226, 131) 0%, rgb(236, 236, 236) 0%, rgb(236, 236, 236) 100%)')
+            $('.writeBox-rangeInput').val(0).css('background', 'linear-gradient(to right, rgb(255, 226, 131) 0%, rgb(255, 226, 131) 0%, rgb(236, 236, 236) 0%, rgb(236, 236, 236) 100%)')
             $('.writeBox-progress-txt').text('')
 
             $('.writeContent').val('')
@@ -191,7 +191,7 @@ $(function () {
     })
 
     $('.submitWriteBtn').click(function () {
-        if ($(this).attr('id')==='boardWriteBtn'){
+        if ($(this).attr('id') === 'boardWriteBtn') {
             let formData = {
                 bTitle: $('#boardTitle').val(),
                 bContent: $('.writeBoardContent').val(),
@@ -202,7 +202,7 @@ $(function () {
                 url: '/board/write',
                 data: formData,
                 type: 'post',
-                success: function(response) {
+                success: function (response) {
                     console.log(response)
                     if (response === "success") {
                         location.reload(); // 성공적인 응답을 받은 경우 페이지 리로드
@@ -215,17 +215,17 @@ $(function () {
                 },
             })
 
-        } else if ($(this).attr('id')==='taskWriteBtn') {
+        } else if ($(this).attr('id') === 'taskWriteBtn') {
             let formData = {
                 projectId: Number($('.writeProjectId').val()),
                 taskTitle: $('#taskTitle').val(),
                 taskContent: $('.writeContent').val(),
                 process: writeCurrentBtn(),
                 //managerId: $('.managerId').val(),
-                startDate :  $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date (0),
-                closingDate : $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date (0),
-                progress : Number($('.writeBox-rangeInput').val()),
-                priority : $('.prioritySpan-writeBox .priorityText').text()
+                startDate: $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date(0),
+                closingDate: $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date(0),
+                progress: Number($('.writeBox-rangeInput').val()),
+                priority: $('.prioritySpan-writeBox .priorityText').text()
 
             }
 
@@ -237,12 +237,12 @@ $(function () {
                 type: 'post',
                 success: ((message) => {
                     console.log(message)
-                    if (message === "success"){
+                    if (message === "success") {
                         location.reload()
                     } else {
                         Swal.fire({
-                            "icon" : "warning",
-                            "title" : "업무 제목을 입력하세요"
+                            "icon": "warning",
+                            "title": "업무 제목을 입력하세요"
                         })
                     }
                 })
@@ -251,13 +251,6 @@ $(function () {
         }
 
     })
-
-
-    Dropzone.autoDiscover = false; // deprecated 된 옵션. false로 해놓는걸 공식문서에서 명시
-
-    const dropzone = new Dropzone("#task-upload", {
-        url: "/file/taskUpload",
-    });
 
 })
 
@@ -272,24 +265,23 @@ function writeCurrentBtn() {
     return currentBtn;
 }
 
-function addWeek(date){
+function addWeek(date) {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
 
     const dayOfWeek = week[(new Date(date)).getDay()];
 
-    return ' (' + dayOfWeek+')';
+    return ' (' + dayOfWeek + ')';
 }
 
 
-function to_date2(date_str)
-{
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0,4);
-    var sMonth = yyyyMMdd.substring(5,7);
-    var sDate = yyyyMMdd.substring(8,10);
+function to_date2(date_str) {
+    let yyyyMMdd = String(date_str);
+    let sYear = yyyyMMdd.substring(0, 4);
+    let sMonth = yyyyMMdd.substring(5, 7);
+    let sDate = yyyyMMdd.substring(8, 10);
 
     //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
-    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
 }
 
 

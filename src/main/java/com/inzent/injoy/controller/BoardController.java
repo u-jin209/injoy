@@ -50,4 +50,15 @@ public class BoardController {
 
     }
 
+    @PostMapping("update")
+    public String update(BoardDTO boardDTO){
+        BoardDTO board = boardService.selectOne(boardDTO.getBoardId());
+
+        board.setBTitle(boardDTO.getBTitle());
+        board.setBContent(boardDTO.getBContent());
+
+        boardService.update(board);
+        return "redirect:/project/" + board.getProjectId();
+    }
+
 }

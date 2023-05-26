@@ -269,7 +269,7 @@ $(function () {
                     "                    </div>")
 
                 // 상태 수정하기
-                $('.process-layer').find('.process-modal-button').css('pointer-events','auto')
+                $('.process-layer').find('.process-modal-button').css('pointer-events', 'auto')
                 $('.kanban-process-btn').click(function (e) {
                     let btn = document.querySelectorAll(".kanban-process-btn");
                     btn.forEach(function (btn, i) {
@@ -362,7 +362,7 @@ $(function () {
 
                 })
 
-                $('#kanban-update-priority').find('.priorityBtn').click(function (){
+                $('#kanban-update-priority').find('.priorityBtn').click(function () {
                     let btnTag = $(this).html()
                     console.log(btnTag)
                     $('#kanban-update-priority').css('display', 'none')
@@ -419,7 +419,7 @@ $(function () {
                     let gradient_value = 100 / event.target.attributes.max.value;
                     console.log(event.target.value)
                     event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
-                    $('.kanban-progress').text(event.target.value+'%')
+                    $('.kanban-progress').text(event.target.value + '%')
                 });
 
             }
@@ -525,7 +525,7 @@ function addWeek(date) {
 }
 
 function kanbanUpdateTask() {
-    let taskId = $('.kanban-taskId em').text()
+    let taskId = Number($('.kanban-taskId em').text())
     let taskTitle = $('.kanban-taskTitle-input').val()
     let taskContent = $('.kanban-modal-content').val()
     let startDate = to_date2($('.kanban-modal-addStartDate').val())
@@ -544,11 +544,11 @@ function kanbanUpdateTask() {
         taskId: taskId,
         taskTitle: taskTitle,
         taskContent: taskContent,
-        startDate: startDate,
-        closingDate: closingDate,
+        startDate: $('.kanban-modal-addStartDate').val() ? startDate : new Date(0),
+        closingDate: $('.kanban-modal-addEndDate').val() ? closingDate : new Date(0),
         progress: progress,
-        process : process,
-        priority : priority
+        process: process,
+        priority: priority
     }
 
     console.log(formData)
@@ -655,10 +655,10 @@ function kanbanCurrentBtn() {
 }
 
 function to_date2(date_str) {
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0, 4);
-    var sMonth = yyyyMMdd.substring(5, 7);
-    var sDate = yyyyMMdd.substring(8, 10);
+    let yyyyMMdd = String(date_str);
+    let sYear = yyyyMMdd.substring(0, 4);
+    let sMonth = yyyyMMdd.substring(5, 7);
+    let sDate = yyyyMMdd.substring(8, 10);
 
     //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
@@ -686,12 +686,12 @@ function kanbanAddTask() {
         data: formData,
         type: 'post',
         success: ((message) => {
-            if (message === "success"){
+            if (message === "success") {
                 location.reload()
             } else {
                 Swal.fire({
-                    "icon" : "warning",
-                    "title" : "업무 제목을 입력하세요"
+                    "icon": "warning",
+                    "title": "업무 제목을 입력하세요"
                 })
             }
         })

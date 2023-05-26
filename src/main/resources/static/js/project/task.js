@@ -1231,8 +1231,18 @@ function searchTaskEnter(projectId) {
     }
 }
 
+function to_date2(date_str) {
+    let yyyyMMdd = String(date_str);
+    let sYear = yyyyMMdd.substring(0, 4);
+    let sMonth = yyyyMMdd.substring(5, 7);
+    let sDate = yyyyMMdd.substring(8, 10);
+
+    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
+}
+
 function taskDetailUpdate() {
-    let taskId = $('.task-detail-taskId em').text()
+    let taskId = Number($('.task-detail-taskId em').text())
     let taskTitle = $('.task-detail-taskTitle-input').val()
     let taskContent = $('.task-detail-content').val()
     let startDate = to_date2($('.task-detail-addStartDate').val())
@@ -1251,8 +1261,8 @@ function taskDetailUpdate() {
         taskId: taskId,
         taskTitle: taskTitle,
         taskContent: taskContent,
-        startDate: startDate,
-        closingDate: closingDate,
+        startDate: $('.task-detail-addStartDate').val() ? startDate : new Date(0),
+        closingDate: $('.task-detail-addEndDate').val() ? closingDate : new Date(0),
         progress: progress,
         process: process,
         priority: priority
