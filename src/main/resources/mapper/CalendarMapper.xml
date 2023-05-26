@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CalendarMapper">
+
+    <select id="selectAll" parameterType="int"  resultType="CalendarDTO">
+        SELECT * FROM injoy.calendar;
+    </select>
+    <select id="selectOne" parameterType="int"  resultType="CalendarDTO">
+        SELECT * FROM injoy.calendar
+        where "calendarId" = #{calendarId}
+    </select>
+
+
+    <insert id="insert" parameterType="CalendarDTO">
+        insert into injoy.calendar("projectId", "userId","calTitle","calContent","calStart","calEnd", "calRegister_date", "calColor",  "calTextColor", "calBorderColor", "calAddress", "calImgSrc")
+        values (#{projectId}, #{userId}, #{calTitle},#{calContent}, #{calStart}, #{calEnd}, #{calRegister_date}, #{calColor}, #{calTextColor}, #{calBorderColor}, #{calAddress}, #{calImgSrc})
+    </insert>
+
+
+
+
+</mapper>
