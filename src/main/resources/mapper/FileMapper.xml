@@ -40,14 +40,14 @@
         FROM injoy.folder) f2
         on f1."folderId" = f2."folderId"
 
-        <if test='folderRoot == "/"'>
-            where   root is null)
+        <if test=' "/".equals(root)'>
+            where   f1."projectId" = #{projectId} and root is null
         </if>
-        <if test='folderRoot != "/"'>
-            where   root = #{root})
+        <if test='!"/".equals(root)'>
+            where  f1."projectId" = #{projectId} and  root = #{root}
         </if>
 
-        WHERE "fileId" =#{fileId} ;
+       ) WHERE "fileId" =#{fileId} ;
 
     </update>
 

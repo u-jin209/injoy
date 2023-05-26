@@ -261,7 +261,7 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("update")
-    public String update(String root, String file ) {
+    public String update(String root, String file , Integer projectId) {
 
         System.out.println("root = " + root);
         System.out.println("file = " + file);
@@ -273,12 +273,15 @@ public class FileController {
 
         for (String num : file.split(",")) {
             map.put("fileId", Integer.parseInt(num));
+            map.put("projectId",projectId);
 
             if (!Objects.equals(root, "/")){
                 map.put("root",root.substring(0,root.lastIndexOf("/")));
             }else {
                 map.put("root",root);
             }
+
+            System.out.println("Fileupdate map = " + map);
             fileService.update(map);
         }
         return "redirect:/project/myProject";
@@ -287,7 +290,7 @@ public class FileController {
 
     @ResponseBody
     @GetMapping("downloadFile")
-    public void downloadFile(String fileArr, HttpServletRequest request) throws IOException {
+    public String downloadFile(String fileArr, HttpServletRequest request) throws IOException {
         String userName = System.getProperty("user.name");
         System.out.println("Windows 사용자 계정 이름: " + userName);
 
@@ -308,7 +311,7 @@ public class FileController {
             file(f, userName, request);
 
         }
-
+        return "redirect:/project/myProject";
     }
 
     @ResponseBody

@@ -33,6 +33,11 @@ public class ProjectService {
 
         return session.selectOne(NAMESPACE + ".selectProject", id);
     }
+    public List<ProjectDTO> bookMarkProject(int id){
+
+
+        return session.selectList(NAMESPACE + ".bookMarkProject", id);
+    }
     public void insert(ProjectDTO projectDTO){
          session.insert(NAMESPACE+".insert", projectDTO);
     }

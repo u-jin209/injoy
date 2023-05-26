@@ -13,18 +13,101 @@
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
         </svg>
         새로운 프로젝트 </button></li>
-    <li class="sidebar_li"><a class="tab" href='/project/myProject'>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-house-fill" viewBox="0 0 16 16">
+    <li class="sidebar_li" onclick="location.href='/project/myProject'"><button type="button" class="btn btn-acd" style="width: 100%;  height: 20%;color: #fff">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FC4C70"style="     margin-top: 3px;float: left;" class="bi bi-house-fill" viewBox="0 0 16 16">
         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
         <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
         </svg>
-        </a>
+        메인으로
+        </button>
     </li>
 
-    <li class="sidebar_li"><a class="tab" href='/project/convert'>
-        <h2>파일변환</h2>
-    </a>
+    <li class="sidebar_li">
+
+
+
+        <div class="accordion" id="accordionExample"  >
+            <div class="accordion-item" style="border: none;border-radius: 0px ;background: transparent;!important;">
+                <h2 class="accordion-header" style="margin:0" id="headingOne">
+                    <button class="btn btn-acd " id="bookmarkBtn" onclick="printBookMark()" style="width: 100%;  height: 20%;color: #fff ;
+                    border:none;background-color: #001542; "
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFB30D "style="    margin-top: 3px; float: left;"
+                             class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+
+                        북마크
+                        <i class="fa-solid fa-angle-up fa-beat-fade  collapse" id="up"
+                           data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                           style="margin-top: 3px;color: #ffffff;float: right;display: none"></i>
+                        <i class="fa-solid fa-angle-down fa-beat-fade collapse" id="down"
+                           data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                           style="margin-top: 3px;color: #ffffff;float: right;display: unset"></i>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="    background-color: transparent; !important;">
+                    <div class="accordion-body" id="accordion-body"  style="background-color: transparent; padding: 0;!important;">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
     </li>
 </ul>
+
+<script>
+    $('#bookmarkBtn').click(function(e){
+
+        if($("#bookmarkBtn").attr('aria-expanded')=='false'){
+            console.log("wsfdsjhgfbsdujkghoikds")
+            $('#down').css("display",'unset')
+            const down = document.getElementById('down')
+            down.style.display ='unset'
+            $('#up').css("display",'none')
+        }else if($("#bookmarkBtn").attr('aria-expanded')=='true' ){
+
+            $('#up').css("display",'unset')
+            $('#down').css("display",'none')
+        }
+
+
+    })
+
+
+
+
+    function printBookMark(){
+
+        $('.accordion-body').empty()
+
+        $.ajax({
+            url: '/project/bookmarkList', //Controller에서 요청 받을 주소
+            type: 'GET', //POST 방식으로 전달
+            success: function (result) {
+                if (result.length >= 1) {
+
+
+                    result.forEach(function (item) {
+                        $('.accordion-body').append(
+                            "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 );  ' " +
+                            " onclick ='project("+item.projectId+")'>"+item.projectName +"</p>"
+                        )
+                    })
+                }
+            }
+
+        })
+    }
+
+    function project(projectId){
+        location.href ="/project/"+projectId
+    }
+
+
+</script>
 </body>
 </html>

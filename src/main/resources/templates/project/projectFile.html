@@ -102,7 +102,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="moveModalLabel">이동</h1>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" >
 
@@ -150,7 +150,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addFolderModalLabel">새폴더</h1>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
@@ -161,7 +161,7 @@
                 </div>
 
                 <label th:target="folderName"> 새 폴더 이름</label>
-                <input type="text" class="form-control" id="folderName" oninput="checkFolderName()"
+                <input type="text" class="form-control" id="folderName" onkeydown="characterCheck(this)" oninput="checkFolderName()"
                        placeholder="폴더이름을 입력해주세요">
                 <span class="mt-1" id="existFolderName" style="color: #F5544D; display: none">이미 등록된 폴더이름입니다.</span>
             </div>
@@ -180,7 +180,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addFileModalLabel">파일 업로드</h1>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 

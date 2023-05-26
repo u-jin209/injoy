@@ -302,12 +302,25 @@ function deleteClick(){
     }
 
 }
+function characterCheck(obj){
+    var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+// 허용할 특수문자는 여기서 삭제하면 됨
+// 지금은 띄어쓰기도 특수문자 처리됨 참고하셈
+    if( regExp.test(obj.value) ){
+        alert("특수문자는 입력하실수 없습니다.");
+        obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
+    }
 
+}
 function checkFolderName() {
     var folderName = $('#folderName').val();
     const urlParams = new URL(location.href);
     const projectId = urlParams.pathname.split('/')[2];
     const folderRoot = document.getElementById("root").innerText
+
+
+
+
     $.ajax({
         url: '/folder/checkName', //Controller에서 요청 받을 주소
         type: 'post', //POST 방식으로 전달
@@ -521,7 +534,13 @@ function  downloadFile(){
             url: '/file/downloadFile',
             type: 'GET',
             data: {"fileArr":fileArr},
-            success: () => {}
+            success: () => {
+                Swal.fire({
+                    title: '다운이 완료되었습니다!',
+                    text: '다운로드 폴더를 확인해주세요',
+                    icon: 'success'
+                })
+            }
         })
     }else{
         Swal.fire({
@@ -681,7 +700,8 @@ function moveFile(){
             type: 'get',
             data: {
                 "root" :root.innerText,
-                "file" : fileArr
+                "file" : fileArr,
+                "projectId":projectId
             },
             success: () => {
                 deleteCookie(folderArr)
