@@ -10,15 +10,14 @@ public class CalendarDTO {
     private int calendarId;
     private int projectId;
     private int userId;
-    private String title;
-    private String content;
-    private Timestamp start;
-    private Timestamp end;
-    private Timestamp register_date;
-    private String color;
-    private String textColor;
-    private String borderColor;
-    private String address;
-    private String imgSrc;
-
+    private String calTitle;
+    private String calContent;
+    private Timestamp calStart;
+    private Timestamp calEnd;
+    private Timestamp calRegister_date;
+    private String calColor;
+    private String calTextColor;
+    private String calBorderColor;
+    private String calAddress;
+    private String calImgSrc;
 }

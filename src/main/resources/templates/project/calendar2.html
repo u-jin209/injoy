@@ -246,7 +246,7 @@
         }
 
         .cal2 .date2 {
-            font-size: rem;
+            font-size: 1em;
             font-weight: bold;
             color: black;
             line-height: 30px;
@@ -277,8 +277,8 @@
                 var request = $.ajax({
                     url: "/logic", // URL 새로운거로 다시 넣어주기
                     method: "GET",
-                    dataType: "json"
-                    ,data: data
+                    dataType: "json",
+                    data: data
                 });
 
 
@@ -343,7 +343,7 @@
         });//END
 
 
-
+        // Next버튼을 누르면 달력 첫 번째, 마지막 날짜
         $(document).on("click", "#calendar .fc-prev-button", function(){
             console.log("pressed prev button");
             var calObj = calendarObj;
@@ -351,6 +351,7 @@
             console.log(calObj.view.activeEnd);
         });
 
+        // Prev버튼을 누르면 달력 첫 번째, 마지막 날짜
         $(document).on("click", "#calendar .fc-next-button", function(){
             console.log("pressed next button");
             var calObj = calendarObj;

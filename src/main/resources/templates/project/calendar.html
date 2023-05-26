@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="calendarContent(project)">
 <head>
     <meta charset="UTF-8">
     <title>캘 린 더</title>
@@ -208,7 +208,7 @@
         }
 
         .cal2 .date2 {
-            font-size: rem;
+            font-size: 1em;
             font-weight: bold;
             color: black;
             line-height: 30px;
@@ -335,14 +335,19 @@
 
 </head>
 <body>
-<h1>Hello World from C h e r r y</h1>
+
+<!--<div id="tlqkf">-->
+<!--    <p th:text="${title}"></p>-->
+<!--    <p th:text="${address}"></p>-->
+<!--</div>-->
+
 
 <div id="calendarBox">
     <div id='calendar'></div>
 </div>
 
 
-<!--<p th:text="${tmp}"></p>-->
+
 
 <!--  일정 등록하기-->
 <!--<div class="modal" id="addScheduleModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">-->
@@ -365,7 +370,8 @@
 
 
             <!--            <form name="frm" action="/watermelon" method="get">-->
-            <form name="frm" id="frm" method="post"action="/cherry" >
+            <form name="frm" id="frm" method="post" >
+<!--            <form name="frm" id="frm" method="post"action="/cherry" >-->
                 <div class="modal-body text-start">
                     <div>
                         <input id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요" style=""/>
@@ -453,7 +459,9 @@
                     <!--                                          <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
                     <!--                                      </svg>-->
                     <!--                                          <button type="button" class="btn taskAddButton"-->
-                    <button type="submit" class="btn taskAddButton"
+
+<!--                    <button type="submit" class="btn taskAddButton"-->
+                    <button type="button" class="btn taskAddButton"
                             style="background-color: #001542; color: white" id="submitShedule">등록
                     </button>
 
@@ -472,9 +480,9 @@
 <div class="wrap-header-cart js-show-schedule">
     <div class="s-full js-hide-cart"></div>
 
-    <div class="header-cart flex-col-l p-l-65 p-r-25">
+    <div class="header-cart flex-col-l p-l-65 p-r-25" id="tlqkf">
 
-        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+        <div class="header-cart-title flex-w flex-sb-m p-b-8" >
 
             <div class="modal-header p-2">
 
@@ -483,7 +491,7 @@
                 </div>
 
                 <div class="col-10" style="padding: 0;margin-right: 33px">
-                    <span style="font-size: 12px">프로젝트 이름</span>
+                    <span style="font-size: 12px" th:text="${title}">프로젝트 이름 </span>
                 </div>
 
                 <div class="trans-04 js-hide-cart col-1.5">
@@ -635,21 +643,6 @@
             </ul>
 
 
-            <!--            <div>-->
-            <!--&lt;!&ndash;                <hr>  &lt;!&ndash;        얇게 그리고 그림자 추가하기&ndash;&gt;&ndash;&gt;-->
-            <!--                <div style="display: flex;" class="m-3">-->
-            <!--                    <div class="col-1">프사</div>-->
-            <!--                    <div class="col-11" style="display: flex;">-->
-            <!--                        <div class="col-12" style="padding: 0;">-->
-            <!--                            <input type="text" class="form-control" id="post_comment_input" placeholder="입력은 Enter 입니다🍓"-->
-            <!--                                   onkeyup="if( window.event.keyCode==13){sendComment()}"/>&lt;!&ndash;이름 바꿔주기!!!!!!!!!!!!!!!!!&ndash;&gt;-->
-
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-
             <div class="comment-input-wrap" style="background-color: #eee">
                 <div class="user-profile-thumbnail">
                     <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
@@ -695,14 +688,32 @@
 </script>
 
 
+<!--새로운 일정 전송-->
 <script>
+
+</script>
+
+
+<script>
+    var calendarObj;
+
     document.addEventListener('DOMContentLoaded', function () {
         $(function () {
+            var calendarEll = document.getElementById('calendar');
+            var calendarr = new FullCalendar.Calendar(calendarEll, {});
+            let data = {
+                "activeStart" : calendarr.view.activeStart,
+                "activeEnd" : calendarr.view.activeEnd
+            }
+            console.log("activeStart : " + calendarr.view.activeStart);
+            console.log("activeEnd : " + calendarr.view.activeEnd);
+
             var request = $.ajax({
 
                 url: "/logic", // URL 새로운거로 다시 넣어주기. 일정 뿌려주기
                 method: "GET",
-                dataType: "json"
+                dataType: "json",
+                data: data
             });
 
             request.done(function (data) {
@@ -735,18 +746,30 @@
                     events: data,
 
                     eventClick: function (event) {//이벤트 클릭 시
-                        // alert("이벤트가 발생이 됩니당~");
+
                         var Obj = event.event;
+                        console.log("calendarId : " + Obj.id);
                         console.log("제목 : " + Obj.title);
                         console.log("시작일 : " + Obj.start);
                         console.log("끝 : " + Obj.end);
+
+                        let dataa = { "calendarId" : Obj.id}
+                        $.ajax({
+                            url: "/testtt",
+                            type: "POST",
+                            data: dataa,
+                        }).done(function (fragment) {
+                            console.log("frag: "+fragment);
+                                $("#tlqkf").replaceWith(fragment);
+                            });
+
 
                         $('.js-show-schedule').addClass('show-header-cart');
                     },
 
 
                 });
-
+                calendarObj = calendar;
                 calendar.render();
 
             });
@@ -766,7 +789,6 @@
         $('#addScheduleModal').hide();
         $('#frm')[0].reset();
         document.getElementById("mapImage").remove();
-
     }
 
     var fpStart = flatpickr(".startCalDate", {
@@ -811,6 +833,25 @@
 
 
 
+
+    // Next버튼을 누르면 달력 첫 번째, 마지막 날짜
+    $(document).on("click", "#calendar .fc-prev-button", function(){
+        console.log("pressed prev button");
+        var calObj = calendarObj;
+        console.log(calObj.view.activeStart);
+        console.log(calObj.view.activeEnd);
+    });
+
+    // Prev버튼을 누르면 달력 첫 번째, 마지막 날짜
+    $(document).on("click", "#calendar .fc-next-button", function(){
+        console.log("pressed next button");
+        var calObj = calendarObj;
+        console.log(calObj.view.activeStart);
+        console.log(calObj.view.activeEnd);
+    });
+
+
+
     $(function(){
         $('#submitShedule').on("click",function () {
 
@@ -827,17 +868,18 @@
             var imageUrl = $('#mapImage').attr('src');
             form1.mapImage = imageUrl;
 
+
+            // dataType: 'json',
             $.ajax({
                 type: "post",
                 url: "/receive",
                 data: form1,
-                dataType: 'json',
                 success: function (data) {
-                    alert("success");
-                    console.log(data);
+                    location.reload();
                 },
                 error: function (request, status, error) {
-                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    console.log("통신 실패");
+                    console.log("code:"+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
 
                 }
             });
@@ -863,6 +905,8 @@
         return obj;
     };
 </script>
+
+
 
 
 
