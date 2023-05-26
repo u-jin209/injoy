@@ -25,6 +25,8 @@ $(document).ready(function () {
 
     limitTComment()
     limitBComment()
+    boardImg()
+    TaskImg()
 
 })
 
@@ -39,7 +41,7 @@ function set_priority() {
                     '                                                                </svg>')
                 break;
             case '높음' :
-                $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
+                $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n ' +
                     '                                                                     fill="orange"\n' +
                     '                                                                     class="bi bi-arrow-up mr-1" viewBox="0 0 16 16">\n' +
                     '                                                                    <path fill-rule="evenodd"\n' +
@@ -395,8 +397,8 @@ $(function () {
 function modifyTask() {
     $('.modify-task').click(function () {
         Swal.fire({
-            text: '업무를 수정하시겠습니까?',
-            width: '300px',
+            text: '업무의 제목과 내용을 수정하시겠습니까?',
+            width: '450px',
             showCancelButton: true,
             confirmButtonColor: '#3064B3',
             cancelButtonColor: 'red',
@@ -404,23 +406,63 @@ function modifyTask() {
             cancelButtonText: '취소'
         }).then((result) => {
             if (result.isConfirmed) {
-                let taskId = $(this).parents('.post-content').find('#taskId-post').val()
+                $(this).parent().css('display', 'none')
 
-                let formData = {
-                    taskId: taskId,
-                    priority: $(this).find('.priorityText').text()
-                }
+                let parents = $(this).parents('.postHeader').parent()
+                parents.find('.modify-task-title').attr('type', 'text')
+                parents.find('#post-task-title').css('display', 'none')
 
-                // $.ajax({
-                //     url: '/task/update',
-                //     type: 'post',
-                //     data: formData,
-                //     success: () => {
-                //         location.reload()
-                //     }
-                // })
+                parents.find('.modify-task-content').css('display', 'block')
+                parents.find('#post-task-content').css('display', 'none')
+
+
+                $(document).click(function (event) {
+                    if (!$(event.target).closest(parents).length && !$(event.target).closest('.swal2-container').length) {
+                        updateTask(parents);
+                    }
+                });
+
             }
         })
+
+    })
+}
+
+function updateTask(parents){
+    Swal.fire({
+        text: '업무 수정사항을 저장하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+    }).then((result) => {
+
+        if (result.isConfirmed){
+            let taskId = parents.find('#taskId-post').val()
+
+            let formData = {
+                taskId: taskId,
+                taskTitle: parents.find('.modify-task-title').val(),
+                taskContent: parents.find('.modify-task-content').val()
+            }
+
+            $.ajax({
+                url: '/task/update',
+                type: 'post',
+                data: formData,
+                success: () => {
+                    location.reload()
+                }
+            })
+        } else {
+            parents.find('.modify-task-title').attr('type', 'hidden')
+            parents.find('#post-task-title').css('display', 'block')
+
+            parents.find('.modify-task-content').css('display', 'none')
+            parents.find('#post-task-content').css('display', 'block')
+        }
 
     })
 }
@@ -428,32 +470,70 @@ function modifyTask() {
 function modifyBoard() {
     $('.modify-board').click(function () {
         Swal.fire({
-            text: '업무를 수정하시겠습니까?',
+            text: '글을 수정하시겠습니까?',
             width: '300px',
             showCancelButton: true,
             confirmButtonColor: '#3064B3',
             cancelButtonColor: 'red',
             confirmButtonText: '확인',
-            cancelButtonText: '취소'
+            cancelButtonText: '취소',
         }).then((result) => {
             if (result.isConfirmed) {
-                let taskId = $(this).parents('.postHeader').parent().find('.home-title em').text()
+                $(this).parent().css('display', 'none')
 
-                let formData = {
-                    taskId: taskId,
-                    priority: $(this).find('.priorityText').text()
-                }
+                let parents = $(this).parents('.postHeader').parent()
+                parents.find('.modify-board-title').attr('type', 'text')
+                parents.find('#post-board-title').css('display', 'none')
 
-                // $.ajax({
-                //     url: '/board/update',
-                //     type: 'post',
-                //     data: formData,
-                //     success: () => {
-                //         location.reload()
-                //     }
-                // })
+                parents.find('.modify-board-content').css('display', 'block')
+                parents.find('#post-board-content').css('display', 'none')
+
+                $(document).click(function (event) {
+                    if (!$(event.target).closest(parents).length && !$(event.target).closest('.swal2-container').length) {
+                        updateBoard(parents);
+                    }
+                });
             }
         })
+    })
+
+}
+
+function updateBoard(parents) {
+
+    Swal.fire({
+        text: '글을 수정을 완료하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed){
+            let boardId = parents.find('#boardId').val()
+
+            let formData = {
+                boardId: boardId,
+                bTitle: parents.find('.modify-board-title').val(),
+                bContent: parents.find('.modify-board-content').val()
+            }
+
+            $.ajax({
+                url: '/board/update',
+                type: 'post',
+                data: formData,
+                success: () => {
+                    location.reload()
+                }
+            })
+        } else {
+            parents.find('.modify-board-title').attr('type', 'hidden')
+            parents.find('#post-board-title').css('display', 'block')
+
+            parents.find('.modify-board-content').css('display', 'none')
+            parents.find('#post-board-content').css('display', 'block')
+        }
 
     })
 }
@@ -521,16 +601,31 @@ function deleteBoard() {
 }
 
 function modifyTComment(e) {
+    let thisLi = $(e).parents('.comment-li')
     $(e).closest('.comment-container').css('display', 'none')
-    $(e).parents('.comment-li').find('.edit-tComment-form').css('display', 'block')
+    thisLi.find('.edit-tComment-form').css('display', 'block')
+
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest(thisLi).length) {
+            thisLi.find('.edit-tComment-form').css('display', 'none');
+            thisLi.find('.comment-container').css('display', 'block')
+        }
+    });
 }
 
-function modifyBComment(e){
+function modifyBComment(e) {
+    let thisLi = $(e).parents('.comment-li')
     $(e).closest('.comment-container').css('display', 'none')
-    $(e).parents('.comment-li').find('.edit-bComment-form').css('display', 'block')
+    thisLi.find('.edit-bComment-form').css('display', 'block')
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest(thisLi).length) {
+            thisLi.find('.edit-bComment-form').css('display', 'none');
+            thisLi.find('.comment-container').css('display', 'block')
+        }
+    });
 }
 
-function limitBComment(){
+function limitBComment() {
     $('.boardBox').each(function () {
         let boardId = $(this).find('.boardId-comment').val()
         let projectId = $(this).find('.projectId-comment').val()
@@ -644,6 +739,79 @@ function limitBComment(){
                             commentWriterMenu.hide();
                         }
                     });
+                }
+            })
+        }
+    })
+
+}
+
+function boardImg(){
+    $('.boardBox').each(function () {
+        let boardId = $(this).find('.boardId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (boardId !== undefined && projectId !== undefined) {
+            let formData = {
+                boardId: boardId
+            }
+
+            $.ajax({
+                url: '/board/getImg',
+                data: formData,
+                type: "get",
+                success: (response) => {
+                    const previewsContainer = $(this).find('.img-container');
+                    for (let i = 0; i < response.length; i++) {
+
+                        console.log(response[i])
+                        const preview = document.createElement('img');
+                        preview.classList.add('image-post-box');
+                        preview.style.width = '150px'
+                        preview.style.height = '150px'
+                        preview.style.borderRadius = '10%'
+                        preview.style.marginRight = '10px'
+                        preview.addEventListener('click', function() {
+                            downloadBoardImg(response[i].fileId);
+                        });
+                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+
+
+                        previewsContainer.append(preview);
+                    }
+                }
+
+            })
+        }
+    })
+}
+
+function downloadBoardImg(fileId){
+    let formData = {
+        fileId : fileId
+    }
+
+    $.ajax({
+        url :'/board/downloadFile',
+        type : 'get',
+        data : formData,
+        success : function (response){
+            Swal.fire({
+                text: '이미지를 다운로드 하시겠습니까?',
+                width: '300px',
+                showCancelButton: true,
+                confirmButtonColor: '#3064B3',
+                cancelButtonColor: 'red',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let element = document.createElement('a');
+                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('download', response.uniqueName + response.fileExtension);
+                    element.setAttribute('type', 'media_type')
+                    document.body.appendChild(element);
+                    element.click();
+                    //document.body.removeChild(element);
                 }
             })
         }
@@ -772,7 +940,80 @@ function limitTComment() {
 
 }
 
-function deleteBComment(commentId){
+function TaskImg(){
+    $('.boardBox').each(function () {
+        let taskId = $(this).find('.taskId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (taskId !== undefined && projectId !== undefined) {
+            let formData = {
+                taskId: taskId
+            }
+
+            $.ajax({
+                url: '/task/getImg',
+                data: formData,
+                type: "get",
+                success: (response) => {
+                    const previewsContainer = $(this).find('.img-container');
+                    for (let i = 0; i < response.length; i++) {
+
+                        console.log(response[i])
+                        const preview = document.createElement('img');
+                        preview.classList.add('image-post-box');
+                        preview.style.width = '150px'
+                        preview.style.height = '150px'
+                        preview.style.borderRadius = '10%'
+                        preview.style.marginRight = '10px'
+                        preview.addEventListener('click', function() {
+                            downloadTaskImg(response[i].fileId);
+                        });
+                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+
+
+                        previewsContainer.append(preview);
+                    }
+                }
+
+            })
+        }
+    })
+}
+
+function downloadTaskImg(fileId){
+    let formData = {
+        fileId : fileId
+    }
+
+    $.ajax({
+        url :'/task/downloadFile',
+        type : 'get',
+        data : formData,
+        success : function (response){
+            Swal.fire({
+                text: '이미지를 다운로드 하시겠습니까?',
+                width: '300px',
+                showCancelButton: true,
+                confirmButtonColor: '#3064B3',
+                cancelButtonColor: 'red',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let element = document.createElement('a');
+                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('download', response.uniqueName + response.fileExtension);
+                    element.setAttribute('type', 'media_type')
+                    document.body.appendChild(element);
+                    element.click();
+                    //document.body.removeChild(element);
+                }
+            })
+        }
+    })
+
+}
+
+function deleteBComment(commentId) {
     Swal.fire({
         text: '댓글을 삭제하시겠습니까?',
         width: '300px',

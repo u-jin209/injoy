@@ -240,6 +240,11 @@
     background: #fff;
 }
 
+.img-container {
+    padding: 10px 20px 20px;
+    background: #fff;
+}
+
 .post-board-content{
     font-size: 14px;
     word-break: break-word;
