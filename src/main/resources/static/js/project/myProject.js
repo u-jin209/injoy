@@ -1,6 +1,5 @@
 /*<![CDATA[*/
 $('#bookmarkBtn').click(function(e){
-    console.log("$(\"#bookmarkBtn\").attr('aria-expanded')" + $("#bookmarkBtn").attr('aria-expanded'))
 
     if($("#bookmarkBtn").attr('aria-expanded')=='false'){
         console.log("wsfdsjhgfbsdujkghoikds")
@@ -9,7 +8,7 @@ $('#bookmarkBtn').click(function(e){
         down.style.display ='unset'
         $('#up').css("display",'none')
     }else if($("#bookmarkBtn").attr('aria-expanded')=='true' ){
-        console.log("wsfdsjhgfbsdujkghoikds222222")
+
         $('#up').css("display",'unset')
         $('#down').css("display",'none')
     }
