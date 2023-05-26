@@ -105,14 +105,7 @@
                             </label>
                         </div>
                         <div class="postAttached">
-                            <div id="dropzone-board">
-                                <form action="/file/boardUpload" class="dropzone needsclick" id="board-upload" style="border: none">
-                                    <div class="dz-message needsclick">
-                                  <span class="text">
-                                  </span>
-                                        <span class="plus">+</span>
-                                    </div>
-                                </form>
+                            <div id="upload-img-area" class="previews">
                             </div>
                         </div>
                     </div>
@@ -325,14 +318,7 @@
                             </label>
                         </div>
                         <div class="postAttached">
-                            <div id="task-dropzone">
-                                <form action="/file/taskUpload" class="dropzone needsclick" id="task-upload" enctype="multipart/form-data" style="border: none">
-                                    <div class="dz-message needsclick">
-                                  <span class="text">
-                                  </span>
-                                        <span class="plus">+</span>
-                                    </div>
-                                </form>
+                            <div class="task-previews">
                             </div>
                         </div>
 
@@ -388,21 +374,17 @@
                                 </label>
                             </div>
                         </div>
-<!--                        <div class="modal-footer" style="justify-content: space-between !important;">-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
-<!--                                 class="bi bi-paperclip" viewBox="0 0 16 16">-->
-<!--                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
-<!--                            </svg>-->
-<!--                            <button type="button" class="btn scheduleWriteBtn" style="background-color: #001542; color: white">등록</button>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
             <div class="modal-footer" style="justify-content: space-between !important;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                     class="bi bi-paperclip" viewBox="0 0 16 16">
-                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                </svg>
+                    <label for="file" style="margin: 0; padding: 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-paperclip" viewBox="0 0 16 16">
+                            <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                        </svg>
+                    </label>
+                    <input id="file" class="file" name="file" type="file" multiple enctype="multipart/form-data" style="display: none"/>
                 <button type="button" id="submitWriteBtn" class="submitWriteBtn btn" style="background-color: #001542; color: white">등록</button>
             </div>
         </div>

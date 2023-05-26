@@ -58,7 +58,7 @@ function endDateValue() {
     $('.endDate').each(function () {
         let endDate = $(this).find('#endDate')
         // 현재 날짜보다 이전인 경우 플레이스홀더로 설정
-        if (endDate.val() < currentDate) {
+        if (endDate.val() <= currentDate) {
             endDate.attr('data-placeholder', endDate.val());
             endDate.css('color', 'red')
         }
