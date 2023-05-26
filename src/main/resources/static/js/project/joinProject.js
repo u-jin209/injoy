@@ -65,29 +65,38 @@ function searchProject() {
 
                     result.forEach(function (item) {
                         $(document).ready(function () {
+                            console.log(item.organName )
+                            let organ =' ';
+                            if( item.organName != undefined){
+                                organ= item.organName
+                            }
 
 
                             $('#searchDivMain').append(
 
-                                " <div class='card mb-3' style='max-width: 540px;'>" +
-                                "<div class = 'row g-0'>" +
-                                "<div class='col-md-4'>" +
-                                " <img src='" + item.username + "' class='member' alt='...'>" +
-                                "</div>" +
-                                "<div class='col-md-8'>" +
-                                "<div class='card-body' style='text-align: left'>" +
-                                "<h5 class='card-title'>" + item.projectName + "</h5>" +
-                                "<p class='card-text'>" + item.explanation + "</p>" +
-                                "<div style='text-align: end'>" +
-                                "<button class='btn-blue' style='width: 50px;' id='enterBtn' name='" + item.projectId + "' onclick='enterProject(1)'> 참가 </button>" +
+                                "<div class='col-md-3 '  style='float: left'>"+
+                                "<div class='project' style='padding: 10px 20px 10px 20px'>"+
+
+
+                                "<div class='row' id= "+item.projectId+"style='height:20px ;' >"+
+                                "<div class='col' style='text-align: left;'>" +
+                                "<div class='subTitle' id='organName"+item.projectId+"' >"+organ+"</div>"+
+                                "</div></div>"+
+
+
+                                " <div class='row' style='height:100px ;text-align: left; display: block; MARGIN-RIGHT: 0;' id= "+item.projectId+" onclick='goProject(this)'>"+
+                                "<div class='col projectTitle' style='float: left;margin: 5px 10px 0px 10px; OVERFLOW: hidden; TEXT-OVERFLOW: ellipsis;' >"+item.projectName+"</div>"+
+                                "<div class='col explanationText' > "+item.explanation+"</div>"+
+                                "</div>"+
+
+                                "<div class ='row' style='justify-content: space-around'>" +
+                                "<button class='btn btn-green' style='width: 65px;' id='enterBtnCode' name='" + item.projectId + "' onclick='enterProject(2)'> 참가 </button>" +
 
                                 "</div>" +
 
-                                "</div>" +
-                                "</div>" +
-                                "</div>" +
+
+                                "</div>"+
                                 "</div>"
-
                             );
 
                         });
@@ -142,35 +151,39 @@ function searchInviteCode() {
             type: 'GET',
             url: "/project/inviteCode",
             data: data,
-            success: function (result) {
-
-                console.log(result)
-                console.log(result.length)
+            success: function (item) {
 
 
 
-                    if (result.length != 0) {
+
+                    if (item.length != 0) {
                         const searchDiv = document.getElementById("searchCodeResult");
                         searchDiv.style.display = "";
                         $('#searchCodeDivMain').append(
-                            " <div class='card mb-3' style='max-width: 540px;'>" +
-                            "<div class = 'row g-0'>" +
-                            "<div class='col-md-4'>" +
-                            " <img src='" + result.username + "' class='member' alt='...'>" +
-                            "</div>" +
-                            "<div class='col-md-8'>" +
-                            "<div class='card-body' style='text-align: left'>" +
-                            "<h5 class='card-title'>" + result.projectName + "</h5>" +
-                            "<p class='card-text'>" + result.explanation + "</p>" +
-                            "<div style='text-align: end'>" +
-                            "<button class='btn-blue' style='width: 50px;' id='enterBtnCode' name='" + result.projectId + "' onclick='enterProject(2)'> 참가 </button>" +
+                            "<div class='col-md-3 '  style='float: left'>"+
+                            "<div class='project' style='padding: 10px 20px 10px 20px'>"+
+
+
+                            "<div class='row' id= "+item.projectId+"style='height:20px ;' >"+
+                            "<div class='col' style='text-align: left;'>" +
+                            "<div class='subTitle' id='organName"+item.projectId+"' >"+organ+"</div>"+
+                            "</div></div>"+
+
+
+                            " <div class='row' style='height:100px ;text-align: left; display: block; MARGIN-RIGHT: 0;' id= "+item.projectId+" onclick='goProject(this)'>"+
+                            "<div class='col projectTitle' style='float: left;margin: 5px 10px 0px 10px; OVERFLOW: hidden; TEXT-OVERFLOW: ellipsis;' >"+item.projectName+"</div>"+
+                            "<div class='col explanationText' > "+item.explanation+"</div>"+
+                            "</div>"+
+
+                            "<div class ='row' style='justify-content: space-around'>" +
+                            "<button class='btn btn-green' style='width: 65px;' id='enterBtnCode' name='" + item.projectId + "' onclick='enterProject(2)'> 참가 </button>" +
 
                             "</div>" +
 
-                            "</div>" +
-                            "</div>" +
-                            "</div>" +
+
+                            "</div>"+
                             "</div>"
+
                         );
 
                         printWaitProject()
@@ -269,6 +282,11 @@ function printWaitProject() {
                     $(document).ready(function () {
                         const noneWait = document.getElementById("noneWait");
                         noneWait.style.display = "none";
+                        let organ =' ';
+                        if( item.organName != undefined){
+                            organ= item.organName
+                        }
+
 
                         $('#projectContainer').append(
                             "<div class='col-md-3 '  style='float: left'>"+
@@ -276,10 +294,10 @@ function printWaitProject() {
 
                             "<div class='row' id= "+item.projectId+" >"+
                             "<div class='col' style='float: left;'>" +
-                            "<div class='subTitle' id='organName"+item.projectId+"' >"+item.organName+"</div>"+
+                            "<div class='subTitle' id='organName"+item.projectId+"' >"+organ+"</div>"+
                             "</div></div>"+
 
-                            " <div class='row' style='display: block; MARGIN-RIGHT: 0;min-height: 120px' id= "+item.projectId+" onclick='goProject(this)'>"+
+                            " <div class='row' style='display: block; MARGIN-RIGHT: 0;min-height: 100px' id= "+item.projectId+" onclick='goProject(this)'>"+
                             "<div class='col projectTitle' style='margin: 5px 10px 0px 10px; OVERFLOW: hidden; TEXT-OVERFLOW: ellipsis;' >"+item.projectName+"</div>"+
                             "<div class='col explanationText' > "+item.explanation+"</div>"+
                             "</div>"+

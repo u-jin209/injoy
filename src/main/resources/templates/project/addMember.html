@@ -31,15 +31,17 @@
     <h5 class="title"> 회원검색 </h5>
     <div class="row" style="justify-content: space-evenly;">
         <div class="search col-md-6">
-            <input type="text" placeholder="검색어 입력" id="searchKeyword"  th:data-parameter1="${project.projectId}"  th:data-parameter2="${logIn.authority}"
+            <input type="text" placeholder="검색어 입력" id="searchKeyword" th:data-parameter1="${project.projectId}"
+                   th:data-parameter2="${logIn.authority}"
                    th:onkeyup="|enter(this.getAttribute('data-parameter1'),this.getAttribute('data-parameter2'))|"/>
             <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
-                 th:data-parameter1="${project.projectId}"  th:data-parameter2="${logIn.authority}"
+                 th:data-parameter1="${project.projectId}" th:data-parameter2="${logIn.authority}"
                  th:onclick="|searchUser(this.getAttribute('data-parameter1'),this.getAttribute('data-parameter2')) |">
 
         </div>
         <div class="col-md-2" style="text-align: center;">
-            <button class="btn-orange" style="width: 120px;height: 50px;font-size: inherit;" id="code" th:value="${project.invitationCode}" th:onclick="copyCode()">
+            <button class="btn-orange" style="width: 120px;height: 50px;font-size: inherit;" id="code"
+                    th:value="${project.invitationCode}" th:onclick="copyCode()">
                 초대코드복사
             </button>
         </div>
@@ -64,61 +66,57 @@
     <div>
 
 
+        <h5 class="title"> 참여중인 회원 </h5>
+        <div class="scrollDiv">
+            <div class="row g-2" id="field" style="justify-content: center">
+                <h1 th:fragment="${memberList}"></h1>
+                <div class="col-md-6" th:each=" member : ${memberList}" th:id="'user'+${member.userId}"
+                     name="member">
+                    <div class="card mb-3" style="max-width: 540px; height: 100%;">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <img th:src="${member.profilePhoto}" onerror="src='/img/moru.jpg'" class="member"
+                                     alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
 
-            <h5 class="title"> 참여중인 회원 </h5>
-            <div class="scrollDiv">
-                <div class="row g-2" id="field" style="justify-content: center">
-                    <h1 th:fragment="${memberList}"></h1>
-                    <div class="col-md-6" th:each=" member : ${memberList}" th:id="'user'+${member.userId}"
-                         name="member">
-                        <div class="card mb-3" style="max-width: 540px; height: 100%;">
-                            <div class="row ">
-                                <div class="col-md-4">
-                                    <img th:src="${member.profilePhoto}" onerror="src='/img/moru.jpg'" class="member" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
+                                    <i class="fa-solid fa-crown" style="color: #ffb30d;"
+                                       th:if="${member.authority.toString.equals('MANAGER')} "></i>
+                                    <h5 class="card-title mt-1" th:text="${member.name}"></h5>
+                                    <p class="card-text" th:text="${member.username}"></p>
 
-                                        <i class="fa-solid fa-crown" style="color: #ffb30d;"
-                                           th:if="${member.authority.toString.equals('MANAGER')} "></i>
-                                        <h5 class="card-title mt-1" th:text="${member.name}"></h5>
-                                        <p class="card-text" th:text="${member.username}"></p>
-
-                                        <button class="imgButton" th:onclick="|deleteUser(${member.userId},1)|"
-                                                th:if="${!member.authority.toString.equals('MANAGER')}" th:style="${logIn.authority.equals('MANAGER')  ? '' : 'display: none;' }">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                 fill="#F5544D" class="bi bi-dash-square" viewBox="0 0 16 16">
-                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                                            </svg>
-                                        </button>
+                                    <button class="imgButton" th:onclick="|deleteUser(${member.userId},1)|"
+                                            th:if="${!member.authority.toString.equals('MANAGER')}"
+                                            th:style="${logIn.authority.equals('MANAGER')  ? '' : 'display: none;' }">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                             fill="#F5544D" class="bi bi-dash-square" viewBox="0 0 16 16">
+                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                        </svg>
+                                    </button>
 
 
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
 
             </div>
+        </div>
 
         <div th:style="${logIn.authority.equals('MANAGER')  ? '' : 'display: none;' }">
             <h5 class="title"> 요청 수락 대기 회원 </h5>
             <h1 th:fragment="${waitList}"></h1>
-            <div  id="noneWait" style="margin-top: 75px; margin-bottom: 75px;justify-content: center; "
+            <div id="noneWait" style="margin-top: 75px; margin-bottom: 75px;justify-content: center; "
                  th:style="${waitList.size() == 0 ? '' : 'display : none'}">
-                <div class='card'style='min-height: 300px;padding: 150px; text-align: center;'>
+                <div class='card' style='min-height: 300px;padding: 150px; text-align: center;'>
                     <h1 class='projectTitle' style="font-size: 2.6rem"> 수락 대기중인 유저가 없습니다</h1>
                 </div>
             </div>
             <div class="scrollDiv" id="waitList" th:style="${waitList.size() != 0  ? '' : 'display: none;'}">
-                <div class="row g-2" id = "waitBody"style="justify-content: center">
+                <div class="row g-2" id="waitBody" style="justify-content: center">
 
                     <div class="col-md-6" th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}"
                          name="wait">
@@ -134,7 +132,8 @@
                                             natural lead-in to additional content. This content is a little bit
                                             longer.</p>
 
-                                        <button class="imgButton" th:id="'minus'+${waitMember.userId}" th:onclick="|deleteUser(${waitMember.userId},2)|">
+                                        <button class="imgButton" th:id="'minus'+${waitMember.userId}"
+                                                th:onclick="|deleteUser(${waitMember.userId},2)|">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                                  fill="#F5544D" class="bi bi-dash-square" viewBox="0 0 16 16">
                                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>

@@ -1,10 +1,8 @@
 /*<![CDATA[*/
-window.onload=function(){
-    //실행할 내용
+
+$(document).ready(function () {
     inviteMemberList();
-
-
-}
+})
 
 function copyCode() {
 
@@ -206,13 +204,15 @@ function searchUser(projectId,logInUser){
                 console.log("ddddd")
 
                 if(result.length>=1){
+                    console.log("dddddㅇㄴㅇㄴㅇㅇㅇㅇ")
                     const searchDiv = document.getElementById("searchResult");
                     searchDiv.style.display = "";
 
 
                     result.forEach(function(item) {
-                        $(document).ready(function () {
+                        console.log("ㅇㄹㄴㅇㄹㄴㅇㄴㅇㅇㄴㅇㄹㅇㅇㅇㅇ")
 
+                            console.log(item.name)
 
 
                             $('#searchDivMain').append(
@@ -224,7 +224,7 @@ function searchUser(projectId,logInUser){
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                "<p class='card-text'>"+item.email+"</p>"+
+                                "<p class='card-text'>"+item.username+"</p>"+
                                 "<div style='text-align: end; display: none'  id = 'inviteBtn"+item.id+"' >"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
@@ -241,9 +241,9 @@ function searchUser(projectId,logInUser){
                                 inviteBtn.style.display='block'
                             }
 
-                        });
 
                     })
+                    inviteMemberList()
 
                 }else{
                     const searchDiv = document.getElementById("searchResult");
@@ -306,7 +306,7 @@ function inviteMemberList(){
 
     const projectId = urlParams.pathname.split('/')[2];
 
-    console.log(projectId)
+    console.log("drfgdfgfgfgfgfgfffff")
 
     $.ajax({
         type: 'GET',
