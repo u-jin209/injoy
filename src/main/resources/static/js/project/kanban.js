@@ -427,8 +427,6 @@ $(function () {
 
     })
 
-
-    kanbanUpdateTask()
     kanbanDeleteTask()
 
 })
