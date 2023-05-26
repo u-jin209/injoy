@@ -83,4 +83,34 @@ public class ChatController {
         template.convertAndSend("/sub/chat/room/" + chatDTO.getChatRoomId(), message);
         chatService.insert(newChatDTO);
     }
+
+    @MessageMapping("/chat/leaveUser")
+    public void enterUser(ChatDTO chatDTO,UserDTO userDTO) {
+        //채팅방 유저 등록
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, Object> message = new HashMap<>();
+        chatRoomUserService.deleteChatRoomUserByUserNameAndChatRoomId(userDTO.getUsername(), chatDTO.getChatRoomId());
+        ChatRoomDTO chatRoomDTO = chatRoomService.selectChatRoom(chatDTO.getChatRoomId());
+        int userCount = chatRoomDTO.getUserCount();
+        userCount -= 1;
+        chatRoomDTO.setUserCount(userCount);
+        chatRoomService.updateUserCount(chatRoomDTO);
+        message.put("userCount", userCount);
+
+        List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatDTO.getChatRoomId());
+        message.put("chatRoomUserList", chatRoomUserList);
+
+        ChatDTO newChatDTO = new ChatDTO();
+        newChatDTO.setType(chatDTO.getType());
+        newChatDTO.setSender(userDTO.getName());
+        newChatDTO.setChatRoomId(chatDTO.getChatRoomId());
+        newChatDTO.setUserId(userDTO.getId());
+        newChatDTO.setTime(Timestamp.valueOf(now));
+        chatService.insert(newChatDTO);
+        message.put("newChatDTO", newChatDTO);
+
+        message.put("userId", userDTO.getId());
+
+        template.convertAndSend("/sub/chat/room/" + chatDTO.getChatRoomId(), message);
+    }
 }

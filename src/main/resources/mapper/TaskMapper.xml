@@ -28,7 +28,7 @@
         ON "user"."id" = "task"."authorUserId"
         where "taskId" = #{taskId}
     </select>
-    <insert id="insert" parameterType="TaskDTO">
+    <insert id="insert" parameterType="TaskDTO" keyProperty="taskId" useGeneratedKeys="true">
         INSERT INTO injoy.task("authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "projectId", "startDate", "closingDate", process, progress, priority)
         VALUES (#{authorUserId}, NOW(), NOW(), #{taskTitle}, #{taskContent}, #{projectId}, #{startDate}, #{closingDate}, #{process}, #{progress}, #{priority})
     </insert>

@@ -53,9 +53,16 @@
         WHERE
         id=#{id}
     </update>
+
+    <delete id="delete" parameterType="UserDTO">
+        delete from injoy."user"
+        where "id"=#{id}
+    </delete>
+
     <select id="selectOne" parameterType="int" resultType="UserDTO">
         SELECT * FROM injoy.user where id=#{id}
     </select>
+
 
     <update id="updateInfo" parameterType="UserDTO">
         UPDATE injoy.user

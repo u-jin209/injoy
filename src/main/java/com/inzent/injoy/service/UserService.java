@@ -4,8 +4,10 @@ package com.inzent.injoy.service;
 
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
+import jakarta.jws.soap.SOAPBinding;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -85,6 +87,21 @@ public class UserService implements UserDetailsService {
     public void updateInfo(UserDTO userDTO) {
 
         session.update(NAMESPACE + ".updateInfo", userDTO);
+    }
+
+    public boolean withdrawal(UserDTO userDTO, String password) {
+        UserDTO attempt = selectOne(userDTO.getId());
+
+        if (passwordEncoder.matches(password, attempt.getPassword())) {
+            delete(userDTO);
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public void delete(UserDTO userDTO) {
+
+        session.delete(NAMESPACE + ".delete", userDTO);
     }
 
     public UserDTO selectOne(int id){

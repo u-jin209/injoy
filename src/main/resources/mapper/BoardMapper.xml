@@ -10,7 +10,7 @@
         where "projectId" = #{projectId}
         ORDER BY "entryDate" DESC
     </select>
-    <insert id="insert" parameterType="BoardDTO">
+    <insert id="insert" parameterType="BoardDTO" keyProperty="boardId" useGeneratedKeys="true">
         insert into injoy.board("bTitle","bContent","projectId","boardWriterId")
         values (#{bTitle}, #{bContent}, #{projectId}, #{boardWriterId})
     </insert>

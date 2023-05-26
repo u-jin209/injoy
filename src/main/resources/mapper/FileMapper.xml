@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.FileMapper">
 
-    <insert id="insert" parameterType="FileDTO" >
+    <insert id="insert" parameterType="FileDTO" keyProperty="fileId" useGeneratedKeys="true">
         INSERT INTO injoy.file( "projectId", "userId", "fileName", "fileSize", "folderId", "fileRealPath", "uniqueName", "fileExtension")
         VALUES ( #{projectId}, #{userId}, #{fileName}, #{fileSize}, #{folderId}, #{fileRealPath}, #{uniqueName}, #{fileExtension});
     </insert>

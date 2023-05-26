@@ -12,6 +12,7 @@ import jakarta.jws.soap.SOAPBinding;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -94,6 +97,29 @@ public class UserController {
             model.addAttribute("script", "<script>swal.fire({text:'이미 해당 email로 가입된 아이디가 존재합니다.',confirmButtonColor: '#3085d6'})</script>");
             return "user/register";
         }
+    }
+
+    @PostMapping("withdrawal")
+    public ResponseEntity<Map<String, Object>> withdrawal(@AuthenticationPrincipal UserCustomDetails logIn,@RequestParam String password) {
+        System.out.println("왜 안되냐?");
+        Map<String, Object> data = new HashMap<>();
+        UserDTO userDTO = logIn.getUserDTO();
+        if (userService.withdrawal(userDTO,password) == true) {
+            data.put("flag", "success");
+        }else{
+            data.put("flag", "fail");
+        }
+        return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("withdrawalSocial")
+    public ResponseEntity<Map<String, Object>> withdrawalSocial(@AuthenticationPrincipal UserCustomDetails logIn) {
+        System.out.println("왜 안되냐?");
+        Map<String, Object> data = new HashMap<>();
+        UserDTO userDTO = logIn.getUserDTO();
+        userService.delete(userDTO);
+        data.put("flag", "success");
+        return ResponseEntity.ok(data);
     }
 
     @GetMapping("emailVerifiedPage")
