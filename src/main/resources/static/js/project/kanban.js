@@ -525,7 +525,7 @@ function addWeek(date) {
 }
 
 function kanbanUpdateTask() {
-    let taskId = $('.kanban-taskId em').text()
+    let taskId = Number($('.kanban-taskId em').text())
     let taskTitle = $('.kanban-taskTitle-input').val()
     let taskContent = $('.kanban-modal-content').val()
     let startDate = to_date2($('.kanban-modal-addStartDate').val())
@@ -544,8 +544,8 @@ function kanbanUpdateTask() {
         taskId: taskId,
         taskTitle: taskTitle,
         taskContent: taskContent,
-        startDate: startDate,
-        closingDate: closingDate,
+        startDate: $('.kanban-modal-addStartDate').val() ? startDate : new Date(0),
+        closingDate: $('.kanban-modal-addEndDate').val() ? closingDate : new Date(0),
         progress: progress,
         process: process,
         priority: priority
@@ -655,10 +655,10 @@ function kanbanCurrentBtn() {
 }
 
 function to_date2(date_str) {
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0, 4);
-    var sMonth = yyyyMMdd.substring(5, 7);
-    var sDate = yyyyMMdd.substring(8, 10);
+    let yyyyMMdd = String(date_str);
+    let sYear = yyyyMMdd.substring(0, 4);
+    let sMonth = yyyyMMdd.substring(5, 7);
+    let sDate = yyyyMMdd.substring(8, 10);
 
     //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));

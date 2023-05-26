@@ -110,15 +110,21 @@ public class TaskController {
     @ResponseBody
     public TaskDTO updateTask(TaskDTO taskDTO){
         TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
+        if (updateTaskDTO != null) {
+            updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
+            updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
+            if (!Objects.equals(taskDTO.getStartDate(), new Date(0))){
+                updateTaskDTO.setStartDate(taskDTO.getStartDate());
+            }
 
-        updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
-        updateTaskDTO.setTaskContent(taskDTO.getTaskContent());
-        updateTaskDTO.setStartDate(taskDTO.getStartDate());
-        updateTaskDTO.setClosingDate(taskDTO.getClosingDate());
-        updateTaskDTO.setProcess(taskDTO.getProcess());
-        updateTaskDTO.setPriority(taskDTO.getPriority());
-        updateTaskDTO.setProgress(taskDTO.getProgress());
+            if (!Objects.equals(taskDTO.getClosingDate(), new Date(0))){
+                updateTaskDTO.setClosingDate(taskDTO.getClosingDate());
+            }
 
+            updateTaskDTO.setProcess(taskDTO.getProcess());
+            updateTaskDTO.setPriority(taskDTO.getPriority());
+            updateTaskDTO.setProgress(taskDTO.getProgress());
+        }
 
         taskService.update(updateTaskDTO);
 

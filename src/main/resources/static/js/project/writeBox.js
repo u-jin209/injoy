@@ -275,10 +275,10 @@ function addWeek(date) {
 
 
 function to_date2(date_str) {
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0, 4);
-    var sMonth = yyyyMMdd.substring(5, 7);
-    var sDate = yyyyMMdd.substring(8, 10);
+    let yyyyMMdd = String(date_str);
+    let sYear = yyyyMMdd.substring(0, 4);
+    let sMonth = yyyyMMdd.substring(5, 7);
+    let sDate = yyyyMMdd.substring(8, 10);
 
     //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
