@@ -54,7 +54,10 @@
         id=#{id}
     </update>
     <select id="selectOne" parameterType="int" resultType="UserDTO">
-        SELECT * FROM injoy.user where id=#{id}
+        SELECT * FROM injoy.user u
+        left join injoy."organ" o
+        on u."organId" = o."organId"
+        where id=#{id}
     </select>
 
     <update id="updateInfo" parameterType="UserDTO">
@@ -64,7 +67,8 @@
         "phoneNumber" = #{phoneNumber},
         "condition" = #{condition},
         "profilePhoto" =#{profilePhoto},
-        email = #{email}
+        email = #{email},
+        "organId" =#{organId}
         WHERE
         id=#{id}
     </update>

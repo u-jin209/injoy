@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.EmailService;
+import com.inzent.injoy.service.OrganService;
 import com.inzent.injoy.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.Context;
@@ -30,6 +31,7 @@ import java.util.UUID;
 public class UserController {
 
     private final  UserService userService;
+    private final OrganService organService;
     @Value("${part.upload.path}")
     private String FileDirPath;
 
@@ -41,8 +43,9 @@ public class UserController {
     private final PasswordFindService passwordFindService;
 
     @Autowired
-    public UserController(UserService userService, EmailVerifyService emailVerifyService, PasswordFindService passwordFindService) {
+    public UserController(UserService userService, OrganService organService,EmailVerifyService emailVerifyService, PasswordFindService passwordFindService) {
         this.userService = userService;
+        this.organService = organService;
         this.emailVerifyService = emailVerifyService;
         this.passwordFindService = passwordFindService;
     }
@@ -147,7 +150,7 @@ public class UserController {
         UserDTO user = login.getUserDTO();
         model.addAttribute("logIn", userService.selectOne(user.getId()));
 
-
+        model.addAttribute("organList" ,organService.selectAll());
 
         return "user/userInfo";
     }
@@ -163,6 +166,7 @@ public class UserController {
         origin.setPhoneNumber(userDTO.getPhoneNumber());
         origin.setEmail(userDTO.getEmail());
         origin.setCondition(userDTO.getCondition());
+        origin.setOrganId(userDTO.getOrganId());
 
         String fileRealName = profilePhoto.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
 
