@@ -5,15 +5,15 @@
 <mapper namespace="mapper.ChatRoomUserMapper">
     <select id="selectProjectChatRoomUser" parameterType="String" resultType="ChatRoomUserDTO">
         SELECT * FROM injoy."chatRoomUser"
-        where "chatRoomUserId"=#{chatRoomUserId}
+        where "chatRoomId"=#{chatRoomId}
     </select>
     <select id="selectChatRoomUserByUserNameAndChatRoomId" parameterType="map" resultType="ChatRoomUserDTO">
         SELECT * FROM injoy."chatRoomUser"
         where "username"=#{username} AND "chatRoomId"=#{chatRoomId}
     </select>
     <insert id="insert" parameterType="ChatRoomUserDTO">
-        insert into injoy."chatRoomUser"("username","name","chatRoomId")
-        values (#{username},#{name},#{chatRoomId})
+        insert into injoy."chatRoomUser"("username","name","chatRoomId","profilePhoto")
+        values (#{username},#{name},#{chatRoomId},#{profilePhoto})
     </insert>
 
 </mapper>

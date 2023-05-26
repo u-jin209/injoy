@@ -23,4 +23,7 @@ public class ChatRoomService {
     public void insert(ChatRoomDTO chatRoomDTO){
         session.insert(NAMESPACE + ".insert", chatRoomDTO);
     }
+
+    public void updateUserCount(ChatRoomDTO chatRoomDTO){
+        session.update(NAMESPACE + ".updateUserCount", chatRoomDTO);}
 }

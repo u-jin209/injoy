@@ -36,13 +36,14 @@ public class ChatRoomController {
     public String openProjectChatRoom(@RequestParam String chatRoomId, Model model,@AuthenticationPrincipal UserCustomDetails login) {
         UserDTO logIn = login.getUserDTO();
         List<ChatDTO> chatList = chatService.selectChatByChatRoomIdWithProfile(chatRoomId);
-        System.out.println("chatList = " + chatList);
+        List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatRoomId);
         ChatRoomDTO chatRoomDTO = chatRoomService.selectChatRoom(chatRoomId);
         model.addAttribute("chatRoomId", chatRoomId);
         model.addAttribute("chatList", chatList);
         model.addAttribute("roomName", chatRoomDTO.getRoomName());
         model.addAttribute("userCount", chatRoomDTO.getUserCount());
         model.addAttribute("userDTO", logIn);
+        model.addAttribute("chatRoomUserList", chatRoomUserList);
         return "/chatting/projectChatRoom";
     }
 
@@ -76,7 +77,7 @@ public class ChatRoomController {
         ChatRoomDTO newChatRoomDTO = new ChatRoomDTO();
         newChatRoomDTO.setChatRoomId(chatRoomId);
         newChatRoomDTO.setRoomName(roomName);
-        newChatRoomDTO.setUserCount(1);
+        newChatRoomDTO.setUserCount(0);
         newChatRoomDTO.setProjectId(projectId);
         newChatRoomDTO.setType("project");
         chatRoomService.insert(newChatRoomDTO);

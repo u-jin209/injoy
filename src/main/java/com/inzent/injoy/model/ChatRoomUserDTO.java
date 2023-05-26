@@ -9,4 +9,6 @@ public class ChatRoomUserDTO {
     private String name;
     private String chatRoomId;
 
+    private String profilePhoto;
+
 }

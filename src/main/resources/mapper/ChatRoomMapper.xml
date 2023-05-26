@@ -18,4 +18,10 @@
         values (#{chatRoomId},#{roomName},#{userCount},#{projectId},#{type},#{host},#{guest})
     </insert>
 
+    <update id="updateUserCount" parameterType="ChatRoomDTO">
+        UPDATE injoy."chatRoom"
+        SET  "userCount"=#{userCount}
+        WHERE "chatRoomId"=#{chatRoomId}
+    </update>
+
 </mapper>

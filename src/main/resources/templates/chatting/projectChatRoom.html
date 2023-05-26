@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
@@ -428,29 +429,15 @@
             </div>
 
             <div class="slide_main_member_count">
-                <p style="font-weight: bold">참여자<span style="font-weight: lighter;color: grey">(3)</span></p>
+                <p style="font-weight: bold">참여자<span id="userCountSpan" style="font-weight: lighter;color: grey" th:text="${userCount}"></span></p>
             </div>
-            <div class="slide_member_box">
-                <div class="slide_member_box_li">
+            <div id="chatRoomUserListBox" class="slide_member_box">
+                <div class="slide_member_box_li" th:each="chatRoomUser: ${chatRoomUserList}">
                     <div class="slide_member_box_li_imgBox">
-                        <img src="/img/injoy-blue.png">
+                        <img th:src="${chatRoomUser.profilePhoto}">
                     </div>
                     <div class="slide_member_box_li_project_member">
-                        <p>최준서</p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-chat-dots" viewBox="0 0 16 16">
-                            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="slide_member_box_li">
-                    <div class="slide_member_box_li_imgBox">
-                        <img src="/img/injoy-blue.png">
-                    </div>
-                    <div class="slide_member_box_li_project_member">
-                        <p>최준서</p>
+                        <p th:text="${chatRoomUser.name}">최준서</p>
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                              class="bi bi-chat-dots" viewBox="0 0 16 16">
@@ -489,7 +476,7 @@
                          viewBox="0 0 16 16">
                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                     </svg>
-                    <p style="font-size: 13px;font-weight: lighter;margin-left: 4px;font-weight: lighter" th:text="${userCount}"></p>
+                    <p id="userCountParagraph"style="font-size: 13px;font-weight: lighter;margin-left: 4px;font-weight: lighter" th:text="${userCount}"></p>
                 </div>
             </div>
 
@@ -508,11 +495,11 @@
         </div>
     </header>
     <main id="main">
-        <div class="main_box" th:each="chat: ${chatList}">
-            <div th:if="${chat.userId eq userDTO.id}" class="chat_right">
+        <div class="main_box" th:each="chat: ${chatList}" th:style="${chat.type eq 'ENTER'} ? 'margin-bottom:0;':'margin-bottom:20px;'">
+            <div th:if="${chat.userId eq userDTO.id and chat.type ne 'ENTER'}" class="chat_right">
                 <div class="chat_right_message"><p th:text="${chat.message}"></p></div>
             </div>
-            <div th:unless="${chat.userId eq userDTO.id}" class="chat_left">
+            <div th:if="${chat.userId ne userDTO.id and chat.type ne 'ENTER'}" class="chat_left">
                 <div class="chat_left_img"><img th:src="@{${chat.profilePhoto}}"></div>
                 <div class="chat_left_member">
                     <p class="chat_left_member_name" th:text="${chat.name}"></p>
@@ -567,8 +554,7 @@
     function onConnected() {
         // sub 할 url => /sub/chat/room/chatRoomId 로 구독한다
         stompClient.subscribe('/sub/chat/room/' + chatRoomId, onMessageReceived);
-        console.log(111111112)
-        console.log(userDTO)
+
         // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
         // /pub/chat/enterUser 로 메시지를 보냄
         stompClient.send("/pub/chat/enterUser",
@@ -579,9 +565,10 @@
                 username: userDTO.username,
                 name:userDTO.name,
                 id:userDTO.id,
+                profilePhoto:userDTO.profilePhoto
             })
         )
-        console.log(111111113)
+
     }
 
     function onError(error) {
@@ -592,8 +579,6 @@
         let messageContent = textarea.value.trim();
 
         if (messageContent && stompClient) {
-            console.log(chatRoomId)
-            console.log(111111111)
             let chatMessage = {
                 "chatRoomId": chatRoomId,
                 message: textarea.value,
@@ -624,55 +609,90 @@
     }
 
     function onMessageReceived(payload) {
-        var chatDTO = JSON.parse(payload.body);
-        // 채팅 데이터 추출
-        var sender = chat.sender;
-        var message = chat.message;
-        var profilePhoto = chat.profilePhoto;
+        var message = JSON.parse(payload.body);
+        var chatDTO = message.newChatDTO;
 
-        // chat_left div 생성
-        var chatLeftDiv = document.createElement("div");
-        chatLeftDiv.className = "chat_left";
+        if (chatDTO.type == "ENTER") {
+            var userCount = message.userCount;
+            var chatRoomUserList = message.chatRoomUserList;
+            var userCountParagraph = document.getElementById('userCountParagraph');
+            var userCountSpan = document.getElementById('userCountSpan');
+            var chatRoomUserListBox = document.getElementById('chatRoomUserListBox');
+            userCountParagraph.innerHTML = userCount;
+            userCountSpan.innerHTML = userCount;
+            chatRoomUserListBox.innerHTML = '';
+            for (var chatRoomUser of chatRoomUserList) {
+                $('#chatRoomUserListBox').append(
+                    "<div class='slide_member_box_li'>"+
+                        "<div class='slide_member_box_li_imgBox'>"+
+                            "<img src='"+chatRoomUser.profilePhoto+"'>"+
+                        "</div>"+
+                        "<div class='slide_member_box_li_project_member'>"+
+                            "<p>"+chatRoomUser.name+"</p>"+
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' className='bi bi-chat-dots' viewBox='0 0 16 16'>"+
+                                "<path d='M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/>"+
+                                "<path d='m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z'/>"+
+                            "</svg>"+
+                        "</div>"+
+                    "</div>"
+                );
+            }
 
-        // chat_left_img div 생성
-        var chatLeftImgDiv = document.createElement("div");
-        chatLeftImgDiv.className = "chat_left_img";
+        }else if (chatDTO.type == "TALK") {
+            // 채팅 데이터 추출
+            if (chatDTO.userId != userDTO.id) {
+                var sender = chatDTO.sender;
+                var message = chatDTO.message;
+                var profilePhoto = chatDTO.profilePhoto;
 
-        // 프로필 사진 img 생성 및 설정
-        var chatLeftImg = document.createElement("img");
-        chatLeftImg.setAttribute("src", profilePhoto);
-        chatLeftImgDiv.appendChild(chatLeftImg);
+                // chat_left div 생성
+                var chatLeftDiv = document.createElement("div");
+                chatLeftDiv.className = "chat_left";
 
-        // chat_left_member div 생성
-        var chatLeftMemberDiv = document.createElement("div");
-        chatLeftMemberDiv.className = "chat_left_member";
+                // chat_left_img div 생성
+                var chatLeftImgDiv = document.createElement("div");
+                chatLeftImgDiv.className = "chat_left_img";
 
-        // 채팅 참여자 이름 p 생성 및 설정
-        var chatLeftMemberNameParagraph = document.createElement("p");
-        chatLeftMemberNameParagraph.className = "chat_left_member_name";
-        chatLeftMemberNameParagraph.innerText = sender;
+                // 프로필 사진 img 생성 및 설정
+                var chatLeftImg = document.createElement("img");
+                chatLeftImg.setAttribute("src", chatDTO.profilePhoto);
+                chatLeftImgDiv.appendChild(chatLeftImg);
 
-        // chat_left_message div 생성
-        var chatLeftMessageDiv = document.createElement("div");
-        chatLeftMessageDiv.className = "chat_left_message";
+                // chat_left_member div 생성
+                var chatLeftMemberDiv = document.createElement("div");
+                chatLeftMemberDiv.className = "chat_left_member";
 
-        // 채팅 메시지 p 생성 및 설정
-        var chatLeftMessageParagraph = document.createElement("p");
-        chatLeftMessageParagraph.innerText = message;
+                // 채팅 참여자 이름 p 생성 및 설정
+                var chatLeftMemberNameParagraph = document.createElement("p");
+                chatLeftMemberNameParagraph.className = "chat_left_member_name";
+                chatLeftMemberNameParagraph.innerText = chatDTO.sender;
 
-        // 요소들을 계층적으로 추가
-        chatLeftMessageDiv.appendChild(chatLeftMessageParagraph);
-        chatLeftMemberDiv.appendChild(chatLeftMemberNameParagraph);
-        chatLeftMemberDiv.appendChild(chatLeftMessageDiv);
-        chatLeftDiv.appendChild(chatLeftMemberDiv);
-        chatLeftDiv.appendChild(chatLeftImgDiv);
+                // chat_left_message div 생성
+                var chatLeftMessageDiv = document.createElement("div");
+                chatLeftMessageDiv.className = "chat_left_message";
 
-        let mainBox = document.createElement("div");
-        mainBox.className = "main_box";
-        mainBox.appendChild(chatLeftDiv);
-        mainDiv.appendChild(mainBox)
-        mainDiv.scrollTop = mainDiv.scrollHeight;
-        textarea.value = '';
+                // 채팅 메시지 p 생성 및 설정
+                var chatLeftMessageParagraph = document.createElement("p");
+                chatLeftMessageParagraph.innerText = chatDTO.message;
+
+                // 요소들을 계층적으로 추가
+                chatLeftMessageDiv.appendChild(chatLeftMessageParagraph);
+                chatLeftMemberDiv.appendChild(chatLeftMemberNameParagraph);
+                chatLeftMemberDiv.appendChild(chatLeftMessageDiv);
+                chatLeftDiv.appendChild(chatLeftImgDiv);
+                chatLeftDiv.appendChild(chatLeftMemberDiv);
+
+                let mainBox = document.createElement("div");
+                mainBox.className = "main_box";
+                mainBox.appendChild(chatLeftDiv);
+                mainDiv.appendChild(mainBox);
+                mainDiv.scrollTop = mainDiv.scrollHeight;
+                textarea.value = '';
+            }
+        }else{
+
+        }
+
 
     }
 
