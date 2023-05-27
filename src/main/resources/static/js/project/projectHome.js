@@ -760,7 +760,7 @@ function boardImg(){
                 data: formData,
                 type: "get",
                 success: (response) => {
-                    const previewsContainer = $(this).find('.img-container');
+                    const previewsContainer = $(this).find('.img-container-board');
                     for (let i = 0; i < response.length; i++) {
 
                         console.log(response[i])
@@ -954,7 +954,7 @@ function TaskImg(){
                 data: formData,
                 type: "get",
                 success: (response) => {
-                    const previewsContainer = $(this).find('.img-container');
+                    const previewsContainer = $(this).find('.img-container-task');
                     for (let i = 0; i < response.length; i++) {
 
                         console.log(response[i])

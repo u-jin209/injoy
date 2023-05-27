@@ -122,6 +122,8 @@ $(function () {
 
     })
 
+    let previewsContainer
+
     $('.writeBoxTab').click(function (event) {
         var activeTab = $(this);
 
@@ -133,12 +135,16 @@ $(function () {
                 console.log("board");
                 $('.submitWriteBtn').attr('id', 'boardWriteBtn');
                 $('#file').attr('class', 'boardFile')
+                previewsContainer = document.querySelector('.previews');
+                previewImg(previewsContainer)
 
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
                 console.log("task");
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
                 $('#file').attr('class', 'taskFile')
-
+                previewsContainer = document.querySelector('.task-previews');
+                previewImg(previewsContainer)
+console.log('dddd')
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
@@ -270,8 +276,15 @@ $(function () {
 
     })
 
+
+
+
+
+
+})
+
+function previewImg(previewsContainer){
     const fileDOM = document.querySelector('#file');
-    const previewsContainer = document.querySelector('.previews');
 
     fileDOM.addEventListener('change', () => {
         const files = fileDOM.files;
@@ -281,26 +294,29 @@ $(function () {
 
         for (let i = 0; i < files.length; i++) {
             const reader = new FileReader();
+            const file = files[i];
 
-            reader.onload = ({ target }) => {
+            reader.onload = () => {
                 const preview = document.createElement('img');
-                preview.classList.add('image-board-box');
-                preview.style.width = '100px'
-                preview.style.height = '100px'
-                preview.style.borderRadius = '10%'
-                preview.style.marginRight = '10px'
-                preview.src = target.result;
+                if (previewsContainer.classList.contains('previews')) {
+                    preview.classList.add('image-board-box');
+                } else if (previewsContainer.classList.contains('task-previews')) {
+                    preview.classList.add('image-task-box');
+                }
+
+                preview.style.width = '100px';
+                preview.style.height = '100px';
+                preview.style.borderRadius = '10%';
+                preview.style.marginRight = '10px';
+                preview.src = reader.result;
 
                 previewsContainer.appendChild(preview);
             };
 
-            reader.readAsDataURL(files[i]);
+            reader.readAsDataURL(file);
         }
     });
-
-
-
-})
+}
 
 function writeCurrentBtn() {
     let btn = document.querySelectorAll(".processBtn");

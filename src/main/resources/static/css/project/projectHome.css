@@ -240,7 +240,7 @@
     background: #fff;
 }
 
-.img-container {
+.img-container-task, .img-container-board {
     padding: 10px 20px 20px;
     background: #fff;
 }
