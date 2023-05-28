@@ -240,7 +240,7 @@
     background: #fff;
 }
 
-.img-container-task, .img-container-board {
+.img-container-task, .img-container-board, .file-post-area, .file-container-board, .file-container-task {
     padding: 10px 20px 20px;
     background: #fff;
 }

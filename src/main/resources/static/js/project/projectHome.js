@@ -428,7 +428,7 @@ function modifyTask() {
     })
 }
 
-function updateTask(parents){
+function updateTask(parents) {
     Swal.fire({
         text: '업무 수정사항을 저장하시겠습니까?',
         width: '300px',
@@ -439,7 +439,7 @@ function updateTask(parents){
         cancelButtonText: '취소',
     }).then((result) => {
 
-        if (result.isConfirmed){
+        if (result.isConfirmed) {
             let taskId = parents.find('#taskId-post').val()
 
             let formData = {
@@ -510,7 +510,7 @@ function updateBoard(parents) {
         confirmButtonText: '확인',
         cancelButtonText: '취소',
     }).then((result) => {
-        if (result.isConfirmed){
+        if (result.isConfirmed) {
             let boardId = parents.find('#boardId').val()
 
             let formData = {
@@ -746,14 +746,14 @@ function limitBComment() {
 
 }
 
-function boardImg(){
+function boardImg() {
     $('.boardBox').each(function () {
-        let boardId = $(this).find('.boardId-comment').val()
-        let projectId = $(this).find('.projectId-comment').val()
+        let boardId = $(this).find('.boardId-comment').val();
+        let projectId = $(this).find('.projectId-comment').val();
         if (boardId !== undefined && projectId !== undefined) {
             let formData = {
                 boardId: boardId
-            }
+            };
 
             $.ajax({
                 url: '/board/getImg',
@@ -761,43 +761,58 @@ function boardImg(){
                 type: "get",
                 success: (response) => {
                     const previewsContainer = $(this).find('.img-container-board');
+                    let count = 1;
                     for (let i = 0; i < response.length; i++) {
+                        const fileExtension = response[i].fileExtension.toLowerCase();
 
-                        console.log(response[i])
-                        const preview = document.createElement('img');
-                        preview.classList.add('image-post-box');
-                        preview.style.width = '150px'
-                        preview.style.height = '150px'
-                        preview.style.borderRadius = '10%'
-                        preview.style.marginRight = '10px'
-                        preview.addEventListener('click', function() {
-                            downloadBoardImg(response[i].fileId);
-                        });
-                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                        // 이미지 확장자인 경우에만 미리보기 추가
+                        if (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
+                            const preview = document.createElement('img');
+                            preview.classList.add('image-post-box');
+                            preview.style.width = '150px';
+                            preview.style.height = '150px';
+                            preview.style.borderRadius = '10%';
+                            preview.style.marginRight = '10px';
+                            preview.addEventListener('click', function () {
+                                downloadBoardImg(response[i].fileId);
+                            });
+                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
 
+                            previewsContainer.append(preview);
+                        } else {
+                            $(this).find('.file-post-area').css('display', 'block')
+                            const fPreviewsContainer = $(this).find('.file-container-board');
+                            const filePreview = document.createElement('div');
+                            filePreview.classList.add('file-preview');
+                            filePreview.textContent = count + '. ' + response[i].uniqueName + response[i].fileExtension;
+                            filePreview.addEventListener('click', function () {
+                                downloadBoardImg(response[i].fileId);
+                            });
 
-                        previewsContainer.append(preview);
+                            fPreviewsContainer.append(filePreview);
+                        }
+                        count++;
                     }
                 }
-
-            })
+            });
         }
-    })
+    });
 }
 
-function downloadBoardImg(fileId){
+
+function downloadBoardImg(fileId) {
     let formData = {
-        fileId : fileId
+        fileId: fileId
     }
 
     $.ajax({
-        url :'/board/downloadFile',
-        type : 'get',
-        data : formData,
-        success : function (response){
+        url: '/board/downloadFile',
+        type: 'get',
+        data: formData,
+        success: function (response) {
             Swal.fire({
-                text: '이미지를 다운로드 하시겠습니까?',
-                width: '300px',
+                title: '해당 파일을 다운로드 하시겠습니까?',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3064B3',
                 cancelButtonColor: 'red',
@@ -940,7 +955,7 @@ function limitTComment() {
 
 }
 
-function TaskImg(){
+function TaskImg() {
     $('.boardBox').each(function () {
         let taskId = $(this).find('.taskId-comment').val()
         let projectId = $(this).find('.projectId-comment').val()
@@ -955,22 +970,39 @@ function TaskImg(){
                 type: "get",
                 success: (response) => {
                     const previewsContainer = $(this).find('.img-container-task');
+                    let count = 1;
                     for (let i = 0; i < response.length; i++) {
+                        const fileExtension = response[i].fileExtension.toLowerCase();
 
-                        console.log(response[i])
-                        const preview = document.createElement('img');
-                        preview.classList.add('image-post-box');
-                        preview.style.width = '150px'
-                        preview.style.height = '150px'
-                        preview.style.borderRadius = '10%'
-                        preview.style.marginRight = '10px'
-                        preview.addEventListener('click', function() {
-                            downloadTaskImg(response[i].fileId);
-                        });
-                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                        // 이미지 확장자인 경우에만 미리보기 추가
+                        if (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
+
+                            const preview = document.createElement('img');
+                            preview.classList.add('image-post-box');
+                            preview.style.width = '150px'
+                            preview.style.height = '150px'
+                            preview.style.borderRadius = '10%'
+                            preview.style.marginRight = '10px'
+                            preview.addEventListener('click', function () {
+                                downloadTaskImg(response[i].fileId);
+                            });
+                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
 
 
-                        previewsContainer.append(preview);
+                            previewsContainer.append(preview);
+                        } else {
+                            $(this).find('.file-post-area').css('display', 'block')
+                            const fPreviewsContainer = $(this).find('.file-container-task');
+                            const filePreview = document.createElement('div');
+                            filePreview.classList.add('file-preview');
+                            filePreview.textContent = count + '. ' + response[i].uniqueName + response[i].fileExtension;
+                            filePreview.addEventListener('click', function () {
+                                downloadTaskImg(response[i].fileId);
+                            });
+
+                            fPreviewsContainer.append(filePreview);
+                        }
+                        count++;
                     }
                 }
 
@@ -979,19 +1011,19 @@ function TaskImg(){
     })
 }
 
-function downloadTaskImg(fileId){
+function downloadTaskImg(fileId) {
     let formData = {
-        fileId : fileId
+        fileId: fileId
     }
 
     $.ajax({
-        url :'/task/downloadFile',
-        type : 'get',
-        data : formData,
-        success : function (response){
+        url: '/task/downloadFile',
+        type: 'get',
+        data: formData,
+        success: function (response) {
             Swal.fire({
-                text: '이미지를 다운로드 하시겠습니까?',
-                width: '300px',
+                title: '해당 파일을 다운로드 하시겠습니까?',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3064B3',
                 cancelButtonColor: 'red',
@@ -1038,6 +1070,7 @@ function deleteBComment(commentId) {
         }
     })
 }
+
 function deleteTComment(commentId) {
     Swal.fire({
         text: '댓글을 삭제하시겠습니까?',
