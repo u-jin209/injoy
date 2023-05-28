@@ -144,7 +144,7 @@ $(function () {
                 $('#file').attr('class', 'taskFile')
                 previewsContainer = document.querySelector('.task-previews');
                 previewImg(previewsContainer)
-console.log('dddd')
+
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
@@ -283,34 +283,100 @@ console.log('dddd')
 
 })
 
-function previewImg(previewsContainer){
+function previewImg(previewsContainer) {
     const fileDOM = document.querySelector('#file');
 
     fileDOM.addEventListener('change', () => {
-        const files = fileDOM.files;
+        let files = Array.from(fileDOM.files);
 
         // 이미지 미리보기를 담을 컨테이너 초기화
         previewsContainer.innerHTML = '';
+        const previews = [];
+
+        const removePreview = (previewContainer, index) => {
+            previewsContainer.removeChild(previewContainer); // 미리보기 컨테이너에서 해당 요소 제거
+            previews.splice(index, 1); // 미리보기 배열에서 해당 요소 삭제
+            files.splice(index, 1); // 파일 배열에서 해당 파일 삭제
+
+            // FileList를 새로운 FileList 객체로 업데이트
+            const updatedFiles = new DataTransfer();
+            files.forEach((file) => updatedFiles.items.add(file));
+            fileDOM.files = updatedFiles.files;
+        };
 
         for (let i = 0; i < files.length; i++) {
             const reader = new FileReader();
             const file = files[i];
 
             reader.onload = () => {
-                const preview = document.createElement('img');
+                const previewContainer = document.createElement('div');
+                const previewImage = document.createElement('img');
+                const overlayImage = document.createElement('img');
+                overlayImage.classList.add('overlay-image');
+
                 if (previewsContainer.classList.contains('previews')) {
-                    preview.classList.add('image-board-box');
+                    previewContainer.classList.add('image-board-box');
                 } else if (previewsContainer.classList.contains('task-previews')) {
-                    preview.classList.add('image-task-box');
+                    previewContainer.classList.add('image-task-box');
                 }
 
-                preview.style.width = '100px';
-                preview.style.height = '100px';
-                preview.style.borderRadius = '10%';
-                preview.style.marginRight = '10px';
-                preview.src = reader.result;
+                previewContainer.classList.add('preview-container');
+                previewContainer.style.position = 'relative';
+                previewContainer.style.display = 'inline-block';
 
-                previewsContainer.appendChild(preview);
+                previewImage.style.width = '100px';
+                previewImage.style.height = '100px';
+                previewImage.style.borderRadius = '10%';
+                previewImage.style.marginRight = '10px';
+                previewImage.src = reader.result;
+
+                overlayImage.style.position = 'absolute';
+                overlayImage.style.top = '0';
+                overlayImage.style.left = '0';
+                overlayImage.style.opacity = '0';
+                overlayImage.style.transition = 'opacity 0.3s ease-in-out';
+                overlayImage.style.width = '100px';
+                overlayImage.style.height = '100px';
+                overlayImage.src = '/img/pngwing.com.png';
+
+                previewContainer.appendChild(previewImage);
+                previewContainer.appendChild(overlayImage);
+                previewsContainer.appendChild(previewContainer);
+
+                previewContainer.addEventListener('mouseover', () => {
+                    overlayImage.style.opacity = '80%';
+                });
+
+                previewContainer.addEventListener('mouseleave', () => {
+                    overlayImage.style.opacity = '0';
+                });
+
+                previewContainer.addEventListener('click', () => {
+                    Swal.fire({
+                        title: '해당 이미지를 삭제하시겠습니까?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 클릭한 미리보기 요소의 인덱스 찾기
+                            const index = previews.indexOf(previewContainer);
+                            if (index !== -1) {
+                                removePreview(previewContainer, index);
+                            }
+
+                            Swal.fire({
+                                title: '삭제완료!',
+                                icon: 'success',
+                            });
+                        }
+                    });
+                });
+
+                previews.push(previewContainer); // 미리보기 요소를 배열에 추가
             };
 
             reader.readAsDataURL(file);
