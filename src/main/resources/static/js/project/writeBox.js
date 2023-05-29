@@ -122,6 +122,8 @@ $(function () {
 
     })
 
+    let previewsContainer
+
     $('.writeBoxTab').click(function (event) {
         var activeTab = $(this);
 
@@ -132,13 +134,15 @@ $(function () {
             if (activeTab.attr('id') === 'boardWrite-tab') {
                 console.log("board");
                 $('.submitWriteBtn').attr('id', 'boardWriteBtn');
-                $('#file').attr('class', 'boardFile')
-
+                $('#file').attr('class', 'boardFile');
+                previewsContainer = document.querySelector('.previews');
+                handleFileSelection(previewsContainer);
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
                 console.log("task");
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
-                $('#file').attr('class', 'taskFile')
-
+                $('#file').attr('class', 'taskFile');
+                previewsContainer = document.querySelector('.task-previews');
+                handleFileSelection(previewsContainer);
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
@@ -231,9 +235,9 @@ $(function () {
             let formData = new FormData();
 
             formData.append('taskTitle', $('#taskTitle').val());
-            formData.append('taskContent',  $('.writeContent').val());
+            formData.append('taskContent', $('.writeContent').val());
             formData.append('projectId', Number($('.writeProjectId').val()));
-            formData.append('process',writeCurrentBtn());
+            formData.append('process', writeCurrentBtn());
             formData.append('startDate', $('.writeBox-addStartDate').val() ? to_date2($('.writeBox-addStartDate').val()) : new Date(0));
             formData.append('closingDate', $('.writeBox-addEndDate').val() ? to_date2($('.writeBox-addEndDate').val()) : new Date(0));
             formData.append('progress', Number($('.writeBox-rangeInput').val()));
@@ -270,37 +274,233 @@ $(function () {
 
     })
 
+})
+
+
+function previewFile(files, previewsContainer, fileDOM) {
+    const previews = [];
+
+    // 이미지 미리보기를 담을 컨테이너 초기화
+    previewsContainer.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = () => {
+            const fileContainer = document.createElement('div');
+            fileContainer.classList.add('file-container');
+
+            const fileInfo = document.createElement('div');
+            fileInfo.classList.add('file-info');
+
+            const fileNameContainer = document.createElement('div');
+            fileNameContainer.classList.add('file-name-container');
+
+            const fileName = document.createElement('div');
+            fileName.classList.add('preview-file-name');
+            fileName.textContent = file.name;
+
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-button');
+            removeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>`;
+            removeButton.style.border = 'none';
+            removeButton.style.backgroundColor = 'transparent';
+
+            removeButton.addEventListener('click', () => {
+                Swal.fire({
+                    title: '해당 이미지를 삭제하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const previewContainer = removeButton.closest('.file-container');
+                        const index = Array.from(previewsContainer.children).indexOf(previewContainer);
+                        const files = Array.from(previewsContainer.children).map((container) => container.file);
+
+                        const dataTransfer = new DataTransfer();
+                        for (let j = 0; j < fileDOM.files.length; j++) {
+                            const inputFile = fileDOM.files[j];
+                            if (inputFile.name !== file.name) {
+                                dataTransfer.items.add(inputFile);
+                            }
+                        }
+                        fileDOM.files = dataTransfer.files;
+
+                        removePreview(previewContainer, index, files, previewsContainer, fileDOM);
+                    }
+                    Swal.fire({
+                        title: '삭제완료!',
+                        icon: 'success',
+                    });
+                });
+            });
+
+            fileNameContainer.appendChild(fileName);
+            fileNameContainer.appendChild(removeButton);
+
+            fileInfo.appendChild(fileNameContainer);
+
+            fileContainer.appendChild(fileInfo);
+            previewsContainer.appendChild(fileContainer);
+
+            previews.push(fileContainer); // 미리보기 요소를 배열에 추가
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+
+
+function handleFileSelection(previewsContainer) {
     const fileDOM = document.querySelector('#file');
-    const previewsContainer = document.querySelector('.previews');
 
     fileDOM.addEventListener('change', () => {
         const files = fileDOM.files;
+        handleImageFiles(files, previewsContainer, fileDOM);
+    });
+}
 
-        // 이미지 미리보기를 담을 컨테이너 초기화
-        previewsContainer.innerHTML = '';
+function handleImageFiles(files, previewsContainer, fileDOM) {
+    const imageFiles = [];
+    const otherFiles = [];
 
-        for (let i = 0; i < files.length; i++) {
-            const reader = new FileReader();
-
-            reader.onload = ({ target }) => {
-                const preview = document.createElement('img');
-                preview.classList.add('image-board-box');
-                preview.style.width = '100px'
-                preview.style.height = '100px'
-                preview.style.borderRadius = '10%'
-                preview.style.marginRight = '10px'
-                preview.src = target.result;
-
-                previewsContainer.appendChild(preview);
-            };
-
-            reader.readAsDataURL(files[i]);
+    Array.from(files).forEach(file => {
+        if (isImageFile(file)) {
+            imageFiles.push(file);
+        } else {
+            otherFiles.push(file);
         }
     });
 
+    if (imageFiles.length > 0) {
+        previewImg(imageFiles, previewsContainer, fileDOM);
+    }
+
+    previewsContainer.innerHTML = '';
+    if (previewsContainer.classList.contains('previews')) {
+        previewsContainer = document.querySelector('.file-previews');
+    } else if (previewsContainer.classList.contains('task-previews')) {
+        previewsContainer = document.querySelector('.file-task-previews');
+    }
+    previewFile(otherFiles, previewsContainer, fileDOM);
 
 
-})
+}
+
+
+function getFileExtension(filename) {
+    return filename.split('.').pop().toLowerCase();
+}
+
+function isImageFile(file) {
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    const fileName = file.name.toLowerCase();
+    return validExtensions.some(ext => fileName.endsWith(ext));
+}
+
+function removePreview(previewContainer, index, files, previewsContainer, fileDOM) {
+    previewsContainer.removeChild(previewContainer); // 미리보기 컨테이너에서 해당 요소 제거
+    files.splice(index, 1); // 파일 배열에서 해당 파일 삭제
+
+    // FileList를 새로운 DataTransfer 객체로 업데이트
+    const updatedFiles = new DataTransfer();
+    files.forEach(file => updatedFiles.items.add(file));
+    fileDOM.files = updatedFiles.files;
+}
+
+
+function previewImg(files, previewsContainer, fileDOM) {
+    const previews = [];
+
+    // 이미지 미리보기를 담을 컨테이너 초기화
+    previewsContainer.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = () => {
+            const previewContainer = document.createElement('div');
+            const previewImage = document.createElement('img');
+            const overlayImage = document.createElement('img');
+            overlayImage.classList.add('overlay-image');
+
+            if (previewsContainer.classList.contains('previews')) {
+                previewContainer.classList.add('image-board-box');
+            } else if (previewsContainer.classList.contains('task-previews')) {
+                previewContainer.classList.add('image-task-box');
+            }
+
+            previewContainer.classList.add('preview-container');
+            previewContainer.style.position = 'relative';
+            previewContainer.style.display = 'inline-block';
+
+            previewImage.style.width = '100px';
+            previewImage.style.height = '100px';
+            previewImage.style.borderRadius = '10%';
+            previewImage.style.marginRight = '10px';
+            previewImage.src = reader.result;
+
+            overlayImage.style.position = 'absolute';
+            overlayImage.style.top = '0';
+            overlayImage.style.left = '0';
+            overlayImage.style.opacity = '0';
+            overlayImage.style.transition = 'opacity 0.3s ease-in-out';
+            overlayImage.style.width = '100px';
+            overlayImage.style.height = '100px';
+            overlayImage.src = '/img/pngwing.com.png';
+
+            previewContainer.appendChild(previewImage);
+            previewContainer.appendChild(overlayImage);
+            previewsContainer.appendChild(previewContainer);
+
+            previewContainer.addEventListener('mouseover', () => {
+                overlayImage.style.opacity = '80%';
+            });
+
+            previewContainer.addEventListener('mouseleave', () => {
+                overlayImage.style.opacity = '0';
+            });
+
+            previewContainer.addEventListener('click', () => {
+                Swal.fire({
+                    title: '해당 이미지를 삭제하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 클릭한 미리보기 요소의 인덱스 찾기
+                        const index = previews.indexOf(previewContainer);
+                        if (index !== -1) {
+                            removePreview(previewContainer, index, files, previewsContainer, fileDOM);
+                        }
+
+                        Swal.fire({
+                            title: '삭제완료!',
+                            icon: 'success',
+                        });
+                    }
+                });
+            });
+
+            previews.push(previewContainer); // 미리보기 요소를 배열에 추가
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
 
 function writeCurrentBtn() {
     let btn = document.querySelectorAll(".processBtn");

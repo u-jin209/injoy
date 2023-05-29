@@ -99,7 +99,7 @@ public class TaskController {
 
                 TaskFileDTO taskFileDTO = new TaskFileDTO();
                 taskFileDTO.setFileId(fileDTO.getFileId());
-                taskFileDTO.setTaskId(taskDTO.getBoardId());
+                taskFileDTO.setTaskId(taskDTO.getTaskId());
                 taskFileService.insert(taskFileDTO);
             }
 
@@ -170,7 +170,7 @@ public class TaskController {
 
                 TaskFileDTO taskFileDTO = new TaskFileDTO();
                 taskFileDTO.setFileId(fileDTO.getFileId());
-                taskFileDTO.setTaskId(taskDTO.getBoardId());
+                taskFileDTO.setTaskId(taskDTO.getTaskId());
                 taskFileService.insert(taskFileDTO);
             }
 

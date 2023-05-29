@@ -455,6 +455,17 @@
                                     <textarea class="modify-task-content" style="display: none" th:text="${task.taskContent}"></textarea>
                                     <span id="post-task-content" th:text="${task.taskContent}"></span>
                                 </div>
+                                <div class="img-container-task">
+                                </div>
+                                <div class="file-post-area" style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down mr-2" viewBox="0 0 16 16">
+                                        <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                    </svg> <span style="vertical-align: middle">첨부파일</span>
+                                    <div class="file-container-task">
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -551,7 +562,16 @@
                                 <div id="post-board-content" th:text="${task.bContent}"></div>
                             </div>
                         </div>
-                        <div class="img-container">
+                        <div class="img-container-board">
+                        </div>
+                        <div class="file-post-area" style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down mr-2" viewBox="0 0 16 16">
+                                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            </svg> <span style="vertical-align: middle">첨부파일</span>
+                            <div class="file-container-board">
+
+                            </div>
                         </div>
                     </div>
                     <hr style="margin-bottom: 0"/>
