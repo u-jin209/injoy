@@ -11,6 +11,10 @@
         SELECT * FROM injoy."chatRoomUser"
         where "username"=#{username} AND "chatRoomId"=#{chatRoomId}
     </select>
+    <delete id="deleteChatRoomUserByUserNameAndChatRoomId" parameterType="map">
+        delete from injoy."chatRoomUser"
+        where "username"=#{username} AND "chatRoomId"=#{chatRoomId}
+    </delete>
     <insert id="insert" parameterType="ChatRoomUserDTO">
         insert into injoy."chatRoomUser"("username","name","chatRoomId","profilePhoto")
         values (#{username},#{name},#{chatRoomId},#{profilePhoto})

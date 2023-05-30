@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="mapper.ChatMapper">
     <select id="selectChatByChatRoomId" parameterType="String" resultType="ChatDTO">
         SELECT * FROM injoy."chat"
@@ -21,4 +22,16 @@
         values (#{type},#{sender},#{message},CURRENT_TIMESTAMP,#{chatRoomId},#{userId})
     </insert>
 
+    <select id="findEnterTime" parameterType="int" resultType="ChatDTO">
+        SELECT max("time") FROM injoy.chat
+        where "userId"='48' and "type"='ENTER'
+    </select>
+
+    <select id="selectChat" parameterType="map" resultType="ChatDTO">
+        SELECT "chatId", "type", "sender", "message", "time", "chatRoomId", "userId", u."name", u."profilePhoto" FROM injoy."chat" c
+        inner join injoy."user" u
+        on c."userId" = u."id"
+        where "chatRoomId"=#{chatRoomId} and "time" >#{time}
+        ORDER BY "time" ASC
+    </select>
 </mapper>

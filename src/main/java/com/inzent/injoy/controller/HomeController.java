@@ -1,23 +1,28 @@
 package com.inzent.injoy.controller;
-import com.inzent.injoy.model.BoardDTO;
-import com.inzent.injoy.model.TaskCommentDTO;
-import com.inzent.injoy.model.TaskDTO;
+import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.*;
-import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -43,15 +48,25 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String test( ) {
-        return "/user/login";
+    public String test( ){
+        return "/index";
     }
 
-    @GetMapping("/imgTest")
-    public String imgTest(Model model){
-
-        return "user/imgTest";
+    @GetMapping("/login")
+    public void login(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/project/myProject");
     }
+
+//    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null) {
+//            new SecurityContextLogoutHandler().logout(request, response, authentication);
+//        }
+//
+//        return "/index";
+//    }
+
 
 
 
@@ -66,11 +81,9 @@ public class HomeController {
         model.addAttribute("taskList", taskList);
         List<TaskDTO> allList = taskService.viewAll(projectId);
         model.addAttribute("allList", allList);
-
         Map<String, Object> map = new HashMap<>();
         map.put("userId", login.getUserDTO().getId());
         map.put("projectId" , projectId);
-
 
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(map));

@@ -33,9 +33,10 @@ public class ChatRoomController {
     }
 
     @GetMapping("projectChatRoom")
-    public String openProjectChatRoom(@RequestParam String chatRoomId, Model model,@AuthenticationPrincipal UserCustomDetails login) {
+    public String openProjectChatRoom(@RequestParam String chatRoomId,@RequestParam String projectName, Model model,@AuthenticationPrincipal UserCustomDetails login) {
         UserDTO logIn = login.getUserDTO();
-        List<ChatDTO> chatList = chatService.selectChatByChatRoomIdWithProfile(chatRoomId);
+//        List<ChatDTO> chatList = chatService.selectChatByChatRoomIdWithProfile(chatRoomId);
+        List<ChatDTO> chatList = chatService.selectChat(chatRoomId,logIn.getId());
         List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatRoomId);
         ChatRoomDTO chatRoomDTO = chatRoomService.selectChatRoom(chatRoomId);
         model.addAttribute("chatRoomId", chatRoomId);
@@ -44,6 +45,7 @@ public class ChatRoomController {
         model.addAttribute("userCount", chatRoomDTO.getUserCount());
         model.addAttribute("userDTO", logIn);
         model.addAttribute("chatRoomUserList", chatRoomUserList);
+        model.addAttribute("projectName", projectName);
         return "/chatting/projectChatRoom";
     }
 

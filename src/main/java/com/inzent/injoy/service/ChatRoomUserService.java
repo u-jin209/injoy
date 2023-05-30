@@ -25,8 +25,14 @@ public class ChatRoomUserService {
         Map<String, Object> params = new HashMap<>();
         params.put("username", username);
         params.put("chatRoomId", chatRoomId);
-        System.out.println(params);
         return session.selectOne(NAMESPACE + ".selectChatRoomUserByUserNameAndChatRoomId", params);
+    }
+
+    public void deleteChatRoomUserByUserNameAndChatRoomId(String username, String chatRoomId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", username);
+        params.put("chatRoomId", chatRoomId);
+        session.delete(NAMESPACE + ".deleteChatRoomUserByUserNameAndChatRoomId", params);
     }
 
     public void insert(ChatRoomUserDTO chatRoomUserDTO){

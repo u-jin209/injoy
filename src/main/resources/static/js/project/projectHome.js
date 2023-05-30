@@ -1152,6 +1152,7 @@ function deleteTComment(commentId) {
 // }
 function enterProjectChatRoom() {
     let projectId = parseInt(document.getElementById('projectData').getAttribute('data-project'));
+    const projectName = document.getElementById('projectName').value;
     $.ajax({
         url:'/chatRoom/checkProjectChatRoom',
         method:"POST",
@@ -1175,7 +1176,6 @@ function enterProjectChatRoom() {
                 }).then((result)=>{
                     if (result.isConfirmed) {
                         const roomName = result.value;
-                        console.log(roomName)
                         $.ajax({
                             url: '/chatRoom/createProjectChatRoom',
                             method: 'POST',
@@ -1185,7 +1185,7 @@ function enterProjectChatRoom() {
                             }),
                             contentType:'application/json',
                             success: function (response) {
-                                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId;
+                                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId+'&projectName='+projectName;
                                 let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
                             },
                             error:function(xhr, status, error){
@@ -1197,7 +1197,7 @@ function enterProjectChatRoom() {
                     }
                 })
             }else{
-                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId;
+                let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId+'&projectName='+projectName;
                 let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
             }
         }
