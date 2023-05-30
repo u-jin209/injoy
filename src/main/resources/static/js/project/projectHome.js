@@ -1175,7 +1175,6 @@ function enterProjectChatRoom() {
                 }).then((result)=>{
                     if (result.isConfirmed) {
                         const roomName = result.value;
-                        console.log(roomName)
                         $.ajax({
                             url: '/chatRoom/createProjectChatRoom',
                             method: 'POST',
