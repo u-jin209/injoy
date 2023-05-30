@@ -65,7 +65,7 @@ function searchProject() {
 
                     result.forEach(function (item) {
                         $(document).ready(function () {
-                            console.log(item.organName )
+
                             let organ =' ';
                             if( item.organName != undefined){
                                 organ= item.organName
@@ -154,9 +154,14 @@ function searchInviteCode() {
             success: function (item) {
 
 
+                let organ =' ';
+                if( item.organName != undefined){
+                    organ= item.organName
+                }
 
 
                     if (item.length != 0) {
+                        console.log(item)
                         const searchDiv = document.getElementById("searchCodeResult");
                         searchDiv.style.display = "";
                         $('#searchCodeDivMain').append(
