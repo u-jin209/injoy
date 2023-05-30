@@ -34,10 +34,10 @@
 
 <!-- Example single danger button -->
                 <div class="btn-group" >
-                  <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button type="button" id="toggle-button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                     <img style="height: 27px; width: 27px;border-radius: 30%" th:src="@{${logIn.profilePhoto}}" onerror=this.src='/img/user.jpg'  >
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu"  id='dropbox' style="z-index: 1 ;position:relative; !important;">
                     <li><a class="dropdown-item"  href="/user/userInfo">유저정보</a></li>
 
                     <li><hr class="dropdown-divider"></li>
@@ -56,7 +56,9 @@
         </span>
     </nav>
 </header>
+<script>
 
+</script>
 
 </body>
 </html>

@@ -15,11 +15,15 @@
 
         where  m."userId" =#{id}  and "authority" != 'REQUEST'  and "authority" != 'INVITE'
     </select>
-    <select id="selectProject" parameterType="int" resultType="ProjectDTO">
+    <select id="selectProject" parameterType="hashmap" resultType="ProjectDTO">
         SELECT * FROM injoy.project p
         left join injoy."bookMark" b
         on p."projectId" = b."projectId"
-        where p."projectId"=#{id}
+        where p."projectId"=#{projectId}
+
+        <if test='bookMarkId != null'>
+        and b."userId" = ${userId}
+        </if>
     </select>
 
     <select id="bookMarkProject" parameterType="int" resultType="ProjectDTO">
