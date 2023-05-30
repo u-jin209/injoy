@@ -132,6 +132,8 @@ public class TaskController {
                 taskDTO.setPriority(null);
             }
 
+            taskService.insert(taskDTO);
+
             // 파일 저장하기
             Map<String, Object> map = new HashMap<>();
             map.put("folderRoot", "/");
@@ -173,8 +175,6 @@ public class TaskController {
                 taskFileDTO.setTaskId(taskDTO.getTaskId());
                 taskFileService.insert(taskFileDTO);
             }
-
-            taskService.insert(taskDTO);
             result = "success";
 
         }

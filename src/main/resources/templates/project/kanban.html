@@ -19,9 +19,8 @@
             <div id="requestBoard" class="kanbanBoard col" style="background-color: rgba(0,178,255,0.5)">
                 <div class="kanbanBoardContent">
                     <h5 class="taskProcess">요청</h5>
-                    <div class="control"></div>
-                    <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '요청'}">
-                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
+                    <div class="control">
+                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal" th:each="task : ${taskList}" th:if="${task.process eq '요청'}">
                             <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                             <div class="el" th:text="${task.taskTitle}"></div>
                         </div>
@@ -39,9 +38,8 @@
             <div id="progressBoard" class="kanbanBoard col" style="background-color: rgba(0,176,28,0.5)">
                 <div class="kanbanBoardContent">
                     <h5 class="taskProcess">진행</h5>
-                    <div class="control"></div>
-                    <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '진행'}">
-                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
+                    <div class="control">
+                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal" th:each="task : ${taskList}" th:if="${task.process eq '진행'}">
                             <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                             <div class="el" th:text="${task.taskTitle}"></div>
                         </div>
@@ -58,9 +56,8 @@
             <div class="kanbanBoard col" style="background-color: rgba(253,121,0,0.5)">
                 <div class="kanbanBoardContent">
                     <h5 class="taskProcess">피드백</h5>
-                    <div class="control"></div>
-                    <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '피드백'}">
-                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
+                    <div class="control">
+                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal" th:each="task : ${taskList}" th:if="${task.process eq '피드백'}">
                             <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                             <div class="el" th:text="${task.taskTitle}"></div>
                         </div>
@@ -77,9 +74,8 @@
             <div class="kanbanBoard col" style="background-color: rgba(64,42,157,0.5)">
                 <div class="kanbanBoardContent">
                     <h5 class="taskProcess">완료</h5>
-                    <div class="control"></div>
-                    <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '완료'}">
-                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
+                    <div class="control">
+                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal" th:each="task : ${taskList}" th:if="${task.process eq '완료'}">
                             <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                             <div class="el" th:text="${task.taskTitle}"></div>
                         </div>
@@ -97,9 +93,8 @@
             <div class="kanbanBoard col" style="background-color: rgba(119,119,119,0.50)">
                 <div class="kanbanBoardContent">
                     <h5 class="taskProcess">보류</h5>
-                    <div class="control"></div>
-                    <div class="control" th:each="task : ${taskList}" th:if="${task.process eq '보류'}">
-                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal">
+                    <div class="control">
+                        <div class="draggable" draggable="true" data-bs-toggle="modal" data-bs-target="#kanbanModal" th:each="task : ${taskList}" th:if="${task.process eq '보류'}">
                             <input class="kanabanTaskId" type="hidden" th:value="${task.taskId}"/>
                             <div class="el" th:text="${task.taskTitle}"></div>
                         </div>
@@ -332,23 +327,22 @@
                         </label>
                     </div>
                     <div class="postAttached">
-                        <div id="kanban-dropzone">
-                            <form action="/file/taskUpload" class="dropzone needsclick" id="kanban-upload"
-                                  style="border: none">
-                                <div class="dz-message needsclick">
-                                  <span class="text">
-                                  </span>
-                                    <span class="plus">+</span>
-                                </div>
-                            </form>
+                        <div class="kanban-previews">
+                        </div>
+                    </div>
+                    <div class="fileAttached">
+                        <div class="file-kanban-previews">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="justify-content: space-between !important;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                         class="bi bi-paperclip" viewBox="0 0 16 16">
-                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                    </svg>
+                    <label for="kanban-file" style="margin: 0; padding: 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-paperclip" viewBox="0 0 16 16">
+                            <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                        </svg>
+                    </label>
+                    <input id="kanban-file" class="file" name="file" type="file" multiple enctype="multipart/form-data" style="display: none"/>
                     <button type="button" class="btn taskAddButton"
                             style="background-color: #001542; color: white" onclick="kanbanAddTask()">등록
                     </button>
@@ -362,6 +356,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span class="modal-title k-projectName mr-2" id="staticBackdropLabel" style="font-weight: bold">업무 상세보기 | </span>
+                <input type="hidden" class="kanban-modal-projectId" th:value="${project.projectId}">
                 <span th:text="${project.projectName}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -606,6 +601,17 @@
                             </ul>
                         </div>
                         <div class="kanban-taskContent"></div>
+                        <div class="img-container-kanban">
+                        </div>
+                        <div class="kanban-file-post-area mt-3" style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down mr-2" viewBox="0 0 16 16">
+                                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            </svg> <span style="vertical-align: middle">첨부파일</span>
+                            <div class="file-container-kanban">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
