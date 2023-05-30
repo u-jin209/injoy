@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/member/")
-public class ProjectMemberController {
+public class  ProjectMemberController {
     private  ProjectMemberService memberService;
     private  ProjectService projectService;
 
@@ -71,12 +71,12 @@ public class ProjectMemberController {
     @GetMapping("approve")
     public String approve(Model model, Integer userId , Integer projectId){
 
-        String authority =  "MEMBER";
+
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("userId", userId);
         map.put("projectId",projectId);
-        map.put("authority",authority );
+        map.put("authority","MEMBER" );
 
 
 
@@ -91,6 +91,8 @@ public class ProjectMemberController {
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
         memberDTO.setKeyword(keyword);
         memberDTO.setProjectId(projectId);
+
+        System.out.println("memberService.searchUser(memberDTO) = " + memberService.searchUser(memberDTO));
 
         return memberService.searchUser(memberDTO);
     }

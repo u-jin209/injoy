@@ -97,6 +97,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.name(oAuth2UserInfo.getName())
 					.role("ROLE_USER")
 					.emailVerified(true)
+					.profilePhoto("/img/moru.jpg")
 					.crtnDate(Timestamp.valueOf(now))
 					.provider(oAuth2UserInfo.getProvider())
 					.providerId(oAuth2UserInfo.getProviderId())

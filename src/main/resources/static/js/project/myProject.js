@@ -1,20 +1,5 @@
 /*<![CDATA[*/
-$('#bookmarkBtn').click(function(e){
 
-    if($("#bookmarkBtn").attr('aria-expanded')=='false'){
-        console.log("wsfdsjhgfbsdujkghoikds")
-        $('#down').css("display",'unset')
-        const down = document.getElementById('down')
-        down.style.display ='unset'
-        $('#up').css("display",'none')
-    }else if($("#bookmarkBtn").attr('aria-expanded')=='true' ){
-
-        $('#up').css("display",'unset')
-        $('#down').css("display",'none')
-    }
-
-
-})
 
 
 function projectList(){
@@ -77,7 +62,7 @@ function projectList(){
                                                 "</svg></button> </div>" +
                                         "<div class='col-md-1'>"+
 
-                                            "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
+                                            "<button type='button' class='btn close' data-dismiss='modal' aria-label='Close'>"+
                                                 "<span aria-hidden='true'>&times;</span>"+
                                             "</button></div></div>"+
                                     "<div class='modal-body scrollDiv' id='modal-body' value= "+item.projectId+"  name = "+item.projectId+" style='height: 500px;overflow-y: scroll  '>"+
@@ -256,7 +241,7 @@ function memberList(value) {
                             "</div>" +
                             "<div class='col-md-8'>" +
                             "<div class='card-body' style='text-align: left'>" +
-                            "<i class='fa-solid fa-crown' style='color: #ffb30d;' th:if=${"+ item.authority +".toString.equals('MANAGER')} '></i>"+
+                            "<i class='fa-solid fa-crown' id='crown' style='color: #ffb30d; display: none' ></i>"+
                             "<h5 class='card-title'>" + item.name + "</h5>" +
                             "<p class='card-text'>" + item.username + "</p>" +
                             "</div>" +
@@ -264,6 +249,13 @@ function memberList(value) {
                             "</div>" +
                             "</div>"
                         );
+
+                        if(item.authority == "MANAGER" ){
+                            const crown = document.getElementById("crown")
+                            crown.style.display = "unset"
+
+                        }
+
                     });
 
                 })
@@ -278,29 +270,7 @@ function memberList(value) {
 
 
 }
-function printBookMark(){
 
-
-    $('#accordion-body').empty()
-    $.ajax({
-        url: '/project/bookmarkList', //Controller에서 요청 받을 주소
-        type: 'GET', //POST 방식으로 전달
-        success: function (result) {
-            if (result.length >= 1) {
-
-
-                result.forEach(function (item) {
-                    $('#accordion-body').append(
-                        "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 ) ;!important ' " +
-                        " onclick ='project("+item.projectId+")'>"+item.projectName +"</p>"
-                    )
-
-                })
-            }
-        }
-
-    })
-}
 function project(projectId){
     location.href ="/project/"+projectId
 }
@@ -320,7 +290,7 @@ function bookMark(projectId, userId) {
             type: 'GET', url: "/bookMark/insert", data: data, success: function (result) {
                 star.style.display = "none";
                 starfill.style.display = "unset";
-                printBookMark();
+                printBookMarkList()
             }
         });
     } else if (star.style.display == "none") {
@@ -329,11 +299,38 @@ function bookMark(projectId, userId) {
             type: 'GET', url: "/bookMark/delete", data: data, success: function (result) {
                 starfill.style.display = "none";
                 star.style.display = "unset";
-                printBookMark()
+                printBookMarkList()
             }
         });
     }
 
+}
+function printBookMarkList() {
+    console.log("bookMarkBody load")
+    $('.bookMarkBody').empty()
+
+    $.ajax({
+        url: '/project/bookmarkList', //Controller에서 요청 받을 주소
+        type: 'GET', //POST 방식으로 전달
+        success: function (result) {
+            if (result.length >= 1) {
+                console.log("bookMarkBody")
+
+
+                result.forEach(function (item) {
+                    $('.bookMarkBody').append(
+                        "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 );  ' " +
+                        " onclick ='project(" + item.projectId + ")'>" + item.projectName + "</p>"
+                    )
+                })
+            }else{
+                $('.bookMarkBody').append(
+                    "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 ); '>비어있음</p>"
+                )
+            }
+        }
+
+    })
 }
 
 function goProject(value){

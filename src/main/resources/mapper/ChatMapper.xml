@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ChatMapper">
+    <select id="selectChatByChatRoomId" parameterType="String" resultType="ChatDTO">
+        SELECT * FROM injoy."chat"
+        where "chatRoomId"=#{chatRoomId}
+    </select>
+
+    <select id="selectChatByChatRoomIdWithProfile" parameterType="String" resultType="ChatDTO">
+        SELECT "chatId", "type", "sender", "message", "time", "chatRoomId", "userId", u."name", u."profilePhoto" FROM injoy."chat" c
+        inner join injoy."user" u
+        on c."userId" = u."id"
+        where "chatRoomId"=#{chatRoomId}
+        ORDER BY "time" ASC
+    </select>
+
+    <insert id="insert" parameterType="ChatDTO">
+        insert into injoy."chat"("type","sender","message","time","chatRoomId","userId")
+        values (#{type},#{sender},#{message},CURRENT_TIMESTAMP,#{chatRoomId},#{userId})
+    </insert>
+
+</mapper>

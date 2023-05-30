@@ -42,8 +42,10 @@ public class UserService implements UserDetailsService {
     public boolean register(UserDTO attempt){
         LocalDateTime now = LocalDateTime.now();
         if (validate(attempt.getUsername())) {
+            attempt.setEmail(attempt.getUsername());
             attempt.setPassword(passwordEncoder.encode(attempt.getPassword()));
             attempt.setRole("ROLE_USER");
+            attempt.setProfilePhoto("/img/moru.jpg");
             attempt.setCrtnDate(Timestamp.valueOf(now));
             attempt.setEmailVerified(false);
             session.insert(NAMESPACE + ".register", attempt);

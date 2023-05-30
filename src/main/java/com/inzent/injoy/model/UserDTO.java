@@ -16,6 +16,7 @@ public class UserDTO {
     private String password;
     private String email;
     private String name;
+    private String organName;
     private String role;
     private String phoneNumber;
     private Timestamp crtnDate;

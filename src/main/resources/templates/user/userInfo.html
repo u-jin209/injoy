@@ -9,17 +9,19 @@
     <!-- 내 css  -->
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
 
-<!--    이미지 크롭하기 -->
-    <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.js"></script>
+
+    <script th:src="@{/js/user/userInfo.js}" defer></script>
+
 </head>
 <body>
-<div layout:fragment="content" >
+<div layout:fragment="content">
 
     <div class="container " style="content-align: center; padding: 2%;">
         <h1 class="title">프로필</h1>
         <div class="row mb-5" style="justify-content: right">
-            <button class="btn-orange" type="button" style="width: 85px;height: 30px;" data-toggle="modal" data-target="#memberModal">정보수정</button>
+            <button class="btn-orange" type="button" style="width: 85px;height: 30px;" data-toggle="modal"
+                    data-target="#memberModal">정보수정
+            </button>
         </div>
         <div class="row ">
 
@@ -28,7 +30,8 @@
 
 
                     <div id="profile_container" class="memberImgDiv">
-                        <img id="profile" class="memberImgDiv"th:src="@{${logIn.profilePhoto}}", onerror=this.src="/img/user.jpg">
+                        <img id="profile" class="memberImgDiv" th:src="@{${logIn.profilePhoto}}" ,
+                             onerror=this.src="/img/user.jpg">
                     </div>
                 </div>
 
@@ -39,7 +42,6 @@
                 </div>
             </div>
             <div class="col" style="    text-align: -webkit-center;">
-
 
 
                 <div class="memberInfo row">
@@ -56,8 +58,7 @@
                 </div>
 
 
-
-                <div class="memberInfo row"  >
+                <div class="memberInfo row">
 
                     <div class="col" style="    display: flex;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#303030"
@@ -66,7 +67,7 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${logIn.organId != null ? logIn.organId: '직급을 입력해주세요' }"></p>
+                        <p class="contentText" th:text="${logIn.organId !=  0 ? logIn.organName: '조직을 설정해주세요' }"></p>
                     </div>
                 </div>
 
@@ -81,7 +82,8 @@
                         </svg>
                     </div>
                     <div class="col">
-                        <p class="contentText" th:text="${logIn.getPhoneNumber() != null ? logIn.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
+                        <p class="contentText"
+                           th:text="${logIn.getPhoneNumber() != null ? logIn.getPhoneNumber: '전화번호를 입력해주세요'}"></p>
                     </div>
                 </div>
 
@@ -99,47 +101,20 @@
                     </div>
 
                 </div>
-
-
             </div>
-
-
         </div>
-
-
     </div>
 
 
-    <div class="modal" tabindex="-1">
+    <div class="modal" id="memberModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="/user/updateInfo" method="post" onsubmit=""   enctype="multipart/form-data">
+            <div class="modal-content" style="width: 125%">
+                <form action="/user/updateInfo" method="post" onsubmit="" enctype="multipart/form-data">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title">정보 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
                     </div>
                     <div class="modal-body scrollDiv" style="height: 700px;overflow-y: scroll  ">
                         <div class="row mt-3 mb-3" style="justify-content: center; ">
@@ -149,8 +124,10 @@
                                     <div class="row mb-3" style="justify-content: center;">
 
 
-                                        <div id="image_container" class="memberImgDiv"><img id="image-show" class="memberImgDiv"
-                                                                                       th:src="@{${logIn.profilePhoto}}" onerror=this.src="/img/user.jpg">
+                                        <div id="image_container" class="memberImgDiv"><img id="image-show"
+                                                                                            class="memberImgDiv"
+                                                                                            th:src="@{${logIn.profilePhoto}}"
+                                                                                            onerror=this.src="/img/user.jpg">
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
@@ -158,8 +135,6 @@
                                                name="file"
                                                accept="image/*"
                                                onchange="toBase64(event);"/>
-<!--                                        <input type="file" class="real-upload" accept="image/*" -->
-<!--                                               id="mainImgInput" name="mainFile">-->
 
                                     </div>
                                     <div class="row contentText"> 상태</div>
@@ -190,7 +165,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row contentText"> 직급/회사</div>
+                                    <div class="row contentText"> 조직명</div>
                                     <div class="row">
 
                                         <div class="memberInfo row" style="float:left;">
@@ -203,11 +178,33 @@
                                                 </svg>
                                             </div>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control" id="organ"
-                                                       name="organ" th:value="${logIn.organId}"
-                                                       placeholder="직급/소속을 입력해주세요">
+                                                <select class="form-select"  id="organId"  name="organId"  >
+                                                    <option selected  th:value="${logIn.organId}"  th:text="${logIn.organId != 0 ? logIn.organName: '조직을 선택해 주세요' }"></option>
+                                                    <option th:each="organ : ${organList}"
+                                                            th:value="${organ.organId}" th:text="${organ.organName}"></option>
+
+                                                </select>
+
+
+
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="row contentText"> 조직 추가</div>
+                                    <div class="row">
+                                    <div class="memberInfo row" style="float:left;">
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control " oninput="checkOrganName()" id="newOrgan"
+                                                       placeholder="조직명">
+                                                <span class="mt-1" id="existOrganName" style="color: #F5544D; display: none">이미 등록된 조직이름입니다.</span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-orange" type="button" onclick="addCompany()">추가</button>
+                                            </div>
+
+
+                                    </div>
                                     </div>
                                     <div class="row contentText"> 전화</div>
                                     <div class="row">
@@ -250,100 +247,20 @@
                                     </div>
 
 
+
                                 </div>
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-orange">수정</button>
-
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-orange">수정</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-
-
-        function setThumbnail(event) {
-            var reader = new FileReader();
-
-            reader.onload = function (event) {
-                var img = document.getElementById("image-show")
-                img.setAttribute("src", event.target.result);
-                document.querySelector("div#image_container").appendChild(img);
-            };
-
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-
-
-
-        function toBase64(event) {
-            var reader = new FileReader();
-            reader.readAsDataURL(event.target.files[0]);
-            reader.onload = function(event) {
-                var base64 = event.target.result;// img -> base64
-                var img = document.getElementById("image-show")
-                img.setAttribute("src", base64);
-
-                const profilePhoto = document.getElementById("profilePhoto")
-                profilePhoto.setAttribute("value", base64.toString())
-
-            };
-        }
-
-
-        function submitOk(){
-            Swal.fire({
-                title: "수정 완료되었습니다 ",
-                icon: "success"
-            });
-        }
-
-
-        var autoHypenPhone = function(str){
-            str = str.replace(/[^0-9]/g, '');
-            var tmp = '';
-            if( str.length < 4){
-                return str;
-            }else if(str.length < 7){
-                tmp += str.substr(0, 3);
-                tmp += '-';
-                tmp += str.substr(3);
-                return tmp;
-            }else if(str.length < 11){
-                tmp += str.substr(0, 3);
-                tmp += '-';
-                tmp += str.substr(3, 3);
-                tmp += '-';
-                tmp += str.substr(6);
-                return tmp;
-            }else{
-                tmp += str.substr(0, 3);
-                tmp += '-';
-                tmp += str.substr(3, 4);
-                tmp += '-';
-                tmp += str.substr(7);
-                return tmp;
-            }
-
-            return str;
-        }
-
-
-        var phoneNum = document.getElementById('phoneNum');
-
-        phoneNum.onkeyup = function(){
-            console.log(this.value);
-            this.value = autoHypenPhone( this.value ) ;
-        }
-
-
-    </script>
 
 
 </div>

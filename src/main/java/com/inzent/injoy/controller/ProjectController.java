@@ -86,7 +86,6 @@ public class ProjectController {
 
         if (login == null) {
 
-
             return "/user/logIn";
         }
         model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
