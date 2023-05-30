@@ -76,7 +76,7 @@
     font-weight: bold;
 }
 
-.taskProcessBtn , .kanban-process-btn{
+.taskProcessBtn , .kanban-process-btn, .k-taskProcessBtn{
     display: inline-flex !important;
     height: 30px;
     border-radius: 30px !important;
@@ -123,12 +123,12 @@ td {
     vertical-align: middle !important;
 }
 
-tr:hover td{
+.taskTr:hover td{
     background: rgba(48, 100, 179, 0.51) !important;
     color:#FFFFFF;
 }
 
-td:hover {
+.taskTr td:hover {
     border: 3px solid #3064B3 !important;
 }
 
@@ -262,12 +262,12 @@ td:hover {
     background-color: transparent !important;
 }
 
-tr:hover td>#startDate{
+.taskTr:hover td>#startDate{
     color: white !important;
     background-color: transparent !important;
 }
 
-tr:hover td>#endDate{
+.taskTr:hover td>#endDate{
     color: white !important;
     background-color: transparent !important;
 }
@@ -292,7 +292,7 @@ tr:hover td>#endDate{
     height: 50px !important;
 }
 
-td:hover > #startDate:hover {
+.taskTr td:hover > #startDate:hover {
     background-color: rgba(48, 100, 179, 0.51) !important;
     color: white !important;
     border: none;
@@ -303,7 +303,7 @@ td:hover > #startDate:hover {
     width: 100%;
 }
 
-td:hover > #endDate:hover  {
+.taskTr td:hover > #endDate:hover  {
     background-color: rgba(48, 100, 179, 0.51) !important;
     color: white !important;
     border: none;

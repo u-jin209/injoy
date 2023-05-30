@@ -91,8 +91,8 @@ $(function () {
     })
 
     // 프로세스 버튼 클릭시 변경
-    $('.taskProcessBtn').click(function (e) {
-        let btn = document.querySelectorAll(".taskProcessBtn");
+    $('.k-taskProcessBtn').click(function (e) {
+        let btn = document.querySelectorAll(".k-taskProcessBtn");
         btn.forEach(function (btn, i) {
             if (e.currentTarget === btn) {
                 btn.classList.add("active");
@@ -638,6 +638,9 @@ function update(taskId, changeProcess) {
         success: () => {
             $('#taskTable').load(window.location.href + ' #taskTable', function () {
                 btnColor()
+                table_priority()
+                startDateValue()
+                endDateValue()
                 all()
                 Toast.fire({
                     title: '상태가 변경되었습니다.'
@@ -648,7 +651,7 @@ function update(taskId, changeProcess) {
 }
 
 function kanbanCurrentBtn() {
-    let btn = document.querySelectorAll(".taskProcessBtn");
+    let btn = document.querySelectorAll(".k-taskProcessBtn");
     let currentBtn;
     btn.forEach(function (btn, i) {
         if (btn.classList.contains('active')) {

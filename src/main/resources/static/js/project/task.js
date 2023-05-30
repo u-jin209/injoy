@@ -190,6 +190,8 @@ function all() {
                     btnColor()
                     table_priority()
                     all()
+                    startDateValue()
+                    endDateValue()
                     Toast.fire({
                         title: '업무명이 변경되었습니다.'
                     })
@@ -279,6 +281,8 @@ function all() {
                             btnColor()
                             table_priority()
                             all()
+                            startDateValue()
+                            endDateValue()
                             Toast.fire({
                                 title: '상태가 변경되었습니다.'
                             })
@@ -319,6 +323,8 @@ function all() {
                             btnColor()
                             table_priority()
                             all()
+                            startDateValue()
+                            endDateValue()
                             Toast.fire({
                                 title: '우선순위가 변경되었습니다.'
                             })
@@ -445,6 +451,8 @@ function all() {
                     btnColor()
                     table_priority()
                     all()
+                    startDateValue()
+                    endDateValue()
                     Toast.fire({
                         title: '시작일이 변경되었습니다.'
                     })
@@ -483,6 +491,8 @@ function all() {
                     btnColor()
                     table_priority()
                     all()
+                    startDateValue()
+                    endDateValue()
                     Toast.fire({
                         title: '마감일이 변경되었습니다.'
                     })
@@ -520,6 +530,8 @@ function all() {
                             btnColor()
                             table_priority()
                             all()
+                            startDateValue()
+                            endDateValue()
                             Toast.fire({
                                 title: '진행도가 변경되었습니다.'
                             })
@@ -1213,6 +1225,8 @@ function searchTaskEnter(projectId) {
                                 }
                             })
                             all()
+                            startDateValue()
+                            endDateValue()
                         })
 
                     } else {
@@ -1281,6 +1295,8 @@ function taskDetailUpdate() {
                 btnColor()
                 table_priority()
                 all()
+                startDateValue()
+                endDateValue()
             })
             Swal.mixin({
                 toast: true,
