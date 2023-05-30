@@ -17,13 +17,10 @@
     </select>
     <select id="selectProject" parameterType="hashmap" resultType="ProjectDTO">
         SELECT * FROM injoy.project p
-        left join injoy."bookMark" b
+        left join (select * from injoy."bookMark" where "userId" = #{userId}) b
         on p."projectId" = b."projectId"
         where p."projectId"=#{projectId}
 
-        <if test='bookMarkId != null'>
-        and b."userId" = ${userId}
-        </if>
     </select>
 
     <select id="bookMarkProject" parameterType="int" resultType="ProjectDTO">
@@ -43,11 +40,6 @@
         values (#{projectName},#{explanation},#{creatorUserId},#{invitationCode},#{organId},#{domain})
     </insert>
 
-<!--    최근생성된 프로젝트 id 반환-->
-    <select id="selectLastId" resultType="int">
-        SELECT "projectId" FROM injoy.project
-        order by "projectId" DESC LIMIT 1;
-    </select>
 
 
 

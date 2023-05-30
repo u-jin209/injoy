@@ -42,9 +42,7 @@ public class ProjectService {
          session.insert(NAMESPACE+".insert", projectDTO);
     }
 
-    public int selectLastId(){
-        return session.selectOne(NAMESPACE+".selectLastId");
-    }
+
 
 
     public List<ProjectDTO> searchProject(Map<String, Object> map) {
@@ -54,6 +52,7 @@ public class ProjectService {
 
     public ProjectDTO searchInviteCode(Map<String, Object> map) {
 
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ session = " + session.selectList(NAMESPACE+".searchInviteCode",map));
         return session.selectOne(NAMESPACE+".searchInviteCode",map);
     }
 
