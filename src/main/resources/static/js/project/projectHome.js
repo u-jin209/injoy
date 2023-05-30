@@ -761,7 +761,7 @@ function boardImg() {
                 type: "get",
                 success: (response) => {
                     const previewsContainer = $(this).find('.img-container-board');
-                    let count = 1;
+                    let count = 0;
                     for (let i = 0; i < response.length; i++) {
                         const fileExtension = response[i].fileExtension.toLowerCase();
 
@@ -780,6 +780,7 @@ function boardImg() {
 
                             previewsContainer.append(preview);
                         } else {
+                            count++;
                             $(this).find('.file-post-area').css('display', 'block')
                             const fPreviewsContainer = $(this).find('.file-container-board');
                             const filePreview = document.createElement('div');
@@ -791,7 +792,6 @@ function boardImg() {
 
                             fPreviewsContainer.append(filePreview);
                         }
-                        count++;
                     }
                 }
             });
@@ -970,7 +970,7 @@ function TaskImg() {
                 type: "get",
                 success: (response) => {
                     const previewsContainer = $(this).find('.img-container-task');
-                    let count = 1;
+                    let count = 0;
                     for (let i = 0; i < response.length; i++) {
                         const fileExtension = response[i].fileExtension.toLowerCase();
 
@@ -991,6 +991,7 @@ function TaskImg() {
 
                             previewsContainer.append(preview);
                         } else {
+                            count++
                             $(this).find('.file-post-area').css('display', 'block')
                             const fPreviewsContainer = $(this).find('.file-container-task');
                             const filePreview = document.createElement('div');
@@ -1002,7 +1003,7 @@ function TaskImg() {
 
                             fPreviewsContainer.append(filePreview);
                         }
-                        count++;
+
                     }
                 }
 

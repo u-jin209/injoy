@@ -28,7 +28,7 @@ function dragAndDrop() {
     containers.forEach(container => {
         container.addEventListener("dragover", e => {
             e.preventDefault();
-            const afterElement = getDragAfterElement(container, e.clientX);
+            const afterElement = getDragAfterElement(container, e.clientY);
             const draggable = document.querySelector(".dragging");
             if (afterElement === undefined) {
                 container.appendChild(draggable);
@@ -48,7 +48,7 @@ function dragAndDrop() {
         });
     });
 
-    function getDragAfterElement(container, x) {
+    function getDragAfterElement(container, y) {
         const draggableElements = [
             ...container.querySelectorAll(".draggable:not(.dragging)"),
         ];
@@ -56,7 +56,7 @@ function dragAndDrop() {
         return draggableElements.reduce(
             (closest, child) => {
                 const box = child.getBoundingClientRect();
-                const offset = x - box.left - box.width / 2;
+                const offset = y - box.left - box.width / 2;
                 // console.log(offset);
                 if (offset < 0 && offset > closest.offset) {
                     return {offset: offset, element: child};
@@ -70,6 +70,7 @@ function dragAndDrop() {
 }
 
 $(function () {
+    kanbanFileSelection()
     $('.kanbanBtn').click(function () {
         let text = $(this).parent().find('.taskProcess').text()
 
@@ -226,7 +227,7 @@ $(function () {
 
 
     // 칸반보드 상세보기 부분
-    $('.control').click(function () {
+    $('.draggable').click(function () {
         let formData = {
             taskId: $(this).find('.kanabanTaskId').val()
         }
@@ -235,6 +236,9 @@ $(function () {
             type: 'get',
             data: formData,
             success: (result) => {
+                $('.kanban-file-post-area').css('display','none')
+                $('.file-container-kanban').html("")
+                $('.img-container-kanban').html("")
                 showKanbanDetail(result)
             }
         })
@@ -511,6 +515,8 @@ function showKanbanDetail(result) {
 
     //내용
     $('.kanban-taskContent').text(result.taskContent)
+
+    kanbanTaskImg(result.taskId, result.projectId)
 }
 
 
@@ -663,18 +669,21 @@ function to_date2(date_str) {
 }
 
 function kanbanAddTask() {
+    let formData = new FormData();
 
-    let currentBtn = kanbanCurrentBtn()
-    let formData = {
-        projectId: Number($('.projectIdInput').val()),
-        taskTitle: $('#kanbanAddTitle').val(),
-        taskContent: $('.writekanbanContent').val(),
-        process: currentBtn,
-        //managerId: $('#kanbanManagerId').text(),
-        startDate: $('.kanban-addStartDate').val() ? to_date2($('.kanban-addStartDate').val()) : new Date(0),
-        closingDate: $('.kanban-addEndDate').val() ? to_date2($('.kanban-addEndDate').val()) : new Date(0),
-        progress: Number($('.kanban-rangeInput').val()),
-        priority: $('.prioritySpan .priorityText').text()
+    formData.append('taskTitle', $('#kanbanAddTitle').val());
+    formData.append('taskContent',$('.writekanbanContent').val());
+    formData.append('projectId', Number($('.projectIdInput').val()));
+    formData.append('process', kanbanCurrentBtn());
+    formData.append('startDate', $('.kanban-addStartDate').val() ? to_date2($('.kanban-addStartDate').val()) : new Date(0));
+    formData.append('closingDate', $('.kanban-addEndDate').val() ? to_date2($('.kanban-addEndDate').val()) : new Date(0));
+    formData.append('progress', Number($('.kanban-rangeInput').val()));
+    formData.append('priority', $('.prioritySpan .priorityText').text());
+
+    let files = document.querySelector('#kanban-file').files;
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
     }
 
     console.log(formData)
@@ -683,6 +692,8 @@ function kanbanAddTask() {
         url: '/task/taskPageWrite',
         data: formData,
         type: 'post',
+        processData: false,
+        contentType: false,
         success: ((message) => {
             if (message === "success") {
                 location.reload()
@@ -745,3 +756,250 @@ function kanban_priority(value) {
     }
 }
 
+function kanbanFileSelection() {
+    const fileDOM = document.querySelector('#kanban-file');
+    let previewsContainer =  document.querySelector('.kanban-previews');
+
+    fileDOM.addEventListener('change', () => {
+        const files = fileDOM.files;
+        kHandleImageFiles(files, previewsContainer, fileDOM);
+    });
+}
+
+function kHandleImageFiles(files, previewsContainer, fileDOM) {
+    const imageFiles = [];
+    const otherFiles = [];
+
+    Array.from(files).forEach(file => {
+        if (isImageFile(file)) {
+            imageFiles.push(file);
+        } else {
+            otherFiles.push(file);
+        }
+    });
+
+    if (imageFiles.length > 0) {
+        kanbanImg(imageFiles, previewsContainer, fileDOM);
+    }
+
+    previewsContainer.innerHTML = '';
+    previewsContainer = document.querySelector('.file-kanban-previews');
+
+    kanbanFile(otherFiles, previewsContainer, fileDOM);
+
+
+}
+
+function kanbanImg(files, previewsContainer, fileDOM) {
+    const previews = [];
+
+    // 이미지 미리보기를 담을 컨테이너 초기화
+    previewsContainer.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = () => {
+            const previewContainer = document.createElement('div');
+            const previewImage = document.createElement('img');
+            const overlayImage = document.createElement('img');
+            overlayImage.classList.add('overlay-image');
+
+            previewContainer.classList.add('image-kanban-box');
+
+            previewContainer.classList.add('preview-container');
+            previewContainer.style.position = 'relative';
+            previewContainer.style.display = 'inline-block';
+
+            previewImage.style.width = '100px';
+            previewImage.style.height = '100px';
+            previewImage.style.borderRadius = '10%';
+            previewImage.style.marginRight = '10px';
+            previewImage.src = reader.result;
+
+            overlayImage.style.position = 'absolute';
+            overlayImage.style.top = '0';
+            overlayImage.style.left = '0';
+            overlayImage.style.opacity = '0';
+            overlayImage.style.transition = 'opacity 0.3s ease-in-out';
+            overlayImage.style.width = '100px';
+            overlayImage.style.height = '100px';
+            overlayImage.src = '/img/pngwing.com.png';
+
+            previewContainer.appendChild(previewImage);
+            previewContainer.appendChild(overlayImage);
+            previewsContainer.appendChild(previewContainer);
+
+            previewContainer.addEventListener('mouseover', () => {
+                overlayImage.style.opacity = '80%';
+            });
+
+            previewContainer.addEventListener('mouseleave', () => {
+                overlayImage.style.opacity = '0';
+            });
+
+            previewContainer.addEventListener('click', () => {
+                Swal.fire({
+                    title: '해당 이미지를 삭제하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 클릭한 미리보기 요소의 인덱스 찾기
+                        const index = previews.indexOf(previewContainer);
+                        if (index !== -1) {
+                            removePreview(previewContainer, index, files, previewsContainer, fileDOM);
+                        }
+
+                        Swal.fire({
+                            title: '삭제완료!',
+                            icon: 'success',
+                        });
+                    }
+                });
+            });
+
+            previews.push(previewContainer); // 미리보기 요소를 배열에 추가
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function kanbanFile(files, previewsContainer, fileDOM) {
+    const previews = [];
+
+    // 이미지 미리보기를 담을 컨테이너 초기화
+    previewsContainer.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+
+        reader.onload = () => {
+            const fileContainer = document.createElement('div');
+            fileContainer.classList.add('file-container');
+
+            const fileInfo = document.createElement('div');
+            fileInfo.classList.add('file-info');
+
+            const fileNameContainer = document.createElement('div');
+            fileNameContainer.classList.add('file-name-container');
+
+            const fileName = document.createElement('div');
+            fileName.classList.add('preview-file-name');
+            fileName.textContent = file.name;
+
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-button');
+            removeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>`;
+            removeButton.style.border = 'none';
+            removeButton.style.backgroundColor = 'transparent';
+
+            removeButton.addEventListener('click', () => {
+                Swal.fire({
+                    title: '해당 이미지를 삭제하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const previewContainer = removeButton.closest('.file-container');
+                        const index = Array.from(previewsContainer.children).indexOf(previewContainer);
+                        const files = Array.from(previewsContainer.children).map((container) => container.file);
+
+                        const dataTransfer = new DataTransfer();
+                        for (let j = 0; j < fileDOM.files.length; j++) {
+                            const inputFile = fileDOM.files[j];
+                            if (inputFile.name !== file.name) {
+                                dataTransfer.items.add(inputFile);
+                            }
+                        }
+                        fileDOM.files = dataTransfer.files;
+
+                        removePreview(previewContainer, index, files, previewsContainer, fileDOM);
+                    }
+                    Swal.fire({
+                        title: '삭제완료!',
+                        icon: 'success',
+                    });
+                });
+            });
+
+            fileNameContainer.appendChild(fileName);
+            fileNameContainer.appendChild(removeButton);
+
+            fileInfo.appendChild(fileNameContainer);
+
+            fileContainer.appendChild(fileInfo);
+            previewsContainer.appendChild(fileContainer);
+
+            previews.push(fileContainer); // 미리보기 요소를 배열에 추가
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function kanbanTaskImg(taskId, projectId) {
+        if (taskId !== undefined && projectId !== undefined) {
+            let formData = {
+                taskId: taskId
+            }
+
+            $.ajax({
+                url: '/task/getImg',
+                data: formData,
+                type: "get",
+                success: (response) => {
+                    const previewsContainer = $('.img-container-kanban');
+                    let count = 0;
+                    for (let i = 0; i < response.length; i++) {
+                        const fileExtension = response[i].fileExtension.toLowerCase();
+
+                        // 이미지 확장자인 경우에만 미리보기 추가
+                        if (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
+
+                            const preview = document.createElement('img');
+                            preview.classList.add('image-post-box');
+                            preview.style.width = '150px'
+                            preview.style.height = '150px'
+                            preview.style.borderRadius = '10%'
+                            preview.style.marginRight = '10px'
+                            preview.addEventListener('click', function () {
+                                downloadTaskImg(response[i].fileId);
+                            });
+                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+
+
+                            previewsContainer.append(preview);
+                        } else {
+                            count++
+                            $('.kanban-file-post-area').css('display', 'block')
+                            const fPreviewsContainer = $('.file-container-kanban');
+                            const filePreview = document.createElement('div');
+                            filePreview.classList.add('file-preview');
+                            filePreview.textContent = count + '. ' + response[i].uniqueName + response[i].fileExtension;
+                            filePreview.addEventListener('click', function () {
+                                downloadTaskImg(response[i].fileId);
+                            });
+
+                            fPreviewsContainer.append(filePreview);
+                        }
+
+                    }
+                }
+
+            })
+        }
+}

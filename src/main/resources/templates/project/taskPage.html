@@ -264,23 +264,23 @@
                                 </label>
                             </div>
                             <div class="postAttached">
-                                <div id="taskPage-dropzone">
-                                    <form action="/file/taskUpload" class="dropzone needsclick" id="taskPage-upload"
-                                          style="border: none">
-                                        <div class="dz-message needsclick">
-                                  <span class="text">
-                                  </span>
-                                            <span class="plus">+</span>
-                                        </div>
-                                    </form>
+                                <div class="taskPage-previews">
+                                </div>
+                            </div>
+                            <div class="fileAttached">
+                                <div class="file-taskPage-previews">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer" style="justify-content: space-between !important;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                 class="bi bi-paperclip" viewBox="0 0 16 16">
-                                <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                            </svg>
+                            <label for="task-file" style="margin: 0; padding: 0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-paperclip" viewBox="0 0 16 16">
+                                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                                </svg>
+                            </label>
+                            <input id="task-file" class="file" name="file" type="file" multiple
+                                   enctype="multipart/form-data" style="display: none"/>
                             <button type="button" class="btn taskAddButton"
                                     style="background-color: #001542; color: white" onclick="addTaskTab()">등록
                             </button>
@@ -546,6 +546,7 @@
          id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
 
         <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
+            <input class="taskPage-projectId" type="hidden" th:value="${project.projectId}"/>
             <span class="offcanvas-title" id="offcanvasScrollingLabel" th:text="${project.projectName}"
                   style="font-size: 14px"></span>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -780,6 +781,19 @@
                         </ul>
                     </div>
                     <div class="task-taskContent"></div>
+                    <div class="img-container-taskPage">
+                    </div>
+                    <div class="task-file-post-area mt-3"
+                         style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-file-earmark-arrow-down mr-2" viewBox="0 0 16 16">
+                            <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                        </svg>
+                        <span style="vertical-align: middle">첨부파일</span>
+                        <div class="file-container-taskPage">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer task-detail-footer"
