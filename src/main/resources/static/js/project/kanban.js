@@ -971,7 +971,7 @@ function kanbanTaskImg(taskId, projectId) {
                         const fileExtension = response[i].fileExtension.toLowerCase();
 
                         // 이미지 확장자인 경우에만 미리보기 추가
-                        if (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
+                        if (fileExtension === '.jfif' || fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
 
                             const preview = document.createElement('img');
                             preview.classList.add('image-post-box');

@@ -1128,26 +1128,29 @@ function findCurrentBtn() {
 }
 
 function addTaskTab() {
+    let formData = new FormData();
 
-    let currentBtn = findCurrentBtn()
-    let formData = {
-        projectId: Number($('.projectIdInput').val()),
-        taskTitle: $('#taskTitle-addTaskPage').val(),
-        taskContent: $('.write-taskAdd-content').val(),
-        process: currentBtn,
-        //managerId: $('#managerId').val(),
-        startDate: $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date(0),
-        closingDate: $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date(0),
-        progress: Number($('.task-rangeInput').val()),
-        priority: $('.prioritySpan-add-taskPage .priorityText').text()
+    formData.append('taskTitle', $('#taskTitle-addTaskPage').val());
+    formData.append('taskContent',$('.write-taskAdd-content').val());
+    formData.append('projectId', Number($('.projectIdInput').val()));
+    formData.append('process', findCurrentBtn());
+    formData.append('startDate', $('.task-addStartDate').val() ? to_date2($('.task-addStartDate').val()) : new Date(0));
+    formData.append('closingDate', $('.task-addEndDate').val() ? to_date2($('.task-addEndDate').val()) : new Date(0));
+    formData.append('progress', Number($('.task-rangeInput').val()));
+    formData.append('priority', $('.prioritySpan-add-taskPage .priorityText').text());
 
+    let files = document.querySelector('#task-file').files;
 
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
     }
 
     $.ajax({
         url: '/task/taskPageWrite',
         data: formData,
         type: 'post',
+        processData: false,
+        contentType: false,
         success: ((message) => {
             if (message === "success"){
                 location.reload()
@@ -1334,7 +1337,7 @@ function TaskPageImg(taskId, projectId) {
                     const fileExtension = response[i].fileExtension.toLowerCase();
 
                     // 이미지 확장자인 경우에만 미리보기 추가
-                    if (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
+                    if (fileExtension === '.jfif' || fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png' || fileExtension === '.gif') {
 
                         const preview = document.createElement('img');
                         preview.classList.add('image-post-box');
