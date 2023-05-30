@@ -41,7 +41,7 @@ function projectList(){
                             "</div></div>"+
 
 
-                       " <div class='row' style='display: block; MARGIN-RIGHT: 0;' id= "+item.projectId+" onclick='goProject(this)'>"+
+                       " <div class='row' style='display: block; MARGIN-RIGHT: 0;' onclick='goProject(this)' id='"+item.projectId+"'>"+
                             "<div class='col projectTitle' style='margin: 5px 10px 0px 10px; OVERFLOW: hidden; TEXT-OVERFLOW: ellipsis;' >"+item.projectName+"</div>"+
                             "<div class='col explanationText' > "+item.explanation+"</div>"+
                         "</div>"+
@@ -95,6 +95,10 @@ function projectList(){
                 })
 
             }else {
+
+
+
+
                 Swal.fire({
                     title: '참여중인 팀이 없습니다', text: '팀을 만들거나 참여하시겠습니까?', icon: 'warning',
 

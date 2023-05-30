@@ -28,10 +28,10 @@ public class ProjectService {
 
         return session.selectList(NAMESPACE + ".selectAll", id);
     }
-    public ProjectDTO selectProject(int id){
+    public ProjectDTO selectProject(Map<String,Object> map){
 
 
-        return session.selectOne(NAMESPACE + ".selectProject", id);
+        return session.selectOne(NAMESPACE + ".selectProject", map);
     }
     public List<ProjectDTO> bookMarkProject(int id){
 

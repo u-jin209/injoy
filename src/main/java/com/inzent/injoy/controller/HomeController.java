@@ -67,15 +67,17 @@ public class HomeController {
         List<TaskDTO> allList = taskService.viewAll(projectId);
         model.addAttribute("allList", allList);
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", login.getUserDTO().getId());
+        map.put("projectId" , projectId);
+
+
 //      <  addMember에 들어가는 파라미터값들  >
-        model.addAttribute("project", projectService.selectProject(projectId));
+        model.addAttribute("project", projectService.selectProject(map));
         model.addAttribute("memberList", memberService.selectMember(projectId));
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
         model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", login.getUserDTO().getId());
-        map.put("projectId" , projectId);
 
 
         model.addAttribute("logIn" , memberService.authority(map));

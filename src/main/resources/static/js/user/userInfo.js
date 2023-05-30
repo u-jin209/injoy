@@ -3,7 +3,6 @@ $(document).ready(function () {
 
         $("#organId").select2({
             dropdownParent: $("#memberModal"),
-
             closeOnSelect : true,
             dropdownAutoWidth : true,
             width: '100%'});
