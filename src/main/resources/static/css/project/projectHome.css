@@ -471,6 +471,8 @@ ul, li, span{
 }
 
 .post-comment-group {
+    padding: 0;
+    margin: 0;
     color: #555;
 }
 

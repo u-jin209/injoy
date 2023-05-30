@@ -401,7 +401,7 @@ function getFileExtension(filename) {
 }
 
 function isImageFile(file) {
-    const validExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.jfif'];
     const fileName = file.name.toLowerCase();
     return validExtensions.some(ext => fileName.endsWith(ext));
 }

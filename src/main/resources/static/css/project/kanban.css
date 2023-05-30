@@ -137,7 +137,7 @@ ul {
 /*}*/
 
 .option-group{
-
+    padding: 0;
 }
 
 .option-group>li {

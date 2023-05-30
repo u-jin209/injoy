@@ -37,55 +37,59 @@ public class BoardController {
 
     @PostMapping("write")
     @ResponseBody
-    public String writeBoard(@AuthenticationPrincipal UserCustomDetails login, BoardDTO boardDTO, @RequestParam("files") List<MultipartFile> files, HttpServletRequest request) throws IOException {
+    public String writeBoard(@AuthenticationPrincipal UserCustomDetails login, BoardDTO boardDTO, @RequestParam(required = false) List<MultipartFile> files, HttpServletRequest request) throws IOException {
         boardDTO.setBoardWriterId(login.getUserDTO().getId());
         if (boardDTO.getBTitle().isEmpty()) {
             return "error";
         } else {
-            boardService.insert(boardDTO);
 
             // 파일 저장하기
-            Map<String, Object> map = new HashMap<>();
-            map.put("folderRoot", "/");
-            map.put("projectId", boardDTO.getProjectId());
-            FolderDTO folder = folderService.selectFolder(map);
-            int folderId = folder.getFolderId();
+            if (files != null){
+                boardService.insert(boardDTO);
+                Map<String, Object> map = new HashMap<>();
+                map.put("folderRoot", "/");
+                map.put("projectId", boardDTO.getProjectId());
+                FolderDTO folder = folderService.selectFolder(map);
+                int folderId = folder.getFolderId();
 
-            FileDTO fileDTO = new FileDTO();
+                FileDTO fileDTO = new FileDTO();
 
-            for (MultipartFile file : files) {
-                String fileRealName = file.getOriginalFilename();
+                for (MultipartFile file : files) {
+                    String fileRealName = file.getOriginalFilename();
 
-                BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
+                    BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
 
-                fileDTO.setFileSize(roundedValue + "MB");
-                fileDTO.setProjectId(boardDTO.getProjectId());
-                fileDTO.setUserId(login.getUserDTO().getId());
-                fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
-                fileDTO.setFolderId(folderId);
+                    fileDTO.setFileSize(roundedValue + "MB");
+                    fileDTO.setProjectId(boardDTO.getProjectId());
+                    fileDTO.setUserId(login.getUserDTO().getId());
+                    fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
+                    fileDTO.setFolderId(folderId);
 
-                if (fileRealName.length() != 0) {
-                    String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
-                    UUID uuid = UUID.randomUUID();
-                    String[] uuids = uuid.toString().split("-");
-                    String uniqueName = uuids[0];
-                    File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
-                    file.transferTo(saveFile);
-                    String[] filePath = String.valueOf(saveFile).split("web");
-                    System.out.println("filePath : " + filePath);
-                    fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
-                    fileDTO.setUniqueName(uniqueName);
-                    fileDTO.setFileExtension(fileExtension);
+                    if (fileRealName.length() != 0) {
+                        String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+                        UUID uuid = UUID.randomUUID();
+                        String[] uuids = uuid.toString().split("-");
+                        String uniqueName = uuids[0];
+                        File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+                        file.transferTo(saveFile);
+                        String[] filePath = String.valueOf(saveFile).split("web");
+                        System.out.println("filePath : " + filePath);
+                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                        fileDTO.setUniqueName(uniqueName);
+                        fileDTO.setFileExtension(fileExtension);
+                    }
+
+                    fileService.insert(fileDTO);
+
+                    BoardFileDTO boardFileDTO = new BoardFileDTO();
+                    boardFileDTO.setFileId(fileDTO.getFileId());
+                    boardFileDTO.setBoardId(boardDTO.getBoardId());
+                    boardFileService.insert(boardFileDTO);
                 }
 
-                fileService.insert(fileDTO);
-
-                BoardFileDTO boardFileDTO = new BoardFileDTO();
-                boardFileDTO.setFileId(fileDTO.getFileId());
-                boardFileDTO.setBoardId(boardDTO.getBoardId());
-                boardFileService.insert(boardFileDTO);
+            } else {
+                boardService.insert(boardDTO);
             }
-
 
 
             return "success";
