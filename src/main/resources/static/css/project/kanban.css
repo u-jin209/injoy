@@ -4,6 +4,26 @@
     margin-right: 20px;
 }
 
+#requestBoard{
+    height: 100%;
+}
+
+#progressBoard {
+    height: 100%;
+}
+
+#feedBackBoard{
+    height: 100%;
+}
+
+#finishBoard{
+    height: 100%;
+}
+
+#holdBoard{
+    height: 100%;
+}
+
 .taskProcess{
     margin-left: 15px;
     margin-bottom: 20px;

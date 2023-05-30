@@ -361,14 +361,11 @@ $(function () {
         }
     })
 
-    document.querySelector('.rangeInput-home').addEventListener('input', function (event) {
-        let gradient_value = 100 / event.target.attributes.max.value;
-
-        event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
-    });
-
     //진행도 변경하기
     $('.rangeInput-home').change(function () {
+        let gradient_value = 100 / $(this).attr('max');
+
+        $(this).css('background','linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * $(this).val() + '%, rgb(236, 236, 236) ' + gradient_value * $(this).val() + '%, rgb(236, 236, 236) 100%)')
         $(this).parent().find('.progress-txt').text($(this).val() + '%')
         let formData = {
             taskId: $(this).parents('.post-content').find('#taskId-post').val(),

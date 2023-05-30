@@ -64,6 +64,8 @@
     </update>
     <select id="findTask" parameterType="map" resultType="TaskDTO">
         SELECT * FROM injoy.task
+        INNER JOIN injoy."user"
+        ON "user".id = "task"."authorUserId"
         where "projectId" = #{projectId}
         AND
         ("taskTitle" LIKE concat('%', #{keyword}, '%')
