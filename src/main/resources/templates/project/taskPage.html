@@ -312,13 +312,13 @@
         </thead>
         <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
-            <td class="titleTd" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-                aria-controls="offcanvasScrolling">
+            <td class="titleTd">
                 <span class="titleTask-view" th:text="${task.taskTitle}"></span>
                 <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
                     <input class="col form-control taskTitle" type="text" th:value="${task.taskTitle}"
                            style="height: 29px; width: 250px;"/>
-                    <a class="ml-3 col detail text-end">상세보기</a>
+                    <a class="ml-3 col detail text-end" data-bs-toggle="offcanvas" data-bs-target="#task-offcanvas"
+                       aria-controls="offcanvasWithBothOptions" >상세보기</a>
                 </div>
             </td>
             <td class="processTd" id="processTd" style="position: relative;">
@@ -542,7 +542,7 @@
 </div>
 <div>
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 700px; top: 32px">
+         id="task-offcanvas" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 700px; top: 32px">
 
         <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
             <input class="taskPage-projectId" type="hidden" th:value="${project.projectId}"/>

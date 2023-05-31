@@ -20,18 +20,18 @@ public class ProjectController {
     private final UserService userService;
     private final ProjectService projectService;
     private final ProjectMemberService projectMemberService;
-
+    private final TaskService taskService;
     private final OrganService organService;
     private FolderService folderService;
 
     public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService,
-                             OrganService organService, FolderService folderService) {
+                             OrganService organService, FolderService folderService, TaskService taskService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
         this.organService = organService;
         this.folderService = folderService;
-
+        this.taskService = taskService;
     }
 
     @GetMapping("addMember")
@@ -216,6 +216,20 @@ public class ProjectController {
 
         projectService.update(projectDTO);
 
+    }
+
+    @GetMapping("myText")
+    public String myText(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null) {
+            return "/user/logIn";
+        }
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
+        model.addAttribute("text", taskService.myTextAll(login.getUserDTO().getId()));
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+        return "/project/myText";
     }
 
 
