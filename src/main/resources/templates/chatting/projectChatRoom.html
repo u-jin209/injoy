@@ -665,20 +665,21 @@
         var chatDTO = message.newChatDTO;
 
         if (chatDTO.type == "ENTER") {
-            let chatMiddleDiv = document.createElement("div");
-            chatMiddleDiv.className = "chat_middle";
-            let chatMiddleMessageDiv = document.createElement("div");
-            chatMiddleMessageDiv.className = "chat_middle_message";
-            let chatMiddleMessageParagraph = document.createElement("p");
-            chatMiddleMessageParagraph.innerText = chatDTO.message;
-            chatMiddleMessageDiv.appendChild(chatMiddleMessageParagraph);
-            chatMiddleDiv.appendChild(chatMiddleMessageDiv);
-            let mainBox = document.createElement("div");
-            mainBox.className = "main_box";
-            mainBox.appendChild(chatMiddleDiv);
-            mainDiv.appendChild(mainBox)
-            mainDiv.scrollTop = mainDiv.scrollHeight;
-
+            if (chatDTO.userId != userDTO.id) {
+                let chatMiddleDiv = document.createElement("div");
+                chatMiddleDiv.className = "chat_middle";
+                let chatMiddleMessageDiv = document.createElement("div");
+                chatMiddleMessageDiv.className = "chat_middle_message";
+                let chatMiddleMessageParagraph = document.createElement("p");
+                chatMiddleMessageParagraph.innerText = chatDTO.message;
+                chatMiddleMessageDiv.appendChild(chatMiddleMessageParagraph);
+                chatMiddleDiv.appendChild(chatMiddleMessageDiv);
+                let mainBox = document.createElement("div");
+                mainBox.className = "main_box";
+                mainBox.appendChild(chatMiddleDiv);
+                mainDiv.appendChild(mainBox)
+                mainDiv.scrollTop = mainDiv.scrollHeight;
+            }
             var userCount = message.userCount;
             var chatRoomUserList = message.chatRoomUserList;
             var userCountParagraph = document.getElementById('userCountParagraph');

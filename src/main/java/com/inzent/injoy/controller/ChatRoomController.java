@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +38,29 @@ public class ChatRoomController {
     public String openProjectChatRoom(@RequestParam String chatRoomId,@RequestParam String projectName, Model model,@AuthenticationPrincipal UserCustomDetails login) {
         UserDTO logIn = login.getUserDTO();
 //        List<ChatDTO> chatList = chatService.selectChatByChatRoomIdWithProfile(chatRoomId);
-        List<ChatDTO> chatList = chatService.selectChat(chatRoomId,logIn.getId());
+//        List<ChatDTO> chatList = chatService.selectChat(chatRoomId,logIn.getId());
         List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatRoomId);
+        boolean flag = false;
+        for (ChatRoomUserDTO chatRoomUserDTO : chatRoomUserList) {
+            System.out.println(chatRoomUserDTO.getUsername()+"    "+logIn.getUsername());
+            if (chatRoomUserDTO.getUsername().equals(logIn.getUsername())) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag == false) {
+            LocalDateTime now = LocalDateTime.now();
+            String content=logIn.getName()+"님이 들어왔습니다.";
+            ChatDTO newChatDTO = new ChatDTO();
+            newChatDTO.setMessage(content);
+            newChatDTO.setType("ENTER");
+            newChatDTO.setSender(logIn.getName());
+            newChatDTO.setChatRoomId(chatRoomId);
+            newChatDTO.setUserId(logIn.getId());
+            newChatDTO.setTime(Timestamp.valueOf(now));
+            chatService.insert(newChatDTO);
+        }
+        List<ChatDTO> chatList = chatService.selectChat(chatRoomId,logIn.getId());
         ChatRoomDTO chatRoomDTO = chatRoomService.selectChatRoom(chatRoomId);
         model.addAttribute("chatRoomId", chatRoomId);
         model.addAttribute("chatList", chatList);

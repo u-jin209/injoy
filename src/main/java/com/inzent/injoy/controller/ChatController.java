@@ -61,7 +61,7 @@ public class ChatController {
             newChatDTO.setChatRoomId(chatDTO.getChatRoomId());
             newChatDTO.setUserId(userDTO.getId());
             newChatDTO.setTime(Timestamp.valueOf(now));
-            chatService.insert(newChatDTO);
+//            chatService.insert(newChatDTO);
             message.put("newChatDTO", newChatDTO);
 
             template.convertAndSend("/sub/chat/room/" + chatDTO.getChatRoomId(), message);
