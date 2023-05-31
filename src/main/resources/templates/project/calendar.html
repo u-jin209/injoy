@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="calendarContent(project)">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" th:fragment="calendarContent(project, login)">
 <head>
     <meta charset="UTF-8">
     <title>캘 린 더</title>
@@ -25,17 +25,16 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
 
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
             integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"
+            defer></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"></script>
-
 
 
     <link rel="stylesheet"
@@ -55,6 +54,9 @@
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
 
     <style>
         @font-face {
@@ -71,10 +73,10 @@
         }
 
         /*캘린더 사이즈*/
-        #calendarBox{
-            width: 80%;
-            height: 80%;
-        }
+        /*#calendarBox {*/
+        /*    width: 90%;*/
+        /*    height: 90%;*/
+        /*}*/
 
 
         #scheduleTitle {
@@ -83,10 +85,12 @@
             width: 100%;
             height: 60px;
         }
+
         #scheduleTitle::placeholder {
             font-size: 20px;
             font-weight: bold;
         }
+
         /*.writeScheduleContent {*/
         /*    width: 434px;*/
         /*    min-height: 200px;*/
@@ -112,13 +116,14 @@
             display: inline-block;
             float: left;
         }
-        .modal{
+
+        .modal {
             z-index: 20;
         }
-        .modal-backdrop{
+
+        .modal-backdrop {
             z-index: 10;
         }
-
 
 
         /*여기서부터 옆 슬라이드 CSS*/
@@ -126,9 +131,11 @@
             visibility: visible;
             background-color: rgba(0, 0, 0, 0.6);
         }
+
         .show-header-cart .header-cart {
             right: 0;
         }
+
         .wrap-header-cart {
             position: fixed;
             z-index: 1100;
@@ -144,6 +151,7 @@
             -moz-transition: all 0.4s;
             transition: all 0.4s;
         }
+
         .header-cart {
             position: fixed;
             z-index: 1100;
@@ -167,6 +175,7 @@
             -o-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
             -ms-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
         }
+
         .header-cart::after {
             content: "";
             display: block;
@@ -174,19 +183,19 @@
             height: 9%;
             min-height: 30px;
         }
+
         .show-header-cart {
             visibility: visible;
             background-color: rgba(0, 0, 0, 0.6);
         }
+
         .show-header-cart .header-cart {
             right: 0;
         }
 
-        .header-cart::-webkit-scrollbar { /* 스크롤 없애기 */
-            display: none;
-        }
-
-
+        /*.header-cart::-webkit-scrollbar { !* 스크롤 없애기 *!*/
+        /*    display: none;*/
+        /*}*/
 
 
         .cal2 {
@@ -212,7 +221,7 @@
             font-weight: bold;
             color: black;
             line-height: 30px;
-            background-color:#eeeeee;
+            background-color: #eeeeee;
         }
 
         .date2 {
@@ -330,23 +339,37 @@
             white-space: pre-wrap;
             cursor: text;
         }
-        /*                      댓글창                          */
-    </style>
 
+        /*                      댓글창                          */
+
+
+        #commentDelnModi {
+            display: flex;
+            flex-direction: row;
+        }
+
+    </style>
 </head>
 <body>
 
 <!--<div id="tlqkf">-->
 <!--    <p th:text="${title}"></p>-->
 <!--    <p th:text="${address}"></p>-->
+<!--    <p th:text="${calobj.id}"></p>    아마 이렇게 하면 될지도...-->
 <!--</div>-->
-
-
 <div id="calendarBox">
     <div id='calendar'></div>
 </div>
 
-
+<p th:text="${login}"></p>
+<!--<p th:text="${project}"></p>-->
+<!--<p th:text="${project.projectId}"></p>-->
+<!--<p th:text="${project.projectName}"></p>-->
+<!--<div id= "projectNameName" th:value="${project.projectName}"></div>-->
+<input type="hidden" id="projectNameName" th:value="${project.projectName}">
+<input type="hidden" id="projectIdId" th:value="${project.projectId}">
+<input type="hidden" id="logInnn" th:value="${login.userId}">
+<input type="hidden" id="logInnname" th:value="${login.name}">
 
 
 <!--  일정 등록하기-->
@@ -369,9 +392,8 @@
             </div>
 
 
-            <!--            <form name="frm" action="/watermelon" method="get">-->
-            <form name="frm" id="frm" method="post" >
-<!--            <form name="frm" id="frm" method="post"action="/cherry" >-->
+            <!--            <form name="frm" id="frm" method="post" >-->
+            <form name="calendarForm" id="calendarForm" method="post">
                 <div class="modal-body text-start">
                     <div>
                         <input id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요" style=""/>
@@ -387,13 +409,15 @@
                             <label>
 
                                 <input class="mr-2 scheduleStartDate startCalDate"
-                                       style="border: none; border-bottom: 1px solid #777777; font-weight: 900" name="startDate" id="startDate"
+                                       style="border: none; border-bottom: 1px solid #777777; font-weight: 900"
+                                       name="startDate" id="startDate"
                                        value=""/>
                             </label>
                             ㅡ
                             <label>
                                 <input class="ml-2 scheduleEndDate endCalDate"
-                                       style="border: none; border-bottom: 1px solid #777777; font-weight: 900" name="endDate" id="endDate"
+                                       style="border: none; border-bottom: 1px solid #777777; font-weight: 900"
+                                       name="endDate" id="endDate"
                                        value=""/>
                             </label>
                         </div>
@@ -424,7 +448,9 @@
                             </svg>
 
                             <label>
-                                <input type="text" id="addressInputId" name="addressInputId" value="" onkeyup="if(window.event.keyCode==13){codeAddress()}" placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
+                                <input type="text" id="addressInputId" name="addressInputId" value=""
+                                       onkeyup="if(window.event.keyCode==13){codeAddress()}"
+                                       placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
                             </label>
 
                             <div id="imgDiv">
@@ -444,10 +470,10 @@
                             </div>
                             <label>
                                 <!--                                <input class="writeScheduleContent" placeholder="내용을 입력하세요." style="border: none;"/>-->
-                                <textarea id="writeScheduleContent" name="writeScheduleContent" rows="11" cols="60" placeholder="내용을 입력하세요."  style="border: none;"></textarea>
+                                <textarea id="writeScheduleContent" name="writeScheduleContent" rows="11" cols="60"
+                                          placeholder="내용을 입력하세요." style="border: none;"></textarea>
                             </label>
                         </div>
-
 
 
                     </div>
@@ -460,9 +486,9 @@
                     <!--                                      </svg>-->
                     <!--                                          <button type="button" class="btn taskAddButton"-->
 
-<!--                    <button type="submit" class="btn taskAddButton"-->
+                    <!--                    <button type="submit" class="btn taskAddButton"-->
                     <button type="button" class="btn taskAddButton"
-                            style="background-color: #001542; color: white" id="submitShedule">등록
+                            style="background-color: #001542; color: white" id="submitShedule" name="submitShedule">등록
                     </button>
 
 
@@ -474,15 +500,13 @@
 </div>
 
 
-
-
 <!--  사이드 슬라이드  HTML -->
 <div class="wrap-header-cart js-show-schedule">
     <div class="s-full js-hide-cart"></div>
 
     <div class="header-cart flex-col-l p-l-65 p-r-25" id="tlqkf">
 
-        <div class="header-cart-title flex-w flex-sb-m p-b-8" >
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
 
             <div class="modal-header p-2">
 
@@ -491,7 +515,7 @@
                 </div>
 
                 <div class="col-10" style="padding: 0;margin-right: 33px">
-                    <span style="font-size: 12px" th:text="${title}">프로젝트 이름 </span>
+                    <span style="font-size: 12px" th:text="${projectName}">프로젝트 이름 </span>
                 </div>
 
                 <div class="trans-04 js-hide-cart col-1.5">
@@ -516,8 +540,8 @@
                     </div>
 
                     <div class="m-2" style="display: flex;">
-                        <div class="" style="font-size: 14px;"><strong>닉네임ffffsadfsdf</strong></div>
-                        <div class="" style="font-size: 14px; color: #AAAAAA">2023-05-08 13:50</div>
+                        <div style="font-size: 14px;"><strong>닉네임</strong></div>
+                        <div style="font-size: 14px; color: #AAAAAA" th:text="${calRegister_date}">작성날짜</div>
                     </div>
 
                 </div>
@@ -528,14 +552,12 @@
                     <div class="col-2">
                         <div class="dropdown">
                             <a class="bi bi-three-dots-vertical" type="button" id="dropdownMenuButton1"
-                               data-bs-toggle="dropdown" aria-expanded="false"></a>
+                               data-bs-toggle="dropdown" aria-expanded="false" th:onclick="showDelnMod([[${writerId}]]);"></a>
 
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-card-text"></i>
-                                    수정</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크
-                                    복사</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-trash3"></i> 삭제</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                                <li id="modScheduleLi"><a class="dropdown-item" onclick="method()"><i class="bi bi-card-text"></i>수정</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크 복사</a></li>
+                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod([[${projectId}]],[[${scheduleId}]]);"><i class="bi bi-trash3"></i> 삭제</a>
                                 </li>
                             </ul>
                         </div>
@@ -554,12 +576,17 @@
                 </div>
 
                 <div class=" col-10 m-2">
-                    <div class="">
-                        프로젝트 이름을 넣어주세요~
+                    <div th:text="${calTitle}" style="font-size: 20px; font-weight: bolder;">
+                        일정 이름
                     </div>
 
 
-                    <div class="" style="display: flex;">2023-05-16 (화), 12:40 2023-05-18 (목), 13:40</div>
+                    <!--                    <div class="" style="display: flex;">2023-05-16 (화), 12:40 2023-05-18 (목), 13:40</div>-->
+                    <div class="" style="display: flex;">
+                        <div th:text="${calStart}"></div>
+                        ㅡ
+                        <div th:text="${calEnd}"></div>
+                    </div>
                 </div>
             </div>
 
@@ -575,7 +602,7 @@
                 <div class="col-10">
                     <br>
 
-                    <div>
+                    <div th:text="${calContent}">
                         여기는 내용이 들어가는 곳입니다.
                         여기는 내용이 들어가는 곳입니다. 나중에 수정해 주세요.
                         여기는 내용이 들어가는 곳입니다. 감사합니다.
@@ -591,57 +618,15 @@
         <div>아 여기에 댓글 총 갯수</div>
         <!--        <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">-->
 
-        <div style="background-color: #eee">
+<!--        <div style="background-color: #eee" id="comment_list_div">-->
+        <div style="background-color: #eee" >
             <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">
 
+            <div id="comment_list_div">
+                <ul id="comment_list_ul" style="list-style:none; padding: 0;"></ul>
+            </div>
 
-            <ul class="comment_list" style=" list-style:none; padding: 0;">
-
-                <li>
-                    <div style="display: flex;" class="m-3">
-                        <div class="col-1">
-                            <span class="thumbnail size40 radius16"
-                                  style="background-image: url(/img/penguin.jpg)"></span>
-                        </div>
-
-                        <div class="col-11">
-                            <div style="display: flex; justify-content: space-between">
-
-                                <div style="display: flex; flex-direction: row">
-                                    <div class="" style="margin-right: 10px;"><strong>닉네이이임</strong></div>
-                                    <div class="" style="font-size: 14px; padding-top: 3px; color: #AAAAAA;">2023-05-08
-                                        14:12
-                                    </div>
-                                </div>
-
-                                <div style="display: flex;flex-direction: row">
-
-
-                                    <div class="" style="margin-right: 5px"><!--수정-->
-                                        <a class="bi bi-pencil-square" type="button" style="color: #AAAAAA;" href="#"
-                                           onclick="method()"></a>
-                                    </div>
-                                    <div class=""><!--삭제-->
-                                        <a class="bi bi-trash3" type="button" style="color: #AAAAAA;" href="#"
-                                           onclick="method()"></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="padding-top: 8px; font-size: 15px;">
-                                여기는 댓글이
-                                들어갑니다.fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff기붕니
-                                오늘은 기분이 너무나 좋네요.
-                            </div>
-
-                        </div>
-                    </div>
-                    <hr style="color: rgb(126,125,125);">
-                </li>
-
-
-            </ul>
-
+            <ul class="comment_list" id="comment_list" style="list-style:none; padding: 0;" th:each="comment : ${commentList}"></ul>
 
             <div class="comment-input-wrap" style="background-color: #eee">
                 <div class="user-profile-thumbnail">
@@ -651,22 +636,64 @@
                 <!--  <form class="comment-container" style="padding: 0;" >-->
                 <div class="comment-container" style="padding: 0;">
                     <input type="text" class="commentInput" id="post_comment_input"
-                           placeholder="댓글을 입력은 Enter 입니다."
+                           placeholder="댓글을 입력은 Enter 입니다." value=""
                            aria-label="Recipient's username" aria-describedby="button-addon2"
                            onkeyup="if( window.event.keyCode==13){sendComment()}"/>
                     <!--  </form>-->
                 </div>
             </div>
-
-
         </div>
+
+
+
     </div>
 </div>
 
 
+<script>
+    function showDelnMod(writerId) {
+        currentId = document.getElementById("logInnn").value;
+        // console.log("writerId : " + writerId);
+        // console.log("currentId : " + currentId);
+        if(currentId != writerId){
+            document.getElementById("modScheduleLi").style.display ='none';
+            document.getElementById("delScheduleLi").style.display ='none';
+        } else {
+            document.getElementById("modScheduleLi").style.display ='block';
+            document.getElementById("delScheduleLi").style.display ='block';
+        }
+    }
+
+    function deleteScheduleMethod(projectId, scheduleId){
+        let data = {"projectId" : projectId,
+            "scheduleId" : scheduleId
+        };
+        $.ajax({
+            url: "/deleteSchedule",
+            type: "POST",
+            data: data,
+            success: function () {
+                location.reload();
+            },
+            error: function (request, status, error) {
+                console.log("통신 실패");
+                console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+            }
+        });
+
+    }
+</script>
+
+
+<!--<script th:inline="javascript">-->
+<!--    console.log([[${project}]]);-->
+<!--</script>-->
 
 <!--        입력창         -->
-<script>
+<script th:inline="javascript">
+
+    console.log([[${project}]]);
+
     const textarea = document.getElementById("writeScheduleContent");
     textarea.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -680,10 +707,11 @@
 
 <!-- Form enter 전송 막기-->
 <script>
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
-        };
+        }
+        ;
     }, true);
 </script>
 
@@ -696,14 +724,15 @@
 
 <script>
     var calendarObj;
+    var Obj;
 
     document.addEventListener('DOMContentLoaded', function () {
         $(function () {
             var calendarEll = document.getElementById('calendar');
             var calendarr = new FullCalendar.Calendar(calendarEll, {});
             let data = {
-                "activeStart" : calendarr.view.activeStart,
-                "activeEnd" : calendarr.view.activeEnd
+                "activeStart": calendarr.view.activeStart,
+                "activeEnd": calendarr.view.activeEnd
             }
             console.log("activeStart : " + calendarr.view.activeStart);
             console.log("activeEnd : " + calendarr.view.activeEnd);
@@ -747,21 +776,123 @@
 
                     eventClick: function (event) {//이벤트 클릭 시
 
-                        var Obj = event.event;
+                        Obj = event.event;
                         console.log("calendarId : " + Obj.id);
                         console.log("제목 : " + Obj.title);
                         console.log("시작일 : " + Obj.start);
                         console.log("끝 : " + Obj.end);
 
-                        let dataa = { "calendarId" : Obj.id}
+                        const projectName = document.getElementById('projectNameName').value;
+                        console.log("프로젝트 이름 : " + projectName);
+
+                        const projectIdId = document.getElementById('projectIdId').value;
+
+                        const loginUserId = document.getElementById("logInnn").value;
+
+                        let dataa = {
+                            "calendarId": Obj.id,
+                            "projectName": projectName,
+                            "projectIdId": projectIdId,
+                            "loginUserId" : loginUserId
+
+                        }
                         $.ajax({
                             url: "/testtt",
                             type: "POST",
                             data: dataa,
                         }).done(function (fragment) {
-                            console.log("frag: "+fragment);
-                                $("#tlqkf").replaceWith(fragment);
-                            });
+                            console.log("frag: " + fragment);
+                            $("#tlqkf").replaceWith(fragment);
+                        });
+
+                        var userId = dataa.loginUserId;
+                        console.log("현재 로그인 : " + userId);
+                        $.ajax({
+                            url: "/showCalComment",
+                            type: "POST",
+                            data: dataa,
+                            success: function (result) {
+                                // var ul = document.createElement('ul');
+                                var ul = document.getElementById("comment_list_ul");
+                                // ul.id = "comment_list_ul"
+                                // ul.style.cssText = "list-style:none; padding: 0;";
+
+                                // console.log($("#comment_list_div"));
+
+                                result.forEach(function (comment) {
+
+                                    if(userId == comment.calComUserId) {
+                                        $(ul).append(
+                                            "<li id='" + comment.calCommentId + "'>" +
+                                            "<div style='display: flex;' class='m-3'>" +
+                                            "<div class='col-1'>" +
+                                            "<span class='thumbnail size40 radius16' style='background-image: url(/img/penguin.jpg)'>" +
+                                            "</span></div>" +
+                                            "<div class='col-11'>" +
+                                            "<div style='display: flex; justify-content: space-between'>" +
+
+                                            "<div style='display: flex; flex-direction: row'>" +
+                                            "<div style='margin-right: 10px;'>" +
+                                            "<strong>" + comment.calComUserId + "</strong>" +
+                                            "</div>" +
+                                            "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>2023-05-08 14:12</div>" +
+                                            "</div>" +
+
+                                            "<div id='commentDelnModi'>" +
+                                            "<div class='' style='margin-right: 5px'>" +
+                                            "<a class='bi bi-pencil-square' type='button' style='color: #AAAAAA;' onClick='method()'></a>" +
+                                            "</div>" +
+                                            "<div class=''>" +
+                                            "<a class='bi bi-trash3' type='button' style='color: #AAAAAA;' onclick='deleteCalComment(" + comment.calCommentId + ","+ comment.calComProjectId + ","+ comment.calComCalId +")'></a>" +
+                                            "</div>" +
+                                            "</div>" +
+
+
+                                            "</div>" +
+
+                                            "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
+                                            "</div>" +
+                                            "</div>" +
+                                            "<hr style='color: rgb(126,125,125);'>" +
+                                            "</li>");
+                                    } else {
+                                        $(ul).append(
+                                            "<li id='" + comment.calCommentId + "'>" +
+                                            "<div style='display: flex;' class='m-3'>" +
+                                            "<div class='col-1'>" +
+                                            "<span class='thumbnail size40 radius16' style='background-image: url(/img/penguin.jpg)'>" +
+                                            "</span></div>" +
+                                            "<div class='col-11'>" +
+                                            "<div style='display: flex; justify-content: space-between'>" +
+
+                                            "<div style='display: flex; flex-direction: row'>" +
+                                            "<div style='margin-right: 10px;'>" +
+                                            "<strong>" + comment.calComUserId + "</strong>" +
+                                            "</div>" +
+                                            "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>2023-05-08 14:12</div>" +
+                                            "</div>" +
+
+                                            "</div>" +
+
+                                            "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
+                                            "</div>" +
+                                            "</div>" +
+                                            "<hr style='color: rgb(126,125,125);'>" +
+                                            "</li>");
+                                    }
+                                });
+
+                                $($("#comment_list_div")).append(ul);
+
+
+
+
+
+                                // console.log($("#comment_list_div"));
+                            }
+
+
+                        })
 
 
                         $('.js-show-schedule').addClass('show-header-cart');
@@ -784,10 +915,9 @@
     }); /////////////////////////////// E N D ///////////////////////////////
 
 
-
     function closeModal() {
         $('#addScheduleModal').hide();
-        $('#frm')[0].reset();
+        $('#calendarForm')[0].reset();
         document.getElementById("mapImage").remove();
     }
 
@@ -832,10 +962,8 @@
     }
 
 
-
-
     // Next버튼을 누르면 달력 첫 번째, 마지막 날짜
-    $(document).on("click", "#calendar .fc-prev-button", function(){
+    $(document).on("click", "#calendar .fc-prev-button", function () {
         console.log("pressed prev button");
         var calObj = calendarObj;
         console.log(calObj.view.activeStart);
@@ -843,7 +971,7 @@
     });
 
     // Prev버튼을 누르면 달력 첫 번째, 마지막 날짜
-    $(document).on("click", "#calendar .fc-next-button", function(){
+    $(document).on("click", "#calendar .fc-next-button", function () {
         console.log("pressed next button");
         var calObj = calendarObj;
         console.log(calObj.view.activeStart);
@@ -851,22 +979,22 @@
     });
 
 
-
-    $(function(){
-        $('#submitShedule').on("click",function () {
-
+    $(function () {
+        $('#submitShedule').on("click", function () {
             // var form1 = $("#frm").serialize();
-            var form1 = $("#frm").serializeObject();
+
+            // 오류 여기ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
+            var form1 = $("#calendarForm").serializeObject();
 
             console.log("폼입니다 : " + form1);
-            console.log("폼입니다 : " + form1.scheduleTitle);
-            console.log("폼입니다 : " + form1.startDate);
-            console.log("폼입니다 : " + form1.endDate);
-
-            console.log("폼입니다 : " + form1.writeScheduleContent);
-            console.log("폼입니다 : " + form1.addressInputId);
-            var imageUrl = $('#mapImage').attr('src');
-            form1.mapImage = imageUrl;
+            // console.log("폼입니다 : " + form1.scheduleTitle);
+            // console.log("폼입니다 : " + form1.startDate);
+            // console.log("폼입니다 : " + form1.endDate);
+            //
+            // console.log("폼입니다 : " + form1.writeScheduleContent);
+            // console.log("폼입니다 : " + form1.addressInputId);
+            // var imageUrl = $('#mapImage').attr('src');
+            // form1.mapImage = imageUrl;
 
 
             // dataType: 'json',
@@ -879,7 +1007,7 @@
                 },
                 error: function (request, status, error) {
                     console.log("통신 실패");
-                    console.log("code:"+request.status+"\n"+"message : "+request.responseText+"\n"+"error : "+error);
+                    console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
 
                 }
             });
@@ -887,14 +1015,14 @@
     });
 
 
-    jQuery.fn.serializeObject = function() {//form.serialize -> json형식으로 변환해주는 메서드
+    jQuery.fn.serializeObject = function () {//form.serialize -> json형식으로 변환해주는 메서드
         var obj = null;
         try {
             if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
                 var arr = this.serializeArray();
                 if (arr) {
                     obj = {};
-                    jQuery.each(arr, function() {
+                    jQuery.each(arr, function () {
                         obj[this.name] = this.value;
                     });
                 }
@@ -907,16 +1035,13 @@
 </script>
 
 
-
-
-
 <!--            google map api          -->
 <script>
-    $('#addressInputId').on("input", function() {
+    $('#addressInputId').on("input", function () {
         var val = $('#addressInputId').val().trim();
-        console.log("값 : " + val.trim() );
+        console.log("값 : " + val.trim());
 
-        if(val == ""){
+        if (val == "") {
             console.log("Empty String");
             // document.getElementById("mapImage").style.visibility='hidden';
             document.getElementById("mapImage").remove();
@@ -924,7 +1049,7 @@
             getPlace();
         }
 
-        function getPlace(){
+        function getPlace() {
             console.log("getPlace method ")
             const input = document.getElementById("addressInputId");
             const options = {
@@ -953,7 +1078,7 @@
         geocoder = new google.maps.Geocoder();
         var address = document.getElementById('addressInputId').value;
         console.log("주소 : " + address);
-        geocoder.geocode( { 'address': address}, function(results, status) {
+        geocoder.geocode({'address': address}, function (results, status) {
 
 
             if (status == 'OK') {
@@ -979,11 +1104,11 @@
                 // Set the image source to the constructed URL
                 const mapImage = document.getElementById('mapImage');
                 mapImage.src = imageUrl;
-                document.getElementById("mapImage").style.visibility='visible';
+                document.getElementById("mapImage").style.visibility = 'visible';
 
                 var ads = addressLogic(latitude, longitude);
                 console.log(addressLogic(latitude, longitude))
-                console.log("ads : " + ads );
+                console.log("ads : " + ads);
 
 
             } else {
@@ -1004,7 +1129,7 @@
         var address;
 
         geocoder
-            .geocode({ location: latlng })
+            .geocode({location: latlng})
             .then((response) => {
                 console.log("헬로우 : " + response.results[0].formatted_address);
                 tmp = response.results[0].formatted_address
@@ -1019,35 +1144,46 @@
             })
     }
 
-    function getAddress(address){ // (4) should log the address
+    function getAddress(address) { // (4) should log the address
         console.log("Finally : " + address);
         document.getElementById("addressInputId").value = address
     }
 </script>
 
 
-
-
 <!--            댓글          -->
-<script>
+<script th:inline="javascript">
 
     function sendComment() {
         const commentInput = document.getElementById('post_comment_input');
+        const projectIdId = document.getElementById('projectIdId').value;
+        const loginUserId = document.getElementById("logInnn").value;
+        const logInUsername = document.getElementById("logInnname").value;
 
-        // 댓글 입력시 요소 생성
-        const addNewComment = () => {
-            const newCommentLocation = document.getElementsByClassName('comment_list')[0];
-            const newComment = document.createElement('li');
+        let comData = {
+            "comment": commentInput.value,
+            "projectIdId": projectIdId,
+            "calId": Obj.id,
+            "loginUserId" : loginUserId
+        };
 
-            //   newComment.innerHTML = `
-            //   <div class="user_desc">
-            //     <span>닉네임</span>
-            //     <span>${commentInput.value}</span>
-            //   </div>
-            // `;
 
-            newComment.innerHTML = `
-            <div style="display: flex;" class="m-3">
+        $.ajax({
+            type: "post",
+            url: "/insertCalComment",
+            data: comData,
+            success: function (data) {
+                // 댓글 입력시 요소 생성
+                console.log("받은것은 : "+ data.commentId);
+                console.log("받은것은 : " + data.registerDate);
+                const addNewComment = () => {
+                    // const newCommentLocation = document.getElementsByClassName('comment_list_ul')[0];
+                    const newCommentLocation = document.getElementById("comment_list_ul");
+                    const newComment = document.createElement('li');
+                    newComment.id = data.commentId;
+
+                    newComment.innerHTML = `
+                        <div style="display: flex;" class="m-3">
                         <div class="col-1">
                             <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
                         </div>
@@ -1086,19 +1222,28 @@
 
     `;
 
-            // newComment.innerHTML += `<h5>이런식으로 추가가 가능합니다.</h5>`;
+                    // newComment.innerHTML += `<!--<h5>이런식으로 추가가 가능합니다.</h5>-->`;
 
 
-            newCommentLocation.appendChild(newComment);
-            commentInput.value = '';
-        }
+                    newCommentLocation.appendChild(newComment);
+                    commentInput.value = '';
+                }
 
 
-        if (commentInput.value) {
-            addNewComment();
-        } else {
-            alert('댓글이 입력되지 않았습니다 😳');
-        }
+                if (commentInput.value) {
+                    addNewComment();
+                } else {
+                    alert('댓글이 입력되지 않았습니다 😳');
+                }
+
+
+            },
+            error: function (request, status, error) {
+                console.log("통신 실패");
+                console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+            }
+        });
+
 
     }
 
@@ -1107,8 +1252,33 @@
         alert("Hello World");
     }
 
+    function deleteCalComment(commentId, projectId, calendarId ) {
+        console.log("댓글 번호 : " + commentId);
+        console.log("플젝 번호 : " + projectId)
+        console.log("일정 번호 : " + calendarId)
+        let data = {"commentId": commentId,
+                    "projectIdId" : projectId,
+                    "calendarId" : calendarId
+        };
+        $.ajax({
+            type: "post",
+            url: "/deleteCalComment",
+            data: data,
+            success: function (data) {
+                document.getElementById(commentId).remove();
+            },
+            error: function (request, status, error) {
+                console.log("통신 실패");
+                console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+
+            }
+        });
+    }
+
 
 </script>
+
+
 
 </body>
 </html>

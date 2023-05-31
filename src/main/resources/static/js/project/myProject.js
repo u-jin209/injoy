@@ -52,7 +52,7 @@ function projectList(){
 
                         "<div class='row' id= "+item.projectId+" >"+
                             "<div class='col' style='float: left;'>" +
-                                "<div class='subTitle' id='organName"+item.projectId+"' >"+item.organName+"</div>"+
+                                "<div c lass='subTitle' id='organName"+item.projectId+"' >"+item.organName+"</div>"+
                             "</div></div>"+
 
 

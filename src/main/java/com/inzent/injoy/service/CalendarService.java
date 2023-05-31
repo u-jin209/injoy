@@ -26,9 +26,16 @@ public class CalendarService {
         return session.selectOne(NAMESPACE + ".selectOne", calendarId);
     }
 
+//    public String selectUserName(int userId) {
+//        return session.selectOne(NAMESPACE + ".selectUserName", userId);
+//    }
 
     public void insert(CalendarDTO calendarDTO) {
         session.insert(NAMESPACE+".insert", calendarDTO);
+    }
+
+    public void delete(CalendarDTO calendarDTO) {
+        session.delete(NAMESPACE + ".delete", calendarDTO);
     }
 
 }
