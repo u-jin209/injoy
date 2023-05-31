@@ -24,4 +24,8 @@ public class BoardFileService {
     public List<BoardFileDTO> selectAll(int boardId) {
         return session.selectList(NAMESPACE + ".selectAll", boardId);
     }
+
+    public void delete(int boardId){
+        session.delete(NAMESPACE + ".delete", boardId);
+    }
 }

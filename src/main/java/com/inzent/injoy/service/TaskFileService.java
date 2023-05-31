@@ -22,4 +22,8 @@ public class TaskFileService {
     public List<TaskFileDTO> selectAll(int taskId) {
         return session.selectList(NAMESPACE + ".selectAll", taskId);
     }
+
+    public void delete(int taskId){
+        session.delete(NAMESPACE + ".delete", taskId);
+    }
 }

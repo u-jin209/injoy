@@ -299,6 +299,7 @@ function previewFile(files, previewsContainer, fileDOM) {
 
             const fileName = document.createElement('div');
             fileName.classList.add('preview-file-name');
+            fileName.style.display = 'inline-block'
             fileName.textContent = file.name;
 
             const removeButton = document.createElement('button');

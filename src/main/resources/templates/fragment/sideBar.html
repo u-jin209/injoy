@@ -58,6 +58,18 @@
 
 
     </li>
+    <li class="sidebar_li" onclick="location.href='/project/myText'">
+        <button type="button" class="btn btn-acd" style="width: 100%;  height: 20%;color: #fff">
+            <i class="fa-solid fa-rectangle-list" style="color: #00B19c; margin-top: 3px; float:left"></i>
+            내 게시물
+        </button>
+    </li>
+    <li class="sidebar_li" onclick="location.href='/project/myComment'">
+        <button type="button" class="btn btn-acd" style="width: 100%;  height: 20%; color: #fff">
+            <i class="fa-solid fa-comments" style="color: #5e9dff; margin-top: 3px; float:left"></i>
+            내 댓글
+        </button>
+    </li>
 
     <li class="sidebar_li" id="enterMember" style="display: none">
         <button class="btn btn-acd " type="button" name='member' onclick="OnOff(this)"
@@ -80,7 +92,7 @@
 
             <div id="memberListDiv" style="background-color: transparent; display: none; ">
                 <div class="row memberBody" id="memberBody" style="background-color: transparent; padding: 0;margin-top: 10px">
-                    <h1> DSFKDJFKD</h1>
+
 
                 </div>
             </div>
@@ -119,7 +131,7 @@
         const listDiv = document.getElementById(element.name+'ListDiv')
         if (down.style.display == 'unset') {
 
-            console.log("sssss열림")
+
 
             down.style.display = 'none'
             up.style.display = 'unset'
@@ -127,7 +139,7 @@
 
         } else if (down.style.display == 'none') {
 
-            console.log("sss닫힘")
+
             up.style.display = 'none'
             down.style.display = 'unset'
 

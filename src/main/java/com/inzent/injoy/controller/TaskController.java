@@ -195,7 +195,7 @@ public class TaskController {
         return taskService.selectOne(taskId);
     }
 
-    @PostMapping("update")
+    @PostMapping("updateHome")
     public String update(TaskDTO taskDTO){
         TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
 
@@ -209,7 +209,7 @@ public class TaskController {
 
     @PostMapping("updateTask")
     @ResponseBody
-    public TaskDTO updateTask(TaskDTO taskDTO){
+    public TaskDTO updateTask(@AuthenticationPrincipal UserCustomDetails login, TaskDTO taskDTO, @RequestParam(required = false) List<MultipartFile> files, HttpServletRequest request) throws IOException {
         TaskDTO updateTaskDTO = taskService.selectOne(taskDTO.getTaskId());
         if (updateTaskDTO != null) {
             updateTaskDTO.setTaskTitle(taskDTO.getTaskTitle());
@@ -227,7 +227,63 @@ public class TaskController {
             updateTaskDTO.setProgress(taskDTO.getProgress());
         }
 
-        taskService.update(updateTaskDTO);
+        if (files != null) {
+            taskService.update(updateTaskDTO);
+
+            taskFileService.delete(taskDTO.getTaskId());
+
+            List<TaskFileDTO> listTaskFile = taskFileService.selectAll(taskDTO.getTaskId());
+
+            for (TaskFileDTO dto : listTaskFile) {
+                fileService.delete(dto.getFileId());
+            }
+
+            // 파일 저장하기
+            Map<String, Object> map = new HashMap<>();
+            map.put("folderRoot", "/");
+            map.put("projectId", updateTaskDTO.getProjectId());
+            FolderDTO folder = folderService.selectFolder(map);
+            int folderId = folder.getFolderId();
+
+            FileDTO fileDTO = new FileDTO();
+
+            for (MultipartFile file : files) {
+                String fileRealName = file.getOriginalFilename();
+
+                BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
+
+                fileDTO.setFileSize(roundedValue + "MB");
+                fileDTO.setProjectId(updateTaskDTO.getProjectId());
+                fileDTO.setUserId(login.getUserDTO().getId());
+                fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
+                fileDTO.setFolderId(folderId);
+
+                if (fileRealName.length() != 0) {
+                    String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+                    UUID uuid = UUID.randomUUID();
+                    String[] uuids = uuid.toString().split("-");
+                    String uniqueName = uuids[0];
+                    File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+                    file.transferTo(saveFile);
+                    String[] filePath = String.valueOf(saveFile).split("web");
+                    System.out.println("filePath : " + filePath);
+                    fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                    fileDTO.setUniqueName(uniqueName);
+                    fileDTO.setFileExtension(fileExtension);
+                }
+
+                fileService.insert(fileDTO);
+
+                TaskFileDTO taskFileDTO = new TaskFileDTO();
+                taskFileDTO.setFileId(fileDTO.getFileId());
+                taskFileDTO.setTaskId(taskDTO.getTaskId());
+                taskFileService.insert(taskFileDTO);
+            }
+        } else {
+            taskService.update(updateTaskDTO);
+
+        }
+
 
         return updateTaskDTO;
     }
