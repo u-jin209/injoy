@@ -10,8 +10,9 @@
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
     <link th:href="@{/css/project/task.css}" rel="stylesheet"/>
-    <script th:inline="javascript" th:src="@{/js/project/task.js}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- alert 창-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -832,6 +833,6 @@
         </div>
     </div>
 </div>
-
+<script th:inline="javascript" type='text/javascript' th:src="@{/js/project/task.js}" defer></script>
 </body>
 </html>

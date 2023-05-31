@@ -225,7 +225,7 @@ header {
     margin-bottom: 20px;
 }
 
-.sidebar_li img {
+.sidebar_li .logo {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 20%;
@@ -267,6 +267,36 @@ header {
     background-color: #333;
     color: #fff;
 }
+
+
+.sideBookmark{
+    color: #fff;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.2 );
+    padding: 5px;
+
+}
+.sideBookmark:hover{
+    color: #000;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.7 );
+    padding: 5px;
+}
+
+.sideMember{
+    color: #fff;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.2 );
+    padding: 1px;
+
+}
+.sideMember:hover{
+    color: #000;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.7 );
+    padding: 1px;
+}
+
 
 /*sidebar css 끝 */
 
@@ -670,18 +700,8 @@ input.minusBtn{
 
 }
 
-.sideBookmark{
-    color: #fff;
-    margin:0;
-    background-color: rgba( 255, 255, 255, 0.2 );
 
-}
-.sideBookmark:hover{
-    color: #000;
-    margin:0;
-    background-color: rgba( 255, 255, 255, 0.7 );
 
-}
 /*프로젝트 관련 css 끝*/
 
 companyInput {
