@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내가 쓴 글</title>
+    <style>
+        .myText-li:hover{
+            background: rgba(48, 100, 179, 0.51) !important;
+            color:#FFFFFF;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid" layout:fragment="content">
+    <div class="myText-header" style="padding: 30px 20px">
+        <span class="myText-title" style="font-size: 23px; font-weight: bold"> 내 게시물</span>
+    </div>
+    <div class="myText-content-area"  style="padding: 30px 20px">
+        <div class="myText-total" th:text="전체+ ' '+${#lists.size(text)}" style="margin-bottom: 20px"></div>
+        <ul class="myText-list" style="overflow: auto; height: calc(100% - 56px); list-style: none; padding: 0">
+            <li class="myText-li" th:each="text :${text}" >
+                <div th:if="${text.boardId != 0}" style="display: flex; height: 62px; padding: 10px; border-bottom: 1px solid #eee; -webkit-box-align: center; align-items: center; color: #333;">
+                    <div style="vertical-align: middle; padding: 0; min-width: 100px; width: auto; font-weight: 500; text-align: left;box-sizing: border-box; display: flex; -webkit-box-align: center; align-items: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fd7900"
+                             class="bi bi-file-earmark-text me-2" viewBox="0 0 16 16">
+                            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                        <span style="font-weight: 500; line-height: 1em; text-align: center;">글</span>
+                    </div>
+                    <div style="flex: 3; overflow: hidden; line-height: 24px; -webkit-box-flex: 3;">
+                        <div th:text="${text.bTitle}" style="display: flex"></div>
+                    </div>
+                </div>
+                <div th:if="${text.taskId != 0}" style="display: flex; height: 62px; padding: 10px; border-bottom: 1px solid #eee; -webkit-box-align: center; align-items: center; color: #333;">
+                    <div style="vertical-align: middle; padding: 0; min-width: 100px; width: auto; font-weight: 500; text-align: left;box-sizing: border-box; display: flex; -webkit-box-align: center; align-items: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#6449fc" class="bi bi-list-ul me-2"
+                             viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                        <span style="font-weight: 500; line-height: 1em; text-align: center;">업무</span>
+                    </div>
+                    <div th:text="${text.taskTitle}"></div>
+                </div>
+
+
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

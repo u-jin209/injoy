@@ -14,4 +14,8 @@
         where "boardId" = #{boardId}
         ORDER BY "crtDate" DESC
     </select>
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy."boardFile"
+        WHERE "boardId"=#{boardId};
+    </delete>
 </mapper>

@@ -15,6 +15,18 @@
         LEFT JOIN injoy.user ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId"
         ORDER BY COALESCE(combined."entryDate", combined."crtDate") DESC;
     </select>
+    <select id="myTextAll" parameterType="int" resultType="TaskDTO">
+        SELECT *
+        FROM (
+        SELECT "boardId", "projectId", "bTitle", "bContent", "entryDate", "boardWriterId", NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority"
+        FROM injoy.board where "board"."boardWriterId" = #{userId}
+        UNION ALL
+        SELECT NULL, "projectId", NULL, NULL, "crtDate", NULL, "taskId", "authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "startDate", "closingDate", "process", "progress", "priority"
+        FROM injoy.task where "task"."authorUserId" = #{userId}
+        ) AS combined
+        LEFT JOIN injoy.user ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId"
+        ORDER BY COALESCE(combined."entryDate", combined."crtDate") DESC;
+    </select>
     <select id="selectAll" parameterType="int"  resultType="TaskDTO">
         SELECT * FROM injoy.task
         INNER JOIN injoy.user

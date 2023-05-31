@@ -4,18 +4,14 @@ $(document).ready(function () {
     startDateValue()
     endDateValue()
 
-    $('.titleTd').click(function (event) {
-        // Check if the click happened within the input field or its sibling elements
-        if ($(event.target).is('.taskTitle')) {
-            return; // If clicked on the input field or its sibling elements, do nothing
-        }
-        $('.modal-footer').hide(); // modal-footer 숨기기
+    $('.inputTaskTitle .detail').click(function (event) {
+        $('.modal-footer').hide();
         $('.task-setUp').hide()
         $('.updateBtn-task-priority').remove()
         $('.comment-more-button').parent().css('display', 'block')
         $('#commentGroup-task-detail').empty()
         $('#task-update-priority').remove()
-        $('#offcanvasScrolling').offcanvas('show');
+        $('#task-offcanvas').offcanvas('show');
 
     });
 
@@ -24,6 +20,14 @@ $(document).ready(function () {
 
 $(document).on('click', function (e) {
     let target = $(e.target);
+
+    if (!target.closest('.post-option').length){
+        $('.setUp-group').css('display','none')
+    }
+
+    if (!target.closest('.detail').length && !target.closest('#task-offcanvas').length){
+        $('#task-offcanvas').offcanvas('hide');
+    }
 
     // Check if the clicked element is outside the priorityTd
     if (!target.closest('.priorityTd').length) {
