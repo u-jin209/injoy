@@ -14,4 +14,8 @@
         where "taskId" = #{taskId}
         ORDER BY "crtDate" DESC
     </select>
+    <delete id="delete" parameterType="int">
+        DELETE FROM injoy."taskFile"
+        WHERE "taskId"=#{taskId};
+    </delete>
 </mapper>

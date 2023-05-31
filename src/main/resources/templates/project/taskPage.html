@@ -11,7 +11,8 @@
             crossorigin="anonymous"></script>
     <link th:href="@{/css/project/task.css}" rel="stylesheet"/>
     <script th:inline="javascript" th:src="@{/js/project/task.js}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -38,7 +39,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                    <span class="modal-title mr-2" id="taskModalLabel" style="font-weight: bold">
+                    <span class="modal-title me-2" id="taskModalLabel" style="font-weight: bold">
                                 업무 작성 |
                     </span>
                             <span th:text="${project.projectName}"></span>
@@ -309,8 +310,6 @@
             <th style="width: 5%">업무번호</th>
         </tr>
         </thead>
-        <tbody id="searchTbody" class="searchTbody">
-        </tbody>
         <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
             <td class="titleTd" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
@@ -759,7 +758,7 @@
                                         </ul>
                                     </div>
                                     <div class="prioritySpan-task-detail">
-                                        <span class="taskDetail-priority-value" style="font-size: 16px"></span>
+                                        <span class="taskDetail-priority-value" style="font-size: 16px; vertical-align: middle"></span>
                                     </div>
                                 </div>
                             </li>
@@ -786,7 +785,7 @@
                     <div class="task-file-post-area mt-3"
                          style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-file-earmark-arrow-down mr-2" viewBox="0 0 16 16">
+                             class="bi bi-file-earmark-arrow-down me-2" viewBox="0 0 16 16">
                             <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
                             <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
                         </svg>
@@ -797,12 +796,15 @@
                 </div>
             </div>
             <div class="modal-footer task-detail-footer"
-                 style="display: none; justify-content: space-between !important; margin-bottom: 10px">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                     class="bi bi-paperclip" viewBox="0 0 16 16">
-                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
-                </svg>
-                <button type="button" class="btn updateKanbanBtn"
+                 style="display: none; justify-content: space-between !important; margin-bottom: 10px;">
+                <label for="update-taskDetail-file" style="margin: 0; padding: 0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-paperclip ms-3" viewBox="0 0 16 16">
+                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                    </svg>
+                </label>
+                <input id="update-taskDetail-file" class="file" name="file" type="file" multiple enctype="multipart/form-data" style="display: none"/>
+                <button type="button" class="btn updateKanbanBtn me-3"
                         style="background-color: #001542; color: white" onclick="taskDetailUpdate(this)">수정
                 </button>
             </div>
