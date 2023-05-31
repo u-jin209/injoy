@@ -137,7 +137,7 @@ function printFolder(folderRoot) {
                             "</td>" +
                             "<td class='text-center' >-</td>" +
                             "<td class='text-center'  >" + item.name  +"</td>" +
-                            "<td class='text-center' >" + item.crtDate + "</td>" +
+                            "<td class='text-center' >" + dateFormat(item.crtDate) + "</td>" +
                             "</tr>"
                         )
                     }else if(result.length == 1 && item.folderName == undefined){
@@ -380,7 +380,7 @@ function printFile(folderRoot){
                         "</td>" +
                         "<td class='text-center'>"+item.fileSize+"</td>" +
                         "   <td class='text-center'>"+item.name+"</td>" +
-                        "    <td class='text-center'>"+item.crtDate+"</td>"+
+                        "    <td class='text-center'>"+dateFormat(item.crtDate)+"</td>"+
                         "</tr>"
                     )
 

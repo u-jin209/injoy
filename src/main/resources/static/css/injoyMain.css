@@ -883,15 +883,6 @@ companyInput:focus {
 }
 
 
-.folder-name-area, .file-name-area {
-    width: 100%;
-    height: 56px;
-    position: relative;
-    float: left;
-    text-align: left;
-    border-top: none !important;
-}
-
 
 .folder-checkBox, .file-checkBox {
     position: relative;
@@ -899,15 +890,6 @@ companyInput:focus {
 
     zoom: 1.5
 
-}
-
-
-.folder-name-area .folder-checkBox, .file-name-area .file-checkBox {
-    display: inline-block;
-    background-size: 1438px auto;
-    width: 20px;
-    height: 20px;
-    vertical-align: top;
 }
 
 
@@ -1106,15 +1088,12 @@ companyInput:focus {
 
 
 .folder-tr, .file-tr {
-    height: 56px;
+    height: 56px !important;
 }
 
 
 .folder-name-area, .file-name-area {
-    width: 100%;
-    height: 56px;
     position: relative;
-    float: left;
     text-align: left;
     border-top: none !important;
 }

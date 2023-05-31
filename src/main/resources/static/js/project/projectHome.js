@@ -36,14 +36,14 @@ function set_priority() {
             case '긴급' :
                 $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
                     '                                                                     fill="red"\n' +
-                    '                                                                     class="bi bi-exclamation-octagon-fill mr-1" viewBox="0 0 16 16">\n' +
+                    '                                                                     class="bi bi-exclamation-octagon-fill me-2" viewBox="0 0 16 16">\n' +
                     '                                                                    <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>\n' +
                     '                                                                </svg>')
                 break;
             case '높음' :
                 $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n ' +
                     '                                                                     fill="orange"\n' +
-                    '                                                                     class="bi bi-arrow-up mr-1" viewBox="0 0 16 16">\n' +
+                    '                                                                     class="bi bi-arrow-up me-2" viewBox="0 0 16 16">\n' +
                     '                                                                    <path fill-rule="evenodd"\n' +
                     '                                                                          d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>\n' +
                     '                                                                </svg>');
@@ -51,14 +51,14 @@ function set_priority() {
             case '보통' :
                 $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
                     '                                                                     fill="green"\n' +
-                    '                                                                     class="bi bi-dash mr-1" viewBox="0 0 16 16">\n' +
+                    '                                                                     class="bi bi-dash me-2" viewBox="0 0 16 16">\n' +
                     '                                                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>\n' +
                     '                                                                </svg>');
                 break;
             case '낮음' :
                 $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
                     '                                                                     fill="dark-violet"\n' +
-                    '                                                                     class="bi bi-arrow-down mr-1" viewBox="0 0 16 16">\n' +
+                    '                                                                     class="bi bi-arrow-down me-2" viewBox="0 0 16 16">\n' +
                     '                                                                    <path fill-rule="evenodd"\n' +
                     '                                                                          d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>\n' +
                     '                                                                </svg>');
@@ -66,7 +66,7 @@ function set_priority() {
             case '없음' :
                 $(this).before('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"\n' +
                     '                                                                     fill="gray"\n' +
-                    '                                                                     class="bi bi-x-lg mr-1" viewBox="0 0 16 16">\n' +
+                    '                                                                     class="bi bi-x-lg me-2" viewBox="0 0 16 16">\n' +
                     '                                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>\n' +
                     '                                                                </svg>');
                 break;
@@ -446,7 +446,7 @@ function updateTask(parents) {
             }
 
             $.ajax({
-                url: '/task/update',
+                url: '/task/updateHome',
                 type: 'post',
                 data: formData,
                 success: () => {
