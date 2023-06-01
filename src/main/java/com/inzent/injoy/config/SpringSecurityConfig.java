@@ -61,7 +61,11 @@ public class SpringSecurityConfig {
                         .userInfoEndpoint()
                         .userService(principalOauth2UserService)    //로그인후 토큰+사용자 프로필정보 후처리를 위함
                 )
-                .logout(withDefaults()); //Post /logout을 호출시 로그인 페이지로 이동. login과 마찬가지로 custom가능
+                .logout()
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID");
         return http.build();
     }
 }
