@@ -1,12 +1,12 @@
 package com.inzent.injoy.controller;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -21,7 +21,9 @@ public class WebErrorController implements  ErrorController {
 
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "error/404error";
-            } else {
+            }else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
+                return "error/LoginError";
+            }else {
                 return "error/error";
             }
         }

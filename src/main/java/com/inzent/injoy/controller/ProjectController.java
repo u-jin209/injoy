@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.WebSocketSession;
 
 @Controller
 @RequestMapping("/project")
@@ -83,7 +85,8 @@ public class ProjectController {
     }
     @GetMapping("myProject")
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
-
+        List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
+        System.out.println("sessions = " + sessions);
         if (login == null) {
 
             return "/user/logIn";
