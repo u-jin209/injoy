@@ -325,7 +325,7 @@
             <td class="processTd" id="processTd" style="position: relative;">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
                 <div class="btn_ul" id="btn_ul" style=" display: none;">
-                    <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: 6px">
+                    <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: 10%">
                         <li>
                             <button class="btn changeBtn mb-1" style="background-color: #00B2FF">요청</button>
                         </li>
@@ -351,7 +351,7 @@
                 </div>
                 <div th:if="${task.priority}== '없음' or ${task.priority} == null">-</div>
                 <div class="priority_ul" id="priority_ul" style="display: none">
-                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: 10px;">
+                    <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: 20%;">
                         <li class="mb-1">
                             <button class="priorityBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="red"
@@ -412,7 +412,7 @@
                 </div>
                 <div th:if="${task.progress eq 0}">-</div>
                 <div class="progressUl" id="progressUl" style="display: none;">
-                    <div class="button_progress" style="position: absolute; transform: none; top: 50px; left: 16px;">
+                    <div class="button_progress" style="position: absolute; transform: none; top: 50px; left: 25%;">
                         <button class="progress-btn">
                             <span class="progress-text">0</span><em>%</em>
                         </button>
