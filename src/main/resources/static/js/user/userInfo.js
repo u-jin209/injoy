@@ -167,3 +167,112 @@ function  addSetting() {
 
 
 }
+
+//비밀번호 변경 시작
+function openRePasswordBox() {
+    let rePasswordBox = document.getElementById("rePasswordBox")
+    if(rePasswordBox.style.display=="none"){
+        $.ajax({
+            url: '/user/checkUserType',
+            method: 'POST',
+            success: function (response) {
+                if (!response.flag) {
+                    Swal.fire({
+                        text: "소셜로그인한 유저는 비밀번호 재설정이 불가 합니다.",
+                        confirmButtonText: "확인",
+                        confirmButtonColor: '#3085d6',
+                    })
+                }else {
+                    rePasswordBox.style.display = "block";
+                }
+            },
+            error:function(xhr, status, error){
+                console.log(xhr)
+                console.log(status)
+                console.log(error)
+            }
+        })
+    }
+}
+
+function closeRePasswordBox() {
+    let currentPassword = document.getElementById("currentPassword")
+    let newPassword = document.getElementById("newPassword")
+    let newPasswordConfirm = document.getElementById("newPasswordConfirm")
+    currentPassword.value = "";
+    newPassword.value = "";
+    newPasswordConfirm.value = "";
+    document.getElementById("rePasswordBox").style.display = "none";
+}
+
+function resetPassword() {
+    let currentPassword = document.getElementById("currentPassword")
+    let newPassword = document.getElementById("newPassword")
+    let newPasswordConfirm = document.getElementById("newPasswordConfirm")
+    let passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (currentPassword.value.trim() === '') {
+        currentPassword.focus()
+        return;
+    }
+    if (newPassword.value.trim() === '') {
+        newPassword.focus()
+        return;
+    }
+    if (newPasswordConfirm.value.trim() === '') {
+        newPasswordConfirm.focus()
+        return;
+    }
+
+    if (passwordRegex.test(newPassword.value)) {
+        if (newPassword.value != newPasswordConfirm.value) {
+            Swal.fire({
+                text: "비밀번호 확인이 일치하지 않습니다.",
+                confirmButtonText: "확인",
+                confirmButtonColor: '#3085d6',
+            })
+            return;
+        }else{
+            $.ajax({
+                url: '/user/resetPassword',
+                method: 'POST',
+                data:({
+                    currentPassword: currentPassword.value,
+                    newPassword: newPassword.value
+                }),
+                success: function (response) {
+                    if(response.flag){
+                        Swal.fire({
+                            text: "비밀번호가 변경되었습니다. 다시 로그인해주세요.",
+                            confirmButtonText: "확인",
+                            confirmButtonColor: '#3085d6',
+                        }).then((result) => {
+                            if(result.value){
+                                location.href="/logout"
+                            }
+                        })
+                    }else {
+                        Swal.fire({
+                            text: "현재 비밀번호가 일치하지 않습니다. 다시 한번 입력해주세요.",
+                            confirmButtonText: "확인",
+                            confirmButtonColor: '#3085d6',
+                        })
+                    }
+
+                },
+                error:function(xhr, status, error){
+                    console.log(xhr)
+                    console.log(status)
+                    console.log(error)
+                }
+            })
+        }
+    }else{
+        Swal.fire({
+            text: "비밀번호는 영문,숫자,특수문자 포함 8자리 이상이어야 합니다.",
+            confirmButtonText: "확인",
+            confirmButtonColor: '#3085d6',
+        })
+        return;
+    }
+}
+//비밀번호 변경 끝

@@ -1176,3 +1176,37 @@ companyInput:focus {
     padding:10px;
 }
 /*drop file 관련 css 끝 */
+
+/*비밀번호 재설정관련 css 시작*/
+.rePasswordBoxLi{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.rePasswordBoxLi label{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 120px;
+    font-weight: bold;
+}
+.rePasswordBoxLi input{
+    border: none;
+    outline: none;
+}
+.rePasswordBoxBtn{
+    margin-top: 20px;
+}
+.rePasswordBoxCancleBtn{
+    border: #cccbcb 0.2px solid;
+    border-radius: 12px;
+    margin-right: 9px;
+}
+.rePasswordBoxCancleBtn:hover{
+    background-color: #3064B3 ;
+    color: #fff;
+    border: none;
+}
+/*비밀번호 재설정관련 css 끝*/

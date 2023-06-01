@@ -9,6 +9,8 @@ import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 
+
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -43,8 +46,13 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String test( ) {
+    public String test( ){
         return "/index";
+    }
+
+    @GetMapping("/login")
+    public void login(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/project/myProject");
     }
 
     @GetMapping("/imgTest")

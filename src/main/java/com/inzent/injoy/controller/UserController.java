@@ -13,6 +13,7 @@ import jakarta.jws.soap.SOAPBinding;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -98,6 +101,26 @@ public class UserController {
             return "user/register";
         }
     }
+@PostMapping("checkUserType")
+    public ResponseEntity<Map<String, Object>> checkUserType(@AuthenticationPrincipal UserCustomDetails logIn) {
+    Map<String, Object> data = new HashMap<>();
+    UserDTO userDTO = logIn.getUserDTO();
+    if (userDTO.getProvider() == null) {
+        data.put("flag", true);
+    } else {
+        data.put("flag", false);
+    }
+    return ResponseEntity.ok(data);
+}
+
+    @PostMapping("withdrawal")
+    public ResponseEntity<Map<String, Object>> withdrawal(@AuthenticationPrincipal UserCustomDetails logIn) {
+        Map<String, Object> data = new HashMap<>();
+        UserDTO userDTO = logIn.getUserDTO();
+        userService.delete(userDTO);
+        data.put("flag", "success");
+        return ResponseEntity.ok(data);
+    }
 
     @GetMapping("emailVerifiedPage")
     public String emailVerifiedPage(Model model, @AuthenticationPrincipal UserCustomDetails logIn) throws Exception {
@@ -154,7 +177,14 @@ public class UserController {
 
         return "user/userInfo";
     }
-
+    @PostMapping("resetPassword")
+    public ResponseEntity<Map<String, Object>> resetPassword(@AuthenticationPrincipal UserCustomDetails login,@RequestParam String currentPassword,@RequestParam String  newPassword) {
+        Map<String, Object> data = new HashMap<>();
+        UserDTO userDTO = login.getUserDTO();
+        boolean flag = userService.resetPassword(userDTO, currentPassword, newPassword);
+        data.put("flag", flag);
+        return ResponseEntity.ok(data);
+    }
     @PostMapping("updateInfo")
     public String updateInfo(@AuthenticationPrincipal UserCustomDetails login, UserDTO userDTO, @RequestParam(value = "file") MultipartFile profilePhoto,
                              HttpServletRequest request) throws IOException {
