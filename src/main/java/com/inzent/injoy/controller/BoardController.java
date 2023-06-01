@@ -169,6 +169,12 @@ public class BoardController {
         return "redirect:/project/" + board.getProjectId();
     }
 
+    @GetMapping("detailBoard")
+    @ResponseBody
+    public BoardDTO detailTask(int boardId){
+        return boardService.selectOne(boardId);
+    }
+
 
     @GetMapping("getImg")
     @ResponseBody

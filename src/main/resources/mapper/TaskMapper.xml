@@ -25,6 +25,7 @@
         FROM injoy.task where "task"."authorUserId" = #{userId}
         ) AS combined
         LEFT JOIN injoy.user ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId"
+        LEFT JOIN injoy.project ON injoy.project."projectId" = combined."projectId"
         ORDER BY COALESCE(combined."entryDate", combined."crtDate") DESC;
     </select>
     <select id="selectAll" parameterType="int"  resultType="TaskDTO">
