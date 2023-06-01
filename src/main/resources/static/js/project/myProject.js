@@ -329,7 +329,7 @@ function printBookMarkList() {
                 })
             }else{
                 $('.bookMarkBody').append(
-                    "<p style='color: #fff;margin:0; background-color: rgba( 255, 255, 255, 0.2 ); '>비어있음</p>"
+                    "<p class='sideBookmark'>비어있음</p>"
                 )
             }
         }
