@@ -1,5 +1,6 @@
 package com.inzent.injoy.controller;
 
+import com.inzent.injoy.model.BoardCommentDTO;
 import com.inzent.injoy.model.TaskCommentDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.TaskCommentService;
@@ -51,6 +52,15 @@ public class TaskCommentController {
         tComment.setTComment(taskCommentDTO.getTComment());
         taskCommentService.update(tComment);
         return "redirect:/project/" + tComment.getProjectId();
+
+    }
+
+    @PostMapping("/updateText")
+    public String updateText(TaskCommentDTO taskCommentDTO){
+        TaskCommentDTO tComment = taskCommentService.selectOne(taskCommentDTO.getTCommentId());
+        tComment.setTComment(taskCommentDTO.getTComment());
+        taskCommentService.update(tComment);
+        return "redirect:/project/myComment";
 
     }
 

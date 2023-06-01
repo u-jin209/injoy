@@ -19,4 +19,14 @@ public class BoardCommentDTO {
 
     private String name;
     private String profilePhoto;
+
+    private int tCommentId;
+    private int projectTaskId;
+    private int taskId;
+    private int projectAuthorUserId;
+    private Date projectCrtDate;
+    private Date projectMdfDate;
+    private String tComment;
+
+    private String projectName;
 }

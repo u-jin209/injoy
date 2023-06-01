@@ -16,6 +16,8 @@
     </insert>
     <select id="selectOne" parameterType="int"  resultType="BoardDTO">
         SELECT * FROM injoy.board
+        INNER JOIN injoy.user
+        ON "user"."id" = "board"."boardWriterId"
         where "boardId" = #{boardId}
     </select>
     <update id="updateBoard" parameterType="BoardDTO">

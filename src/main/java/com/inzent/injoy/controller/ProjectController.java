@@ -23,15 +23,17 @@ public class ProjectController {
     private final TaskService taskService;
     private final OrganService organService;
     private FolderService folderService;
+    private BoardCommentService boardCommentService;
 
     public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService,
-                             OrganService organService, FolderService folderService, TaskService taskService) {
+                             OrganService organService, FolderService folderService, TaskService taskService, BoardCommentService boardCommentService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
         this.organService = organService;
         this.folderService = folderService;
         this.taskService = taskService;
+        this.boardCommentService = boardCommentService;
     }
 
     @GetMapping("addMember")
@@ -230,6 +232,20 @@ public class ProjectController {
         model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
 
         return "/project/myText";
+    }
+
+    @GetMapping("myComment")
+    public String myComment(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null) {
+            return "/user/logIn";
+        }
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
+        model.addAttribute("text", boardCommentService.myCommentAll(login.getUserDTO().getId()));
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+        return "/project/myComment";
     }
 
 

@@ -31,4 +31,6 @@ public class TaskDTO {
     private String bContent;
 //    private int bFileId;
     private Date entryDate;
+
+    private String projectName;
 }
