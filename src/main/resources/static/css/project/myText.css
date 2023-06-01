@@ -1,0 +1,282 @@
+.myText-header{
+    padding: 30px 20px;
+    position: relative;
+    min-width: 750px;
+    height: 80px;
+    background: #fff;
+    z-index: 12;
+}
+
+.myText-title{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.myText-content-area{
+    padding: 30px 20px;
+}
+
+.myText-total{
+    margin-bottom: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.scroll-mask {
+    overflow-y: scroll;
+    mask-size: 100% 20000px;
+    mask-position: left bottom;
+    -webkit-mask-size: 100% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position .3s,-webkit-mask-position .3s;
+}
+
+.myText-list{
+    overflow: auto;
+    height: calc(100% - 56px);
+    list-style: none;
+    padding: 0;
+}
+
+.myText-li:hover {
+    background: rgba(48, 100, 179, 0.51) !important;
+    color: #FFFFFF;
+}
+
+.myText-div{
+    display: flex;
+    height: 62px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    -webkit-box-align: center;
+    align-items: center;
+    color: #333;
+}
+
+.myText-first-list{
+    vertical-align: middle;
+    padding: 0;
+    min-width: 100px;
+    width: auto;
+    font-weight: 500;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.myText-kind{
+    font-weight: 500;
+    line-height: 1em;
+    text-align: center;
+}
+
+.myText-content{
+    flex: 3;
+    overflow: hidden;
+    line-height: 24px;
+    -webkit-box-flex: 3;
+}
+
+.myText-content-title{
+    overflow: hidden;
+    display: block;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.myText-project{
+    overflow: hidden;
+    display: block;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #999999;
+    margin: 0;
+}
+
+.myText-list-right{
+    float: unset;
+    text-align: center;
+    flex-wrap: wrap;
+    margin: 0 0 0 auto;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    display: flex;
+    overflow: hidden;
+}
+
+.myText-list-right .post-list {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.post-list .myText-username{
+    width: 53px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-list{
+    margin: 0 10px;
+    color: #999;
+    text-align: center;
+}
+
+.post-list .myText-createDate{
+    margin: 0 10px;
+}
+
+.show-comment{
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+    background: #f9f9f9;
+}
+
+.comment-header {
+    padding: 0 30px 0 30px;
+    border-top: 1px solid #ddd;
+}
+
+.comment-more-button.on {
+    display: block;
+    margin-top: 10px;
+}
+
+.comment-more-button {
+    /*display: none;*/
+    font-size: 13px;
+    color: #777;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.post-comment-group {
+    padding: 0;
+    margin: 0;
+    color: #555;
+}
+
+.post-comment-group>li:first-child {
+    padding-top: 20px;
+}
+.post-comment-group>li {
+    display: flex;
+    margin-top: -1px;
+    padding: 10px 30px;
+    border-bottom: 1px solid #eee;
+    background-color: #eee;
+}
+.comment-writer-menu {
+    float: right;
+}
+
+.comment-writer-button.on {
+    display: inline-block;
+}
+
+.comment-writer-button {
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+    display: none;
+}
+
+.comment-container{
+    display: block;
+    float: left;
+    position: relative;
+    width: calc(100% - 50px);
+    margin-left: 10px;
+    box-sizing: border-box;
+}
+
+.comment-container.on {
+    display: block;
+}
+.comment-container {
+    /*display: none;*/
+    position: relative;
+    width: calc(100% - 50px);
+    margin-left: 10px;
+    box-sizing: border-box;
+}
+.comment-container, .comment-thumbnail, .comment-user {
+    float: left;
+}
+
+.comment-user-area {
+    width: 100%;
+    line-height: 21px;
+}
+
+.comment-user-area::after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.comment-user span {
+    display: inline-block;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.record-date {
+    margin-top: -2px;
+    font-size: 14px;
+    color: #999;
+}
+
+.myText-authorName{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 3px;
+    vertical-align: middle;
+    line-height: 18px;
+    max-width: 132px;
+}
+
+.thumbnail.size40.radius16{
+    border-radius: 16px;
+    cursor: default;
+}
+
+.thumbnail.size40{
+    width: 40px;
+    height: 40px;
+}
+
+.thumbnail {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.myText-postDate{
+    display: inline-block;
+    min-width: 120px;
+    margin: 2px 0 0 7px;
+    color: #aaa;
+    vertical-align: middle;
+}
+
+
+.myText-bContent {
+    margin: 30px 0 50px 0;
+}

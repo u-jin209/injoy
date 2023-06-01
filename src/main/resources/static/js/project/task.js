@@ -868,7 +868,7 @@ function all() {
     taskFileSelection()
 }
 
-function dateFormat(date) {
+function date_Format(date) {
     const TIME_ZONE = 9 * 60 * 60 * 1000;
     const d = new Date(date);
     let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
@@ -949,7 +949,7 @@ function showTaskDetail(result) {
     //작성자 profile
     document.getElementById('task-profile').style.backgroundImage = "url('" + result.profilePhoto + "')";
 
-    let crtDate = dateFormat(result.crtDate)
+    let crtDate = date_Format(result.crtDate)
 
     //작성일
     $('.postDate').text(crtDate)

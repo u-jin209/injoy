@@ -137,7 +137,7 @@ function printFolder(folderRoot) {
                             "</td>" +
                             "<td class='text-center' >-</td>" +
                             "<td class='text-center'  >" + item.name  +"</td>" +
-                            "<td class='text-center' >" + dateFormat(item.crtDate) + "</td>" +
+                            "<td class='text-center' >" + date_Format(item.crtDate) + "</td>" +
                             "</tr>"
                         )
                     }else if(result.length == 1 && item.folderName == undefined){
@@ -173,6 +173,15 @@ function printFolder(folderRoot) {
         }
     })
 
+}
+
+function date_Format(date) {
+    const TIME_ZONE = 9 * 60 * 60 * 1000;
+    const d = new Date(date);
+    let format_date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
+    const time = new Date(date).toTimeString().split(' ')[0];
+
+    return format_date + ' ' + time;
 }
 
 function backFolder() {
@@ -380,7 +389,7 @@ function printFile(folderRoot){
                         "</td>" +
                         "<td class='text-center'>"+item.fileSize+"</td>" +
                         "   <td class='text-center'>"+item.name+"</td>" +
-                        "    <td class='text-center'>"+dateFormat(item.crtDate)+"</td>"+
+                        "    <td class='text-center'>"+date_Format(item.crtDate)+"</td>"+
                         "</tr>"
                     )
 

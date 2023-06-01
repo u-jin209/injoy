@@ -54,6 +54,15 @@ public class BoardCommentController {
 
     }
 
+    @PostMapping("/updateText")
+    public String updateText(BoardCommentDTO boardCommentDTO){
+        BoardCommentDTO bComment = boardCommentService.selectOne(boardCommentDTO.getBCommentId());
+        bComment.setBComment(boardCommentDTO.getBComment());
+        boardCommentService.update(bComment);
+        return "redirect:/project/myComment";
+
+    }
+
     @GetMapping("/delete")
     public String delete(int bCommentId){
         BoardCommentDTO boardCommentDTO = boardCommentService.selectOne(bCommentId);

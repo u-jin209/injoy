@@ -2,6 +2,7 @@ package com.inzent.injoy.service;
 
 import com.inzent.injoy.model.BoardCommentDTO;
 import com.inzent.injoy.model.TaskCommentDTO;
+import com.inzent.injoy.model.TaskDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,9 @@ public class BoardCommentService {
     public BoardCommentService(SqlSession session){
         this.session = session;
     }
-
+    public List<BoardCommentDTO> myCommentAll(int userId) {
+        return session.selectList(NAMESPACE + ".myCommentAll", userId);
+    }
 
     public List<BoardCommentDTO> selectAll(Map<String, Object> map) {
         return session.selectList(NAMESPACE + ".selectAll", map);

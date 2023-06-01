@@ -756,7 +756,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #333;
 }
 
-.task-process-btn, .home-process-btn{
+.task-process-btn, .home-process-btn, .myText-process-btn{
     background-color: #eee;
     display: block;
     float: left;
@@ -862,7 +862,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #777;
 }
 
-.post-taskContent, .kanban-taskContent, .task-taskContent, .task-detail-content{
+.post-taskContent, .kanban-taskContent, .task-taskContent, .task-detail-content, .myText-taskContent{
     margin: 30px 0 50px 0;
 }
 

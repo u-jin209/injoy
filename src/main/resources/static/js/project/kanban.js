@@ -458,7 +458,7 @@ function showKanbanDetail(result) {
     //작성자 profile
     document.getElementById('kanban-profile').style.backgroundImage = "url('" + result.profilePhoto + "')";
 
-    let crtDate = dateFormat(result.crtDate)
+    let crtDate = date_Format(result.crtDate)
 
     //작성일
     $('.kanban-crtDate').text(crtDate)
