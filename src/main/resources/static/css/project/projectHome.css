@@ -547,3 +547,69 @@ ul, li, span{
     content: "";
     clear: both;
 }
+
+.post-calendar-date {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    background: #fff;
+    box-sizing: border-box;
+    -webkit-box-pack: justify;
+    justify-content: flex-start;
+
+}
+
+.post-calendar-date .calendar-date {
+    display: table-cell;
+    height: 74px;
+    overflow: hidden;
+    margin: 5px 20px 5px 0;
+    width: 68px;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,.1);
+    background: #00b19c;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.calendar-month {
+    display: block;
+    padding: 11px 0 5px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #00b19c;
+    background: #fff;
+}
+
+.post-title-area {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-flex: 1;
+    flex: 1;
+    width: 100%;
+}
+
+.calendar-day {
+    display: block;
+    font-size: 28px;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.calendar-title {
+    padding-left: 20px;
+    vertical-align: middle;
+}
+
+.calendar-period-area {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
