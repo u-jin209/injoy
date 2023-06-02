@@ -73,7 +73,7 @@ function addFolder() {
         url: "/folder/insert",
         data: data,
         success: function (result) {
-            $('.btn-close').click();
+            $(".btn-close").click();
             document.getElementById("folderName").value=''
             printFolder(folderRoot);
         }
