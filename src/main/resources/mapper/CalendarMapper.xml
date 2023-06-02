@@ -18,6 +18,23 @@
         values (#{projectId}, #{userId}, #{calTitle},#{calContent}, #{calStart}, #{calEnd}, #{calRegister_date}, #{calColor}, #{calTextColor}, #{calBorderColor}, #{calAddress}, #{calImgSrc})
     </insert>
 
+<!--    <select id="selectUserName" parameterType="int" resultType="string" >-->
+<!--        select injoy.user.name from injoy.user-->
+<!--        inner join injoy.calendar-->
+<!--        on "user"."id" = "calendar"."userId"-->
+<!--        where "user"."id" = #{userId}-->
+<!--    </select>-->
+
+    <delete id="delete" parameterType="CalendarDTO">
+        DELETE FROM "injoy"."calendar"
+        WHERE "calendarId" = #{calendarId} and "projectId" = #{projectId}
+    </delete>
+
+
+    <select id="getUsername" parameterType="int" resultType="string">
+        select "name" from injoy."user"
+        where "user"."id" = #{userId};
+    </select>
 
 
 
