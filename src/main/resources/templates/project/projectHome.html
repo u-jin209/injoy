@@ -600,6 +600,107 @@
                         </form>
                     </div>
                 </div>
+                <div class="boardContent" th:if="${task.calendarId != 0}">
+                    <div style="padding: 20px">
+                        <div class="postHeader">
+                            <div class="postAuthor">
+                                    <span class="postProfile thumbnail"
+                                          th:style="'background-image:url('+ ${task.profilePhoto} +');'"></span>
+                                <dl class="post-author-info">
+                                    <dt>
+                                        <strong class="authorName" th:text="${task.name}"></strong>
+                                        <span class="postDate"
+                                              th:text="${#dates.format(task.calRegisterDate, 'yyyy-MM-dd HH:mm:ss')}"
+                                              style="font-size: 12px"></span>
+                                    </dt>
+                                    <dd class="d-none">
+                                        <strong class=""></strong>
+                                        <span class="team"></span>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div th:style="${login.id != task.userId ? 'display:none' : 'display:block'}">
+                                <div class="post-option">
+                                    <div class="post-setting-button toolBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                        </svg>
+                                    </div>
+                                    <ul class="setUp-group" style="display: none; top:50px; right: 35px">
+                                        <li class="setting-item modify-calendar" data-code="modify" style="display:block">
+                                            <a>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                                                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                                    <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                                                </svg>
+                                                수정
+                                            </a>
+                                        </li>
+                                        <li class="setting-item delete-calendar" data-code="delete" style="display:block">
+                                            <a>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                </svg>
+                                                삭제
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="home-title title-header">
+                            <input id="calendarId" type="hidden" th:value="${task.calendarId}"/>
+                            <div class="postTitle">
+                                <input class="modify-calendar-title" type="hidden" th:value="${task.calTitle}"/>
+                                <h4 class="post-title-h4" id="post-calendar-title" th:text="${task.calTitle}"></h4>
+                            </div>
+                        </div>
+                        <div class="post-container">
+                            <div class="post-calendar-content">
+                                <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none"></textarea>
+                                <div id="post-calendar-content" th:text="${task.calContent}"></div>
+                            </div>
+                            <div class="img-container-calendar">
+                            </div>
+                            <div class="file-post-area" style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-arrow-down me-2" viewBox="0 0 16 16">
+                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                </svg> <span style="vertical-align: middle">첨부파일</span>
+                                <div class="file-container-calendar">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="show-comment">
+                        <div class="comment-header" style="display: none">
+                            <input type="hidden" id="home-calendarId" th:value="${task.calendarId}"/>
+                            <button type="button" class="comment-more-button" style="border: none; background-color: transparent">
+                                이전 댓글 더보기 <span class="calendar-comment-count"></span>
+                            </button>
+                        </div>
+                        <ul class="post-comment-group" id="commentGroup-calendar">
+                        </ul>
+                    </div>
+                    <div class="comment-input-wrap" style="background-color: #eee">
+                        <div class="user-profile-thumbnail">
+                                <span class="thumbnail size40 radius16"
+                                      th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
+                        </div>
+                        <form  action="/bComment/insert" method="post" class="comment-container" style="padding: 0;">
+                            <input type="hidden" name="projectId" class="projectId-comment" th:value="${project.projectId}"/>
+                            <input type="hidden" name="calendarId" class="calendarId-comment" th:value="${task.calendarId}"/>
+                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="calComContent"
+                                   aria-label="Recipient's username" aria-describedby="button-addon2">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

@@ -78,6 +78,7 @@ public class HomeController {
         model.addAttribute("taskList", taskList);
         List<TaskDTO> allList = taskService.viewAll(projectId);
         model.addAttribute("allList", allList);
+        System.out.println(allList);
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", login.getUserDTO().getId());
