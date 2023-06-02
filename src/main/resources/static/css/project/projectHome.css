@@ -613,11 +613,3 @@ ul, li, span{
     font-size: 16px;
     color: #333;
 }
-
-.post-calendar-place{
-    font-size: 14px;
-    word-break: break-word;
-    line-height: 25px;
-    color: #333;
-    padding: 10px 30px 0;
-}
