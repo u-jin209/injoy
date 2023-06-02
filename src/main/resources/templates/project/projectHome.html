@@ -654,12 +654,23 @@
                         </div>
                         <div class="home-title title-header">
                             <input id="calendarId" type="hidden" th:value="${task.calendarId}"/>
-                            <div class="postTitle">
-                                <input class="modify-calendar-title" type="hidden" th:value="${task.calTitle}"/>
-                                <h4 class="post-title-h4" id="post-calendar-title" th:text="${task.calTitle}"></h4>
+                            <div class="post-calendar-date">
+                                <div class="calendar-date">
+                                    <strong class="calendar-month" th:text="${#dates.format(task.calRegisterDate, 'yyyy-MM')}"></strong>
+                                    <strong class="calendar-day" th:text="${#dates.format(task.calRegisterDate, 'dd')}"></strong>
+                                </div>
+                                <div class="calendar-title post-title-area">
+                                    <input class="modify-calendar-title" type="hidden" th:value="${task.calTitle}"/>
+                                    <h4 class="post-title-h4" th:text="${task.calTitle}"></h4>
+                                    <div class="calendar-period-area" th:text="${#dates.format(task.calStart, 'yyyy-MM-dd') + ' (' +#dates.dayOfWeekNameShort(task.calStart) +'), ' + #dates.format(task.calStart, 'HH:mm')+ ' - ' + #dates.format(task.calEnd, 'yyyy-MM-dd') + ' (' +#dates.dayOfWeekNameShort(task.calEnd) +'), ' + #dates.format(task.calEnd, 'HH:mm')}"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="post-container">
+
+                            <div class="post-calendar-place">
+
+                            </div>
                             <div class="post-calendar-content">
                                 <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none"></textarea>
                                 <div id="post-calendar-content" th:text="${task.calContent}"></div>
