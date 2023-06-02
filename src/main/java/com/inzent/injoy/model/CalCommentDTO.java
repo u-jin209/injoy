@@ -12,4 +12,6 @@ public class CalCommentDTO {
     private int calComUserId;
     private String calComContent;
     private Timestamp calComRegisterDate;
+    private String calComUsername;
+    private String calComRegisterDateStr;
 }

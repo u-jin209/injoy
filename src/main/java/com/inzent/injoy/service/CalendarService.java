@@ -4,6 +4,7 @@ import com.inzent.injoy.model.CalendarDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.MediaSize;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class CalendarService {
 
     public void delete(CalendarDTO calendarDTO) {
         session.delete(NAMESPACE + ".delete", calendarDTO);
+    }
+
+    public String getUsername(int userId) {
+        return session.selectOne(NAMESPACE + ".getUsername", userId);
     }
 
 }

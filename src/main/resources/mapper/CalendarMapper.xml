@@ -31,6 +31,11 @@
     </delete>
 
 
+    <select id="getUsername" parameterType="int" resultType="string">
+        select "name" from injoy."user"
+        where "user"."id" = #{userId};
+    </select>
+
 
 
 </mapper>

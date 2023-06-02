@@ -221,8 +221,11 @@ public class CalendarController {
             model.addAttribute("scheduleId", c.getCalendarId());
             model.addAttribute("projectName", projectName);
             model.addAttribute("writerId", c.getUserId());
+            System.out.println("이름 : " + calendarService.getUsername(c.getUserId()) );
+            model.addAttribute("usernamee", calendarService.getUsername(c.getUserId()));
             model.addAttribute("calTitle", c.getCalTitle());
             model.addAttribute("calContent", c.getCalContent());
+        System.out.println("c.getCalContent() = " + c.getCalContent());
             model.addAttribute("calStart",calStart);
             model.addAttribute("calEnd",calEnd);
             model.addAttribute("calRegister_date",calRegister_date);
@@ -231,7 +234,10 @@ public class CalendarController {
 
             strStart = c.getCalStart().toString();
             System.out.println("strStart = " + strStart);
-            model.addAttribute("");
+            String yearAndMonth = strStart.substring(0,strStart.length() - 14);
+            String month = strStart.substring(8, strStart.length() - 11);
+            model.addAttribute("yearAndMonth", yearAndMonth);
+            model.addAttribute("month", month);
 
             CalendarDTO proAndCalId = new CalendarDTO();
             proAndCalId.setProjectId(Integer.parseInt(request.getParameter("projectIdId")));
@@ -243,11 +249,6 @@ public class CalendarController {
 //            }
 //
 //            model.addAttribute("comList", comList);
-
-
-
-
-
 
 
             return "/project/calendar :: #tlqkf"; //경로 문제
@@ -265,7 +266,7 @@ public class CalendarController {
 
         int projectId = Integer.parseInt(request.getParameter("projectIdId"));
         int calId = Integer.parseInt(request.getParameter("calId"));
-        String username = request.getParameter(userDTO.getUsername());
+        String username = userDTO.getName();
         String comment = request.getParameter("comment");
 
 
@@ -274,10 +275,13 @@ public class CalendarController {
         c.setCalComCalId(calId);
         c.setCalComUserId(userDTO.getId());
         c.setCalComContent(comment);
-        LocalDateTime now = LocalDateTime.now();
-        c.setCalComRegisterDate(Timestamp.valueOf(now));
 
-        System.out.println("댓글 : " + c);
+        String nowStr = Timestamp.valueOf(LocalDateTime.now()).toString();
+        String now = nowStr.substring(0, nowStr.length()-11);
+        c.setCalComRegisterDateStr(now);
+
+        c.setCalComUsername(username);
+
         calendarCommentService.insert(c);
 
         CalCommentDTO comObj = calendarCommentService.selectOneComment(c);
@@ -285,8 +289,11 @@ public class CalendarController {
 
         HashMap<String, String> tmp = new HashMap<String, String>();
         tmp.put("commentId",comObj.getCalCommentId()+"");//수정하기
-        tmp.put("registerDate", comObj.getCalComRegisterDate()+"");
+        tmp.put("calComProjectId", comObj.getCalComProjectId()+"");
+        tmp.put("calComCalId", comObj.getCalComCalId()+"");
         tmp.put("userId", comObj.getCalComUserId()+"");//수정하기
+        tmp.put("username", calendarService.getUsername(comObj.getCalComUserId()));
+        tmp.put("registerDateStr", now);
 
         return tmp;
     }
@@ -319,6 +326,7 @@ public class CalendarController {
          List<CalCommentDTO> commentList = calendarCommentService.selectAll(c);
          for(CalCommentDTO ccc : commentList) {
              System.out.println("ccc : " + ccc);
+             System.out.println("날짜 : "+ ccc.getCalComRegisterDate());
          }
 
 
