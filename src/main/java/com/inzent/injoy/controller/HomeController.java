@@ -31,12 +31,14 @@ public class HomeController {
     private final ProjectMemberService memberService;
     private UserService userService;
     private BoardService boardService;
+    private OrganService organService;
 
     private TaskService taskService;
     private TaskCommentService taskCommentService;
 
     public HomeController(ProjectService projectService, ProjectMemberService memberService,
-                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService)
+                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService,
+                          OrganService organService)
     {
         this.projectService = projectService;
         this.memberService =  memberService;
@@ -44,6 +46,7 @@ public class HomeController {
         this.boardService = boardService;
         this.taskService = taskService;
         this.taskCommentService = taskCommentService;
+        this.organService = organService;
     }
 
     @GetMapping("/")
@@ -87,7 +90,7 @@ public class HomeController {
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
         model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 
-
+        model.addAttribute("organList" ,organService.selectAll());
 
         model.addAttribute("logIn" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >

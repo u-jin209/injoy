@@ -87,8 +87,7 @@ public class ProjectController {
     }
     @GetMapping("myProject")
     public String myProject(@AuthenticationPrincipal UserCustomDetails login, Model model) {
-        List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
-        System.out.println("sessions = " + sessions);
+
         if (login == null) {
 
             return "/user/logIn";
@@ -126,6 +125,7 @@ public class ProjectController {
 
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
+
 
         projectService.insert(projectDTO);
 
@@ -211,12 +211,18 @@ public class ProjectController {
 
     @ResponseBody
     @PostMapping("update")
-    public void update(String projectName,String explanation, Integer projectId ){
+    public void update(String projectName,String explanation, Integer projectId,Integer organId ){
 
         ProjectDTO projectDTO = new ProjectDTO();
         projectDTO.setProjectName(projectName);
         projectDTO.setExplanation(explanation);
         projectDTO.setProjectId(projectId);
+        if(organId == null){
+            projectDTO.setOrganId(0);
+        }else{
+            projectDTO.setOrganId(organId);
+        }
+
 
 
         projectService.update(projectDTO);

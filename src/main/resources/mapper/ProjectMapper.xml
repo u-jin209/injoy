@@ -90,7 +90,7 @@
 
     <update id="update" parameterType="projectDTO">
         UPDATE injoy."project"
-        SET  "projectName"=#{projectName} , explanation= #{explanation}
+        SET  "projectName"=#{projectName} , explanation= #{explanation},"organId" = #{organId}
         WHERE "projectId"=#{projectId}
     </update>
 </mapper>
