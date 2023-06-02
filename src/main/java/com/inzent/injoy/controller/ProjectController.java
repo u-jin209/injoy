@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.WebSocketSession;
 
 @Controller
 @RequestMapping("/project")
@@ -20,18 +22,20 @@ public class ProjectController {
     private final UserService userService;
     private final ProjectService projectService;
     private final ProjectMemberService projectMemberService;
-
+    private final TaskService taskService;
     private final OrganService organService;
     private FolderService folderService;
+    private BoardCommentService boardCommentService;
 
     public ProjectController(UserService userService, ProjectService projectService, ProjectMemberService projectMemberService,
-                             OrganService organService, FolderService folderService) {
+                             OrganService organService, FolderService folderService, TaskService taskService, BoardCommentService boardCommentService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMemberService = projectMemberService;
         this.organService = organService;
         this.folderService = folderService;
-
+        this.taskService = taskService;
+        this.boardCommentService = boardCommentService;
     }
 
     @GetMapping("addMember")
@@ -122,6 +126,7 @@ public class ProjectController {
         projectDTO.setInvitationCode(UUID.randomUUID().toString());
         projectDTO.setCreatorUserId(login.getUserDTO().getId());
 
+
         projectService.insert(projectDTO);
 
 
@@ -206,16 +211,50 @@ public class ProjectController {
 
     @ResponseBody
     @PostMapping("update")
-    public void update(String projectName,String explanation, Integer projectId ){
+    public void update(String projectName,String explanation, Integer projectId,Integer organId ){
 
         ProjectDTO projectDTO = new ProjectDTO();
         projectDTO.setProjectName(projectName);
         projectDTO.setExplanation(explanation);
         projectDTO.setProjectId(projectId);
+        if(organId == null){
+            projectDTO.setOrganId(0);
+        }else{
+            projectDTO.setOrganId(organId);
+        }
+
 
 
         projectService.update(projectDTO);
 
+    }
+
+    @GetMapping("myText")
+    public String myText(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null) {
+            return "/user/logIn";
+        }
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
+        model.addAttribute("text", taskService.myTextAll(login.getUserDTO().getId()));
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+        return "/project/myText";
+    }
+
+    @GetMapping("myComment")
+    public String myComment(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+        if (login == null) {
+            return "/user/logIn";
+        }
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
+        model.addAttribute("text", boardCommentService.myCommentAll(login.getUserDTO().getId()));
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        model.addAttribute("invite" , projectMemberService.confirmInvite(login.getUserDTO().getId()));
+
+        return "/project/myComment";
     }
 
 

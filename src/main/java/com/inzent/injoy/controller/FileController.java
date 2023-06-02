@@ -172,10 +172,22 @@ public class FileController {
 
     @ResponseBody
     @PostMapping("delete")
-    public String delete(String fileArr) {
+    public String delete(String fileArr, HttpServletRequest request) {
+
 
 
         for (String num : fileArr.split(",")) {
+
+            FileDTO origin = fileService.selectOne(Integer.parseInt(num));
+            //파일 경로 지정
+            File file = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + origin.getUniqueName() + origin.getFileExtension());
+            //현재 게시판에 존재하는 파일객체를 만듬
+
+
+            if(file.exists()) { // 파일이 존재하면
+                file.delete(); // 파일 삭제
+            }
+
 
             fileService.delete(Integer.parseInt(num));
         }

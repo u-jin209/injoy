@@ -106,14 +106,73 @@ public class BoardController {
     }
 
     @PostMapping("update")
-    public String update(BoardDTO boardDTO){
-        BoardDTO board = boardService.selectOne(boardDTO.getBoardId());
+    public String update(@AuthenticationPrincipal UserCustomDetails login, BoardDTO boardDTO, @RequestParam(required = false) List<MultipartFile> files, HttpServletRequest request) throws IOException{
+    BoardDTO board = boardService.selectOne(boardDTO.getBoardId());
 
         board.setBTitle(boardDTO.getBTitle());
         board.setBContent(boardDTO.getBContent());
 
-        boardService.update(board);
+        // 파일 저장하기
+        if (files != null){
+            boardService.update(board);
+            boardFileService.delete(boardDTO.getBoardId());
+
+            List<BoardFileDTO> listBoardFile = boardFileService.selectAll(boardDTO.getBoardId());
+
+            for (BoardFileDTO dto : listBoardFile) {
+                fileService.delete(dto.getFileId());
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("folderRoot", "/");
+            map.put("projectId", board.getProjectId());
+            FolderDTO folder = folderService.selectFolder(map);
+            int folderId = folder.getFolderId();
+
+            FileDTO fileDTO = new FileDTO();
+
+            for (MultipartFile file : files) {
+                String fileRealName = file.getOriginalFilename();
+
+                BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
+
+                fileDTO.setFileSize(roundedValue + "MB");
+                fileDTO.setProjectId(board.getProjectId());
+                fileDTO.setUserId(login.getUserDTO().getId());
+                fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
+                fileDTO.setFolderId(folderId);
+
+                if (fileRealName.length() != 0) {
+                    String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+                    UUID uuid = UUID.randomUUID();
+                    String[] uuids = uuid.toString().split("-");
+                    String uniqueName = uuids[0];
+                    File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+                    file.transferTo(saveFile);
+                    String[] filePath = String.valueOf(saveFile).split("web");
+                    System.out.println("filePath : " + filePath);
+                    fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                    fileDTO.setUniqueName(uniqueName);
+                    fileDTO.setFileExtension(fileExtension);
+                }
+
+                fileService.insert(fileDTO);
+
+                BoardFileDTO boardFileDTO = new BoardFileDTO();
+                boardFileDTO.setFileId(fileDTO.getFileId());
+                boardFileDTO.setBoardId(boardDTO.getBoardId());
+                boardFileService.insert(boardFileDTO);
+            }
+
+        } else {
+            boardService.update(board);
+        }
         return "redirect:/project/" + board.getProjectId();
+    }
+
+    @GetMapping("detailBoard")
+    @ResponseBody
+    public BoardDTO detailTask(int boardId){
+        return boardService.selectOne(boardId);
     }
 
 

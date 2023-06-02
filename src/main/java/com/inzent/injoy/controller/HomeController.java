@@ -9,6 +9,8 @@ import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 
+
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -27,12 +31,14 @@ public class HomeController {
     private final ProjectMemberService memberService;
     private UserService userService;
     private BoardService boardService;
+    private OrganService organService;
 
     private TaskService taskService;
     private TaskCommentService taskCommentService;
 
     public HomeController(ProjectService projectService, ProjectMemberService memberService,
-                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService)
+                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService,
+                          OrganService organService)
     {
         this.projectService = projectService;
         this.memberService =  memberService;
@@ -40,11 +46,17 @@ public class HomeController {
         this.boardService = boardService;
         this.taskService = taskService;
         this.taskCommentService = taskCommentService;
+        this.organService = organService;
     }
 
     @GetMapping("/")
-    public String test( ) {
-        return "/user/login";
+    public String test( ){
+        return "/index";
+    }
+
+    @GetMapping("/login")
+    public void login(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/project/myProject");
     }
 
     @GetMapping("/imgTest")
@@ -66,6 +78,7 @@ public class HomeController {
         model.addAttribute("taskList", taskList);
         List<TaskDTO> allList = taskService.viewAll(projectId);
         model.addAttribute("allList", allList);
+        System.out.println(allList);
 
         Map<String, Object> map = new HashMap<>();
         map.put("userId", login.getUserDTO().getId());
@@ -78,7 +91,7 @@ public class HomeController {
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
         model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 
-
+        model.addAttribute("organList" ,organService.selectAll());
 
         model.addAttribute("logIn" , memberService.authority(map));
 //      < /addMember에 들어가는 파라미터값들  >

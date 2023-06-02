@@ -21,6 +21,9 @@ public class TaskService {
     public List<TaskDTO> viewAll(int projectId) {
         return session.selectList(NAMESPACE + ".viewAll", projectId);
     }
+    public List<TaskDTO> myTextAll(int userId) {
+        return session.selectList(NAMESPACE + ".myTextAll", userId);
+    }
     public List<TaskDTO> selectAll(int projectId) {
         return session.selectList(NAMESPACE + ".selectAll", projectId);
     }

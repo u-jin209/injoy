@@ -46,8 +46,8 @@
 
 .searchIcon {
     position: absolute;
-    top: 7px;
-    left: 30px;
+    top: 175px;
+    left: 195px;
     height: 20px;
     width: 20px;
     padding: 0;
@@ -123,7 +123,7 @@ td {
     vertical-align: middle !important;
 }
 
-.taskTr:hover td{
+.taskTr:hover td, .folder-tr:hover td, .file-tr:hover td{
     background: rgba(48, 100, 179, 0.51) !important;
     color:#FFFFFF;
 }
@@ -756,7 +756,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #333;
 }
 
-.task-process-btn, .home-process-btn{
+.task-process-btn, .home-process-btn, .myText-process-btn{
     background-color: #eee;
     display: block;
     float: left;
@@ -862,7 +862,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #777;
 }
 
-.post-taskContent, .kanban-taskContent, .task-taskContent, .task-detail-content{
+.post-taskContent, .kanban-taskContent, .task-taskContent, .task-detail-content, .myText-taskContent{
     margin: 30px 0 50px 0;
 }
 

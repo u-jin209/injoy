@@ -225,7 +225,7 @@ header {
     margin-bottom: 20px;
 }
 
-.sidebar_li img {
+.sidebar_li .logo {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 20%;
@@ -267,6 +267,36 @@ header {
     background-color: #333;
     color: #fff;
 }
+
+
+.sideBookmark{
+    color: #fff;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.2 );
+    padding: 5px;
+
+}
+.sideBookmark:hover{
+    color: #000;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.7 );
+    padding: 5px;
+}
+
+.sideMember{
+    color: #fff;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.2 );
+    padding: 1px;
+
+}
+.sideMember:hover{
+    color: #000;
+    margin:0;
+    background-color: rgba( 255, 255, 255, 0.7 );
+    padding: 1px;
+}
+
 
 /*sidebar css 끝 */
 
@@ -670,18 +700,8 @@ input.minusBtn{
 
 }
 
-.sideBookmark{
-    color: #fff;
-    margin:0;
-    background-color: rgba( 255, 255, 255, 0.2 );
 
-}
-.sideBookmark:hover{
-    color: #000;
-    margin:0;
-    background-color: rgba( 255, 255, 255, 0.7 );
 
-}
 /*프로젝트 관련 css 끝*/
 
 companyInput {
@@ -863,15 +883,6 @@ companyInput:focus {
 }
 
 
-.folder-name-area, .file-name-area {
-    width: 100%;
-    height: 56px;
-    position: relative;
-    float: left;
-    text-align: left;
-    border-top: none !important;
-}
-
 
 .folder-checkBox, .file-checkBox {
     position: relative;
@@ -879,15 +890,6 @@ companyInput:focus {
 
     zoom: 1.5
 
-}
-
-
-.folder-name-area .folder-checkBox, .file-name-area .file-checkBox {
-    display: inline-block;
-    background-size: 1438px auto;
-    width: 20px;
-    height: 20px;
-    vertical-align: top;
 }
 
 
@@ -1086,15 +1088,12 @@ companyInput:focus {
 
 
 .folder-tr, .file-tr {
-    height: 56px;
+    height: 56px !important;
 }
 
 
 .folder-name-area, .file-name-area {
-    width: 100%;
-    height: 56px;
     position: relative;
-    float: left;
     text-align: left;
     border-top: none !important;
 }
@@ -1177,3 +1176,37 @@ companyInput:focus {
     padding:10px;
 }
 /*drop file 관련 css 끝 */
+
+/*비밀번호 재설정관련 css 시작*/
+.rePasswordBoxLi{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.rePasswordBoxLi label{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 120px;
+    font-weight: bold;
+}
+.rePasswordBoxLi input{
+    border: none;
+    outline: none;
+}
+.rePasswordBoxBtn{
+    margin-top: 20px;
+}
+.rePasswordBoxCancleBtn{
+    border: #cccbcb 0.2px solid;
+    border-radius: 12px;
+    margin-right: 9px;
+}
+.rePasswordBoxCancleBtn:hover{
+    background-color: #3064B3 ;
+    color: #fff;
+    border: none;
+}
+/*비밀번호 재설정관련 css 끝*/

@@ -1,9 +1,6 @@
 package com.inzent.injoy.controller;
 import com.google.gson.JsonObject;
-import com.inzent.injoy.model.ProjectDTO;
-import com.inzent.injoy.model.ProjectMemberDTO;
-import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.model.UserDTO;
+import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -110,7 +107,7 @@ public class  ProjectMemberController {
 
     @ResponseBody
     @GetMapping("selectMember")
-    public List<ProjectMemberDTO> selectMember(int projectId){
+    public List<ProjectMemberDTO> selectMember(Integer projectId){
 
 
         return memberService.selectMember(projectId);
@@ -123,5 +120,9 @@ public class  ProjectMemberController {
 
         return memberService.selectInviteMember(projectId);
     }
+
+
+
+
 
 }

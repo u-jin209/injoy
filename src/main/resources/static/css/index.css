@@ -192,3 +192,12 @@ p{
         font-size: 24px;
     }
 }
+
+.button {
+    color: #FFFFFF;
+    background-color: #00B01C;
+    border-radius: 20px;
+    border: none;
+    height: 50px;
+}
+

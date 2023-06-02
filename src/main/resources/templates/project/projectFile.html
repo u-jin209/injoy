@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <!-- alert 창-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <!-- Plugin -->
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"/>
@@ -65,12 +67,12 @@
                 삭제
             </button>
             <button type="button" class="js-file-add-button collect-add-button" id="addFolderBtn"
-                    style="display: inline-block;" data-toggle="modal" data-target="#addFolderModal">
+                    style="display: inline-block;" data-bs-toggle="modal" data-bs-target="#addFolderModal">
                 + 폴더추가
             </button>
 
             <button type="button" class="collect-fileAdd-button btn btn-green" id="addFileBtn"
-                    style="display: inline-block;" data-toggle="modal" data-target="#addFileModal" >+파일 업로드
+                    style="display: inline-block;" data-bs-toggle="modal" data-bs-target="#addFileModal" >+파일 업로드
             </button>
 
 
@@ -148,10 +150,13 @@
 <div class="modal fade" id="addFolderModal" tabindex="-1" aria-labelledby="addFolderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addFolderModalLabel">새폴더</h1>
                 <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+
             <div class="modal-body">
 
                 <div>
@@ -167,7 +172,7 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-green" onclick="addFolder()">생성</button>
+                <button type="button" class="btn btn-green" style="float: right" onclick="addFolder()">생성</button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="projectNamefragment(project,logIn)">
+      th:fragment="projectNamefragment(project,logIn,organList)">
 <head>
     <meta charset="UTF-8">
     <title>INJOY</title>
@@ -102,6 +102,32 @@
                                        name="explanation" style="  height:150px;" th:value="${project.explanation}">
                             </div>
                         </div>
+
+                        <div class="mb-3 ">
+                            <p class="col-sm-4 col-form-label">조직 이름</p>
+                            <select class="form-select"  id="organId"  name="organId"  style="" >
+                                <option selected th:value="${project.organId}"
+                                        th:text="${project.organId != 0 ? project.organName: '조직을 선택해 주세요' }" ></option>
+                                <option th:each="organ : ${organList}"
+                                        th:value="${organ.organId}" th:text="${organ.organName}"></option>
+
+                            </select>
+                        </div>
+                        <div class="mb-3 ">
+                            <p class="col-sm-4 col-form-label">조직 추가</p>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control " oninput="checkOrganName()" id="newOrgan"
+                                           placeholder="조직명">
+                                    <span class="mt-1" id="existOrganName" style="color: #F5544D; display: none">이미 등록된 조직이름입니다.</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-orange" type="button" onclick="addCompany()">추가</button>
+                                </div>
+                            </div>
+
+                        </div>
+
 
                         <div class="mb-3 " style=" text-align: left;margin-left: 15px ">
                         <button class="btn btn-red" th:onclick="|deleteProject(${project.projectId})|">
