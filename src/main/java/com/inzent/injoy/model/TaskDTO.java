@@ -2,6 +2,7 @@ package com.inzent.injoy.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -33,4 +34,18 @@ public class TaskDTO {
     private Date entryDate;
 
     private String projectName;
+
+    //calendarDTO값
+    private int calendarId;
+    private int userId;
+    private String calTitle;
+    private String calContent;
+    private Date calStart;
+    private Date calEnd;
+    private Date calRegisterDate;
+    private String calColor;
+    private String calTextColor;
+    private String calBorderColor;
+    private String calAddress;
+    private String calImgSrc;
 }

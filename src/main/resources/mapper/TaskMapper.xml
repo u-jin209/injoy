@@ -6,27 +6,56 @@
     <select id="viewAll" parameterType="int" resultType="TaskDTO">
         SELECT *
         FROM (
-        SELECT "boardId", "projectId", "bTitle", "bContent", "entryDate", "boardWriterId", NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority"
-        FROM injoy.board where "board"."projectId" = #{projectId}
+        SELECT "boardId", "projectId", "bTitle", "bContent", "entryDate", "boardWriterId",
+        NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority",
+        0 AS "calendarId" , 0 AS "userId", NULL AS "calTitle", NULL AS "calContent", NULL::TIMESTAMP AS "calStart", NULL::TIMESTAMP AS "calEnd", NULL::TIMESTAMP AS "calRegister_date", NULL AS "calColor", NULL AS "calTextColor", NULL AS "calBorderColor", NULL AS "calAddress", NULL AS "calImgSrc"
+        FROM injoy.board
+        WHERE "board"."projectId" = #{projectId}
         UNION ALL
-        SELECT NULL, "projectId", NULL, NULL, "crtDate", NULL, "taskId", "authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "startDate", "closingDate", "process", "progress", "priority"
-        FROM injoy.task where "task"."projectId" = #{projectId}
+        SELECT NULL, "projectId", NULL, NULL, NULL, NULL, "taskId", "authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "startDate", "closingDate", "process", "progress", "priority", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+        FROM injoy.task
+        WHERE "task"."projectId" = #{projectId}
+        UNION ALL
+        SELECT NULL, "projectId", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "calendarId", "userId", "calTitle", "calContent", "calStart", "calEnd", "calRegister_date", "calColor", "calTextColor", "calBorderColor", "calAddress", "calImgSrc"
+        FROM injoy.calendar
+        WHERE "calendar"."projectId" = #{projectId}
         ) AS combined
-        LEFT JOIN injoy.user ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId"
-        ORDER BY COALESCE(combined."entryDate", combined."crtDate") DESC;
+        LEFT JOIN injoy.user
+        ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId" OR injoy.user."id" = combined."userId"
+        ORDER BY COALESCE(combined."entryDate", combined."crtDate", combined."calRegister_date") DESC;
     </select>
     <select id="myTextAll" parameterType="int" resultType="TaskDTO">
         SELECT *
         FROM (
-        SELECT "boardId", "projectId", "bTitle", "bContent", "entryDate", "boardWriterId", NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority"
-        FROM injoy.board where "board"."boardWriterId" = #{userId}
+        SELECT
+        NULL AS "boardId", "projectId", NULL AS "bTitle", NULL AS "bContent", NULL AS "entryDate", NULL AS "boardWriterId",
+        "taskId", "authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "startDate", "closingDate", "process", "progress", "priority",
+        0 AS "calendarId", 0 AS "userId", NULL AS "calTitle", NULL AS "calContent", NULL::TIMESTAMP AS "calStart", NULL::TIMESTAMP AS "calEnd", NULL::TIMESTAMP AS "calRegister_date", NULL AS "calColor", NULL AS "calTextColor",  NULL AS "calBorderColor", NULL AS "calAddress", NULL AS "calImgSrc"
+        FROM injoy.task
+        WHERE "task"."authorUserId" = #{userId}
         UNION ALL
-        SELECT NULL, "projectId", NULL, NULL, "crtDate", NULL, "taskId", "authorUserId", "crtDate", "mdfDate", "taskTitle", "taskContent", "startDate", "closingDate", "process", "progress", "priority"
-        FROM injoy.task where "task"."authorUserId" = #{userId}
+        SELECT
+        "boardId", "projectId", "bTitle", "bContent", "entryDate", "boardWriterId",
+        NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority",
+        NULL AS "calendarId", NULL AS "userId", NULL AS "calTitle", NULL AS "calContent", NULL AS "calStart", NULL AS "calEnd", NULL AS "calRegister_date", NULL AS "calColor", NULL AS "calTextColor", NULL AS "calBorderColor", NULL AS "calAddress", NULL AS "calImgSrc"
+        FROM injoy.board
+        WHERE "board"."boardWriterId" = #{userId}
+        UNION ALL
+        SELECT
+        NULL AS "boardId", "projectId", NULL AS "bTitle", NULL AS "bContent", NULL AS "entryDate", NULL AS "boardWriterId",
+        NULL AS "taskId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "taskTitle", NULL AS "taskContent", NULL AS "startDate", NULL AS "closingDate", NULL AS "process", NULL AS "progress", NULL AS "priority",
+        "calendarId", "userId", "calTitle", "calContent", "calStart", "calEnd", "calRegister_date", "calColor", "calTextColor", "calBorderColor", "calAddress", "calImgSrc"
+        FROM injoy.calendar
+        WHERE "calendar"."userId" = #{userId}
         ) AS combined
-        LEFT JOIN injoy.user ON injoy.user."id" = combined."boardWriterId" OR injoy.user."id" = combined."authorUserId"
-        LEFT JOIN injoy.project ON injoy.project."projectId" = combined."projectId"
-        ORDER BY COALESCE(combined."entryDate", combined."crtDate") DESC;
+        LEFT JOIN injoy.user
+        ON injoy.user."id" = combined."boardWriterId"
+        OR injoy.user."id" = combined."authorUserId"
+        OR injoy.user."id" = combined."userId"
+        LEFT JOIN injoy.project
+        ON injoy.project."projectId" = combined."projectId"
+        ORDER BY COALESCE(combined."entryDate", combined."crtDate", combined."calRegister_date") DESC;
+
     </select>
     <select id="selectAll" parameterType="int"  resultType="TaskDTO">
         SELECT * FROM injoy.task
