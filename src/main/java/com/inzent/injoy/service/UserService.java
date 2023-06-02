@@ -57,6 +57,15 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public boolean resetPassword(UserDTO userDTO, String currentPassword,String  newPassword) {
+        boolean isPasswordMatch = passwordEncoder.matches(currentPassword, userDTO.getPassword());
+        if (isPasswordMatch == true) {
+            updatePassword(userDTO,newPassword);
+            return true;
+        } else {
+            return false;
+        }
+    }
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserDTO user = session.selectOne(NAMESPACE + ".validate", s);

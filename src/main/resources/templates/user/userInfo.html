@@ -178,13 +178,14 @@
                                                 </svg>
                                             </div>
                                             <div class="col-md-9">
-                                                <select class="form-select"  id="organId"  name="organId"  >
-                                                    <option selected  th:value="${logIn.organId}"  th:text="${logIn.organId != 0 ? logIn.organName: '조직을 선택해 주세요' }"></option>
+                                                <select class="form-select" id="organId" name="organId">
+                                                    <option selected th:value="${logIn.organId}"
+                                                            th:text="${logIn.organId != 0 ? logIn.organName: '조직을 선택해 주세요' }"></option>
                                                     <option th:each="organ : ${organList}"
-                                                            th:value="${organ.organId}" th:text="${organ.organName}"></option>
+                                                            th:value="${organ.organId}"
+                                                            th:text="${organ.organName}"></option>
 
                                                 </select>
-
 
 
                                             </div>
@@ -193,18 +194,21 @@
 
                                     <div class="row contentText"> 조직 추가</div>
                                     <div class="row">
-                                    <div class="memberInfo row" style="float:left;">
+                                        <div class="memberInfo row" style="float:left;">
                                             <div class="col-md-10">
-                                                <input type="text" class="form-control " oninput="checkOrganName()" id="newOrgan"
+                                                <input type="text" class="form-control " oninput="checkOrganName()"
+                                                       id="newOrgan"
                                                        placeholder="조직명">
-                                                <span class="mt-1" id="existOrganName" style="color: #F5544D; display: none">이미 등록된 조직이름입니다.</span>
+                                                <span class="mt-1" id="existOrganName"
+                                                      style="color: #F5544D; display: none">이미 등록된 조직이름입니다.</span>
                                             </div>
                                             <div class="col-md-2">
-                                                <button class="btn btn-orange" type="button" onclick="addCompany()">추가</button>
+                                                <button class="btn btn-orange" type="button" onclick="addCompany()">추가
+                                                </button>
                                             </div>
 
 
-                                    </div>
+                                        </div>
                                     </div>
                                     <div class="row contentText"> 전화</div>
                                     <div class="row">
@@ -239,21 +243,53 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="email"
-                                                       name="email" th:value="${logIn.username}"
+                                                       name="email" th:value="${logIn.email}"
                                                        placeholder="email을 입력해주세요">
                                             </div>
 
                                         </div>
                                     </div>
 
-
-
+                                    <div class="row contentText"> 비밀번호</div>
+                                    <div class="row">
+                                        <div class="memberInfo row" style="float:left;height: auto;padding-top: 15px;padding-bottom: 15px">
+                                            <div class="col-md-3" style="    display: flex;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                                     fill="#303030"
+                                                     class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                          d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="col-md-9" style="display: flex;flex-direction: column">
+                                                <button class="btn btn-orange" type="button" onclick="openRePasswordBox()" style="width: 150px">비밀번호 재설정</button>
+                                                <div id="rePasswordBox" style="display: none">
+                                                    <div style="display: flex; flex-direction: column;font-size: 13px;margin-top: 15px">
+                                                        <p style="display: flex;justify-content: left;margin: 0">비밀번호는 영문,숫자,특수문자 포함 8자리 이상이어야 합니다.</p>
+                                                        <div class="rePasswordBoxLi">
+                                                            <label>현재 비밀번호</label><input id="currentPassword"class="form-control" type="password" placeholder="현재 비밀번호를 입력해주세요." style="font-size: 13px">
+                                                        </div>
+                                                        <div class="rePasswordBoxLi">
+                                                            <label>새 비밀번호</label><input id="newPassword" class="form-control" type="password" placeholder="새 비밀번호를 입력해주세요." style="font-size: 13px">
+                                                        </div>
+                                                        <div class="rePasswordBoxLi">
+                                                            <label>비밀번호 확인</label><input id="newPasswordConfirm" class="form-control" type="password" placeholder="비밀번호를 다시 입력해주세요." style="font-size: 13px">
+                                                        </div>
+                                                        <div class="rePasswordBoxBtn" style="display: flex;flex-direction: row">
+                                                            <button  class="btn rePasswordBoxCancleBtn" type="button" onclick="closeRePasswordBox()">취소</button>
+                                                            <button class="btn btn-orange" type="button" onclick="resetPassword()">확인</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-orange">수정</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-orange">수정</button>
                     </div>
                 </form>
             </div>
