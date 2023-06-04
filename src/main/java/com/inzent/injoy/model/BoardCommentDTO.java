@@ -2,6 +2,7 @@ package com.inzent.injoy.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -29,4 +30,11 @@ public class BoardCommentDTO {
     private String tComment;
 
     private String projectName;
+
+    private int calCommentId;
+    private int calComProjectId;
+    private int calComCalId;
+    private int calComUserId;
+    private String calComContent;
+    private Date calComRegisterDate;
 }

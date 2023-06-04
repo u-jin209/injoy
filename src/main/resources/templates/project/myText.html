@@ -318,6 +318,91 @@
             </div>
         </div>
     </div>
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+         id="calendar-myText" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 700px; top: 32px">
+
+        <div class="offcanvas-header" style="border-bottom: 1px solid #777777">
+            <span class="offcanvas-title" id="offcanvasLabel"
+                  style="font-size: 14px">일정 상세보기</span>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body px-0">
+            <div class="postHeader">
+                <div class="postAuthor">
+                    <span id="myText-board-profile" class="postProfile thumbnail"></span>
+                    <dl class="post-author-info">
+                        <dt>
+                            <strong class="myText-authorName myText-board-author"></strong>
+                            <span class="myText-postDate"></span>
+                        </dt>
+                        <dd class="d-none">
+                            <strong class=""></strong>
+                            <span class="team"></span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="title-header">
+                <div class="postTitle">
+                    <h4 class="post-title-h4 myText-cTitle"></h4>
+                </div>
+                <div class="post-state">
+                    <span class="task-number d-inline-block myText-calendarId">
+                          일정 번호<em></em>
+                    </span>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-task-summary">
+                    <ul class="option-group" style="list-style: none; padding: 0">
+                        <li class="post-calendar-place" style="align-items: start">
+                            <div class="create-content content-title" style="position: relative; vertical-align: top; margin-top: 10px ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                            </div>
+                            <div class="create-content" style="display: block; margin-top: 10px">
+                                <input type="hidden" id="calAddress-myText">
+                                <div class="post-ellipsis" style="width: 100%; float: left;"></div>
+                                <div id="myTextView" class="preview-map-home" style="display: inline-block;"></div>
+                            </div>
+                        </li>
+                        <li class="post-calendar-content mb-5">
+                            <div class="create-content content-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-clipboard2-check" viewBox="0 0 16 16">
+                                    <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
+                                    <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
+                                    <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3Z"/>
+                                </svg>
+                            </div>
+                            <div class="create-content">
+                                <div id="myText-calendar-content"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="img-container-cmyText"></div>
+                    <div class="myText-cfile-post-area mt-3"
+                         style="border: 1px solid #777777; border-radius: 10%; padding: 20px 20px; display: none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-file-earmark-arrow-down me-2" viewBox="0 0 16 16">
+                            <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                        </svg>
+                        <span style="vertical-align: middle">첨부파일</span>
+                        <div class="file-container-cmyText">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-footer show-comment">
+                <input class="myText-login" type="hidden" th:value="${logIn.id}"/>
+                <ul class="post-comment-group" id="commentGroup-myText-calendar">
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
