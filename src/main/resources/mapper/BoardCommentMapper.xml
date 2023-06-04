@@ -30,18 +30,22 @@
         WHERE "bCommentId" = #{bCommentId}
     </delete>
     <select id="myCommentAll" parameterType="int" resultType="BoardCommentDTO">
-    SELECT *
-    FROM (
-    SELECT "bCommentId", "projectId", "boardId", "authorUserId", "crtDate", "mdfDate", "bComment", NULL AS "tCommentId", NULL AS "taskId", NULL AS "projectTaskId", NULL AS "projectAuthorUserId", NULL AS "projectCrtDate", NULL AS "projectMdfDate", NULL AS "tComment"
-    FROM injoy."boardComment"
-    WHERE "boardComment"."authorUserId" = #{userId}
-    UNION ALL
-    SELECT NULL AS "bCommentId", NULL AS "projectId", NULL AS "boardId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "bComment", "tCommentId", "taskId", "projectId", "authorUserId", "crtDate", "mdfDate", "tComment"
-    FROM injoy."taskComment"
-    WHERE "taskComment"."authorUserId" = #{userId}
-    ) AS combined
-    LEFT JOIN injoy."user" AS u ON u."id" = combined."authorUserId" OR u."id" = combined."projectAuthorUserId"
-    LEFT JOIN injoy."project" AS p ON p."projectId" = combined."projectId" OR  p."projectId" = combined."projectTaskId"
-    ORDER BY COALESCE(combined."crtDate", combined."projectCrtDate") DESC;
+        SELECT *
+        FROM (
+        SELECT "bCommentId", "projectId", "boardId", "authorUserId", "crtDate", "mdfDate", "bComment", NULL AS "tCommentId", NULL AS "taskId", NULL AS "projectTaskId", NULL AS "projectAuthorUserId", NULL AS "projectCrtDate", NULL AS "projectMdfDate", NULL AS "tComment", 0 AS "calCommentId", 0 AS "calComProjectId", 0 AS "calComCalId", 0 AS "calComUserId", NULL AS "calComContent", NULL::TIMESTAMP AS "calComRegisterDate"
+        FROM injoy."boardComment"
+        WHERE "boardComment"."authorUserId" = 1
+        UNION ALL
+        SELECT NULL AS "bCommentId", NULL AS "projectId", NULL AS "boardId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "bComment", "tCommentId", "taskId", "projectId", "authorUserId", "crtDate", "mdfDate", "tComment", NULL, NULL, NULL, NULL, NULL, NULL
+        FROM injoy."taskComment"
+        WHERE "taskComment"."authorUserId" = 1
+        UNION ALL
+        SELECT NULL AS "bCommentId", NULL AS "projectId", NULL AS "boardId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS "mdfDate", NULL AS "bComment", NULL AS "tCommentId", NULL AS "taskId", NULL AS "projectId", NULL AS "authorUserId", NULL AS "crtDate", NULL AS"mdfDate", NULL AS "tComment", "calCommentId", "calComProjectId", "calComCalId", "calComUserId", "calComContent", "calComRegisterDate"
+        FROM injoy."calComment"
+        WHERE "calComment"."calComUserId" = 1
+        ) AS combined
+        LEFT JOIN injoy."user" AS u ON u."id" = combined."authorUserId" OR u."id" = combined."projectAuthorUserId" OR u."id" = combined."calComUserId"
+        LEFT JOIN injoy."project" AS p ON p."projectId" = combined."projectId" OR  p."projectId" = combined."projectTaskId" OR p."projectId" = combined."calComProjectId"
+        ORDER BY COALESCE(combined."crtDate", combined."projectCrtDate") DESC;
     </select>
 </mapper>

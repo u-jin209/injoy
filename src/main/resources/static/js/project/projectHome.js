@@ -1,6 +1,17 @@
 $(document).ready(function () {
     set_priority()
 
+
+    $('.post-calendar-place').each(function() {
+        let value = $(this).find('#calAddress-home').val();
+        let mapView = $(this).find('.preview-map-home');
+
+        showHomeMap(value, mapView);
+
+    });
+
+
+
     //항목 추가입력 버튼
     $('.home-content-group').each(function () {
 
@@ -1199,4 +1210,60 @@ function enterProjectChatRoom() {
             }
         }
     })
+}
+
+function showHomeMap(mapAddress, mapView){
+    var imgTag = document.createElement('img');
+    imgTag.id = "mapImage";
+    imgTag.name = "mapImage"
+    imgTag.src = "";
+    imgTag.alt = "static img";
+    imgTag.style = "visibility: hidden";
+
+    mapView.append(imgTag);
+
+    let geocoder;
+    let map;
+    geocoder = new google.maps.Geocoder();
+    let address = mapAddress;
+    console.log("주소 : " + address);
+    geocoder.geocode({'address': address}, function (results, status) {
+
+
+        if (status == 'OK') {
+            console.log('this is OK');
+            // var tmp = (results[0].geometry.location).toString();
+
+            console.log("위도 : " + results[0].geometry.location.lat());
+            console.log("경도 : " + results[0].geometry.location.lng());
+
+            const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
+
+            const latitude = results[0].geometry.location.lat()
+            const longitude = results[0].geometry.location.lng()
+
+            // Set the map center and other parameters
+            const mapCenter = `center=${latitude},${longitude}`;
+            const mapZoom = 'zoom=14'; // Optional: Specify the zoom level
+
+            const mapMarkers = `markers=color:red%7Clabel:%7C${latitude}, ${longitude}`;
+
+            const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
+
+            // Set the image source to the constructed URL
+            console.log(mapView.find('#mapImage'))
+            const mapImage = mapView.find('#mapImage');
+            mapImage.attr('src', imageUrl)
+            mapImage.css('visibility','visible')
+
+            var ads = addressLogic(latitude, longitude);
+            console.log(addressLogic(latitude, longitude))
+            console.log("ads : " + ads);
+
+
+        } else {
+            console.log("this is an !ERROR!" + status);
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
 }
