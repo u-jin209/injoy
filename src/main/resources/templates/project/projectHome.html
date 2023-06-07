@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
-<body id="homeBody">
+<body id="homeBody" style="overflow-x: hidden">
 <div class="row" id="homeContent" style="padding: 0 10rem">
     <section class="col-8" style="display: flex;flex-wrap: wrap; padding-right: 3rem">
         <div class="taskReportArea" th:style="${#lists.isEmpty(taskList)} ? 'display:none' : 'display:block'">
@@ -727,11 +727,10 @@
                                 <span class="thumbnail size40 radius16"
                                       th:style="'background-image:url('+ ${login.profilePhoto} +');'"></span>
                         </div>
-                        <form  action="/bComment/insert" method="post" class="comment-container" style="padding: 0;">
-                            <input type="hidden" name="projectId" class="projectId-comment" th:value="${project.projectId}"/>
-                            <input type="hidden" name="calendarId" class="calendarId-comment" th:value="${task.calendarId}"/>
-                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="calComContent"
-                                   aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <form  action="/cComment/insert" method="post" class="comment-container" style="padding: 0;">
+                            <input type="hidden" name="calComProjectId" class="projectId-comment" th:value="${project.projectId}"/>
+                            <input type="hidden" name="calComCalId" class="calendarId-comment" th:value="${task.calendarId}"/>
+                            <input type="text" class="commentInput" placeholder="댓글을 입력해주세요." name="calComContent"/>
                         </form>
                     </div>
                 </div>

@@ -1,9 +1,6 @@
 package com.inzent.injoy.controller;
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.inzent.injoy.model.CalCommentDTO;
-import com.inzent.injoy.model.CalendarDTO;
-import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.model.UserDTO;
+import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.CalendarCommentService;
 import com.inzent.injoy.service.CalendarService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 //@Controller
@@ -165,7 +168,7 @@ public class CalendarController {
         c.setCalStart(Timestamp.valueOf(start));
 
         LocalDateTime now = LocalDateTime.now();
-        c.setCalRegister_date(Timestamp.valueOf(now));
+        c.setCalRegisterDate(Timestamp.valueOf(now));
 
 //        color, textcolor, borderColor
         String[][] colorArr = {
@@ -207,7 +210,7 @@ public class CalendarController {
 
 
             System.out.println("c.getCalStart() = " + c.getCalStart());
-            String strReg =  c.getCalRegister_date().toString();
+            String strReg =  c.getCalRegisterDate().toString();
             String calRegister_date = strReg.substring(0, strReg.length() - 10);
 
             String strStart = c.getCalStart().toString();
@@ -347,5 +350,98 @@ public class CalendarController {
         calendarService.delete(c);
     }
 
-
+    @GetMapping("/calendar/detailCalendar")
+    @ResponseBody
+    public CalendarDTO detailCalendar(int calendarId){
+        System.out.println(calendarService.selectOne(calendarId));
+        return calendarService.selectOne(calendarId);
     }
+
+    @PostMapping("/calendar/write")
+    @ResponseBody
+    public String writeCalendar(@AuthenticationPrincipal UserCustomDetails login, CalendarDTO calendarDTO) {
+        System.out.println(calendarDTO);
+        calendarDTO.setUserId(login.getUserDTO().getId());
+        if (calendarDTO.getCalTitle().isEmpty()) {
+            return "error";
+        } else {
+
+            // 파일 저장하기
+            /* if (files != null){
+                calendarService.insert(calendarDTO);
+                Map<String, Object> map = new HashMap<>();
+                map.put("folderRoot", "/");
+                map.put("projectId", calendarDTO.getProjectId());
+                FolderDTO folder = folderService.selectFolder(map);
+                int folderId = folder.getFolderId();
+
+                FileDTO fileDTO = new FileDTO();
+
+                for (MultipartFile file : files) {
+                    String fileRealName = file.getOriginalFilename();
+
+                    BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
+
+                    fileDTO.setFileSize(roundedValue + "MB");
+                    fileDTO.setProjectId(boardDTO.getProjectId());
+                    fileDTO.setUserId(login.getUserDTO().getId());
+                    fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
+                    fileDTO.setFolderId(folderId);
+
+                    if (fileRealName.length() != 0) {
+                        String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+                        UUID uuid = UUID.randomUUID();
+                        String[] uuids = uuid.toString().split("-");
+                        String uniqueName = uuids[0];
+                        File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+                        file.transferTo(saveFile);
+                        String[] filePath = String.valueOf(saveFile).split("web");
+
+                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                        fileDTO.setUniqueName(uniqueName);
+                        fileDTO.setFileExtension(fileExtension);
+                    }
+
+                    fileService.insert(fileDTO);
+
+                    BoardFileDTO boardFileDTO = new BoardFileDTO();
+                    boardFileDTO.setFileId(fileDTO.getFileId());
+                    boardFileDTO.setBoardId(boardDTO.getBoardId());
+                    boardFileService.insert(boardFileDTO);
+                }
+
+            } else {
+                calendarService.insert(calendarDTO);
+            }*/
+
+            String startDate = calendarDTO.getCalStart().toString();
+            String endDate = calendarDTO.getCalEnd().toString();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+            LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+
+
+            calendarDTO.setCalEnd(Timestamp.valueOf(end));
+            calendarDTO.setCalStart(Timestamp.valueOf(start));
+
+            String[][] colorArr = {
+                    {"#545de8", "",""},
+                    {"#ffff37","black", ""},
+                    {"#A2F3A0FF","white", "#A2F3A0FF"},
+                    {"#F6C7EFFF","", "#F6C7EFFF"},
+                    {"#F52A2AFF","",""}
+            };
+
+            int n = (int)(Math.random() * 5);
+
+            calendarDTO.setCalColor(colorArr[n][0]);
+            calendarDTO.setCalTextColor(colorArr[n][1]);
+            calendarDTO.setCalBorderColor(colorArr[n][2]);
+            calendarService.insert(calendarDTO);
+
+            return "success";
+        }
+    }
+
+}

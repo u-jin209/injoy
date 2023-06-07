@@ -36,6 +36,7 @@ $(document).ready(function () {
 
     limitTComment()
     limitBComment()
+    limitCComment()
     boardImg()
     TaskImg()
 
@@ -1255,14 +1256,11 @@ function showHomeMap(mapAddress, mapView){
             mapImage.attr('src', imageUrl)
             mapImage.css('visibility','visible')
 
-            let ads = addressLogic(latitude, longitude);
-            console.log(addressLogic(latitude, longitude))
-            console.log("ads : " + ads);
 
 
         } else {
-            console.log("this is an !ERROR!" + status);
-            alert('Geocode was not successful for the following reason: ' + status);
+            // console.log("this is an !ERROR!" + status);
+            // alert('Geocode was not successful for the following reason: ' + status);
         }
     });
 }
@@ -1312,9 +1310,9 @@ function limitCComment() {
                                     "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                     "                                        </div>\n" +
                                     "                                        <div class=\"comment-writer-menu\">\n" +
-                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyCComment(this)\">\n" +
                                     "                                                수정</button>\n" +
-                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].calCommentId + ")\">\n" +
+                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteCComment(" + result[i].calCommentId + ")\">\n" +
                                     "                                                삭제</button>\n" +
                                     "                                        </div>\n" +
                                     "                                    </div>\n" +
@@ -1343,9 +1341,9 @@ function limitCComment() {
                                     "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
                                     "                                        </div>\n" +
                                     "                                        <div class=\"comment-writer-menu\">\n" +
-                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyCComment(this)\">\n" +
                                     "                                                수정</button>\n" +
-                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].calCommentId + ")\">\n" +
+                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteCComment(" + result[i].calCommentId + ")\">\n" +
                                     "                                                삭제</button>\n" +
                                     "                                        </div>\n" +
                                     "                                    </div>\n" +
@@ -1382,4 +1380,42 @@ function limitCComment() {
         }
     })
 
+}
+
+function modifyCComment(e) {
+    let thisLi = $(e).parents('.comment-li')
+    $(e).closest('.comment-container').css('display', 'none')
+    thisLi.find('.edit-cComment-form').css('display', 'block')
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest(thisLi).length) {
+            thisLi.find('.edit-cComment-form').css('display', 'none');
+            thisLi.find('.comment-container').css('display', 'block')
+        }
+    });
+}
+
+function deleteCComment(commentId) {
+    Swal.fire({
+        text: '댓글을 삭제하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formData = {
+                calCommentId: commentId
+            }
+            $.ajax({
+                url: '/cComment/delete',
+                type: 'get',
+                data: formData,
+                success: () => {
+                    location.reload()
+                }
+            })
+        }
+    })
 }

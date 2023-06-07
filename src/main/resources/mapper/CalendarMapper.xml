@@ -9,6 +9,8 @@
     </select>
     <select id="selectOne" parameterType="int"  resultType="CalendarDTO">
         SELECT * FROM injoy.calendar
+        INNER JOIN injoy."user"
+        ON "user"."id" = "calendar"."userId"
         where "calendarId" = #{calendarId}
     </select>
 

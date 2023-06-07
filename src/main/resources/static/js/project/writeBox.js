@@ -146,7 +146,7 @@ $(function () {
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
-                //scheduleWrite();
+                $('.submitWriteBtn').attr('id', 'scheduleWriteBtn');
             }
         }
 
@@ -270,9 +270,93 @@ $(function () {
                 })
             })
 
+        } else if ($(this).attr('id') === 'scheduleWriteBtn') {
+
+            let formData = new FormData();
+
+            formData.append('calTitle', $('#writeBox-scheduleTitle').val());
+            formData.append('calContent', $('.writeBox-scheduleContent').val());
+            formData.append('projectId', parseInt($('.writeProjectId').val()));
+            formData.append('calAddress', $('.writeBox-schedulePlace').val());
+            formData.append('calStart', $('.writeBox-scheduleStartDate').val() ? new Date($('.writeBox-scheduleStartDate').val()).toISOString() : new Date(0));
+            formData.append('calEnd', $('.writeBox-scheduleEndDate').val() ? new Date($('.writeBox-scheduleEndDate').val()).toISOString(): new Date(0));
+
+            // let files = document.querySelector('.taskFile').files;
+            //
+            // for (let i = 0; i < files.length; i++) {
+            //     formData.append('files', files[i]);
+            // }
+
+            console.log(formData)
+
+            $.ajax({
+                url: '/calendar/write',
+                data: formData,
+                type: 'post',
+                processData: false,
+                contentType: false,
+                success: ((message) => {
+                    console.log(message)
+                    if (message === "success") {
+                        location.reload()
+                    } else {
+                        Swal.fire({
+                            "icon": "warning",
+                            "title": "일정 제목을 입력하세요"
+                        })
+                    }
+                })
+            })
+
         }
 
     })
+
+    $('#addressInputId').on("input", function () {
+        let val = $('#writeBox-schedulePlace').val().trim();
+        if (val == "") {
+            console.log("Empty String");
+            // document.getElementById("mapImage").style.visibility='hidden';
+            document.getElementById("mapImage").remove();
+        } else {
+            getPlace();
+        }
+
+        function getPlace() {
+            console.log("getPlace method ")
+            const input = document.getElementById("writeBox-schedulePlace");
+            const options = {
+                //add options here if you want more customizations
+            };
+            const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        }
+
+    });
+
+    window.addEventListener('load', function(event){
+        console.log("getPlace method ")
+        const input = document.getElementById("writeBox-schedulePlace");
+        const options = {
+            //add options here if you want more customizations
+        };
+        const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    });
+
+    let fpStart = flatpickr(".writeBox-scheduleStartDate", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+
+    });
+    let fpEnd = flatpickr(".writeBox-scheduleEndDate", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+    });
+
+
 
 })
 
@@ -534,13 +618,87 @@ function to_date2(date_str) {
 }
 
 
-// function scheduleWrite() {
-// $('.scheduleWriteBtn').click(function () {
-//     let formData = {
-//         title: $('#scheduleTitle').val(),
-//         content: $('.writeScheduleContent').val(),
-//         projectId: $('.projectIdInput').val()
-//     }
-//  })
-//
-// }
+function codeWriteBoxAddress() {
+    var imgTag = document.createElement('img');
+    imgTag.id = "mapImage";
+    imgTag.name = "mapImage"
+    imgTag.src = "";
+    imgTag.alt = "static img";
+    imgTag.style = "visibility: hidden";
+
+    document.getElementById("writeBox-imgDiv").append(imgTag);
+
+    var geocoder;
+    var map;
+    geocoder = new google.maps.Geocoder();
+    var address = document.getElementById('writeBox-schedulePlace').value;
+    console.log("주소 : " + address);
+    geocoder.geocode({'address': address}, function (results, status) {
+
+
+        if (status == 'OK') {
+            console.log('this is OK');
+            // var tmp = (results[0].geometry.location).toString();
+
+            console.log("위도 : " + results[0].geometry.location.lat());
+            console.log("경도 : " + results[0].geometry.location.lng());
+
+            const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
+
+            const latitude = results[0].geometry.location.lat()
+            const longitude = results[0].geometry.location.lng()
+
+            // Set the map center and other parameters
+            const mapCenter = `center=${latitude},${longitude}`;
+            const mapZoom = 'zoom=14'; // Optional: Specify the zoom level
+
+            const mapMarkers = `markers=color:red%7Clabel:%7C${latitude}, ${longitude}`;
+
+            const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
+
+            // Set the image source to the constructed URL
+            const mapImage = document.getElementById('mapImage');
+            mapImage.src = imageUrl;
+            document.getElementById("mapImage").style.visibility = 'visible';
+
+            var ads = addressLogic(latitude, longitude);
+            console.log(addressLogic(latitude, longitude))
+            console.log("ads : " + ads);
+
+
+        } else {
+            console.log("this is an !ERROR!" + status);
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+function addressLogic(latitude, longitude) {//return Address from latitude and longitude method
+    const geocoder = new google.maps.Geocoder();
+    const latlng = {
+        lat: parseFloat(latitude),
+        lng: parseFloat(longitude),
+    };
+
+    var address;
+
+    geocoder
+        .geocode({location: latlng})
+        .then((response) => {
+            console.log("헬로우 : " + response.results[0].formatted_address);
+            tmp = response.results[0].formatted_address
+            console.log("tmp : " + tmp)
+
+            if (response.results[0]) {
+                address = response.results[0].formatted_address;
+                getAddress(address);
+            } else {
+                return "ERROR";
+            }
+        })
+}
+
+function getAddress(address) { // (4) should log the address
+    console.log("Finally : " + address);
+    document.getElementById("addressInputId").value = address
+}
