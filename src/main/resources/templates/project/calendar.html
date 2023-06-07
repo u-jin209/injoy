@@ -25,17 +25,17 @@
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"/>
 
 
-    <!--    부트스트랩 -->
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+<!--    &lt;!&ndash;    부트스트랩 &ndash;&gt;-->
+<!--    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>-->
+<!--    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>-->
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">
+<!--    <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">-->
 
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -387,27 +387,17 @@
 <input type="hidden" id="logInnname" th:value="${login.name}">
 
 
-<!--  일정 등록하기-->
-<!--<div class="modal" id="addScheduleModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">-->
-<div class="modal" id="addScheduleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addTaskModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg " style="width: 580px;">
-        <div class="modal-content p-3">
+<!-- Modal -->
+<div class="modal " id="addScheduleModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
-                            <span class="modal-title mr-2" id="addTaskModalLabel" style="font-weight: 900">
+                <span class="modal-title mr-2" id="addTaskModalLabel" style="font-weight: 900">
                                 일정 작성 |
                             </span>
-                <div style="width: 15px; height: 15px; border-radius: 4px; background-color: blue;"></div>
                 <div style="padding-left: 8px; font-size: 14px;"><span>프로젝트명</span></div>
-
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        onclick="closeModal()"></button>
+                <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
             </div>
-
-
-            <!--            <form name="frm" id="frm" method="post" >-->
             <form name="calendarForm" id="calendarForm" method="post">
                 <div class="modal-body text-start">
                     <div>
@@ -415,26 +405,38 @@
                         <label for="scheduleTitle"></label>
                     </div>
                     <div>
-                        <div class="mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                                 class="bi bi-calendar-check mr-3" viewBox="0 0 16 16">
-                                <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                            </svg>
-                            <label>
+                        <div class="row mb-3">
 
-                                <input class="mr-2 scheduleStartDate startCalDate"
-                                       style="border: none; border-bottom: 1px solid #777777; font-weight: 900"
-                                       name="startDate" id="startDate"
-                                       value=""/>
-                            </label>
+                            <div class="col-md-1" style="  align-self: center;">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                                     class="bi bi-calendar-check mr-3" viewBox="0 0 16 16">
+                                    <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label>
+
+                                    <input class="mr-2 scheduleStartDate startCalDate"
+                                           style="border: none; border-bottom: 1px solid #777777; font-weight: 900"
+                                           name="startDate" id="startDate"
+                                           value=""/>
+                                </label>
+                            </div>
+                            <div class="col-md-1" style="    align-self: center;margin: inherit;">
+
                             ㅡ
+                            </div>
+                            <div class="col-md-5">
                             <label>
                                 <input class="ml-2 scheduleEndDate endCalDate"
                                        style="border: none; border-bottom: 1px solid #777777; font-weight: 900"
                                        name="endDate" id="endDate"
                                        value=""/>
                             </label>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -487,34 +489,23 @@
 
                                 <!--                                <input class="writeScheduleContent" placeholder="내용을 입력하세요." style="border: none;"/>-->
                                 <textarea id="writeScheduleContent" name="writeScheduleContent" rows="9" cols="55"
-                                          placeholder="내용을 입력하세요." style="border: none;"></textarea>
+                                          placeholder="내용을 입력하세요." style="border: none; width: 430px"></textarea>
                             </label>
                         </div>
 
 
                     </div>
-
                 </div>
                 <div class="modal-footer" style="justify-content: end !important;">
-                    <!--                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
-                    <!--                                           class="bi bi-paperclip" viewBox="0 0 16 16">-->
-                    <!--                                          <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>-->
-                    <!--                                      </svg>-->
-                    <!--                                          <button type="button" class="btn taskAddButton"-->
 
-                    <!--                    <button type="submit" class="btn taskAddButton"-->
                     <button type="button" class="btn taskAddButton"
-                            style="background-color: #001542; color: white" id="submitCalShedule" name="submitCalShedule">등록
+                            style="background-color: #001542; color: white" id="submitCalSchedule" name="submitCalSchedule">등록
                     </button>
-
-
                 </div>
             </form>
-
         </div>
     </div>
 </div>
-
 
 <!--  사이드 슬라이드  HTML -->
 <div class="wrap-header-cart js-show-schedule">
@@ -723,15 +714,15 @@
 </script>
 
 
-<!-- Form enter 전송 막기-->
-<script>
-    document.addEventListener('keydown', function (event) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-        }
-        ;
-    }, true);
-</script>
+<!--&lt;!&ndash; Form enter 전송 막기&ndash;&gt;-->
+<!--<script>-->
+<!--    document.addEventListener('keydown', function (event) {-->
+<!--        if (event.keyCode === 13) {-->
+<!--            event.preventDefault();-->
+<!--        }-->
+<!--        ;-->
+<!--    }, true);-->
+<!--</script>-->
 
 
 <!--새로운 일정 전송-->
@@ -933,7 +924,8 @@
     function closeModal() {
         $('#addScheduleModal').hide();
         $('#calendarForm')[0].reset();
-        document.getElementById("mapImage").remove();
+        // $(".btn-close").click();
+        // document.getElementById("mapImage").remove();
     }
 
     var fpStart = flatpickr(".startCalDate", {
@@ -995,7 +987,7 @@
 
 
     $(function () {
-        $('#submitCalShedule').on("click", function () {
+        $('#submitCalSchedule').on("click", function () {
             // var form1 = $("#frm").serialize();
 
             // var form1 = $("#calendarForm").serializeObject();
@@ -1076,8 +1068,16 @@
         }
 
     });
-    window.addEventListener('load', getPlace);
 
+    window.addEventListener('load', function(event){
+        console.log("getPlace method ")
+        const input = document.getElementById("addressInputId");
+        const options = {
+            //add options here if you want more customizations
+        };
+        const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    });
 
     function codeAddress() {
         var imgTag = document.createElement('img');
