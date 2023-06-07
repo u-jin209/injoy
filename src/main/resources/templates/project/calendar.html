@@ -35,7 +35,7 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">
+<!--    <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">-->
 
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -1063,19 +1063,20 @@
             getPlace();
         }
 
-        function getPlace() {
-            console.log("getPlace method ")
-            const input = document.getElementById("addressInputId");
-            const options = {
-                //add options here if you want more customizations
-            };
-            const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-        }
 
     });
     window.addEventListener('load', getPlace);
 
+    function getPlace() {
+        console.log("getPlace method ")
+        const input = document.getElementById("addressInputId");
+        const options = {
+            //add options here if you want more customizations
+        };
+        const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    }
 
     function codeAddress() {
         var imgTag = document.createElement('img');
