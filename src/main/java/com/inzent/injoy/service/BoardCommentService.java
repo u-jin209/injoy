@@ -26,7 +26,7 @@ public class BoardCommentService {
     }
 
     public void insert(BoardCommentDTO boardCommentDTO){
-        System.out.println(boardCommentDTO);
+
         session.insert(NAMESPACE+".insert", boardCommentDTO);
     }
 

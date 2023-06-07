@@ -17,7 +17,7 @@ public class BoardFileService {
         this.session = session;
     }
     public void insert(BoardFileDTO boardFileDTO){
-        System.out.println(boardFileDTO);
+
         session.insert(NAMESPACE+".insert", boardFileDTO);
     }
 

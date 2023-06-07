@@ -1213,7 +1213,7 @@ function enterProjectChatRoom() {
 }
 
 function showHomeMap(mapAddress, mapView){
-    var imgTag = document.createElement('img');
+    let imgTag = document.createElement('img');
     imgTag.id = "mapImage";
     imgTag.name = "mapImage"
     imgTag.src = "";
@@ -1228,7 +1228,6 @@ function showHomeMap(mapAddress, mapView){
     let address = mapAddress;
     console.log("주소 : " + address);
     geocoder.geocode({'address': address}, function (results, status) {
-
 
         if (status == 'OK') {
             console.log('this is OK');
@@ -1256,7 +1255,7 @@ function showHomeMap(mapAddress, mapView){
             mapImage.attr('src', imageUrl)
             mapImage.css('visibility','visible')
 
-            var ads = addressLogic(latitude, longitude);
+            let ads = addressLogic(latitude, longitude);
             console.log(addressLogic(latitude, longitude))
             console.log("ads : " + ads);
 
@@ -1266,4 +1265,121 @@ function showHomeMap(mapAddress, mapView){
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
+}
+
+function limitCComment() {
+    $('.boardBox').each(function () {
+        let calendarId = $(this).find('.calendarId-comment').val()
+        let projectId = $(this).find('.projectId-comment').val()
+        if (calendarId !== undefined && projectId !== undefined) {
+            let formData = {
+                calendarId: calendarId,
+                projectId: projectId,
+            }
+
+            $.ajax({
+                url: '/cComment/showAll',
+                type: 'get',
+                data: formData,
+                success: (result) => {
+                    if (result.length === 0) {
+                        $(this).find('.comment-header').css('display', 'none')
+                    } else {
+
+                        for (let i = 0; i < result.length; i++) {
+                            const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+                            const date = new Date(result[i].calComRegisterDate);
+                            let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+                            if (result.length < 3) {
+                                $(this).find('.comment-header').css('display', 'none')
+
+                            } else {
+                                $(this).find('.comment-header').css('display', 'block')
+                                $(this).find('.calendar-comment-count').text("(" + (result.length - 2) + ")")
+                            }
+
+
+                            if (i < 2) {
+                                $(this).find('#commentGroup-calendar').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].calComUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].calCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].calComContent + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-cComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/cComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"calCommentId\" class=\"cCommentId-comment\" value=\"" + result[i].calCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].calComContent + "\" name=\"calComContent\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+
+                            } else {
+                                $(this).find('#commentGroup-calendar').append("<li class='comment-li hidden-comment'><div class=\"comment-thumbnail\">\n" +
+                                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + result[i].profilePhoto + ");\"></span>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"comment-container on\">\n" +
+                                    "                                    <div class=\"comment-user-area\">\n" +
+                                    "                                        <div class=\"comment-user\">\n" +
+                                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + result[i].calComUserId + "\"/>\n" +
+                                    "                                            <span class=\"user-name\">" + result[i].name + "</span>\n" +
+                                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                                    "                                        </div>\n" +
+                                    "                                        <div class=\"comment-writer-menu\">\n" +
+                                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyBComment(this)\">\n" +
+                                    "                                                수정</button>\n" +
+                                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteBComment(" + result[i].calCommentId + ")\">\n" +
+                                    "                                                삭제</button>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                    <div class=\"comment-content\">\n" +
+                                    "                                        <div class=\"comment-text-area\">\n" +
+                                    "                                            <div class=\"js-remark-text comment-text\">" + result[i].calComContent + "</div>\n" +
+                                    "                                        </div>\n" +
+                                    "                                    </div>\n" +
+                                    "                                </div>\n" +
+                                    "                                <div class=\"edit-cComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                                    "                                    <form  action=\"/cComment/update\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                                    "                                        <input type=\"hidden\" name=\"calCommentId\" class=\"cCommentId-comment\" value=\"" + result[i].calCommentId + "\"/>\n" +
+                                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + result[i].calComContent + "\" name=\"calComContent\" style=\"width: 100%\"/>\n" +
+                                    "                                    </form>\n" +
+                                    "                                </div></li>")
+                            }
+
+
+                        }
+
+                    }
+                    $('.comment-writer-home').each(function () {
+                        let commentUserId = $(this).val();
+                        let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
+
+                        if (commentUserId === $('.home-comment-logIn').val()) {
+                            commentWriterMenu.show();
+                        } else {
+                            commentWriterMenu.hide();
+                        }
+                    });
+                }
+            })
+        }
+    })
+
 }
