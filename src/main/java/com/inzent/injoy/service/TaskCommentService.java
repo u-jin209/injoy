@@ -24,7 +24,7 @@ public class TaskCommentService {
     }
 
     public void insert(TaskCommentDTO taskCommentDTO){
-        System.out.println(taskCommentDTO);
+
         session.insert(NAMESPACE+".insert", taskCommentDTO);
     }
 
