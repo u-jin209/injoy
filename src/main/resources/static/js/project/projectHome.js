@@ -1232,6 +1232,7 @@ function showHomeMap(mapAddress, mapView){
     console.log("주소 : " + address);
     geocoder.geocode({'address': address}, function (results, status) {
 
+
         if (status == 'OK') {
             console.log('this is OK');
             // var tmp = (results[0].geometry.location).toString();
@@ -1266,6 +1267,7 @@ function showHomeMap(mapAddress, mapView){
         }
     });
 }
+
 
 function limitCComment() {
     $('.boardBox').each(function () {
