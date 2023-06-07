@@ -15,7 +15,7 @@ public class TaskFileService {
         this.session = session;
     }
     public void insert(TaskFileDTO taskFileDTO){
-        System.out.println(taskFileDTO);
+
         session.insert(NAMESPACE+".insert", taskFileDTO);
     }
 

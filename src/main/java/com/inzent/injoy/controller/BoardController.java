@@ -73,7 +73,7 @@ public class BoardController {
                         File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                         file.transferTo(saveFile);
                         String[] filePath = String.valueOf(saveFile).split("web");
-                        System.out.println("filePath : " + filePath);
+
                         fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
                         fileDTO.setUniqueName(uniqueName);
                         fileDTO.setFileExtension(fileExtension);
@@ -149,7 +149,7 @@ public class BoardController {
                     File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                     file.transferTo(saveFile);
                     String[] filePath = String.valueOf(saveFile).split("web");
-                    System.out.println("filePath : " + filePath);
+
                     fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
                     fileDTO.setUniqueName(uniqueName);
                     fileDTO.setFileExtension(fileExtension);
