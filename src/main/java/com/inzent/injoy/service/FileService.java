@@ -31,6 +31,9 @@ public class FileService {
     public List<FileDTO> searchFile (Map<String, Object> map){
         return  session.selectList(NAMESPACE+".searchFile", map);
     }
+    public List<FileDTO> allSearchFile (Map<String, Object> map){
+        return  session.selectList(NAMESPACE+".allSearchFile", map);
+    }
     public List<FileDTO> allFile (int userId){
         return  session.selectList(NAMESPACE+".allFile", userId);
     }

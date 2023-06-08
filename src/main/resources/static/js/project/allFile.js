@@ -1,11 +1,9 @@
 
 window.onload = function (){
-    console.log("priont File alllll")
-    printFile()
+    printAllFile()
 }
-function printFile(){
-
-
+function printAllFile(){
+    $('#listBody').empty()
     $.ajax({
         url: '/file/allList', //Controller에서 요청 받을 주소
         type: 'GET', //POST 방식으로 전달
@@ -13,9 +11,10 @@ function printFile(){
 
         },
         success: function (result) {
+
             if (result.length >= 1) {
 
-                $('#emptyFolder').css('display','none');
+
 
 
                 result.forEach(function (item) {
@@ -129,3 +128,103 @@ function  downloadFile(){
 
 }
 
+
+function FileSearchEnter(value) {
+
+    if (window.event.keyCode == 13) {
+
+        searchAllFile(value.value)
+        console.log("input value :" + value.value)
+
+    }
+}
+
+
+function searchAllFile(keyword) {
+
+    if (keyword != "") {
+
+        const data = {
+            "keyword": keyword,
+
+        }
+        $.ajax({
+            type: 'GET',
+            url: "/file/allSearchFile",
+            data: data
+            ,
+            success: function (result) {
+
+
+                if (result.length >= 1) {
+                    $('#listBody').empty()
+                    $('#listBody').append(
+                        "<tr class='folder-tr' onclick='printAllFile()' >" +
+                        "<td class='h-none text-center' >" +
+
+                        "<i class='fa-solid fa-x fa-beat' style='color: #FC4C70; '></i>" +
+
+
+                        "</td>" +
+                        "<td class='h-none' style='color: #FC4C70;font-weight: bold;font-size: large;'>검색종료</td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "<td class='h-none'></td>" +
+                        "</tr>"
+                    )
+                    result.forEach(function (item) {
+
+
+                        let folderName = ""
+                        if (item.folderName != undefined){
+                            folderName = item.folderName;
+                        }
+
+
+                        $('#listBody').append(
+                            "<tr class='file-tr'>" +
+                            "<td class='h-none text-center'>" +
+                            "<input class='file-checkBox' type='checkbox'  value='" + item.fileId + "' name='checkFile'/>" +
+                            "</td>" +
+                            "<td class='file-name-area'>" +
+                            "<div class='file-img' id ='file-img"+item.fileId+"' style='display: inline-table;'>" +
+
+                            "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='#3064B3'class='bi bi-image-fill' viewBox='0 0 16 16'><path d='M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12zm5-6.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z'/> </svg>" +
+                            "</div> " +
+                            "<span class='file-name '>"+item.fileName +item.fileExtension+"</span> " +
+                            "</td>" +
+                            "<td class='text-center'>"+item.projectName+ "</td>" +
+                            "<td class='text-center' >"+item.folderRoot+ folderName+ "</td>" +
+                            "<td class='text-center'>"+item.fileSize+"</td>" +
+                            "   <td class='text-center'>"+item.name+"</td>" +
+                            "    <td class='text-center'>"+date_Format(item.crtDate)+"</td>"+
+                            "</tr>"
+                        )
+                    });
+
+
+
+
+
+                } else {
+
+                    Swal.fire({
+                        title: "검색 결과가 없습니다.",
+                        icon: "question"
+                    });
+                }
+
+            }
+        })
+    } else {
+        Swal.fire({
+            title: "검색어를 입력해 주세요",
+            icon: "warning"
+        });
+
+    }
+
+
+}
