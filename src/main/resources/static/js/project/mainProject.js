@@ -1,4 +1,9 @@
 $(function (){
+
+
+
+
+
     let hom_tab = '#home-tab';
     let home_tabPane = '#home-tab-pane'
     $(hom_tab).addClass('active')

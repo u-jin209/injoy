@@ -46,9 +46,6 @@
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-
     <!--    Google Mpas Api-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"
@@ -370,6 +367,8 @@
 
 <!--<div id="calendarBox">-->
     <div id='calendar'></div>
+
+
 <!--</div>-->
 
 
@@ -400,6 +399,10 @@
             </div>
             <form name="calendarForm" id="calendarForm" method="post">
                 <div class="modal-body text-start">
+                    <input class="ml-2 "
+                           style="display: none"
+                           name="projectId" id="projectId"
+                           th:value="${project.projectId}"/>
                     <div>
                         <input id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요" />
                         <label for="scheduleTitle"></label>
@@ -522,7 +525,7 @@
                 </div>
 
                 <div class="col-10" style="padding: 0;margin-right: 33px">
-                    <span style="font-size: 12px" th:text="${projectName}">프로젝트 이름 </span>
+                    <span style="font-size: 12px" th:text="${projectNameName}">프로젝트 이름 </span>
                 </div>
 
                 <div class="trans-04 js-hide-cart col-1.5">
@@ -547,7 +550,7 @@
                     </div>
 
                     <div class="m-2" style="display: flex;">
-                        <div style="font-size: 14px;"><strong th:text="${usernamee}">닉네임</strong></div>
+                        <div style="font-size: 14px;"><strong th:text="${login.name}">닉네임</strong></div>
                         <div style="font-size: 14px; color: #AAAAAA" th:text="${calRegister_date}">작성날짜</div>
                     </div>
 
@@ -660,6 +663,8 @@
 
 
 <script>
+
+
     function showDelnMod(writerId) {
         currentId = document.getElementById("logInnn").value;
         // console.log("writerId : " + writerId);
@@ -692,7 +697,7 @@
 
     }
 </script>
-
+<!---->
 
 <!--<script th:inline="javascript">-->
 <!--    console.log([[${project}]]);-->
@@ -735,16 +740,20 @@
     var calendarObj;
     var Obj;
 
-    document.addEventListener('DOMContentLoaded', function () {
-        $(function () {
-            var calendarEll = document.getElementById('calendar');
-            var calendarr = new FullCalendar.Calendar(calendarEll, {});
-            let data = {
-                "activeStart": calendarr.view.activeStart,
-                "activeEnd": calendarr.view.activeEnd
-            }
-            console.log("activeStart : " + calendarr.view.activeStart);
-            console.log("activeEnd : " + calendarr.view.activeEnd);
+     $(document).ready(function () {
+        console.log("Sssssss")
+         var calendarEll = document.getElementById('calendar');
+         var calendarr = new FullCalendar.Calendar(calendarEll, {
+
+         });
+         let data = {
+             "activeStart": calendarr.view.activeStart,
+             "activeEnd": calendarr.view.activeEnd
+         }
+         console.log("activeStart : " + calendarr.view.activeStart);
+         console.log("activeEnd : " + calendarr.view.activeEnd);
+
+         $(function () {
 
             var request = $.ajax({
 
@@ -771,7 +780,6 @@
                     // dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                     // expandRows: true, // 화면에 맞게 높이 재설정
 
-                    allDay: false,
                     select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
                         $('#addScheduleModal').show();
                         setDateTime(arg);

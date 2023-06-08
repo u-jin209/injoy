@@ -18,7 +18,22 @@
         select * from injoy."file"
         WHERE "fileId"=#{fileId};
     </select>
+    <select id="allFile" parameterType="int" resultType="FileDTO">
 
+        SELECT * FROM injoy.file f
+        inner join injoy."folder" fol
+        on f."folderId" = fol."folderId"
+        inner join injoy."project" P
+        on f."projectId" = p."projectId"
+        inner join injoy."user" u
+        on f."userId" = u."id"
+        where f."projectId" in
+        ( SELECT p."projectId" FROM injoy."project" P
+        inner join injoy."projectMember" m
+        on p."projectId" = m."projectId"
+        where  m."userId" =#{userId}  and "authority" != 'REQUEST'  and "authority" != 'INVITE')
+
+    </select>
     <select id="selectFile" parameterType="FileDTO" resultType="FileDTO">
         SELECT * FROM injoy."file" f
         inner join injoy."user" u

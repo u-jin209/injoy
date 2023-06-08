@@ -139,7 +139,7 @@ public class CalendarController {
     @PostMapping(value = "/receive") //나중에 이름 바꿔주기
     public void receiveMethod(HttpServletRequest request, @AuthenticationPrincipal UserCustomDetails logIn) throws ParseException {
 
-        
+
         CalendarDTO c = new CalendarDTO();
 //        c.setProjectId( 프로젝트 아이디 넣어주세요 );
         UserDTO userDTO = logIn.getUserDTO();
@@ -147,7 +147,7 @@ public class CalendarController {
         c.setUserId(userDTO.getId());
         c.setCalTitle(request.getParameter("scheduleTitle"));
         c.setCalContent(request.getParameter("writeScheduleContent"));
-
+        c.setProjectId(Integer.parseInt(request.getParameter("projectId")));
 
         System.out.println("startDate = " + request.getParameter("startDate"));
         System.out.println("endDate = " + request.getParameter("endDate"));

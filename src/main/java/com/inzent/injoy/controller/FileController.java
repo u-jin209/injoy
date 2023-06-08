@@ -159,6 +159,16 @@ public class FileController {
     }
 
 
+
+    @ResponseBody
+    @GetMapping("allList")
+    public List<FileDTO> allList(@AuthenticationPrincipal UserCustomDetails logIn) {
+
+        return fileService.allFile(logIn.getUserDTO().getId());
+    }
+
+
+
     @ResponseBody
     @GetMapping("searchFile")
     public List<FileDTO> searchFile(Integer projectId, String keyword) {

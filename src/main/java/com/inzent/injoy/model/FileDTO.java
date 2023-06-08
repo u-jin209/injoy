@@ -10,6 +10,9 @@ public class FileDTO {
     private int projectId;
     private int userId;
     private int folderId;
+    private String  projectName;
+    private String folderRoot;
+    private String folderName;
     private String fileName;
     private String fileRealPath;
     private String fileSize;
