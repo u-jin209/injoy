@@ -45,7 +45,7 @@ header {
 }
 
 .nav-link{
-    color : black;
+    color : black !important;
 }
 
 .nav{

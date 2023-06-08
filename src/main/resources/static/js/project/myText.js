@@ -595,7 +595,8 @@ function showHomeMap(mapAddress, mapView){
     imgTag.name = "mapImage"
     imgTag.src = "";
     imgTag.alt = "static img";
-    imgTag.style = "visibility: hidden";
+    imgTag.style.visibility = 'hidden'
+    imgTag.style.width = '600px';
 
     mapView.append(imgTag);
 

@@ -1,4 +1,5 @@
 package com.inzent.injoy.controller;
+
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.CalendarCommentService;
@@ -25,10 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 //@Controller
@@ -43,19 +41,19 @@ public class CalendarController {
     }
 
     @GetMapping("/orange")
-    public String orange(Model model, HttpServletRequest request){
+    public String orange(Model model, HttpServletRequest request) {
         return "/project/calendar2";
     }
 
 
     @ResponseBody
     @GetMapping("/logic")//일정 뿌리기
-    public List<Map<String, Object>> monthPlan(HttpServletRequest request, Model model, @AuthenticationPrincipal UserCustomDetails logIn){
+    public List<Map<String, Object>> monthPlan(HttpServletRequest request, Model model, @AuthenticationPrincipal UserCustomDetails logIn) {
         UserDTO userDTO = logIn.getUserDTO();
         System.out.println("userDTO = " + userDTO);
-
-        List<CalendarDTO> list = calendarService.selectAll();//이것은 테스트 중
-        model.addAttribute("tmp","Cherry");
+        int projectId = Integer.parseInt(request.getParameter("projectId"));
+        List<CalendarDTO> list = calendarService.selectAll(projectId);//이것은 테스트 중
+        model.addAttribute("tmp", "Cherry");
 
 
         String str = request.getParameter("activeStart");
@@ -67,12 +65,17 @@ public class CalendarController {
         String startStr, endStr;
         String start, end;
         HashMap<String, Object> hash = new HashMap<>();
-        for(int i=0;i<list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             hash.put("id", list.get(i).getCalendarId());
             hash.put("title", list.get(i).getCalTitle());
 
-            startStr = list.get(i).getCalStart().toString();
-            endStr = list.get(i).getCalEnd().toString();
+            Date startDate = list.get(i).getCalStart();
+            Timestamp startTimestamp = new Timestamp(startDate.getTime());
+            startStr = startTimestamp.toString();
+
+            Date endDate = list.get(i).getCalEnd();
+            Timestamp endTimestamp = new Timestamp(endDate.getTime());
+            endStr = endTimestamp.toString();
             start = startStr.substring(0, startStr.length() - 2);
             end = endStr.substring(0, endStr.length() - 2);
 
@@ -137,12 +140,11 @@ public class CalendarController {
     }
 
 
-
     @ResponseBody
     @PostMapping(value = "/receive") //나중에 이름 바꿔주기
     public void receiveMethod(HttpServletRequest request, @AuthenticationPrincipal UserCustomDetails logIn) throws ParseException {
 
-        
+
         CalendarDTO c = new CalendarDTO();
 //        c.setProjectId( 프로젝트 아이디 넣어주세요 );
         UserDTO userDTO = logIn.getUserDTO();
@@ -157,29 +159,25 @@ public class CalendarController {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
-        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date start = formatter.parse(startDate);
+        Date end = formatter.parse(endDate);
 
-        System.out.println("start = " + start);
-        System.out.println("end = " + end);
+        c.setCalEnd(end);
+        c.setCalStart(start);
 
-        c.setCalEnd(Timestamp.valueOf(end));
-        c.setCalStart(Timestamp.valueOf(start));
-
-        LocalDateTime now = LocalDateTime.now();
-        c.setCalRegisterDate(Timestamp.valueOf(now));
+        c.setCalRegisterDate(new Date());
 
 //        color, textcolor, borderColor
         String[][] colorArr = {
-                {"#545de8", "",""},
-                {"#ffff37","black", ""},
-                {"#A2F3A0FF","white", "#A2F3A0FF"},
-                {"#F6C7EFFF","", "#F6C7EFFF"},
-                {"#F52A2AFF","",""}
+                {"#545de8", "", ""},
+                {"#ffff37", "black", ""},
+                {"#A2F3A0FF", "white", "#A2F3A0FF"},
+                {"#F6C7EFFF", "", "#F6C7EFFF"},
+                {"#F52A2AFF", "", ""}
         };
 
-        int n = (int)(Math.random() * 5);
+        int n = (int) (Math.random() * 5);
 
         c.setCalColor(colorArr[n][0]);
         c.setCalTextColor(colorArr[n][1]);
@@ -194,57 +192,70 @@ public class CalendarController {
     }
 
 
-//    @ResponseBody
+    //    @ResponseBody
 //    @PostMapping(value = "/testtt")
     @RequestMapping(value = "/testtt", method = RequestMethod.POST)
     public String testtt(ModelMap model, HttpServletRequest request) {
-            System.out.println(" testtt 메서드입니다.. ");
-            String projectName = request.getParameter("projectName");
+        System.out.println(" testtt 메서드입니다.. ");
+        String projectName = request.getParameter("projectName");
 
-            String calendarId = request.getParameter("calendarId");
-            System.out.println("calendarId = " + calendarId);
+        String calendarId = request.getParameter("calendarId");
+        System.out.println("calendarId = " + calendarId);
 
-             CalendarDTO c = calendarService.selectOne(Integer.parseInt(calendarId));
-    //        String name = calendarService.selectUserName(c.getUserId());
-    //        System.out.println("이름 : " + name);
+        CalendarDTO c = calendarService.selectOne(Integer.parseInt(calendarId));
+        //        String name = calendarService.selectUserName(c.getUserId());
+        //        System.out.println("이름 : " + name);
 
 
-            System.out.println("c.getCalStart() = " + c.getCalStart());
-            String strReg =  c.getCalRegisterDate().toString();
-            String calRegister_date = strReg.substring(0, strReg.length() - 10);
+        System.out.println("c.getCalStart() = " + c.getCalStart());
+        Date now = c.getCalRegisterDate();
 
-            String strStart = c.getCalStart().toString();
-            String strEnd = c.getCalEnd().toString();
-            String calStart =  strStart.substring(0, strStart.length() - 5);
-            String calEnd =  strEnd.substring(0, strEnd.length() - 5);
+        Timestamp nowTimestamp = new Timestamp(now.getTime());
+        String strReg = nowTimestamp.toString();
 
-    //        유저닉네임 필요
-            model.addAttribute("calobj", c);
-            model.addAttribute("projectId", c.getProjectId());
-            model.addAttribute("scheduleId", c.getCalendarId());
-            model.addAttribute("projectName", projectName);
-            model.addAttribute("writerId", c.getUserId());
-            System.out.println("이름 : " + calendarService.getUsername(c.getUserId()) );
-            model.addAttribute("usernamee", calendarService.getUsername(c.getUserId()));
-            model.addAttribute("calTitle", c.getCalTitle());
-            model.addAttribute("calContent", c.getCalContent());
+        System.out.println(strReg);
+        String calRegister_date = strReg.substring(0, strReg.length() - 4);
+
+        Date startDate = c.getCalStart();
+        Timestamp startTimestamp = new Timestamp(startDate.getTime());
+        String strStart = startTimestamp.toString();
+
+        System.out.println(strStart);
+
+        Date endDate = c.getCalEnd();
+        Timestamp endTimestamp = new Timestamp(endDate.getTime());
+        String strEnd = endTimestamp.toString();
+
+        System.out.println(strEnd);
+
+        String calStart = strStart.substring(0, 16);
+        String calEnd = strEnd.substring(0, 16);
+
+        //        유저닉네임 필요
+        model.addAttribute("calobj", c);
+        model.addAttribute("projectId", c.getProjectId());
+        model.addAttribute("scheduleId", c.getCalendarId());
+        model.addAttribute("projectName", projectName);
+        model.addAttribute("writerId", c.getUserId());
+        System.out.println("이름 : " + calendarService.getUsername(c.getUserId()));
+        model.addAttribute("usernamee", calendarService.getUsername(c.getUserId()));
+        model.addAttribute("calTitle", c.getCalTitle());
+        model.addAttribute("calContent", c.getCalContent());
         System.out.println("c.getCalContent() = " + c.getCalContent());
-            model.addAttribute("calStart",calStart);
-            model.addAttribute("calEnd",calEnd);
-            model.addAttribute("calRegister_date",calRegister_date);
-            model.addAttribute("calAddress", c.getCalAddress());
-            model.addAttribute("calImgSrc",c.getCalImgSrc());
+        model.addAttribute("calStart", calStart);
+        model.addAttribute("calEnd", calEnd);
+        model.addAttribute("calRegister_date", calRegister_date);
+        model.addAttribute("calAddress", c.getCalAddress());
+        model.addAttribute("calImgSrc", c.getCalImgSrc());
 
-            strStart = c.getCalStart().toString();
-            System.out.println("strStart = " + strStart);
-            String yearAndMonth = strStart.substring(0,strStart.length() - 14);
-            String month = strStart.substring(8, strStart.length() - 11);
-            model.addAttribute("yearAndMonth", yearAndMonth);
-            model.addAttribute("month", month);
+        String yearAndMonth = strStart.substring(0, 7);
+        String month = strStart.substring(8, 10);
+        model.addAttribute("yearAndMonth", yearAndMonth);
+        model.addAttribute("month", month);
 
-            CalendarDTO proAndCalId = new CalendarDTO();
-            proAndCalId.setProjectId(Integer.parseInt(request.getParameter("projectIdId")));
-            proAndCalId.setCalendarId(Integer.parseInt(request.getParameter("calendarId")));
+        CalendarDTO proAndCalId = new CalendarDTO();
+        proAndCalId.setProjectId(Integer.parseInt(request.getParameter("projectIdId")));
+        proAndCalId.setCalendarId(Integer.parseInt(request.getParameter("calendarId")));
 
 //            List<CalCommentDTO> comList =  calendarCommentService.selectAll(proAndCalId);
 //            for(CalCommentDTO ccc : comList){
@@ -254,12 +265,8 @@ public class CalendarController {
 //            model.addAttribute("comList", comList);
 
 
-            return "/project/calendar :: #tlqkf"; //경로 문제
+        return "/project/calendar :: #tlqkf"; //경로 문제
     }
-
-
-
-
 
 
     @ResponseBody
@@ -280,7 +287,7 @@ public class CalendarController {
         c.setCalComContent(comment);
 
         String nowStr = Timestamp.valueOf(LocalDateTime.now()).toString();
-        String now = nowStr.substring(0, nowStr.length()-11);
+        String now = nowStr.substring(0, nowStr.length() - 11);
         c.setCalComRegisterDateStr(now);
 
         c.setCalComUsername(username);
@@ -291,10 +298,10 @@ public class CalendarController {
         System.out.println("새로 입력한 댓글입니다. : " + comObj);
 
         HashMap<String, String> tmp = new HashMap<String, String>();
-        tmp.put("commentId",comObj.getCalCommentId()+"");//수정하기
-        tmp.put("calComProjectId", comObj.getCalComProjectId()+"");
-        tmp.put("calComCalId", comObj.getCalComCalId()+"");
-        tmp.put("userId", comObj.getCalComUserId()+"");//수정하기
+        tmp.put("commentId", comObj.getCalCommentId() + "");//수정하기
+        tmp.put("calComProjectId", comObj.getCalComProjectId() + "");
+        tmp.put("calComCalId", comObj.getCalComCalId() + "");
+        tmp.put("userId", comObj.getCalComUserId() + "");//수정하기
         tmp.put("username", calendarService.getUsername(comObj.getCalComUserId()));
         tmp.put("registerDateStr", now);
 
@@ -302,8 +309,7 @@ public class CalendarController {
     }
 
 
-
-//    댓글 삭제 메서드
+    //    댓글 삭제 메서드
     @ResponseBody
     @PostMapping(value = "/deleteCalComment")
     public void deleteCommentMethod(HttpServletRequest request) {
@@ -313,27 +319,25 @@ public class CalendarController {
     }
 
 
-
-
     @ResponseBody
     @PostMapping(value = "/showCalComment")
     public List<CalCommentDTO> CommentListMethod(HttpServletRequest request) {
         System.out.println("showCalComment 입니다.....");
-         int projectIdId = Integer.parseInt(request.getParameter("projectIdId"));
-         int calId = Integer.parseInt(request.getParameter("calendarId"));
+        int projectIdId = Integer.parseInt(request.getParameter("projectIdId"));
+        int calId = Integer.parseInt(request.getParameter("calendarId"));
 
-         CalendarDTO c = new CalendarDTO();
-         c.setProjectId(projectIdId);
-         c.setCalendarId(calId);
+        CalendarDTO c = new CalendarDTO();
+        c.setProjectId(projectIdId);
+        c.setCalendarId(calId);
 
-         List<CalCommentDTO> commentList = calendarCommentService.selectAll(c);
-         for(CalCommentDTO ccc : commentList) {
-             System.out.println("ccc : " + ccc);
-             System.out.println("날짜 : "+ ccc.getCalComRegisterDate());
-         }
+        List<CalCommentDTO> commentList = calendarCommentService.selectAll(c);
+        for (CalCommentDTO ccc : commentList) {
+            System.out.println("ccc : " + ccc);
+            System.out.println("날짜 : " + ccc.getCalComRegisterDate());
+        }
 
 
-         return commentList;
+        return commentList;
     }
 
 
@@ -352,7 +356,7 @@ public class CalendarController {
 
     @GetMapping("/calendar/detailCalendar")
     @ResponseBody
-    public CalendarDTO detailCalendar(int calendarId){
+    public CalendarDTO detailCalendar(int calendarId) {
         System.out.println(calendarService.selectOne(calendarId));
         return calendarService.selectOne(calendarId);
     }
@@ -414,27 +418,17 @@ public class CalendarController {
                 calendarService.insert(calendarDTO);
             }*/
 
-            String startDate = calendarDTO.getCalStart().toString();
-            String endDate = calendarDTO.getCalEnd().toString();
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime start = LocalDateTime.parse(startDate, formatter);
-            LocalDateTime end = LocalDateTime.parse(endDate, formatter);
-
-
-            calendarDTO.setCalEnd(Timestamp.valueOf(end));
-            calendarDTO.setCalStart(Timestamp.valueOf(start));
-
             String[][] colorArr = {
-                    {"#545de8", "",""},
-                    {"#ffff37","black", ""},
-                    {"#A2F3A0FF","white", "#A2F3A0FF"},
-                    {"#F6C7EFFF","", "#F6C7EFFF"},
-                    {"#F52A2AFF","",""}
+                    {"#545de8", "", ""},
+                    {"#ffff37", "black", ""},
+                    {"#A2F3A0FF", "white", "#A2F3A0FF"},
+                    {"#F6C7EFFF", "", "#F6C7EFFF"},
+                    {"#F52A2AFF", "", ""}
             };
 
-            int n = (int)(Math.random() * 5);
+            int n = (int) (Math.random() * 5);
 
+            calendarDTO.setCalRegisterDate(new Date());
             calendarDTO.setCalColor(colorArr[n][0]);
             calendarDTO.setCalTextColor(colorArr[n][1]);
             calendarDTO.setCalBorderColor(colorArr[n][2]);

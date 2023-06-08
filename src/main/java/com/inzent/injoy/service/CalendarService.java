@@ -20,8 +20,8 @@ public class CalendarService {
 //        return session.selectList(NAMESPACE + ".selectMonthSchedule", projectId, activeStart, activeEnd);
 //    }
 
-    public List<CalendarDTO> selectAll() {
-        return session.selectList(NAMESPACE + ".selectAll");
+    public List<CalendarDTO> selectAll(int projectId) {
+        return session.selectList(NAMESPACE + ".selectAll", projectId);
     }
     public CalendarDTO selectOne(int calendarId) {
         return session.selectOne(NAMESPACE + ".selectOne", calendarId);

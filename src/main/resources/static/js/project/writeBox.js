@@ -278,8 +278,8 @@ $(function () {
             formData.append('calContent', $('.writeBox-scheduleContent').val());
             formData.append('projectId', parseInt($('.writeProjectId').val()));
             formData.append('calAddress', $('.writeBox-schedulePlace').val());
-            formData.append('calStart', $('.writeBox-scheduleStartDate').val() ? new Date($('.writeBox-scheduleStartDate').val()).toISOString() : new Date(0));
-            formData.append('calEnd', $('.writeBox-scheduleEndDate').val() ? new Date($('.writeBox-scheduleEndDate').val()).toISOString(): new Date(0));
+            formData.append('calStart', $('.writeBox-scheduleStartDate').val() ? new Date($('.writeBox-scheduleStartDate').val()) : new Date(0));
+            formData.append('calEnd', $('.writeBox-scheduleEndDate').val() ? new Date($('.writeBox-scheduleEndDate').val()) : new Date(0));
 
             // let files = document.querySelector('.taskFile').files;
             //

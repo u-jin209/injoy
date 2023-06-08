@@ -741,7 +741,8 @@
             var calendarr = new FullCalendar.Calendar(calendarEll, {});
             let data = {
                 "activeStart": calendarr.view.activeStart,
-                "activeEnd": calendarr.view.activeEnd
+                "activeEnd": calendarr.view.activeEnd,
+                "projectId" : $('#projectIdId').val()
             }
             console.log("activeStart : " + calendarr.view.activeStart);
             console.log("activeEnd : " + calendarr.view.activeEnd);
