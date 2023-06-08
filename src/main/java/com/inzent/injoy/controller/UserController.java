@@ -6,6 +6,7 @@ import com.inzent.injoy.service.EmailService;
 import com.inzent.injoy.service.OrganService;
 import com.inzent.injoy.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.catalina.Context;
 import com.inzent.injoy.service.email.EmailVerifyService;
 import com.inzent.injoy.service.email.PasswordFindService;
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
