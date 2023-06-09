@@ -1210,3 +1210,16 @@ companyInput:focus {
     border: none;
 }
 /*비밀번호 재설정관련 css 끝*/
+
+.showConnections {
+    padding: 0;
+    background-color: rgb(128,132,142);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+    position: absolute;
+    /*right: 12px;*/
+    top: 75%;
+    left: 90%;
+}

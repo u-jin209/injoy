@@ -101,29 +101,68 @@
     </li>
 
 </ul>
-
+<input type="hidden" id="logInId" th:value="${logIn.id}">
 <script>
-
+    const logInId = document.getElementById('logInId').value;
 
     $(document).ready(function () {
+        if (typeof SockJS !== 'undefined') {
+
+            var socket = new SockJS('/ws-stomp');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, onConnected, onError);
+        } else {
+            console.error('SockJS library is not loaded.');
+        }
+
         printBookMarkList()
 
 
+        // const urlParams = new URL(location.href);
+        // const projectId = urlParams.pathname.split('/')[2];
+        //
+        //
+        // if (!isNaN(projectId)) {
+        //     printMemberList(projectId)
+        //     const enterMember = document.getElementById("enterMember")
+        //     enterMember.style.display= 'unset'
+        //
+        // }
+
+
+    })
+
+    function onConnected() {
+        stompClient.subscribe('/sub/connect', onMessageReceived);
+
+        // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
+        // /pub/chat/enterUser 로 메시지를 보냄
+        stompClient.send("/pub/connect/enterUser",
+            {},JSON.stringify({
+                id:logInId
+            }))
+    }
+
+    function onError(error) {
+        console.log('Could not connect to WebSocket server.')
+    }
+
+    function onMessageReceived(payload) {
+        let json = payload.body;
+        let logInUsers = new Set(JSON.parse(json));
+        console.log("logInUserszzzzzzzzzzzzzzzzzzzzzzzz: " + logInUsers);
         const urlParams = new URL(location.href);
         const projectId = urlParams.pathname.split('/')[2];
 
 
         if (!isNaN(projectId)) {
-            printMemberList(projectId)
+            printMemberList(projectId,logInUsers)
             const enterMember = document.getElementById("enterMember")
             enterMember.style.display= 'unset'
 
         }
 
-
-    })
-
-
+    }
 
     function OnOff(element) {
         printBookMarkList()
@@ -181,8 +220,9 @@
     }
 
 
-    function printMemberList(projectId) {
+    function printMemberList(projectId,logInUsers) {
         console.log("memberBody load")
+        console.log(logInUsers)
         $('.memberBody').empty()
 
         $.ajax({
@@ -195,16 +235,60 @@
 
 
                     result.forEach(function (item) {
-                        $('.memberBody').append(
-                            "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
+                        // if(logInUsers.has(item.userId)){
+                        //     $('.memberBody').append(
+                        //         "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
+                        //
+                        //         "<div class='col-md-4' STYLE='margin: 0; !important; position: relative'>"+
+                        //         "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
+                        //         "</div>"+
+                        //         "<div class='col-md-6'>"+ item.name +
+                        //         "</div>"+
+                        //         "<div class='col-md-2 showConnections' style='background-color: rgb(35,165,89)'>"+
+                        //         "</div>"+
+                        //         "</div>"
+                        //     )
+                        // }else{
+                        //     $('.memberBody').append(
+                        //         "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
+                        //
+                        //         "<div class='col-md-4' STYLE='margin: 0; !important;'>"+
+                        //         "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
+                        //         "</div>"+
+                        //         "<div class='col-md-6'>"+ item.name +
+                        //         "</div>"+
+                        //         "<div class='col-md-2 showConnections'>"+
+                        //         "</div>"+
+                        //         "</div>"
+                        //     )
+                        // }
+                        if(logInUsers.has(item.userId)){
+                            $('.memberBody').append(
+                                "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
 
-                            "<div class='col-md-4' STYLE='margin: 0; !important;'>"+
-                            "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
-                            "</div>"+
-                            "<div class='col-md-8'>"+ item.name +
-                            "</div>"+
-                            "</div>"
-                        )
+                                "<div class='col-md-4' STYLE='margin: 0; !important; position: relative'>"+
+                                "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
+                                "<div class='showConnections' style='background-color: rgb(35,165,89)'>"+
+                                "</div>"+
+                                "</div>"+
+                                "<div class='col-md-8'>"+ item.name +
+                                "</div>"+
+                                "</div>"
+                            )
+                        }else{
+                            $('.memberBody').append(
+                                "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
+
+                                "<div class='col-md-4' STYLE='margin: 0; !important;'>"+
+                                "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
+                                "<div class='showConnections' style='background-color: rgb(35,165,89)'>"+
+                                "</div>"+
+                                "</div>"+
+                                "<div class='col-md-8'>"+ item.name +
+                                "</div>"+
+                                "</div>"
+                            )
+                        }
                     })
                 } else {
                     $('.memberBody').append(
