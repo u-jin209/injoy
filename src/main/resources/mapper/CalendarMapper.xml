@@ -39,6 +39,10 @@
         where "user"."id" = #{userId};
     </select>
 
-
+    <update id="updateHome" parameterType="CalendarDTO">
+        UPDATE injoy."calendar"
+        SET "calTitle" = #{calTitle} , "calContent" = #{calContent} , "calStart" = #{calStart}, "calEnd" = #{calEnd}, "calAddress" = #{calAddress}
+        WHERE "calendarId" = #{calendarId}
+    </update>
 
 </mapper>

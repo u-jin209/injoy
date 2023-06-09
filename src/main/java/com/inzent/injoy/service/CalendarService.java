@@ -1,5 +1,6 @@
 package com.inzent.injoy.service;
 
+import com.inzent.injoy.model.BoardDTO;
 import com.inzent.injoy.model.CalendarDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class CalendarService {
         session.insert(NAMESPACE+".insert", calendarDTO);
     }
 
+    public void updateHome(CalendarDTO CalendarDTO) {
+        session.update(NAMESPACE+".updateHome", CalendarDTO);
+    }
     public void delete(CalendarDTO calendarDTO) {
         session.delete(NAMESPACE + ".delete", calendarDTO);
     }

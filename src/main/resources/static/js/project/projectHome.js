@@ -399,6 +399,8 @@ $(function () {
     modifyBoard()
     deleteTask()
     deleteBoard()
+    modifyCalendar()
+    deleteCalendar()
 
 
 })
@@ -1418,4 +1420,253 @@ function deleteCComment(commentId) {
             })
         }
     })
+}
+
+function modifyCalendar() {
+    $('.modify-calendar').click(function () {
+        Swal.fire({
+            text: '일정을 수정하시겠습니까?',
+            width: '450px',
+            showCancelButton: true,
+            confirmButtonColor: '#3064B3',
+            cancelButtonColor: 'red',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).parent().css('display', 'none')
+
+                let parents = $(this).parents('.postHeader').parent()
+                parents.find('.modify-calendar-title').attr('type', 'text')
+                parents.find('#post-calendar-title').css('display', 'none')
+
+                parents.find('.modify-calendar-startEnd').css('display', 'block')
+                parents.find('.calendar-period-area').css('display', 'none')
+
+                console.log(new Date($('.modify-scheduleStartDate').val()))
+                let fpStart = flatpickr(".modify-scheduleStartDate", {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    time_24hr: true,
+                    minDate : new Date(),
+                    defaultDate : new Date($('.modify-scheduleStartDate').val())
+                });
+                let fpEnd = flatpickr(".modify-scheduleEndDate", {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    time_24hr: true,
+                    minDate: new Date($('.modify-scheduleStartDate').val()),
+                    defaultDate: new Date($('.modify-scheduleEndDate').val())
+                });
+
+
+                $('#calAddress-home').on("input", function () {
+                    let val = $('#calAddress-home').val().trim();
+                    if (val == "") {
+                        console.log("Empty String");
+                        // document.getElementById("mapImage").style.visibility='hidden';
+                        document.getElementById("mapImage").remove();
+                    } else {
+                        getPlace();
+                    }
+
+                    function getPlace() {
+                        console.log("getPlace method ")
+                        const input = document.getElementById("calAddress-home");
+                        const options = {
+                            //add options here if you want more customizations
+                        };
+                        const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                    }
+
+                });
+
+                window.addEventListener('load', function(event){
+                    console.log("getPlace method ")
+                    const input = document.getElementById("calAddress-home");
+                    const options = {
+                        //add options here if you want more customizations
+                    };
+                    const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                });
+
+                parents.find('#calAddress-home').attr('type', 'text')
+                parents.find('.calendarAddress-text-home').css('display', 'none')
+
+                parents.find('.post-calendar-content').css('align-items', 'flex-start')
+                parents.find('.post-calendar-content .content-title').css('align-items', 'flex-start')
+                parents.find('.modify-calendar-content').css('display', 'block')
+                parents.find('#post-calendar-content').css('display', 'none')
+
+
+                $(document).click(function (event) {
+                    if (!$(event.target).closest(parents).length && !$(event.target).closest('.swal2-container').length) {
+                        updateCalendar(parents);
+                    }
+                });
+
+            }
+        })
+
+    })
+}
+
+function updateCalendar(parents) {
+    Swal.fire({
+        text: '일정 수정사항을 저장하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            let calendarId = parents.find('#calendarId-home').val()
+
+            let formData = {
+                calendarId: calendarId,
+                calStart : new Date(parents.find('.modify-scheduleStartDate').val()),
+                calEnd : new Date(parents.find('.modify-scheduleEndDate').val()),
+                calTitle: parents.find('.modify-calendar-title').val(),
+                calContent: parents.find('.modify-calendar-content').val(),
+                calAddress : parents.find('#calAddress-home').val()
+            }
+
+            $.ajax({
+                url: '/calendar/updateHome',
+                type: 'post',
+                data: formData,
+                success: () => {
+                    location.reload()
+                }
+            })
+        } else {
+            parents.find('.modify-task-title').attr('type', 'hidden')
+            parents.find('#post-task-title').css('display', 'block')
+
+            parents.find('.modify-task-content').css('display', 'none')
+            parents.find('#post-task-content').css('display', 'block')
+        }
+
+    })
+}
+
+function deleteCalendar() {
+    $('.delete-calendar').click(function () {
+        Swal.fire({
+            text: '일정를 삭제하시겠습니까?',
+            width: '300px',
+            showCancelButton: true,
+            confirmButtonColor: '#3064B3',
+            cancelButtonColor: 'red',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let calendarId = $(this).parents('.postHeader').parent().find('#calendarId-home').val()
+
+                let formData = {
+                    calendarId: calendarId,
+                }
+
+                $.ajax({
+                    url: '/calendar/delete',
+                    type: 'post',
+                    data: formData,
+                    success: () => {
+                        location.reload()
+                    }
+                })
+            }
+        })
+    })
+}
+
+function codeHomeAddress() {
+    var imgTag = document.createElement('img');
+    imgTag.id = "mapImage";
+    imgTag.name = "mapImage"
+    imgTag.src = "";
+    imgTag.alt = "static img";
+    imgTag.style = "visibility: hidden";
+
+    document.getElementById("homeMapView").append(imgTag);
+
+    var geocoder;
+    var map;
+    geocoder = new google.maps.Geocoder();
+    var address = document.getElementById('calAddress-home').value;
+    console.log("주소 : " + address);
+    geocoder.geocode({'address': address}, function (results, status) {
+
+
+        if (status == 'OK') {
+            console.log('this is OK');
+            // var tmp = (results[0].geometry.location).toString();
+
+            console.log("위도 : " + results[0].geometry.location.lat());
+            console.log("경도 : " + results[0].geometry.location.lng());
+
+            const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
+
+            const latitude = results[0].geometry.location.lat()
+            const longitude = results[0].geometry.location.lng()
+
+            // Set the map center and other parameters
+            const mapCenter = `center=${latitude},${longitude}`;
+            const mapZoom = 'zoom=14'; // Optional: Specify the zoom level
+
+            const mapMarkers = `markers=color:red%7Clabel:%7C${latitude}, ${longitude}`;
+
+            const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
+
+            // Set the image source to the constructed URL
+            const mapImage = document.getElementById('mapImage');
+            mapImage.src = imageUrl;
+            document.getElementById("mapImage").style.visibility = 'visible';
+
+            var ads = addressLogic(latitude, longitude);
+            console.log(addressLogic(latitude, longitude))
+            console.log("ads : " + ads);
+
+
+        } else {
+            console.log("this is an !ERROR!" + status);
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+function addressLogic(latitude, longitude) {//return Address from latitude and longitude method
+    const geocoder = new google.maps.Geocoder();
+    const latlng = {
+        lat: parseFloat(latitude),
+        lng: parseFloat(longitude),
+    };
+
+    var address;
+
+    geocoder
+        .geocode({location: latlng})
+        .then((response) => {
+            console.log("헬로우 : " + response.results[0].formatted_address);
+            tmp = response.results[0].formatted_address
+            console.log("tmp : " + tmp)
+
+            if (response.results[0]) {
+                address = response.results[0].formatted_address;
+                getAddress(address);
+            } else {
+                return "ERROR";
+            }
+        })
+}
+
+function getAddress(address) { // (4) should log the address
+    console.log("Finally : " + address);
+    document.getElementById("calAddress-home").value = address
 }

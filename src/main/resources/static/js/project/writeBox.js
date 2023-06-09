@@ -312,7 +312,7 @@ $(function () {
 
     })
 
-    $('#addressInputId').on("input", function () {
+    $('#writeBox-schedulePlace').on("input", function () {
         let val = $('#writeBox-schedulePlace').val().trim();
         if (val == "") {
             console.log("Empty String");
@@ -348,13 +348,27 @@ $(function () {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         time_24hr: true,
-
+        defaultDate : new Date(),
+        minDate: new Date()
     });
+
+    let writeBox_date = new Date()
+    writeBox_date.setHours(writeBox_date.getHours()+1)
+
     let fpEnd = flatpickr(".writeBox-scheduleEndDate", {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         time_24hr: true,
+        defaultDate : writeBox_date
     });
+
+    $('.writeBox-scheduleStartDate').change(function (){
+        let min = $(this).val()
+
+        fpEnd.setDate(min)
+        fpEnd.set('minDate', min)
+
+    })
 
 
 

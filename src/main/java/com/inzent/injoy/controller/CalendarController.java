@@ -370,54 +370,6 @@ public class CalendarController {
             return "error";
         } else {
 
-            // 파일 저장하기
-            /* if (files != null){
-                calendarService.insert(calendarDTO);
-                Map<String, Object> map = new HashMap<>();
-                map.put("folderRoot", "/");
-                map.put("projectId", calendarDTO.getProjectId());
-                FolderDTO folder = folderService.selectFolder(map);
-                int folderId = folder.getFolderId();
-
-                FileDTO fileDTO = new FileDTO();
-
-                for (MultipartFile file : files) {
-                    String fileRealName = file.getOriginalFilename();
-
-                    BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
-
-                    fileDTO.setFileSize(roundedValue + "MB");
-                    fileDTO.setProjectId(boardDTO.getProjectId());
-                    fileDTO.setUserId(login.getUserDTO().getId());
-                    fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
-                    fileDTO.setFolderId(folderId);
-
-                    if (fileRealName.length() != 0) {
-                        String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
-                        UUID uuid = UUID.randomUUID();
-                        String[] uuids = uuid.toString().split("-");
-                        String uniqueName = uuids[0];
-                        File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
-                        file.transferTo(saveFile);
-                        String[] filePath = String.valueOf(saveFile).split("web");
-
-                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
-                        fileDTO.setUniqueName(uniqueName);
-                        fileDTO.setFileExtension(fileExtension);
-                    }
-
-                    fileService.insert(fileDTO);
-
-                    BoardFileDTO boardFileDTO = new BoardFileDTO();
-                    boardFileDTO.setFileId(fileDTO.getFileId());
-                    boardFileDTO.setBoardId(boardDTO.getBoardId());
-                    boardFileService.insert(boardFileDTO);
-                }
-
-            } else {
-                calendarService.insert(calendarDTO);
-            }*/
-
             String[][] colorArr = {
                     {"#545de8", "", ""},
                     {"#ffff37", "black", ""},
@@ -436,6 +388,29 @@ public class CalendarController {
 
             return "success";
         }
+    }
+
+    @PostMapping("/calendar/updateHome")
+    public String updateHome(@AuthenticationPrincipal UserCustomDetails login, CalendarDTO calendarDTO){
+        CalendarDTO calendar = calendarService.selectOne(calendarDTO.getCalendarId());
+
+        calendar.setCalTitle(calendarDTO.getCalTitle());
+        calendar.setCalContent(calendarDTO.getCalContent());
+        calendar.setCalStart(calendarDTO.getCalStart());
+        calendar.setCalEnd(calendarDTO.getCalEnd());
+        calendar.setCalAddress(calendarDTO.getCalAddress());
+        calendarService.updateHome(calendar);
+
+        return "redirect:/project/" + calendar.getProjectId();
+    }
+
+    @PostMapping("/calendar/delete")
+    public String deleteBoard(int calendarId){
+        CalendarDTO calendarDTO = calendarService.selectOne(calendarId);
+
+        calendarService.delete(calendarDTO);
+        return "redirect:/project/" + calendarDTO.getProjectId();
+
     }
 
 }

@@ -16,6 +16,8 @@
     <!-- alert 창-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body id="homeBody" style="overflow-x: hidden">
 <div class="row" id="homeContent" style="padding: 0 10rem">
@@ -651,16 +653,26 @@
                             </div>
                         </div>
                         <div class="home-title title-header">
-                            <input id="calendarId" type="hidden" th:value="${task.calendarId}"/>
+                            <input id="calendarId-home" type="hidden" th:value="${task.calendarId}"/>
                             <div class="post-calendar-date">
                                 <div class="calendar-date">
-                                    <strong class="calendar-month" th:text="${#dates.format(task.calRegisterDate, 'yyyy-MM')}"></strong>
-                                    <strong class="calendar-day" th:text="${#dates.format(task.calRegisterDate, 'dd')}"></strong>
+                                    <strong class="calendar-month" th:text="${#dates.format(task.calStart, 'yyyy-MM')}"></strong>
+                                    <strong class="calendar-day" th:text="${#dates.format(task.calStart, 'dd')}"></strong>
                                 </div>
                                 <div class="calendar-title post-title-area">
-                                    <input class="modify-calendar-title" type="hidden" th:value="${task.calTitle}"/>
-                                    <h4 class="post-title-h4" th:text="${task.calTitle}"></h4>
+                                    <input class="modify-calendar-title" type="hidden" th:value="${task.calTitle}" style="height: 40px;"/>
+                                    <h4 class="post-title-h4" id="post-calendar-title" th:text="${task.calTitle}"></h4>
                                     <div class="calendar-period-area" th:text="${#dates.format(task.calStart, 'yyyy-MM-dd') + ' (' +#dates.dayOfWeekNameShort(task.calStart) +'), ' + #dates.format(task.calStart, 'HH:mm')+ ' - ' + #dates.format(task.calEnd, 'yyyy-MM-dd') + ' (' +#dates.dayOfWeekNameShort(task.calEnd) +'), ' + #dates.format(task.calEnd, 'HH:mm')}"></div>
+                                    <div class="modify-calendar-startEnd" style="display: none; margin-top: 20px">
+                                        날짜 재설정
+                                        <div class="start-schedule-area" style="display: inline-block; margin-left: 5px">
+                                            <input class="schedule-input modify-scheduleStartDate" type="datetime-local" style="border: none; border-bottom: 1px solid #777777" th:value="${#dates.format(task.calStart, 'yyyy-MM-dd HH:mm')}"/>
+                                        </div> -
+                                        <div class="end-schedule-area" style="display: inline-block; margin-left: 5px">
+                                            <input class="schedule-input modify-scheduleEndDate" type="datetime-local"
+                                                   style="border: none; border-bottom: 1px solid #777777" th:value="${#dates.format(task.calEnd, 'yyyy-MM-dd HH:mm')}"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -675,8 +687,8 @@
                                             </svg>
                                         </div>
                                         <div class="create-content" style="display: block; margin-top: 10px">
-                                            <input type="hidden" id="calAddress-home" th:value="${task.calAddress}">
-                                            <div class="post-ellipsis" th:text="${task.calAddress}" style="width: 100%; float: left;"></div>
+                                            <input type="hidden" id="calAddress-home" th:value="${task.calAddress}" onkeyup="if(window.event.keyCode==13){codeHomeAddress()}" style="border: none; border-bottom: 1px solid #777777; width: 100%"/>
+                                            <div class="post-ellipsis calendarAddress-text-home" th:text="${task.calAddress}" style="width: 100%; float: left;"></div>
                                             <div id="homeMapView" class="preview-map-home" style="display: inline-block;"></div>
                                         </div>
                                     </li>
@@ -690,7 +702,7 @@
                                             </svg>
                                         </div>
                                         <div class="create-content">
-                                            <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none"></textarea>
+                                            <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none; width: 100%; min-height: 200px; border: none;"></textarea>
                                             <div id="post-calendar-content" th:text="${task.calContent}"></div>
                                         </div>
                                     </li>
