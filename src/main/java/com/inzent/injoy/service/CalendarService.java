@@ -43,4 +43,9 @@ public class CalendarService {
         return session.selectOne(NAMESPACE + ".getUsername", userId);
     }
 
+
+    public void update(CalendarDTO c) {
+        System.out.println("만약 = " + c);
+        session.update(NAMESPACE + ".update", c);
+    }
 }
