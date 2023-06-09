@@ -276,9 +276,9 @@ public class CalendarController {
 
         System.out.println(strStart);
 
-            String strStart = c.getCalStart().toString();
+            String strStart1 = c.getCalStart().toString();
             String strEnd = c.getCalEnd().toString();
-            String calStart =  strStart.substring(0, strStart.length() - 5);
+            String calStart =  strStart1.substring(0, strStart1.length() - 5);
             String calEnd =  strEnd.substring(0, strEnd.length() - 5);
 
     //        유저닉네임 필요
