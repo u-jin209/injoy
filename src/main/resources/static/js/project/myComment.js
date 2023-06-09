@@ -20,7 +20,7 @@ $(document).ready(function() {
 $(document).on('click', function (e) {
     let target = $(e.target);
 
-    if (!target.closest('.myText-div').length && !target.closest('#task-myText').length &&  !target.closest('#board-myText').length) {
+    if (!target.closest('.myText-div').length && !target.closest('#task-myText').length &&  !target.closest('#board-myText').length && !target.closest('#calendar-myText').length) {
         $('.offcanvas').offcanvas('hide');
     }
 })
@@ -66,6 +66,25 @@ $(function (){
                 data: formData,
                 success: (result) => {
                     showTaskText(result, clickedValue)
+                }
+            })
+        } else if ($(this).attr('id') === 'calendar-text') {
+            $('#commentGroup-myText-calendar').empty()
+            $('.img-container-myText').html("")
+            $('.myText-file-post-area').css('display', 'none')
+            $('.file-container-myText').html("")
+
+            let calendarId = $(this).find('#myText-calendarId').val();
+
+            let formData = {
+                calendarId: calendarId,
+            }
+            $.ajax({
+                url: '/calendar/detailCalendar',
+                type: 'get',
+                data: formData,
+                success: (result) => {
+                    showCalendarText(result, clickedValue)
                 }
             })
         }
@@ -547,6 +566,226 @@ function deleteTextTComment(commentId) {
             }
             $.ajax({
                 url: '/tComment/delete',
+                type: 'get',
+                data: formData,
+                success: () => {
+                    history.go(0)
+                }
+            })
+        }
+    })
+}
+
+function getTime(date){
+    let today = new Date(date);
+
+    let hours = ('0' + today.getHours()).slice(-2);
+    let minutes = ('0' + today.getMinutes()).slice(-2);
+
+    let time_now = hours + ':' + minutes;
+    return time_now;
+}
+function showCalendarText(result, clickComment) {
+
+    console.log(result)
+    //업무번호
+    $('.myText-calendarId em').text(result.calendarId)
+    //제목 설정
+    $('.myText-cTitle').text(result.calTitle)
+    //작성자 이름
+    $('.myText-calendar-author').text(result.name)
+    //작성자 profile
+    document.getElementById('myText-calendar-profile').style.backgroundImage = "url('" + result.profilePhoto + "')";
+
+    let date = date_Format(result.calRegisterDate)
+    const d = new Date(result.calStart);
+
+    const day = d.getDate();
+    const month = d.getMonth();
+    const year = d.getFullYear();
+
+    let sTime =getTime(result.calStart)
+    let eTime =getTime(result.calEnd)
+
+
+    $('.myText-calendar-month').text(year+'-'+month)
+    $('.myText-calendar-day').text(day)
+
+    let start = dateWeek(result.calStart)
+    let end = dateWeek(result.calEnd)
+    $('.myText-calendar-period-area').text(start+', '+ sTime +' - ' + end+', '+ eTime)
+    //작성일
+    $('.myText-postDate').text(date)
+    if (result.calAddress == null) {
+        $('.post-calendar-place').css('display', 'none')
+    } else {
+        $('.post-calendar-place').css('display', 'flex')
+    }
+
+    $('.post-ellipsis').text(result.calAddress)
+
+    showHomeMap(result.calAddress,  $('#myTextView'));
+
+    if (result.calContent == null) {
+        $('.post-calendar-content').css('display', 'none')
+    } else {
+        $('.post-calendar-content').css('display', 'flex')
+    }
+    //내용
+    $('#myText-calendar-content').text(result.calContent)
+    //댓글
+    let formData = {
+        calendarId: result.calendarId,
+        projectId: result.projectId,
+    }
+
+    $.ajax({
+        url: '/cComment/showAll',
+        type: 'get',
+        data: formData,
+        success: (comment) => {
+
+            for (let i = 0; i < comment.length; i++) {
+                const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+                const date = new Date(comment[i].calComRegisterDate);
+                let entryDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5);
+                $('#commentGroup-myText-calendar').append("<li class='comment-li'><div class=\"comment-thumbnail\">\n" +
+                    "                                    <span class=\"thumbnail size40 radius16\" style=\"background-image:url( " + comment[i].profilePhoto + ");\"></span>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=\"comment-container on\">\n" +
+                    "                                    <div class=\"comment-user-area\">\n" +
+                    "                                        <div class=\"comment-user\">\n" +
+                    "                                           <input type=\"hidden\" class=\"comment-writer-home\" value=\"" + comment[i].calComUserId + "\"/>\n" +
+                    "                                            <span class=\"user-name\">" + comment[i].name + "</span>\n" +
+                    "                                            <span class=\"record-date\">" + entryDate + "</span>\n" +
+                    "                                        </div>\n" +
+                    "                                        <div class=\"comment-writer-menu\">\n" +
+                    "                                            <button type=\"button\" class=\"modify-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"modifyTextCComment(this)\">\n" +
+                    "                                                수정</button>\n" +
+                    "                                            <button type=\"button\" class=\"delete-cComment comment-writer-button on\" style=\"background-color: transparent; border: none\" onclick=\"deleteTextCComment(" + comment[i].calCommentId + ")\">\n" +
+                    "                                                삭제</button>\n" +
+                    "                                        </div>\n" +
+                    "                                    </div>\n" +
+                    "                                    <div class=\"comment-content\">\n" +
+                    "                                        <div class=\"comment-text-area\">\n" +
+                    "                                            <div class=\"js-remark-text comment-text\">" + comment[i].calComContent + "</div>\n" +
+                    "                                        </div>\n" +
+                    "                                    </div>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=\"edit-cComment-form\" style=\"overflow: hidden; width: 100%; margin-bottom: 10px; display: none\">\n" +
+                    "                                    <form  action=\"/cComment/updateText\" method=\"post\" class=\"comment-container\" style=\"padding: 0;\">\n" +
+                    "                                        <input type=\"hidden\" name=\"calCommentId\" class=\"cCommentId-comment\" value=\"" + comment[i].calCommentId + "\"/>\n" +
+                    "                                        <input type=\"text\" class=\"commentInput\" value=\"" + comment[i].calComContent + "\" name=\"calComContent\" style=\"width: 100%\"/>\n" +
+                    "                                    </form>\n" +
+                    "                                </div></li>")
+
+
+            }
+
+            $('.comment-writer-myText').each(function () {
+                let commentUserId = $(this).val();
+                let commentWriterMenu = $(this).closest('.comment-li').find('.comment-writer-menu');
+
+                if (commentUserId === $('.myText-login').val()) {
+                    commentWriterMenu.show();
+                } else {
+                    commentWriterMenu.hide();
+                }
+            });
+
+            $('.comment-li').each(function() {
+                let commentText = $(this).find('.comment-text').text()
+                if (commentText === clickComment) {
+                    $(this).css('border', '3px solid red');
+                }
+            });
+        }
+    })
+
+}
+
+function showHomeMap(mapAddress, mapView){
+    let imgTag = document.createElement('img');
+    imgTag.id = "mapImage";
+    imgTag.name = "mapImage"
+    imgTag.src = "";
+    imgTag.alt = "static img";
+    imgTag.style.visibility = 'hidden'
+    imgTag.style.width = '600px';
+
+    mapView.append(imgTag);
+
+    let geocoder;
+    let map;
+    geocoder = new google.maps.Geocoder();
+    let address = mapAddress;
+    console.log("주소 : " + address);
+    geocoder.geocode({'address': address}, function (results, status) {
+
+        if (status == 'OK') {
+            console.log('this is OK');
+            // var tmp = (results[0].geometry.location).toString();
+
+            console.log("위도 : " + results[0].geometry.location.lat());
+            console.log("경도 : " + results[0].geometry.location.lng());
+
+            const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
+
+            const latitude = results[0].geometry.location.lat()
+            const longitude = results[0].geometry.location.lng()
+
+            // Set the map center and other parameters
+            const mapCenter = `center=${latitude},${longitude}`;
+            const mapZoom = 'zoom=14'; // Optional: Specify the zoom level
+
+            const mapMarkers = `markers=color:red%7Clabel:%7C${latitude}, ${longitude}`;
+
+            const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
+
+            // Set the image source to the constructed URL
+            console.log(mapView.find('#mapImage'))
+            const mapImage = mapView.find('#mapImage');
+            mapImage.attr('src', imageUrl)
+            mapImage.css('visibility','visible')
+
+
+
+        } else {
+            // console.log("this is an !ERROR!" + status);
+            // alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+function modifyTextCComment(e) {
+    let thisLi = $(e).parents('.comment-li')
+    $(e).closest('.comment-container').css('display', 'none')
+    thisLi.find('.edit-cComment-form').css('display', 'block')
+
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest(thisLi).length) {
+            thisLi.find('.edit-cComment-form').css('display', 'none');
+            thisLi.find('.comment-container').css('display', 'block')
+        }
+    });
+}
+function deleteTextCComment(commentId) {
+    Swal.fire({
+        text: '댓글을 삭제하시겠습니까?',
+        width: '300px',
+        showCancelButton: true,
+        confirmButtonColor: '#3064B3',
+        cancelButtonColor: 'red',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formData = {
+                bCommentId: commentId
+            }
+            $.ajax({
+                url: '/cComment/delete',
                 type: 'get',
                 data: formData,
                 success: () => {

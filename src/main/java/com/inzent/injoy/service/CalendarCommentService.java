@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.beans.PropertyEditorSupport;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -32,8 +33,14 @@ public class CalendarCommentService {
     public CalCommentDTO selectOneComment(CalCommentDTO c) {
         return session.selectOne(NAMESPACE + ".selectOne", c);
     }
+    public CalCommentDTO selectOne(int commentId) {
+        return session.selectOne(NAMESPACE + ".selectOneComment", commentId);
+    }
+    public List<CalCommentDTO> selectAllComment(HashMap<String, Object> map) {
+        return session.selectList(NAMESPACE + ".selectAllComment", map);
+    }
 
-
-
-
+    public void updateHome(CalCommentDTO calComment) {
+        session.update(NAMESPACE + ".update", calComment);
+    }
 }

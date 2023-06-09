@@ -4,18 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.CalendarMapper">
 
-    <select id="selectAll" parameterType="int"  resultType="CalendarDTO">
-        SELECT * FROM injoy.calendar;
+    <select id="selectAll" parameterType="int" resultType="CalendarDTO">
+        SELECT * FROM injoy.calendar
+        where "projectId" = #{projectId};
     </select>
     <select id="selectOne" parameterType="int"  resultType="CalendarDTO">
         SELECT * FROM injoy.calendar
+        INNER JOIN injoy."user"
+        ON "user"."id" = "calendar"."userId"
         where "calendarId" = #{calendarId}
     </select>
 
 
     <insert id="insert" parameterType="CalendarDTO">
         insert into injoy.calendar("projectId", "userId","calTitle","calContent","calStart","calEnd", "calRegister_date", "calColor",  "calTextColor", "calBorderColor", "calAddress", "calImgSrc")
-        values (#{projectId}, #{userId}, #{calTitle},#{calContent}, #{calStart}, #{calEnd}, #{calRegister_date}, #{calColor}, #{calTextColor}, #{calBorderColor}, #{calAddress}, #{calImgSrc})
+        values (#{projectId}, #{userId}, #{calTitle},#{calContent}, #{calStart}, #{calEnd}, #{calRegisterDate}, #{calColor}, #{calTextColor}, #{calBorderColor}, #{calAddress}, #{calImgSrc})
     </insert>
 
 <!--    <select id="selectUserName" parameterType="int" resultType="string" >-->
@@ -44,5 +47,10 @@
     </update>
 
 
+    <update id="updateHome" parameterType="CalendarDTO">
+        UPDATE injoy."calendar"
+        SET "calTitle" = #{calTitle} , "calContent" = #{calContent} , "calStart" = #{calStart}, "calEnd" = #{calEnd}, "calAddress" = #{calAddress}
+        WHERE "calendarId" = #{calendarId}
+    </update>
 
 </mapper>

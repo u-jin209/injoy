@@ -171,7 +171,7 @@ public class BoardController {
 
     @GetMapping("detailBoard")
     @ResponseBody
-    public BoardDTO detailTask(int boardId){
+    public BoardDTO detailBoard(int boardId){
         return boardService.selectOne(boardId);
     }
 

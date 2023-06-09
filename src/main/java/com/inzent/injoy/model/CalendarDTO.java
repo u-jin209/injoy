@@ -12,12 +12,15 @@ public class CalendarDTO {
     private int userId;
     private String calTitle;
     private String calContent;
-    private Timestamp calStart;
-    private Timestamp calEnd;
-    private Timestamp calRegister_date;
+    private Date calStart;
+    private Date calEnd;
+    private Date calRegisterDate;
     private String calColor;
     private String calTextColor;
     private String calBorderColor;
     private String calAddress;
     private String calImgSrc;
+
+    private String name;
+    private String profilePhoto;
 }

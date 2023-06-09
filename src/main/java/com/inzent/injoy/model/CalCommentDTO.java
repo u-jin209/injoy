@@ -14,4 +14,7 @@ public class CalCommentDTO {
     private Timestamp calComRegisterDate;
     private String calComUsername;
     private String calComRegisterDateStr;
+
+    private String name;
+    private String profilePhoto;
 }
