@@ -276,14 +276,10 @@ public class CalendarController {
 
         System.out.println(strStart);
 
-        Date endDate = c.getCalEnd();
-        Timestamp endTimestamp = new Timestamp(endDate.getTime());
-        String strEnd = endTimestamp.toString();
-
-        System.out.println(strEnd);
-
-        String calStart = strStart.substring(0, 16);
-        String calEnd = strEnd.substring(0, 16);
+            String strStart = c.getCalStart().toString();
+            String strEnd = c.getCalEnd().toString();
+            String calStart =  strStart.substring(0, strStart.length() - 5);
+            String calEnd =  strEnd.substring(0, strEnd.length() - 5);
 
     //        유저닉네임 필요
             model.addAttribute("calobj", c);
@@ -460,5 +456,6 @@ public class CalendarController {
         return "redirect:/project/" + calendarDTO.getProjectId();
 
     }
+
 
 }

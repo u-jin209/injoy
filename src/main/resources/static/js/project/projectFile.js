@@ -527,7 +527,6 @@ function searchProject(keyword) {
 }
 
 function  downloadFile(){
-    const root = document.getElementById("root")
 
     var folderArr = "";
     $("input:checkbox[name='checkfolder']:checked").each(function () {

@@ -159,6 +159,9 @@ public class FileController {
     }
 
 
+
+
+
     @ResponseBody
     @GetMapping("searchFile")
     public List<FileDTO> searchFile(Integer projectId, String keyword) {
@@ -166,8 +169,26 @@ public class FileController {
         map.put("projectId", projectId);
         map.put("keyword", keyword);
 
-        System.out.println("fileService.searchFile(map) : " + fileService.searchFile(map));
         return fileService.searchFile(map);
+    }
+
+    @ResponseBody
+    @GetMapping("allList")
+    public List<FileDTO> allList(@AuthenticationPrincipal UserCustomDetails logIn) {
+
+        return fileService.allFile(logIn.getUserDTO().getId());
+    }
+
+
+    @ResponseBody
+    @GetMapping("allSearchFile")
+    public List<FileDTO> allSearchFile(@AuthenticationPrincipal UserCustomDetails logIn, String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        int userId = logIn.getUserDTO().getId();
+        map.put("userId",userId );
+        map.put("keyword", keyword);
+
+        return fileService.allSearchFile(map);
     }
 
     @ResponseBody

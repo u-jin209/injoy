@@ -257,5 +257,16 @@ public class ProjectController {
         return "/project/myComment";
     }
 
+    @GetMapping("allFile")
+    public String allFile(@AuthenticationPrincipal UserCustomDetails login, Model model) {
+
+
+        model.addAttribute("logIn", userService.selectOne(login.getUserDTO().getId()));
+
+        model.addAttribute("projectList", projectService.selectAll(login.getUserDTO().getId()));
+        return "/project/allFile";
+    }
+
+
 
 }

@@ -46,6 +46,6 @@
         ) AS combined
         LEFT JOIN injoy."user" AS u ON u."id" = combined."authorUserId" OR u."id" = combined."projectAuthorUserId" OR u."id" = combined."calComUserId"
         LEFT JOIN injoy."project" AS p ON p."projectId" = combined."projectId" OR  p."projectId" = combined."projectTaskId" OR p."projectId" = combined."calComProjectId"
-        ORDER BY COALESCE(combined."crtDate", combined."projectCrtDate", combined."calComRegisterDate") DESC;
+        ORDER BY COALESCE(combined."crtDate", combined."projectCrtDate") DESC;
     </select>
 </mapper>

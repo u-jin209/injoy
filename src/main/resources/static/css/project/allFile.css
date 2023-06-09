@@ -1,0 +1,16 @@
+.allFile-header{
+    padding: 30px 20px;
+    position: relative;
+    min-width: 750px;
+    height: 80px;
+    background: #fff;
+    z-index: 12;
+}
+.allFile-title{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.allFile-content-area{
+    padding: 30px 20px;
+}

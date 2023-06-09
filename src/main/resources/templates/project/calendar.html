@@ -42,12 +42,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
 
     <!--    Google Mpas Api-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI&libraries=places"></script>
@@ -389,6 +383,8 @@
 
 <!--<div id="calendarBox">-->
     <div id='calendar'></div>
+
+
 <!--</div>-->
 
 
@@ -419,6 +415,10 @@
             </div>
             <form name="calendarForm" id="calendarForm" method="post">
                 <div class="modal-body text-start">
+                    <input class="ml-2 "
+                           style="display: none"
+                           name="projectId" id="projectId"
+                           th:value="${project.projectId}"/>
                     <div>
                         <input id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요" />
                         <label for="scheduleTitle"></label>
@@ -568,7 +568,7 @@
                     </div>
 
                     <div class="m-2" style="display: flex;">
-                        <div style="font-size: 14px;"><strong th:text="${usernamee}">닉네임</strong></div>
+                        <div style="font-size: 14px;"><strong th:text="${login.name}">닉네임</strong></div>
                         <div style="font-size: 14px; color: #AAAAAA" th:text="${calRegister_date}">작성날짜</div>
                     </div>
 
@@ -580,12 +580,12 @@
                     <div class="col-2">
                         <div class="dropdown">
                             <a class="bi bi-three-dots-vertical" type="button" id="dropdownMenuButton1"
-                               data-bs-toggle="dropdown" aria-expanded="false" th:onclick="showDelnMod(${writerId});"></a>
+                               data-bs-toggle="dropdown" aria-expanded="false" th:onclick="showDelnMod([[${writerId}]]);"></a>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                 <li id="modScheduleLi"><a class="dropdown-item" onclick="openModifySchedule()" ><i class="bi bi-card-text"></i>수정</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크 복사</a></li>
-                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod(${projectId},${scheduleId});"><i class="bi bi-trash3"></i> 삭제</a>
+                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod([[${projectId}]],[[${scheduleId}]]);"><i class="bi bi-trash3"></i> 삭제</a>
                                 </li>
                             </ul>
                         </div>
@@ -832,6 +832,8 @@
 </div>
 
 <script>
+
+
     function showDelnMod(writerId) {
         currentId = document.getElementById("logInnn").value;
         // console.log("writerId : " + writerId);
@@ -931,7 +933,7 @@
         // });
     }
 </script>
-
+<!---->
 
 <!--<script th:inline="javascript">-->
 <!--    console.log([[${project}]]);-->
@@ -962,6 +964,7 @@
 <!--        ;-->
 <!--    }, true);-->
 <!--</script>-->
+
 
 
 <script>
@@ -1005,7 +1008,7 @@
                     // dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                     // expandRows: true, // 화면에 맞게 높이 재설정
 
-                    allDay: false,
+                    // allDay: false,
                     select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
                         $('#addScheduleModal').show();
                         setDateTime(arg);
@@ -1390,20 +1393,12 @@
                 getPlace();
             }
 
-            function getPlace(){
-                console.log("getPlace메서드")
-                const input = document.getElementById("addressInputId");
-                const options = {
-                    //add options here if you want more customizations
-                };
-                const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-            }
 
     });
-        // window.addEventListener('load', getPlace);
+    window.addEventListener('load', getPlace);
 
-    window.addEventListener('load', function(event){
+    function getPlace() {
         console.log("getPlace method ")
         const input = document.getElementById("addressInputId");
         const options = {
@@ -1411,7 +1406,7 @@
         };
         const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-    });
+    }
 
     function codeAddress(temp) {
         console.log("temp : " + temp);
