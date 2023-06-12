@@ -2,16 +2,13 @@ package com.inzent.injoy.controller;
 
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
-import com.inzent.injoy.service.EmailService;
 import com.inzent.injoy.service.OrganService;
+import com.inzent.injoy.service.S3Uploader;
 import com.inzent.injoy.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.catalina.Context;
 import com.inzent.injoy.service.email.EmailVerifyService;
 import com.inzent.injoy.service.email.PasswordFindService;
-import jakarta.jws.soap.SOAPBinding;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.bind.annotation.*;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
 @Controller
 @RequestMapping("/user/")
 public class UserController {
 
+
+    private final S3Uploader s3Upload;
     private final  UserService userService;
     private final OrganService organService;
     @Value("${part.upload.path}")
@@ -47,7 +45,8 @@ public class UserController {
     private final PasswordFindService passwordFindService;
 
     @Autowired
-    public UserController(UserService userService, OrganService organService,EmailVerifyService emailVerifyService, PasswordFindService passwordFindService) {
+    public UserController(S3Uploader s3Upload, UserService userService, OrganService organService, EmailVerifyService emailVerifyService, PasswordFindService passwordFindService) {
+        this.s3Upload = s3Upload;
         this.userService = userService;
         this.organService = organService;
         this.emailVerifyService = emailVerifyService;
@@ -190,6 +189,7 @@ public class UserController {
     public String updateInfo(@AuthenticationPrincipal UserCustomDetails login, UserDTO userDTO, @RequestParam(value = "file") MultipartFile profilePhoto,
                              HttpServletRequest request) throws IOException {
 
+
         System.out.println("!######################################################################profilePhoto : "+ profilePhoto);
 
         UserDTO origin = login.getUserDTO();
@@ -216,10 +216,9 @@ public class UserController {
 
             File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),"uploadImg/"+uniqueName+fileExtension);
             profilePhoto.transferTo(saveFile);
-            String[] imgPath = String.valueOf(saveFile).split("web");
 
-            System.out.println("imgPath : "+imgPath);
-            origin.setProfilePhoto(FileDirPath+"uploadImg/"+uniqueName+fileExtension);
+
+            origin.setProfilePhoto(s3Upload.upload(saveFile,"uploadImg/"));
         }
 
 

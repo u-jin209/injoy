@@ -143,7 +143,7 @@ function approveUser(userId,projectId) {
                 const newDiv = document.createElement('div').appendChild(waitDiv);
                 document.getElementById('field').appendChild(newDiv);
                 const waitBody= document.getElementById("waitBody")
-                 console.log(waitBody.children.length+'no_child는 자식이 있습니다. <br>'); // printed
+
 
                 if(waitBody.children.length == 0){
                     const noneWait = document.getElementById("noneWait");
@@ -204,13 +204,13 @@ function searchUser(projectId,logInUser){
                 console.log("ddddd")
 
                 if(result.length>=1){
-                    console.log("dddddㅇㄴㅇㄴㅇㅇㅇㅇ")
+
                     const searchDiv = document.getElementById("searchResult");
                     searchDiv.style.display = "";
 
 
                     result.forEach(function(item) {
-                        console.log("ㅇㄹㄴㅇㄹㄴㅇㄴㅇㅇㄴㅇㄹㅇㅇㅇㅇ")
+
 
                             console.log(item.name)
 
@@ -224,7 +224,7 @@ function searchUser(projectId,logInUser){
                                 "<div class='col-md-8'>"+
                                 "<div class='card-body' style='text-align: left'>"+
                                 "<h5 class='card-title'>"+item.name+"</h5>"+
-                                "<p class='card-text'>"+item.username+"</p>"+
+                                "<p class='card-text'>"+item.email+"</p>"+
                                 "<div style='text-align: end; display: none'  id = 'inviteBtn"+item.id+"' >"+
                                 "<button class='btn-blue' style='width: 50px;' id='"+item.id+"' onclick='inviteMember(this)'> 초대 </button>"+
 
@@ -306,7 +306,7 @@ function inviteMemberList(){
 
     const projectId = urlParams.pathname.split('/')[2];
 
-    console.log("drfgdfgfgfgfgfgfffff")
+
 
     $.ajax({
         type: 'GET',
@@ -327,7 +327,7 @@ function inviteMemberList(){
                                 "<div class='card mb-3' style='max-width: 540px; height: 100%;'>"+
                                     "<div class='row'>"+
                                         "<div class='col-md-4'>"+
-                                            "<img  class='member' id='userImg"+item.userId+"' >"+
+                                            "<img  class='member' id='userImg"+item.userId+"' src='"+item.profilePhoto+"' >"+
                                         "</div>"+
                                         "<div class='col-md-8'>"+
                                             "<div class='card-body'>"+

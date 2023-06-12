@@ -21,13 +21,16 @@ import java.util.*;
 public class BoardController {
     @Value("${part.upload.path}")
     private String FileDirPath;
+
+    private final S3Uploader s3Upload;
     private UserService userService;
     private BoardService boardService;
     private final FolderService folderService;
     private final FileService fileService;
     private final BoardFileService boardFileService;
 
-    public BoardController(UserService userService, BoardService boardService, FolderService folderService, FileService fileService, BoardFileService boardFileService) {
+    public BoardController(S3Uploader s3Upload,UserService userService, BoardService boardService, FolderService folderService, FileService fileService, BoardFileService boardFileService) {
+        this.s3Upload = s3Upload;
         this.userService = userService;
         this.boardService = boardService;
         this.folderService = folderService;
@@ -73,8 +76,8 @@ public class BoardController {
                         File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                         file.transferTo(saveFile);
                         String[] filePath = String.valueOf(saveFile).split("web");
-
-                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                        String path = s3Upload.upload(saveFile,"uploadFile/");
+                        fileDTO.setFileRealPath(path);
                         fileDTO.setUniqueName(uniqueName);
                         fileDTO.setFileExtension(fileExtension);
                     }

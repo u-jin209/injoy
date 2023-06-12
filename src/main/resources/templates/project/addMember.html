@@ -75,8 +75,7 @@
                     <div class="card mb-3" style="max-width: 540px; height: 100%;">
                         <div class="row ">
                             <div class="col-md-4">
-                                <img th:src="${member.profilePhoto}" onerror="src='/img/moru.jpg'" class="member"
-                                     alt="...">
+                                <img th:src="${member.profilePhoto}" onerror="src='/img/moru.jpg'" class="member">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -84,7 +83,7 @@
                                     <i class="fa-solid fa-crown" style="color: #ffb30d;"
                                        th:if="${member.authority.toString.equals('MANAGER')} "></i>
                                     <h5 class="card-title mt-1" th:text="${member.name}"></h5>
-                                    <p class="card-text" th:text="${member.username}"></p>
+                                    <p class="card-text" th:text="${member.email}"></p>
 
                                     <button class="imgButton" th:onclick="|deleteUser(${member.userId},1)|"
                                             th:if="${!member.authority.toString.equals('MANAGER')}"
@@ -118,19 +117,18 @@
             <div class="scrollDiv" id="waitList" th:style="${waitList.size() != 0  ? '' : 'display: none;'}">
                 <div class="row g-2" id="waitBody" style="justify-content: center">
 
-                    <div class="col-md-6" th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.userId}"
+                    <div class="col-md-6" th:each=" waitMember : ${waitList}" th:id="'user'+${waitMember.id}"
                          name="wait">
                         <div class="card mb-3" style="max-width: 540px; height: 100%;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="/img/moru.jpg" class="member" alt="...">
+                                    <img th:src="${member.profilePhoto}" onerror="src='/img/moru.jpg'" class="member">
+                                    <img class="member" th:src="@{${waitMember.profilePhoto}}" >
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${waitMember.name}"></h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.</p>
+                                        <p class="card-text"  th:text="${waitMember.email}"></p>
 
                                         <button class="imgButton" th:id="'minus'+${waitMember.userId}"
                                                 th:onclick="|deleteUser(${waitMember.userId},2)|">
