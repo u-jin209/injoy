@@ -31,7 +31,7 @@ $(function () {
         }
         var request = $.ajax({
 
-            url: "/logic", // URL 새로운거로 다시 넣어주기. 일정 뿌려주기
+            url: "/loadSchedule", // URL 새로운거로 다시 넣어주기. 일정 뿌려주기
             method: "GET",
             dataType: "json",
             data: data

@@ -20,7 +20,7 @@
     <div class="row">
         <input class="projectIdInput" type="hidden" name="projectId" th:value="${project?.projectId}"
                th:if="${project?.projectId} ne null"/>
-        <div class="col">
+        <div class="col" id="task-search-input-area">
             <input id="searchTask" class="searchInput form-control" type="search" name="keyword"
                    th:onkeyup="|searchTaskEnter(${project?.projectId})|"
                    placeholder="업무명 또는 업무번호를 검색하세요."/>
@@ -32,6 +32,7 @@
                 </svg>
             </div>
         </div>
+        <div id="task-search-end" class="col" style="padding-top: 10px; display: none"><a style="color:blue;">검색종료</a></div>
         <div class="col text-end">
             <button class="addButton btnFade btnBlue" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                 업무 추가
@@ -311,6 +312,7 @@
             <th style="width: 5%">업무번호</th>
         </tr>
         </thead>
+        <tbody id="searchTbody" class="searchTbody">
         <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
             <td class="titleTd">

@@ -23,7 +23,7 @@
 }
 
 .none-content{
-    text-align: end;
+    text-align: center;
     margin: 60px auto;
 }
 
@@ -34,7 +34,6 @@
     text-align: center;
     letter-spacing: -.02em;
     color: #999;
-    margin-left: 120px;
 }
 
 .project-content{

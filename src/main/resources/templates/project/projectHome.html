@@ -137,13 +137,13 @@
             </div>
         </div>
         <th:block th:replace="~{fragment/writeBox :: writeBoxfragment(${project})}"></th:block>
-        <div class="project-content" th:if="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
-            <div class="content-none-area" style="width: 80%; margin: 15px 30px;">
+        <div class="project-content" th:if="${#lists.isEmpty(allList)}">
+            <div class="content-none-area" style="width: 100%; margin: 15px 30px;">
                 <div class="none-title">
                     <h4>전체</h4>
                 </div>
                 <div class="none-content">
-                    <img src="/img/homeImg.png" alt="img"/>
+                    <img src="/img/homeImg.png" alt="img" />
                     <p class="none-text">
                         아직 논의중인 내용이 없습니다.
                         <br/>
@@ -152,7 +152,7 @@
                 </div>
             </div>
         </div>
-        <div class="project-content" th:unless="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
+        <div class="project-content" th:unless="${#lists.isEmpty(allList)}">
             <div class="none-title" style="width: 80%; margin: 15px 30px;">
                 <h4>전체</h4>
             </div>
