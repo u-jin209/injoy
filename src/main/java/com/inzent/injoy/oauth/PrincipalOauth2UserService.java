@@ -101,6 +101,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.crtnDate(Timestamp.valueOf(now))
 					.provider(oAuth2UserInfo.getProvider())
 					.providerId(oAuth2UserInfo.getProviderId())
+					.conversation("available")
 					.build();
 			register(userDTO);
 		}

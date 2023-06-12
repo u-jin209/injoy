@@ -50,6 +50,7 @@ public class UserService implements UserDetailsService {
             attempt.setProfilePhoto("/img/moru.jpg");
             attempt.setCrtnDate(Timestamp.valueOf(now));
             attempt.setEmailVerified(false);
+            attempt.setConversation("available");
             session.insert(NAMESPACE + ".register", attempt);
             return true;
         }else {
@@ -105,6 +106,12 @@ public class UserService implements UserDetailsService {
 
     public UserDTO selectOne(int id){
         return session.selectOne(NAMESPACE +".selectOne" ,id);
+    }
+    public void  updateConversation(UserDTO userDTO){
+        session.update(NAMESPACE + ".updateConversation", userDTO);
+    }
+    public String findConversation(int id) {
+        return session.selectOne(NAMESPACE + ".findConversation", id);
     }
 }
 

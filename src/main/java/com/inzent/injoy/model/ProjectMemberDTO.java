@@ -15,6 +15,8 @@ import lombok.Data;
     private String email;
     private String profilePhoto;
 
+    private String conversation;
+
     //search용 정보
 
     private String keyword;

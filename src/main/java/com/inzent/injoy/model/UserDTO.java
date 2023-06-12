@@ -26,5 +26,6 @@ public class UserDTO {
     private String providerId;
     private boolean emailVerified;
     private String condition;
+    private String conversation;
 
 }
