@@ -106,16 +106,16 @@ public class FileController {
 
             String uniqueName = uuids[0];
 
-            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+            File saveFile = new File(request.getServletContext().getRealPath(FileDirPath),  uniqueName + fileExtension);
             file.transferTo(saveFile);
             String[] filePath = String.valueOf(saveFile).split("web");
 
-            String path = s3Upload.upload(saveFile,"uploadFile/");
+            String path = s3Upload.upload(saveFile,"uploadFile");
 
             System.out.println("filePath = " + path.substring(path.lastIndexOf("/%2F")+4));
 
 
-            fileDTO.setFileRealPath( path.substring(path.lastIndexOf("/%2F")+4));
+            fileDTO.setFileRealPath( path);
             fileDTO.setUniqueName(uniqueName);
             fileDTO.setFileExtension(fileExtension);
         }
@@ -269,8 +269,7 @@ public class FileController {
 
 
         for (FileDTO f : fileList) {
-
-            s3Upload.getObject(f);
+            s3Upload.getObject(f,userName);
 
         }
         return "redirect:/project/myProject";
@@ -366,7 +365,7 @@ public class FileController {
 
             headers.setContentDisposition(ContentDisposition.builder("attachment").filename(formattedTime+"_"+f.getFileName()).build());
             headers.setCacheControl("no-cache");
-            headers.setContentType(MediaType.parseMediaType(mimeType));
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.set(HttpHeaders.DATE, formattedTime);
 
             return ResponseEntity.ok()

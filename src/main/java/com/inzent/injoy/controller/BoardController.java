@@ -189,9 +189,9 @@ public class BoardController {
     @ResponseBody
     @GetMapping("downloadFile")
     public FileDTO downloadFile(String fileId, HttpServletRequest request) throws IOException {
-        String userName = System.getProperty("user.name");
+        FileDTO f = new FileDTO();
 
-        FileDTO f = fileService.selectOne(Integer.parseInt(fileId));
+        f = fileService.selectOne(Integer.parseInt(fileId));
 
 
         return f;

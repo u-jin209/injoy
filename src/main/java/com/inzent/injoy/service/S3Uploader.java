@@ -7,13 +7,22 @@ import com.amazonaws.util.IOUtils;
 import com.inzent.injoy.model.FileDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.*;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.ZoneId;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -49,9 +58,12 @@ public class S3Uploader {
 //        return upload(uploadFile, dirName);
 //    }
     private String putS3(File uploadFile, String fileName) {
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, fileName, uploadFile);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentDisposition("attachment");
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
-                        .withCannedAcl(CannedAccessControlList.PublicRead)    // PublicRead 권한으로 업로드 됨
+                        .withCannedAcl(CannedAccessControlList.PublicRead).withMetadata(metadata)// PublicRead 권한으로 업로드 됨
         );
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
@@ -74,21 +86,50 @@ public class S3Uploader {
         }
         return Optional.empty();
     }
-    public byte[] getObject(FileDTO f) throws IOException {
-        //파일 유무 확인
-        String  fileName = f.getUniqueName()+f.getFileExtension();
-        validateFileExists(fileName);
+    public ResponseEntity<byte[]> getObject(FileDTO f, String userName) throws IOException {
 
-        S3Object s3Object = amazonS3Client.getObject(bucket, fileName);
-        S3ObjectInputStream s3ObjectContent = s3Object.getObjectContent();
+        String savePath = System.getProperty("user.home") + "\\Downloads\\";
 
+        String storedFileUrl = null;
 
-            return IOUtils.toByteArray(s3ObjectContent);
+        System.out.println("uploadFile/"+f.getUniqueName() + f.getFileExtension());
 
+        try {
+            storedFileUrl = java.net.URLDecoder.decode("uploadFile/"+f.getUniqueName() + f.getFileExtension(), StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
+        S3Object o = amazonS3Client.getObject(new GetObjectRequest(bucket, storedFileUrl));
+        S3ObjectInputStream objectInputStream = o.getObjectContent();
+        byte[] bytes = IOUtils.toByteArray(objectInputStream);
+
+        System.out.println(storedFileUrl);
+//        String fileName = URLEncoder.encode(storedFileUrl, "UTF-8").replaceAll("\\+", "%20");
+        System.out.println("!$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$fileName = " + storedFileUrl);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.parseMediaType(o.getObjectMetadata().getContentType()));
+        httpHeaders.setContentLength(o.getObjectMetadata().getContentLength());
+        httpHeaders.setContentDispositionFormData("attachment", URLEncoder.encode(storedFileUrl, StandardCharsets.UTF_8));
+
+        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
     private void validateFileExists(String fileName) throws FileNotFoundException {
         if(!amazonS3Client.doesObjectExist(bucket, fileName))
             throw new FileNotFoundException();
     }
+    private String getUniqueFileName(String directory, String baseName, String extension) {
+        String fileName = baseName + extension;
+        String newFileName = fileName;
+        int count = 1;
+        Path filePath = Paths.get(directory + newFileName);
+        while (Files.exists(filePath)) {
+            newFileName = baseName + "(" + count+")" + extension;
+            filePath = Paths.get(directory + newFileName);
+            count++;
+        }
+        return newFileName;
+    }
 }
+
+
