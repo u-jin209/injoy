@@ -787,7 +787,7 @@ function boardImg() {
                             preview.addEventListener('click', function () {
                                 downloadBoardImg(response[i].fileId);
                             });
-                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                            preview.src = response[i].fileRealPath ;
 
                             previewsContainer.append(preview);
                         } else {
@@ -796,7 +796,7 @@ function boardImg() {
                             const fPreviewsContainer = $(this).find('.file-container-board');
                             const filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
-                            filePreview.textContent = count + '. ' + response[i].uniqueName + response[i].fileExtension;
+                            filePreview.textContent = count + '. ' + response[i].fileName + response[i].fileExtension;
                             filePreview.addEventListener('click', function () {
                                 downloadBoardImg(response[i].fileId);
                             });
@@ -832,9 +832,9 @@ function downloadBoardImg(fileId) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let element = document.createElement('a');
-                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('href', response.fileRealPath );
                     element.setAttribute('download', response.uniqueName + response.fileExtension);
-                    element.setAttribute('type', 'media_type')
+
                     document.body.appendChild(element);
                     element.click();
                     //document.body.removeChild(element);
@@ -997,7 +997,7 @@ function TaskImg() {
                             preview.addEventListener('click', function () {
                                 downloadTaskImg(response[i].fileId);
                             });
-                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                            preview.src = response[i].fileRealPath ;
 
 
                             previewsContainer.append(preview);
@@ -1007,7 +1007,7 @@ function TaskImg() {
                             const fPreviewsContainer = $(this).find('.file-container-task');
                             const filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
-                            filePreview.textContent = count + '. ' + response[i].uniqueName + response[i].fileExtension;
+                            filePreview.textContent = count + '. ' + response[i].fileName + response[i].fileExtension;
                             filePreview.addEventListener('click', function () {
                                 downloadTaskImg(response[i].fileId);
                             });
@@ -1044,9 +1044,9 @@ function downloadTaskImg(fileId) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let element = document.createElement('a');
-                    element.setAttribute('href', response.fileRealPath + response.uniqueName + response.fileExtension);
+                    element.setAttribute('href', response.fileRealPath );
                     element.setAttribute('download', response.uniqueName + response.fileExtension);
-                    element.setAttribute('type', 'media_type')
+
                     document.body.appendChild(element);
                     element.click();
                     //document.body.removeChild(element);
@@ -1232,6 +1232,7 @@ function showHomeMap(mapAddress, mapView){
     console.log("주소 : " + address);
     geocoder.geocode({'address': address}, function (results, status) {
 
+
         if (status == 'OK') {
             console.log('this is OK');
             // var tmp = (results[0].geometry.location).toString();
@@ -1266,6 +1267,7 @@ function showHomeMap(mapAddress, mapView){
         }
     });
 }
+
 
 function limitCComment() {
     $('.boardBox').each(function () {

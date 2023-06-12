@@ -5,6 +5,7 @@ import com.inzent.injoy.model.FolderDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.service.FileService;
 import com.inzent.injoy.service.FolderService;
+import com.inzent.injoy.service.S3Uploader;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +37,12 @@ import java.util.*;
 public class FileController {
     @Value("${part.upload.path}")
     private String FileDirPath;
-
+    private final S3Uploader s3Upload;
     private final FolderService folderService;
     private final FileService fileService;
 
-    public FileController(FolderService folderService, FileService fileService) {
+    public FileController(S3Uploader s3Upload, FolderService folderService, FileService fileService) {
+        this.s3Upload = s3Upload;
         this.folderService = folderService;
         this.fileService = fileService;
     }
@@ -97,7 +99,6 @@ public class FileController {
             //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 
-            //String uploadFolder = "C:\\test\\upload";
 
 
             UUID uuid = UUID.randomUUID();
@@ -109,8 +110,12 @@ public class FileController {
             file.transferTo(saveFile);
             String[] filePath = String.valueOf(saveFile).split("web");
 
-            System.out.println("filePath : " + filePath);
-            fileDTO.setFileRealPath(FileDirPath + "uploadFile/" );
+            String path = s3Upload.upload(saveFile,"uploadFile/");
+
+            System.out.println("filePath = " + path.substring(path.lastIndexOf("/%2F")+4));
+
+
+            fileDTO.setFileRealPath( path.substring(path.lastIndexOf("/%2F")+4));
             fileDTO.setUniqueName(uniqueName);
             fileDTO.setFileExtension(fileExtension);
         }
@@ -265,7 +270,7 @@ public class FileController {
 
         for (FileDTO f : fileList) {
 
-            file(f, userName, request);
+            s3Upload.getObject(f);
 
         }
         return "redirect:/project/myProject";
@@ -274,9 +279,58 @@ public class FileController {
     @ResponseBody
     @GetMapping("file")
     public ResponseEntity<Object> file(FileDTO f,String userName, HttpServletRequest request) throws IOException {
-        String path = request.getServletContext().getRealPath(FileDirPath) + "uploadFile/"; // 파일이 저장된 디렉토리 경로
-//        Path downloadsPath = Paths.get("C:\\Users", userName, "Downloads");
-//        String savePath =  downloadsPath.toString();
+//        String path = request.getServletContext().getRealPath(FileDirPath) + "uploadFile/"; // 파일이 저장된 디렉토리 경로
+//
+//
+//
+//        String savePath = System.getProperty("user.home") + "\\Downloads\\";
+//
+//
+//
+//
+//        System.out.println("savePath = " + savePath);
+//        try {
+//            Path filePath = Paths.get(f.getFileRealPath());
+//            Resource resource = new FileSystemResource(filePath.toFile());
+//
+//
+//            // 현재 시간을 한국 시간대로 가져옴
+//            ZoneId zoneId = ZoneId.of("Asia/Seoul");
+//            ZonedDateTime currentTime = ZonedDateTime.now(zoneId);
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+//            String formattedTime = currentTime.format(formatter);
+//
+//            System.out.println("formattedTime = " + formattedTime);
+//
+//
+//            String newFileName = getUniqueFileName(savePath, f.getFileName(), f.getFileExtension());
+//            String saveFilePath = savePath + newFileName;
+//            Files.copy(filePath, Paths.get(saveFilePath), StandardCopyOption.REPLACE_EXISTING);
+//
+//
+//
+//            // 다운로드할 파일의 MIME 타입 설정
+//            String mimeType = request.getServletContext().getMimeType(saveFilePath);
+//
+//            // 다운로드할 파일의 Content-Disposition 헤더 설정
+//            HttpHeaders headers = new HttpHeaders();
+//
+//            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(formattedTime+"_"+f.getFileName()).build());
+//            headers.setCacheControl("no-cache");
+//            headers.setContentType(MediaType.parseMediaType(mimeType));
+//            headers.set(HttpHeaders.DATE, formattedTime);
+//
+//            return ResponseEntity.ok()
+//                    .headers(headers)
+//                    .contentLength(resource.contentLength())
+//                    .body(resource);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+
+        String path = f.getFileRealPath(); // 파일이 저장된 디렉토리 경로
+
+
 
         String savePath = System.getProperty("user.home") + "\\Downloads\\";
 
@@ -285,7 +339,7 @@ public class FileController {
 
         System.out.println("savePath = " + savePath);
         try {
-            Path filePath = Paths.get(path + f.getUniqueName() + f.getFileExtension());
+            Path filePath = Paths.get(f.getFileRealPath());
             Resource resource = new FileSystemResource(filePath.toFile());
 
 
@@ -322,7 +376,6 @@ public class FileController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
     private String getUniqueFileName(String directory, String baseName, String extension) {
         String fileName = baseName + extension;

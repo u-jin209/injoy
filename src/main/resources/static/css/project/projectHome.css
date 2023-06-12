@@ -547,6 +547,7 @@ ul, li, span{
     clear: both;
 }
 
+
 .post-calendar-date {
     position: relative;
     overflow: hidden;
@@ -643,3 +644,4 @@ ul, li, span{
     object-position: 0 15%;
     object-fit: cover;
 }
+
