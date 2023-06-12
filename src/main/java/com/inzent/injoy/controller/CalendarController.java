@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.CalendarCommentService;
 import com.inzent.injoy.service.CalendarService;
+import groovy.transform.Internal;
 import jakarta.servlet.http.HttpServletRequest;
 import net.minidev.json.writer.CollectionMapper;
 import org.json.simple.JSONArray;
@@ -456,6 +457,49 @@ public class CalendarController {
         return "redirect:/project/" + calendarDTO.getProjectId();
 
     }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "modifyComment")
+    public void modifyCommentMethod(HttpServletRequest request) {
+        int commentId = Integer.parseInt(request.getParameter("commentId"));
+        String comment = request.getParameter("commentVal");
+
+        CalCommentDTO c = new CalCommentDTO();
+        c.setCalCommentId(commentId);
+        c.setCalComContent(comment);
+
+        calendarCommentService.update(c);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

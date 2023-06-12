@@ -12,7 +12,8 @@
     </select>
     <select id="selectAll" parameterType="CalCommentDTO" resultType="CalCommentDTO">
         select * from injoy."calComment"
-        where "calComProjectId" = #{projectId} and "calComCalId" =  #{calendarId};
+        where "calComProjectId" = #{projectId} and "calComCalId" =  #{calendarId}
+        order by "calComRegisterDate"
     </select>
 
     <insert id="insert"  parameterType="CalCommentDTO" >
