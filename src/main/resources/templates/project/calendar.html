@@ -527,6 +527,8 @@
     </div>
 </div>
 
+
+
 <!--  사이드 슬라이드  HTML -->
 <div class="wrap-header-cart js-show-schedule">
     <div class="s-full js-hide-cart"></div>
@@ -585,7 +587,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                 <li id="modScheduleLi"><a class="dropdown-item" onclick="openModifySchedule()" ><i class="bi bi-card-text"></i>수정</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크 복사</a></li>
-                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod(${projectId},${scheduleId});"><i class="bi bi-trash3"></i> 삭제</a>
+                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod([[${projectId}]],[[${calendarId}]]);"><i class="bi bi-trash3"></i> 삭제</a>
                                 </li>
                             </ul>
                         </div>
@@ -693,7 +695,6 @@
                            placeholder="댓글을 입력은 Enter 입니다." value=""
                            aria-label="Recipient's username" aria-describedby="button-addon2"
                            onkeyup="if( window.event.keyCode==13){sendComment()}"/>
-                    <!--  </form>-->
                 </div>
             </div>
         </div>
@@ -829,6 +830,13 @@
 
         </div>
     </div>
+</div>
+
+<div class="comment-container" style="padding: 0;">
+    <input type="text" class="commentInput" id="post_comment_input2"
+           placeholder="댓글을 입력은 Enter 입니다." value=""
+            aria-describedby="button-addon2"
+           onkeyup="if( window.event.keyCode==13){sendComment()}"/>
 </div>
 
 <script>
@@ -972,6 +980,7 @@
         $(function () {
             var calendarEll = document.getElementById('calendar');
             var calendarr = new FullCalendar.Calendar(calendarEll, {});
+
             let data = {
                 "activeStart": calendarr.view.activeStart,
                 "activeEnd": calendarr.view.activeEnd
@@ -1067,10 +1076,11 @@
                                         $(ul).append(
                                             "<li id='" + comment.calCommentId + "'>" +
                                             "<div style='display: flex;' class='m-3'>" +
-                                            "<div class='col-1' id='col"+comment.calCommentId+"'>" +
+                                            "<div class='col-1' id='col"+comment.calCommentId+"' style='width: 100%;'>" +
                                             "<span class='thumbnail size40 radius16' style='background-image: url(/img/penguin.jpg)'>" +
                                             "</span></div>" +
                                             "<div class='col-11' id='comment"+comment.calCommentId+"'>" +
+                                            "<div id='tmptmp"+comment.calCommentId+"'>" +
                                             "<div style='display: flex; justify-content: space-between'>" +
 
                                             "<div style='display: flex; flex-direction: row'>" +
@@ -1082,7 +1092,7 @@
 
                                             "<div id='commentDelnModi'>" +
                                             "<div class='' style='margin-right: 5px'>" +
-                                            "<a class='bi bi-pencil-square' type='button' style='color: #AAAAAA;' onClick='modifyCalComment(" + comment.calCommentId + ")'></a>" +
+                                            "<a class='bi bi-pencil-square' type='button' style='color: #AAAAAA;' onClick='modifyCalComment(" + comment.calCommentId + ","+ comment.calComProjectId + ","+ comment.calComCalId +")'></a>" +
                                             "</div>" +
                                             "<div class=''>" +
                                             "<a class='bi bi-trash3' type='button' style='color: #AAAAAA;' onclick='deleteCalComment(" + comment.calCommentId + ","+ comment.calComProjectId + ","+ comment.calComCalId +")'></a>" +
@@ -1090,11 +1100,14 @@
                                             "</div>" +
 
 
+
                                             "</div>" +
 
-                                            "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
+                                            "<div id='cmtcmt"+comment.calCommentId+"' style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
                                             "</div>" +
                                             "</div>" +
+                                            "</div>" +
+
                                             "<hr style='color: rgb(126,125,125);'>" +
                                             "</li>");
                                     } else {
@@ -1318,30 +1331,56 @@
 </script>
 
 
-<!--                comment modify                -->
-<!--                comment modify                -->
-<!--                comment modify                -->
-<!--                comment modify                -->
+
 <!--                comment modify                -->
 <script>
-    function modifyCalComment(commentId){
-        var commentId = document.getElementById("comment"+commentId);
-        commentId.style.display = "none";
-        commentId.
+    function modifyCalComment(commentId, projectId, calendarId){
+        var cmtId = document.getElementById("tmptmp"+commentId);
+        cmtId.style.display = "none";
 
+        var col11 = document.getElementById("comment"+commentId);
+        var commment = document.getElementById("cmtcmt"+commentId);
+        commenttt =  commment.innerText;
 
-
-        var col1 = document.getElementById("col"+commentId);
-        $(col1).append(
-            // "<div className='comment-container' style='padding: 0;'>" +
-            //     "<input type='text' className='commentInput' id='commentModifyId' placeholder='댓글을 입력은 Enter 입니다.' value='' aria-label='' aria-describedby='button-addon2' onKeyUp='if( window.event.keyCode==13){method()}'/>" +
-            // "</div>"
+        $(col11).append(
+            "<div class='comment-container' style='padding: 0; width: 100%;'>" +
+            "<input type='text' class='commentInput' id='commentModifyId"+commentId+"'  style='padding: 0; !important; width: 100%;' placeholder='댓글을 입력은 Enter 입니다.' value='"+commenttt+"' aria-label='' aria-describedby='button-addon2' onKeyUp='if(window.event.keyCode==13){cmtModifyMethod(" + commentId + ","+ projectId + ","+ calendarId +")}'/>" +
+            "</div>"
         );
+    }
+
+    function cmtModifyMethod(commentId, projectId, calendarId){
+        var commentVal = document.getElementById("commentModifyId"+commentId).value;
+        commentData = {"projectId" : projectId,
+            "calendarId" : calendarId,
+            "commentId" : commentId,
+            "commentVal" : commentVal
+            };
+
+        $.ajax({
+            url: "/modifyComment",
+            type: "POST",
+            data: commentData,
+            success: function () {
+                console.log("성공 후  코드를 입력해 주세요");
+                var cmtId = document.getElementById("tmptmp"+commentId);
+                cmtId.style.display = "block";
+
+                var commentModifyIdTag = document.getElementById("commentModifyId"+commentId);
+                commentModifyIdTag.style.display = "none";
+
+            },
+            error: function (request, status, error) {
+                console.log("통신 실패");
+                console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+            }
+        });
 
 
     }
-</script>
 
+
+</script>
 
 
 

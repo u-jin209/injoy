@@ -6,6 +6,7 @@ import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.CalendarCommentService;
 import com.inzent.injoy.service.CalendarService;
+import groovy.transform.Internal;
 import jakarta.servlet.http.HttpServletRequest;
 import net.minidev.json.writer.CollectionMapper;
 import org.json.simple.JSONArray;
@@ -393,6 +394,49 @@ public class CalendarController {
         System.out.println("삭제할 아이디 = " + id);
         calendarCommentService.delete(id);
     }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "modifyComment")
+    public void modifyCommentMethod(HttpServletRequest request) {
+        int commentId = Integer.parseInt(request.getParameter("commentId"));
+        String comment = request.getParameter("commentVal");
+
+        CalCommentDTO c = new CalCommentDTO();
+        c.setCalCommentId(commentId);
+        c.setCalComContent(comment);
+
+        calendarCommentService.update(c);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

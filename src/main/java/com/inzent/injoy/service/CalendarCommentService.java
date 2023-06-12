@@ -33,6 +33,9 @@ public class CalendarCommentService {
         return session.selectOne(NAMESPACE + ".selectOne", c);
     }
 
+    public void update(CalCommentDTO c){
+        session.update(NAMESPACE + ".update", c);
+    }
 
 
 

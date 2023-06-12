@@ -6,7 +6,8 @@
 
     <select id="selectAll" parameterType="CalCommentDTO" resultType="CalCommentDTO">
         select * from injoy."calComment"
-        where "calComProjectId" = #{projectId} and "calComCalId" =  #{calendarId};
+        where "calComProjectId" = #{projectId} and "calComCalId" =  #{calendarId}
+        order by "calComRegisterDate"
     </select>
 
     <insert id="insert"  parameterType="CalCommentDTO" >
@@ -24,6 +25,12 @@
         where "calComProjectId"= #{calComProjectId} and "calComCalId" = #{calComCalId}
         order by "calCommentId" DESC limit 1
     </select>
+
+    <update id="update" parameterType="CalCommentDTO">
+        UPDATE "injoy"."calComment"
+        SET "calComContent"=#{calComContent}
+        WHERE "calCommentId"=#{calCommentId}
+    </update>
 
 
 </mapper>

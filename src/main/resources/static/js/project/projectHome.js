@@ -1262,7 +1262,7 @@ function showHomeMap(mapAddress, mapView){
 
         } else {
             console.log("this is an !ERROR!" + status);
-            alert('Geocode was not successful for the following reason: ' + status);
+            // alert('Geocode was not successful for the following reason: ' + status);
         }
     });
 }
