@@ -1,5 +1,6 @@
 package com.inzent.injoy.controller;
 
+import com.inzent.injoy.model.ChatRoomDTO;
 import com.inzent.injoy.model.UserCustomDetails;
 import com.inzent.injoy.model.UserDTO;
 import com.inzent.injoy.service.OrganService;
@@ -236,4 +237,22 @@ public class UserController {
         return userDTO;
     }
 
-}
+    @PostMapping("updateConversation")
+    public ResponseEntity<Map<String, Object>> createProjectChatRoom(@RequestParam String conversation,@AuthenticationPrincipal UserCustomDetails login) {
+        UserDTO userDTO = login.getUserDTO();
+        String loginConversation = userService.findConversation(userDTO.getId());
+        Map<String, Object> data = new HashMap<>();
+        if (loginConversation.equals("available")) {
+            data.put("conversation", "away");
+            userDTO.setConversation("away");
+            userService.updateConversation(userDTO);
+        } else if (loginConversation.equals("away")) {
+            data.put("conversation", "available");
+            userDTO.setConversation("available");
+            userService.updateConversation(userDTO);
+        }
+        return ResponseEntity.ok(data);
+    }
+
+
+    }

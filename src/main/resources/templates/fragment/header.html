@@ -29,6 +29,60 @@
     <!-- alert 창-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <style>
+        .login-info{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .login-info-name{
+            display: flex;
+            flex-direction: column;
+        }
+        .login-info-state {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .login-info-state p{
+            font-size: 14px;
+            color: #989797;
+        }
+        .showConnections-header {
+            padding: 0;
+            background-color: rgb(35, 165, 89);
+
+            /*background-color: rgb(128, 132, 142);*/
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+            width: 7px;
+            height: 7px;
+            border-radius: 100%;
+            margin-right: 5px;
+        }
+        .showConnections-header2 {
+            padding: 0;
+            background-color: rgb(128, 132, 142);
+
+            /*background-color: rgb(128, 132, 142);*/
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+            width: 7px;
+            height: 7px;
+            border-radius: 100%;
+            margin-right: 5px;
+        }
+        .showConnections-header3{
+            padding: 0;
+            background-color: rgb(128, 132, 142);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            position: absolute;
+            /*right: 12px;*/
+            top: 23px;
+            left: 29px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -40,9 +94,27 @@
                   <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                     <img style="height: 27px; width: 27px;border-radius: 30%" th:src="@{${logIn.profilePhoto}}"
                          onerror=this.src='/img/user.jpg'>
+                      <div class="showConnections-header3" id="showConnectionsHeader3"></div>
                   </button>
                   <ul class="dropdown-menu"  id='dropbox' >
+                    <li class="dropdown-item login-info" id="login-info">
+                        <img style="height: 38px; margin-right: 12px; width: 38px;border-radius: 30%" th:src="@{${logIn.profilePhoto}}"
+                             onerror=this.src='/img/user.jpg'>
+                        <div class="login-info-name">
+                            <strong><p th:text="${logIn.name}" style="margin: 0"></p></strong>
+                            <div class="login-info-state" id="loginInfoState1">
+                                <div class="showConnections-header"></div>
+                                <p style="margin: 0">대화 가능</p>
+                            </div>
+                             <div class="login-info-state" id="loginInfoState2">
+                                <div class="showConnections-header2"></div>
+                                <p style="margin: 0">자리 비움</p>
+                            </div>
+                        </div>
+                    </li>
                     <li><a class="dropdown-item"  href="/user/userInfo">유저정보</a></li>
+                    <li id="logInConversation1"><a class="dropdown-item"  href="#" onclick="conversationAway()">자신을 <strong>자리 비움</strong>(으)로 설정</a></li>
+                      <li id="logInConversation2"><a class="dropdown-item"  href="#" onclick="conversationAvailable()">자신을 <strong>활성</strong>(으)로 설정</a></li>
 
                     <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#" onclick="withdrawal()">회원탈퇴</a></li>
@@ -64,7 +136,15 @@
 
 </body>
 <script th:inline="javascript">
-
+    const loginInfo = document.getElementById("login-info");
+    const logInConversation1 = document.getElementById("logInConversation1");
+    const logInConversation2 = document.getElementById("logInConversation2");
+    const loginInfoState1 = document.getElementById("loginInfoState1");
+    const loginInfoState2 = document.getElementById("loginInfoState2");
+    const showConnectionsHeader3 = document.getElementById("showConnectionsHeader3");
+    loginInfo.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
     function logout() {
         Swal.fire({
             text: '로그아웃 하시겠습니까?',
@@ -117,5 +197,47 @@
             });
 
     }
+
+    function conversationUpdate(){
+        $.ajax({
+            url:'/user/updateConversation',
+            type:'post',
+            data:{
+                'conversation':logInConversation
+            },
+            success:function (result){
+                let item = JSON.parse(JSON.stringify(result));
+                if (item.conversation == 'away') {
+                    logInConversation1.textContent ='활성'
+                }else{
+                    logInConversation2.textContent ='자리 비움'
+                }
+            }
+        });
+    }
+
+    function conversationAway() {
+        stompClient.send("/pub/connect/conversationAway",
+            {},JSON.stringify({
+                id:logInId
+            }))
+        // stompClient.unsubscribe('/sub/connect');
+        // stompClient.disconnect();
+
+    }
+
+    function conversationAvailable() {
+        stompClient.subscribe('/sub/connect', onMessageReceived);
+
+        // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
+        // /pub/chat/enterUser 로 메시지를 보냄
+        stompClient.send("/pub/connect/conversationAvailable",
+            {},JSON.stringify({
+                id:logInId,
+                conversation: logInConversation
+            }))
+    }
+
+
 </script>
 </html>
