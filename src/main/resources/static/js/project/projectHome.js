@@ -1492,11 +1492,10 @@ function modifyCalendar() {
                         // document.getElementById("mapImage").style.visibility='hidden';
                         document.getElementById("mapImage").remove();
                     } else {
-                        getPlace();
+                        getHomePlace();
                     }
 
-                    function getPlace() {
-                        console.log("getPlace method ")
+                    function getHomePlace() {
                         const input = document.getElementById("calAddress-home");
                         const options = {
                             //add options here if you want more customizations
@@ -1508,7 +1507,7 @@ function modifyCalendar() {
                 });
 
                 window.addEventListener('load', function(event){
-                    console.log("getPlace method ")
+
                     const input = document.getElementById("calAddress-home");
                     const options = {
                         //add options here if you want more customizations
