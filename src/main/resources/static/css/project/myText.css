@@ -3,7 +3,6 @@
     position: relative;
     min-width: 750px;
     height: 80px;
-    background: #fff;
     z-index: 12;
 }
 
@@ -29,6 +28,10 @@
     -webkit-mask-size: 100% 20000px;
     -webkit-mask-position: left bottom;
     transition: mask-position .3s,-webkit-mask-position .3s;
+}
+
+.scroll-mask::-webkit-scrollbar{
+    display:none;
 }
 
 .myText-list{
