@@ -152,8 +152,9 @@ public class BoardController {
                     File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                     file.transferTo(saveFile);
                     String[] filePath = String.valueOf(saveFile).split("web");
+                    String path = s3Upload.upload(saveFile,"uploadFile/");
 
-                    fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                    fileDTO.setFileRealPath(path);
                     fileDTO.setUniqueName(uniqueName);
                     fileDTO.setFileExtension(fileExtension);
                 }

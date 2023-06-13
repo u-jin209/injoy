@@ -153,6 +153,7 @@ $(function () {
         let targetElement = event.target;
         let boardWriteTabPane = document.getElementById('boardWrite-tab-pane');
         let taskWriteTabPane = document.getElementById('taskWrite-tab-pane');
+        let scheWriteTabPane = document.getElementById('scheduleWrite-tab-pane');
 
         // boardWrite-tab-pane 영역 이외의 클릭이 발생한 경우 값을 제거합니다.
         if (targetElement !== boardWriteTabPane && !boardWriteTabPane.contains(targetElement)) {
@@ -182,6 +183,28 @@ $(function () {
             $('.writeBox-progress-txt').text('')
 
             $('.writeContent').val('')
+        }
+
+        // taskWrite-tab-pane 영역 이외의 클릭이 발생한 경우 값을 제거합니다.
+        if (targetElement !== scheWriteTabPane && !scheWriteTabPane.contains(targetElement)) {
+            document.getElementById('writeBox-scheduleTitle').value = '';
+            document.getElementById('writeBox-schedulePlace').value = '';
+            flatpickr(".writeBox-scheduleStartDate", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: true,
+                defaultDate : new Date(),
+                minDate: new Date()
+            });
+
+            flatpickr(".writeBox-scheduleEndDate", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: true,
+                defaultDate : writeBox_date
+            });
+            $('#writeBox-imgDiv').html('')
+            $('.writeBox-scheduleContent').val('')
         }
     });
 
@@ -280,14 +303,8 @@ $(function () {
             formData.append('calAddress', $('.writeBox-schedulePlace').val());
             formData.append('calStart', $('.writeBox-scheduleStartDate').val() ? new Date($('.writeBox-scheduleStartDate').val()) : new Date(0));
             formData.append('calEnd', $('.writeBox-scheduleEndDate').val() ? new Date($('.writeBox-scheduleEndDate').val()) : new Date(0));
+            formData.append('calImgSrc', $('#writeBox-imgDiv #mapImage').attr('src'));
 
-            // let files = document.querySelector('.taskFile').files;
-            //
-            // for (let i = 0; i < files.length; i++) {
-            //     formData.append('files', files[i]);
-            // }
-
-            console.log(formData)
 
             $.ajax({
                 url: '/calendar/write',

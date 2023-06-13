@@ -2,6 +2,32 @@
     margin: 0 0 15px 0;
 }
 
+#homeBody::-webkit-scrollbar{
+    display:none;
+}
+
+section {
+    height: 900px;
+    overflow-y: scroll;
+}
+
+section::-webkit-scrollbar{
+    display:none;
+}
+
+.project-grow {
+    margin: 50px 0;
+    font-weight:bold;
+    font-size: 16px;
+}
+
+.tree-project-area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    height: 450px;
+}
+
 .none-title{
     display: flex;
     -webkit-box-pack: justify;
@@ -17,13 +43,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
     color: #333;
 }
 
 .none-content{
-    text-align: end;
+    text-align: center;
     margin: 60px auto;
 }
 
@@ -34,22 +60,22 @@
     text-align: center;
     letter-spacing: -.02em;
     color: #999;
-    margin-left: 120px;
 }
 
 .project-content{
     width: 80%;
+    margin: 15px 30px;
 }
 
 .boardBox{
     width: 100%;
     overflow: hidden;
-    margin: 15px 30px;
     border : 1px solid #777;
     border-radius: 6px;
     background-color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, .04);
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .comment-input-wrap {

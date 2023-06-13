@@ -165,6 +165,11 @@ $(function () {
 })
 
 function all() {
+
+    $('#task-search-end').click(function () {
+        location.reload()
+    })
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top',
@@ -1209,6 +1214,7 @@ function taskPageDeleteTask() {
 function searchTaskEnter(projectId) {
     if (event.keyCode === 13) {
         const keyword = document.getElementById('searchTask').value;
+        $('#task-search-end').css('display', 'block')
 
         if (keyword !== "") {
             const formData = {
@@ -1229,8 +1235,7 @@ function searchTaskEnter(projectId) {
                                     if (parseInt($(this).find('#taskId').text()) === result[i].taskId) {
 
                                         let newTr = $(this).context.outerHTML
-                                        $('.searchTbody').append(newTr)
-                                        $('.taskTableTbody').css('display', 'none')
+                                        $('.taskTableTbody').html(newTr)
 
                                     }
 

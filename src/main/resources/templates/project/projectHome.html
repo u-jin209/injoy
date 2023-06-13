@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
-<body id="homeBody" style="overflow-x: hidden">
+<body id="homeBody" style="overflow-x: hidden;">
 <div class="row" id="homeContent" style="padding: 0 10rem">
     <section class="col-8" style="display: flex;flex-wrap: wrap; padding-right: 3rem">
         <div class="taskReportArea" th:style="${#lists.isEmpty(taskList)} ? 'display:none' : 'display:block'">
@@ -137,13 +137,13 @@
             </div>
         </div>
         <th:block th:replace="~{fragment/writeBox :: writeBoxfragment(${project})}"></th:block>
-        <div class="project-content" th:if="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
-            <div class="content-none-area" style="width: 80%; margin: 15px 30px;">
+        <div class="project-content" th:if="${#lists.isEmpty(allList)}">
+            <div class="content-none-area" style="width: 100%; margin: 15px 30px;">
                 <div class="none-title">
                     <h4>전체</h4>
                 </div>
                 <div class="none-content">
-                    <img src="/img/homeImg.png" alt="img"/>
+                    <img src="/img/homeImg.png" alt="img" />
                     <p class="none-text">
                         아직 논의중인 내용이 없습니다.
                         <br/>
@@ -152,8 +152,8 @@
                 </div>
             </div>
         </div>
-        <div class="project-content" th:unless="${#lists.isEmpty(boardList)} and ${#lists.isEmpty(taskList)}">
-            <div class="none-title" style="width: 80%; margin: 15px 30px;">
+        <div class="project-content" th:unless="${#lists.isEmpty(allList)}">
+            <div class="none-title">
                 <h4>전체</h4>
             </div>
             <div class="boardBox" th:each="task : ${allList}">
@@ -756,13 +756,12 @@
                     <span>참여자 </span>
                     <span th:text="${memberList.size}" style="color:#777777"></span>
                 </div>
-
-                <span class="col text-end" style="font-size: 12px;">전체보기</span>
             </div>
         </div>
         <div class="currentMember-chatting">
-            <div class="currentMember">
-                <div class="currentMember-authority mb-2" style="font-size: 12px">프로젝트 관리자</div>
+            <div class="currentMember" >
+                <div class="currentMember-authority mb-2" th:each="member : ${memberList}" style="font-size: 12px" th:if="${member.userId == login.id && member.authority == 'MANAGER'}" >프로젝트 관리자</div>
+                <div class="currentMember-authority mb-2" th:each="member : ${memberList}" style="font-size: 12px" th:if="${member.userId == login.id && member.authority != 'MANAGER'}" >프로젝트 참여자</div>
                 <div class="row mb-3">
                     <div class="col-2">
                     <span class="postProfile thumbnail"
@@ -782,6 +781,17 @@
                     채팅
                 </span>
                 </button>
+            </div>
+        </div>
+        <div class="project-grow">
+            <span>프로젝트 달성도(완료)</span>
+            <div class="tree-project-area" style="position: relative">
+                <h1 th:text="${#lists.size(taskList.?[process == '완료'])}" style="position: absolute; top: 30%; left: 50%; transform: translate( -50%, -50% ); color: black;"></h1>
+                <img src="/img/seed.png" alt="seed" style="width: 100%; height: 500px" th:if="${#lists.size(taskList.?[process == '완료'])} <= 10"/>
+                <img src="/img/leaf.png" alt="leaf" style="width: 100%; height: 500px" th:if="${#lists.size(taskList.?[process == '완료'])} > 10 and ${#lists.size(taskList.?[process == '완료'])} <=20"/>
+                <img src="/img/branch.png" alt="branch" style="width: 100%; height: 500px" th:if="${#lists.size(taskList.?[process == '완료'])} > 20 and ${#lists.size(taskList.?[process == '완료'])} <=30"/>
+                <img src="/img/tree.png" alt="tree" style="width: 100%; height: 500px" th:if="${#lists.size(taskList.?[process == '완료'])} > 30 and ${#lists.size(taskList.?[process == '완료'])} <=40"/>
+                <img src="/img/fruit.png" alt="fruit" style="width: 100%; height: 500px" th:if="${#lists.size(taskList.?[process == '완료'])} > 40"/>
             </div>
         </div>
     </div>

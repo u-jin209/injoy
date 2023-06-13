@@ -832,9 +832,8 @@ function downloadBoardImg(fileId) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let element = document.createElement('a');
-                    element.setAttribute('href', response.fileRealPath );
-                    element.setAttribute('download', response.uniqueName + response.fileExtension);
-
+                    element.setAttribute('href', response.fileRealPath);
+                    element.setAttribute('download', response.uniqueName+ response.fileExtension);
                     document.body.appendChild(element);
                     element.click();
                     //document.body.removeChild(element);
