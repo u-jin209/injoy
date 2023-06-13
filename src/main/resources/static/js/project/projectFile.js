@@ -542,7 +542,24 @@ function  downloadFile(){
             url: '/file/downloadFile',
             type: 'GET',
             data: {"fileArr":fileArr},
-            success: () => {
+            success: (result) => {
+                result.forEach(function (response) {
+
+                    let element = document.createElement('a');
+
+                    element.setAttribute('id','downFile')
+                    element.setAttribute('href', response.fileRealPath);
+                    element.setAttribute('download', response.fileName + response.fileExtension);
+
+                    document.body.appendChild(element);
+
+                    fnSleep(1000);
+
+                    console.log(element)
+                    element.click();
+
+                });
+
                 Swal.fire({
                     title: '다운이 완료되었습니다!',
                     text: '다운로드 폴더를 확인해주세요',
@@ -560,6 +577,12 @@ function  downloadFile(){
 
 }
 
+fnSleep = function (delay){
+
+    var start = new Date().getTime();
+    while (start + delay > new Date().getTime());
+
+};
 
 
 

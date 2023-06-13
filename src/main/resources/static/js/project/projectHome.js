@@ -832,8 +832,9 @@ function downloadBoardImg(fileId) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let element = document.createElement('a');
-                    element.setAttribute('href', response.fileRealPath);
-                    element.setAttribute('download', response.uniqueName+ response.fileExtension);
+                    element.setAttribute('href', response.fileRealPath );
+                    element.setAttribute('download', response.fileName + response.fileExtension);
+                    element.download = response.fileName + response.fileExtension;
                     document.body.appendChild(element);
                     element.click();
                     //document.body.removeChild(element);
@@ -1043,33 +1044,34 @@ function downloadTaskImg(fileId) {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    // let element = document.createElement('a');
-                    // element.setAttribute('href', response.fileRealPath );
-                    // element.setAttribute('download', response.uniqueName + response.fileExtension);
-                    //
-                    // document.body.appendChild(element);
-                    // element.click();
-                    //document.body.removeChild(element);
+                    let element = document.createElement('a');
+                    element.setAttribute('href', response.fileRealPath );
+                    element.setAttribute('download', response.fileName + response.fileExtension);
 
-                    fetch(response.fileRealPath, { method: 'GET' })
-                        .then((res) => {
-                            return res.blob() // raw 데이터를 받아온다
-                        })
-                        .then((blob) => {
-                            const url = window.URL.createObjectURL(blob) // 받아온 날 상태의 data를 현재 window에서만 사용하는 url로 바꾼다
-                            const a = document.createElement('a')
-                            a.href = url
-                            a.download =  response.uniqueName + response.fileExtension// 원하는 이름으로 파일명 지정
-                            document.body.appendChild(a)
-                            a.click() // 자동으로 눌러버리기
-                            setTimeout((_) => {
-                                window.URL.revokeObjectURL(url) // 해당 url을 더 사용 못하게 날려버린다
-                            }, 60000)
-                            a.remove() // a를 다 사용했으니 지워준다
-                        })
-                        .catch((err) => {
-                            console.error('err: ', err)
-                        })
+                    element.download = response.fileName + response.fileExtension;
+                    document.body.appendChild(element);
+                    element.click();
+                    document.body.removeChild(element);
+
+                    // fetch(response.fileRealPath, { method: 'GET' })
+                    //     .then((res) => {
+                    //         return res.blob() // raw 데이터를 받아온다
+                    //     })
+                    //     .then((blob) => {
+                    //         const url = window.URL.createObjectURL(blob) // 받아온 날 상태의 data를 현재 window에서만 사용하는 url로 바꾼다
+                    //         const a = document.createElement('a')
+                    //         a.href = url
+                    //         a.download =  response.uniqueName + response.fileExtension// 원하는 이름으로 파일명 지정
+                    //         document.body.appendChild(a)
+                    //         a.click() // 자동으로 눌러버리기
+                    //         setTimeout((_) => {
+                    //             window.URL.revokeObjectURL(url) // 해당 url을 더 사용 못하게 날려버린다
+                    //         }, 60000)
+                    //         a.remove() // a를 다 사용했으니 지워준다
+                    //     })
+                    //     .catch((err) => {
+                    //         console.error('err: ', err)
+                    //     })
 
                 }
             })
