@@ -1,30 +1,21 @@
 package com.inzent.injoy.controller;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.CalendarCommentService;
 import com.inzent.injoy.service.CalendarService;
 import jakarta.servlet.http.HttpServletRequest;
-import net.minidev.json.writer.CollectionMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -33,6 +24,8 @@ import java.util.*;
 @Controller
 public class CalendarController {
     private CalendarService calendarService;
+
+
     private CalendarCommentService calendarCommentService;
 
     public CalendarController(CalendarService calendarService, CalendarCommentService calendarCommentService) {
