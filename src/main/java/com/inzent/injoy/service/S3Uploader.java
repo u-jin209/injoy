@@ -35,7 +35,7 @@ public class S3Uploader {
         this.amazonS3Client = amazonS3Client;
     }
     public String upload(File uploadFile, String dirName)throws IOException {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = dirName + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
@@ -49,9 +49,11 @@ public class S3Uploader {
 //        return upload(uploadFile, dirName);
 //    }
     private String putS3(File uploadFile, String fileName) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentDisposition("attachment");
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
-                        .withCannedAcl(CannedAccessControlList.PublicRead)    // PublicRead 권한으로 업로드 됨
+                        .withCannedAcl(CannedAccessControlList.PublicRead).withMetadata(metadata)    // PublicRead 권한으로 업로드 됨
         );
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }

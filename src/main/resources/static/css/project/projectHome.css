@@ -2,7 +2,11 @@
     margin: 0 0 15px 0;
 }
 
-section{
+#homeBody::-webkit-scrollbar{
+    display:none;
+}
+
+section {
     height: 900px;
     overflow-y: scroll;
 }
