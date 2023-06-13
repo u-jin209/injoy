@@ -112,9 +112,13 @@
 
 </ul>
 <input type="hidden" id="logInId" th:value="${logIn.id}">
+<input type="hidden" id="logInConversation" th:value="${logIn.conversation}">
 <script>
     const logInId = document.getElementById('logInId').value;
+    const logInConversation = document.getElementById('logInConversation').value;
+    const memberBody = document.getElementById("memberBody");
 
+    console.log(logInConversation+'ddddddddddddddddddddddddddddddddddd')
     $(document).ready(function () {
         if (typeof SockJS !== 'undefined') {
 
@@ -160,16 +164,27 @@
     function onMessageReceived(payload) {
         let json = payload.body;
         let logInUsers = new Set(JSON.parse(json));
-        console.log("logInUserszzzzzzzzzzzzzzzzzzzzzzzz: " + logInUsers);
         const urlParams = new URL(location.href);
         const projectId = urlParams.pathname.split('/')[2];
-
+        if (logInUsers.has(parseInt(logInId))) {
+            logInConversation1.style.display = "block";
+            logInConversation2.style.display = "none";
+            loginInfoState1.style.display = "flex";
+            loginInfoState2.style.display = "none";
+            showConnectionsHeader3.style.backgroundColor="rgb(35, 165, 89)"
+        }else{
+            logInConversation1.style.display = "none";
+            logInConversation2.style.display = "block";
+            loginInfoState1.style.display = "none";
+            loginInfoState2.style.display = "flex";
+            showConnectionsHeader3.style.backgroundColor="rgb(128, 132, 142)"
+        }
 
         if (!isNaN(projectId)) {
-            printMemberList(projectId,logInUsers)
-            const enterMember = document.getElementById("enterMember")
-            enterMember.style.display= 'unset'
 
+            printMemberList(projectId,logInUsers);
+            const enterMember = document.getElementById("enterMember");
+            enterMember.style.display= 'unset';
         }
 
     }
@@ -232,46 +247,22 @@
 
     function printMemberList(projectId,logInUsers) {
         console.log("memberBody load")
-        console.log(logInUsers)
-        $('.memberBody').empty()
+
+        // $('.memberBody').empty()
 
         $.ajax({
             url: '/member/selectMember', //Controller에서 요청 받을 주소
             type: 'GET', //POST 방식으로 전달
             data: {"projectId": projectId},
             success: function (result) {
+                while (memberBody.firstChild) {
+                    memberBody.removeChild(memberBody.firstChild);
+                }
                 if (result.length >= 1) {
-                    console.log("memberBody >>>>>>>>>>" + result)
+                    console.log("memberBody >>>>>>>>>>" + result);
 
 
                     result.forEach(function (item) {
-                        // if(logInUsers.has(item.userId)){
-                        //     $('.memberBody').append(
-                        //         "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
-                        //
-                        //         "<div class='col-md-4' STYLE='margin: 0; !important; position: relative'>"+
-                        //         "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
-                        //         "</div>"+
-                        //         "<div class='col-md-6'>"+ item.name +
-                        //         "</div>"+
-                        //         "<div class='col-md-2 showConnections' style='background-color: rgb(35,165,89)'>"+
-                        //         "</div>"+
-                        //         "</div>"
-                        //     )
-                        // }else{
-                        //     $('.memberBody').append(
-                        //         "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
-                        //
-                        //         "<div class='col-md-4' STYLE='margin: 0; !important;'>"+
-                        //         "<img class='postProfile  thumbnail' style='border:none' src='"+ item.profilePhoto +"'  onerror=this.src='/img/moru.jpg'>" +
-                        //         "</div>"+
-                        //         "<div class='col-md-6'>"+ item.name +
-                        //         "</div>"+
-                        //         "<div class='col-md-2 showConnections'>"+
-                        //         "</div>"+
-                        //         "</div>"
-                        //     )
-                        // }
                         if(logInUsers.has(item.userId)){
                             $('.memberBody').append(
                                 "<div class='row sideMember'  style='align-items: center;height: 50px' >"+
@@ -299,11 +290,11 @@
                                 "</div>"
                             )
                         }
-                    })
+                    });
                 } else {
                     $('.memberBody').append(
                         "<p >비어있음</p>"
-                    )
+                    );
                 }
             }
 

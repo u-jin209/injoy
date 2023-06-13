@@ -18,8 +18,8 @@
     </select>
 
     <insert id="register" parameterType="UserDTO">
-        INSERT INTO injoy.user("username","password","email","name","role","phoneNumber","crtnDate","profilePhoto","organId","provider","providerId","emailVerified")
-        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified})
+        INSERT INTO injoy.user("username","password","email","name","role","phoneNumber","crtnDate","profilePhoto","organId","provider","providerId","emailVerified","conversation")
+        VALUES(#{username},#{password},#{email},#{name},#{role},#{phoneNumber},#{crtnDate},#{profilePhoto},#{organId},#{provider},#{providerId},#{emailVerified},#{conversation})
     </insert>
 
     <insert id="authRegister" parameterType="UserDTO">
@@ -90,4 +90,16 @@
         WHERE "username" = #{username}
     </select>
 
+    <update id="updateConversation" parameterType="UserDTO">
+        UPDATE injoy.user
+        SET
+        "conversation" = #{conversation}
+        WHERE
+        id=#{id}
+    </update>
+
+    <select id="findConversation" parameterType="int" resultType="String">
+        SELECT "conversation" FROM injoy.user
+        WHERE id = #{id}
+    </select>
 </mapper>

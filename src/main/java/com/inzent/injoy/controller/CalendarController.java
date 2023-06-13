@@ -264,6 +264,7 @@ public class CalendarController {
         System.out.println("c.getCalStart() = " + c.getCalStart());
         Date now = c.getCalRegisterDate();
 
+
         Timestamp nowTimestamp = new Timestamp(now.getTime());
         String strReg = nowTimestamp.toString();
 
