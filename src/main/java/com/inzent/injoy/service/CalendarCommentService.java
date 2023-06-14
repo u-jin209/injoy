@@ -40,7 +40,15 @@ public class CalendarCommentService {
         return session.selectList(NAMESPACE + ".selectAllComment", map);
     }
 
+//    public void update(CalCommentDTO c){
+//        session.update(NAMESPACE + ".update", c);
+//    }
+
     public void updateHome(CalCommentDTO calComment) {
         session.update(NAMESPACE + ".update", calComment);
     }
+
+//    public void updateComment(CalCommentDTO c){
+//        session.update()
+//    }
 }

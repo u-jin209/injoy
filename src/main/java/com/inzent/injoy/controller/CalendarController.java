@@ -3,6 +3,7 @@ package com.inzent.injoy.controller;
 import com.inzent.injoy.model.*;
 import com.inzent.injoy.service.CalendarCommentService;
 import com.inzent.injoy.service.CalendarService;
+import groovy.transform.Internal;
 import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,13 +32,6 @@ public class CalendarController {
     public CalendarController(CalendarService calendarService, CalendarCommentService calendarCommentService) {
         this.calendarService = calendarService;
         this.calendarCommentService = calendarCommentService;
-    }
-
-//    나중에 삭제해 주세요
-    @GetMapping("/orange")
-    public String orange(Model model, HttpServletRequest request)
-    {
-        return "/project/calendar2";
     }
 
 
@@ -81,55 +75,6 @@ public class CalendarController {
             jsonObj = new JSONObject(hash);
             jsonArr.add(jsonObj);
         }
-//        hash.put("title", "This is Demo from Controller.");
-//        hash.put("start", "2023-05-09 17:30");
-//        hash.put("end", "2023-05-12 00:01");
-//        hash.put("color", "#545de8");
-//        hash.put("textColor", "");
-//        hash.put("borderColor", "");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "두 번째 데이터 From Controller.");
-//        hash.put("start", "2023-05-10 00:01");
-//        hash.put("end", "2023-05-13 00:01");
-//        hash.put("color", "#ffff37");
-//        hash.put("textColor", "black");
-//        hash.put("borderColor", "");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "하루일정입니다.");
-//        hash.put("start", "2023-05-25 13:30:00");
-//        hash.put("end", "2023-05-25 14:30:00");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//
-//
-//        hash.put("title", "color");
-//        hash.put("start", "2023-05-14 00:01");
-//        hash.put("end", "2023-05-16 00:01");
-//        hash.put("color", "#A2F3A0FF");
-//        hash.put("textColor", "white");
-//        hash.put("borderColor", "#A2F3A0FF");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "color");
-//        hash.put("start", "2023-05-19 00:01");
-//        hash.put("end", "2023-05-22 00:01");
-//        hash.put("color", "#F6C7EFFF");
-//        hash.put("borderColor", "#F6C7EFFF");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
-//
-//        hash.put("title", "color");
-//        hash.put("start", "2023-05-29 00:01");
-//        hash.put("end", "2023-06-01 00:01");
-//        hash.put("color", "#F52A2AFF");
-//        jsonObj = new JSONObject(hash);
-//        jsonArr.add(jsonObj);
         return jsonArr;
     }
 
@@ -188,8 +133,11 @@ public class CalendarController {
     @ResponseBody
     @PostMapping(value = "/deleteSchedule")
     public void deleteScheduleMethod(HttpServletRequest request) {
+        System.out.println("스케줄 삭제 메서드ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
         int projectId = Integer.parseInt(request.getParameter("projectId"));
+        System.out.println("projectIdddddddddddddddddddd = " + projectId);
         int scheduleId = Integer.parseInt(request.getParameter("scheduleId"));
+        System.out.println("scheduleIddddddddddddddd = " + scheduleId);
 
         CalendarDTO c = new CalendarDTO();
         c.setProjectId(projectId);
@@ -268,12 +216,23 @@ public class CalendarController {
         Timestamp startTimestamp = new Timestamp(startDate.getTime());
         String strStart = startTimestamp.toString();
 
-        System.out.println(strStart);
+        Date endDate = c.getCalEnd();
+        Timestamp endTimestamp = new Timestamp(endDate.getTime());
+        String strEnd = endTimestamp.toString();
 
-            String strStart1 = c.getCalStart().toString();
-            String strEnd = c.getCalEnd().toString();
-            String calStart =  strStart1.substring(0, strStart1.length() - 5);
-            String calEnd =  strEnd.substring(0, strEnd.length() - 5);
+
+//            String strStart1 = c.getCalStart().toString();
+//            String strEnd = c.getCalEnd().toString();
+//            String calStart =  strStart1.substring(0, strStart1.length() - 5);
+//            String calEnd =  strEnd.substring(0, strEnd.length() - 5);
+//        System.out.println("calEnd = " + calEnd);
+//        System.out.println("calStart = " + calStart);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String startDateStr = format.format(startDate);
+        String endDateStr = format.format(endDate);
+        System.out.println("무야호구마 startDatestr = " + startDateStr);
+
 
     //        유저닉네임 필요
             model.addAttribute("calobj", c);
@@ -285,8 +244,8 @@ public class CalendarController {
             model.addAttribute("usernamee", calendarService.getUsername(c.getUserId()));
             model.addAttribute("calTitle", c.getCalTitle());
             model.addAttribute("calContent", c.getCalContent());
-            model.addAttribute("calStart",calStart);
-            model.addAttribute("calEnd",calEnd);
+            model.addAttribute("calStart", startDateStr);
+            model.addAttribute("calEnd", endDateStr);
             model.addAttribute("calRegister_date",calRegister_date);
             model.addAttribute("calAddress", c.getCalAddress());
 //            model.addAttribute("calImgSrc",c.getCalImgSrc());
@@ -450,6 +409,50 @@ public class CalendarController {
         return "redirect:/project/" + calendarDTO.getProjectId();
 
     }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "/modifyComment")
+    public void modifyCommentMethod(HttpServletRequest request) {
+        int commentId = Integer.parseInt(request.getParameter("commentId"));
+        String comment = request.getParameter("commentVal");
+
+        CalCommentDTO c = new CalCommentDTO();
+        c.setCalCommentId(commentId);
+        c.setCalComContent(comment);
+
+        calendarCommentService.updateHome(c);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
