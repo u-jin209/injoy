@@ -21,6 +21,39 @@ $(function () {
 
     }
 
+    // $('#home-tab').click(function (){
+    //    location.reload()
+    // })
+
+    $('#home-tab').click(function (){
+
+        $('#home-tab-pane').load(location.href + ' #home-tab-pane', function (){
+
+            // writeBox.js 스크립트 파일을 추가합니다.
+            var writeBoxScript = document.createElement('script');
+            writeBoxScript.src = '/js/project/writeBox.js';
+            writeBoxScript.defer = true;
+            document.body.appendChild(writeBoxScript);
+
+            // projectHome.js 스크립트 파일을 추가합니다.
+            var projectHomeScript = document.createElement('script');
+            projectHomeScript.src = '/js/project/projectHome.js';
+            projectHomeScript.defer = true;
+            document.body.appendChild(projectHomeScript);
+        })
+    })
+
+    $('#kanban-tab').click(function (){
+        $('#kanban-tab-pane').load(location.href + ' #kanban-tab-pane', function (){
+            // writeBox.js 스크립트 파일을 추가합니다.
+            var kanbanScript = document.createElement('script');
+            kanbanScript.src = '/js/project/kanban.js';
+            kanbanScript.defer = true;
+            document.body.appendChild(kanbanScript);
+
+        })
+    })
+
     $('#schedule-tab').click(function () {
         var calendarEll = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEll, {});

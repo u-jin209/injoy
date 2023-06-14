@@ -4,7 +4,6 @@ import com.inzent.injoy.model.TaskCommentDTO;
 import com.inzent.injoy.model.TaskDTO;
 import com.inzent.injoy.service.*;
 import com.inzent.injoy.model.UserCustomDetails;
-import com.inzent.injoy.service.BoardService;
 import com.inzent.injoy.service.UserService;
 import com.inzent.injoy.service.ProjectMemberService;
 import com.inzent.injoy.service.ProjectService;
@@ -30,20 +29,18 @@ public class HomeController {
     private final ProjectService projectService;
     private final ProjectMemberService memberService;
     private UserService userService;
-    private BoardService boardService;
     private OrganService organService;
 
     private TaskService taskService;
     private TaskCommentService taskCommentService;
 
     public HomeController(ProjectService projectService, ProjectMemberService memberService,
-                          UserService userService, BoardService boardService, TaskService taskService, TaskCommentService taskCommentService,
+                          UserService userService, TaskService taskService, TaskCommentService taskCommentService,
                           OrganService organService)
     {
         this.projectService = projectService;
         this.memberService =  memberService;
         this.userService = userService;
-        this.boardService = boardService;
         this.taskService = taskService;
         this.taskCommentService = taskCommentService;
         this.organService = organService;
@@ -70,9 +67,6 @@ public class HomeController {
 
     @GetMapping("/project/{projectId}")
     public String showProject(Model model , @PathVariable int projectId, @AuthenticationPrincipal UserCustomDetails login) {
-
-        List<BoardDTO> boardList = boardService.selectAll(projectId);
-        model.addAttribute("boardList", boardList);
 
         List<TaskDTO> taskList = taskService.selectAll(projectId);
         model.addAttribute("taskList", taskList);
