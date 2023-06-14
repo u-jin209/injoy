@@ -20,9 +20,10 @@
 <div class="container-fluid" layout:fragment="content">
     <div class="myText-header">
         <span class="myText-title"> 내 게시물</span>
+        <div class="myText-total" th:text="전체+ ' '+${#lists.size(text)}"></div>
     </div>
     <div class="myText-content-area">
-        <div class="myText-total" th:text="전체+ ' '+${#lists.size(text)}"></div>
+
         <div th:if="${#lists.isEmpty(text)}" style="display: flex; justify-content: center;">
             <div class="none-content" style="position: fixed; top: 40%">
                 <img src="/img/myText.png" alt="img"/>
