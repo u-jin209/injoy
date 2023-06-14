@@ -47,4 +47,8 @@ public class CalendarCommentService {
     public void updateHome(CalCommentDTO calComment) {
         session.update(NAMESPACE + ".update", calComment);
     }
+
+//    public void updateComment(CalCommentDTO c){
+//        session.update()
+//    }
 }

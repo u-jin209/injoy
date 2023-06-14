@@ -54,8 +54,6 @@
 
 
 
-
-
     <style>
         @font-face {
             font-family: 'Pretendard-Regular';
@@ -252,7 +250,13 @@
 
 
         /*google map img size*/
-        #mapImage {
+        #mapImagee {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+
+        #mapImageeM {
             width: 100%;
             height: 100%;
             border-radius: 15px;
@@ -370,6 +374,10 @@
             flex-direction: row;
         }
 
+        #tlqkf::-webkit-scrollbar {
+            display: none;
+        }
+
 
 
     </style>
@@ -484,14 +492,14 @@
                             </svg>
 
                             <label>
-<!--                                onkeyup="if(window.event.keyCode==13){codeAddress()}"-->
                                 <input type="text" id="addressInputId" name="addressInputId" value=""
-                                       onkeyup="if(window.event.keyCode==13){codeAddress('register')}"
+                                       onkeyup="if(window.event.keyCode==13){enterAddress('register')}"
                                        placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
                             </label>
 
-                            <div id="imgDiv">
-                                <!--                                    <img id="mapImage" src="" alt="static map" style="width: 514px; height: 185px; visibility: hidden; border-radius: 15px;">-->
+                            <div id="imgDiv" style="display: none;">
+<!--                                <img id="mapImagee" src="" alt="static map" style="width: 514px; height: 185px; visibility: hidden; border-radius: 15px;">-->
+                                <img id="mapImagee" src="" alt="static map">
                             </div>
 
                         </div>
@@ -533,14 +541,14 @@
 <div class="wrap-header-cart js-show-schedule">
     <div class="s-full js-hide-cart"></div>
 
-    <div class="header-cart flex-col-l p-l-65 p-r-25" id="tlqkf">
+    <div class="header-cart flex-col-l p-l-65 p-r-25" id="tlqkf" style="overflow: scroll;">
 
         <div class="header-cart-title flex-w flex-sb-m p-b-8">
 
             <div class="modal-header p-2">
 
                 <div class="col-0.5">
-                    <div style="width: 15px; height: 15px; border-radius: 4px; background-color: blue;margin-left: 10px"></div>
+                    <div style="margin-top: 6px; width: 15px; height: 15px; border-radius: 4px; background-color: #E6E6E6; margin-left: 10px"></div>
                 </div>
 
                 <div class="col-10" style="padding: 0;margin-right: 33px">
@@ -587,7 +595,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                 <li id="modScheduleLi"><a class="dropdown-item" onclick="openModifySchedule()" ><i class="bi bi-card-text"></i>수정</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="method()"><i class="bi bi-files"></i> 링크 복사</a></li>
-                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod([[${projectId}]],[[${scheduleId}]]);"><i class="bi bi-trash3"></i> 삭제</a>
+                                <li id="delScheduleLi"><a class="dropdown-item" th:onclick="deleteScheduleMethod([[${projectId}]],[[${calendarId}]]);"><i class="bi bi-trash3"></i> 삭제</a>
                                 </li>
                             </ul>
                         </div>
@@ -615,6 +623,7 @@
                     <div class="" style="display: flex;">
                         <div th:text="${calStart}" id="startDateShow"></div>
                         <pre> ㅡ </pre>
+<!--                        <div th:text="${#dates.format(calEnd, 'yyyy-MM-dd HH:mm:ss')}" id="endDateShow"></div>-->
                         <div th:text="${calEnd}" id="endDateShow"></div>
                     </div>
                 </div>
@@ -639,7 +648,7 @@
                     </div>
                 </div>
 
-                <div th:style="${calImgSrc == 'non' ? 'display:none' : 'display:block'}">
+                <div th:style="${calImgSrc == '' ? 'display:none' : 'display:block'}">
                     <div style="display: flex;">
                         <div class="col-1"></div>
                         <div class="col-11">
@@ -672,11 +681,11 @@
         </div>
 
 
-        <div>아 여기에 댓글 총 갯수</div>
+<!--        <div>아 여기에 댓글 총 갯수</div>-->
         <!--        <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">-->
 
 <!--        <div style="background-color: #eee" id="comment_list_div">-->
-        <div style="background-color: #eee" >
+        <div  style="background-color: #eee" >
             <hr class="" style="color: rgb(126,125,125);  height: 0.9px;">
 
             <div id="comment_list_div">
@@ -780,12 +789,12 @@
 
                             <label>
                                 <input type="text" id="modifyAddressInputId" value=""
-                                       onkeyup="if(window.event.keyCode==13){codeAddress('modify')}"
+                                       onkeyup="if(window.event.keyCode==13){enterAddress('modify')}"
                                        placeholder="입력후 Enter를 입력주세요." size=45 style="border: none"/>
                             </label>
 
-                            <div id="modifyImgDiv">
-                                <!--                                <img id="mapImage" src="" alt="static map" style="width: 514px; height: 185px; visibility: hidden; border-radius: 15px;">-->
+                            <div id="modifyImgDiv" style="display: none;">
+                                <img id="mapImageeM" src="" alt="static map">
                             </div>
                         </div>
 
@@ -850,6 +859,7 @@
     }
 
     function deleteScheduleMethod(projectId, scheduleId){
+        console.log("삭제 캘린더 번호  " + scheduleId);
         let data = {"projectId" : projectId,
             "scheduleId" : scheduleId
         };
@@ -909,7 +919,9 @@
 
 
                 if(isNon != 'non'){
-                    codeAddress();
+                    // codeAddress();
+                    // codeAddress('modify');
+                    enterAddress('modify');
                 }
 
         }
@@ -1169,7 +1181,8 @@
         $('#addScheduleModal').hide();
         $('#calendarForm')[0].reset();
         // $(".btn-close").click();
-        // document.getElementById("mapImage").remove();
+        // document.getElementById("mapImagee").remove();
+        document.getElementById('imgDiv').style.display = 'none';
     }
 
     var fpStart = flatpickr(".startCalDate", {
@@ -1247,7 +1260,7 @@
             console.log("폼입니다다다다 : " + form1.addressInputId);
             console.log("폼입니다다다닫 : " + form1.mapImage);
 
-            var imageUrl = $('#mapImage').attr('src');
+            var imageUrl = $('#mapImagee').attr('src');
             console.log("hogggg  : " + imageUrl);
             // form1.mapImage = imageUrl;
 
@@ -1279,7 +1292,8 @@
         $('#modifySubmitCalShedule').on("click", function () {
             var form2 = $("#modifyCalendarForm").serializeArray();
 
-            var imageUrl = $('#mapImage').attr('src');
+            var imageUrl = $('#mapImageeM').attr('src');
+            console.log("수정src :: " + imageUrl);
             form2.push({name : "mapImage" , value : imageUrl});
             var calId = document.getElementById("slideCalendarIdId").value;
             form2.push({name : "calId" , value : calId});
@@ -1340,15 +1354,40 @@
         var commment = document.getElementById("cmtcmt"+commentId);
         commenttt =  commment.innerText;
 
+        const w = "non";
+
         $(col11).append(
             "<div class='comment-container' style='padding: 0; width: 100%;'>" +
-            "<input type='text' class='commentInput' id='commentModifyId"+commentId+"'  style='padding: 0; !important; width: 100%;' placeholder='댓글을 입력은 Enter 입니다.' value='"+commenttt+"' aria-label='' aria-describedby='button-addon2' onKeyUp='if(window.event.keyCode==13){cmtModifyMethod(" + commentId + ","+ projectId + ","+ calendarId +")}'/>" +
+            "<input type='text' class='commentInput' id='commentModifyId"+commentId+"'  style='padding: 0; !important; width: 100%;' placeholder='댓글을 입력은 Enter 입니다.' value='"+commenttt+"' aria-label='' aria-describedby='button-addon2' onKeyUp='if(window.event.keyCode==13){cmtModifyMethod(" + commentId + ","+ projectId + ","+ calendarId +",\"" + w +"\")}'/>" +
             "</div>"
         );
     }
 
-    function cmtModifyMethod(commentId, projectId, calendarId){
-        var commentVal = document.getElementById("commentModifyId"+commentId).value;
+    function modifyCalComment2(commentId, projectId, calendarId){
+        var cmtId = document.getElementById("2tmptmp"+commentId);
+        cmtId.style.display = "none";
+
+        var col11 = document.getElementById("11col"+commentId);
+        var commment = document.getElementById("2cmtcmt"+commentId);
+        commenttt =  commment.innerText;
+
+        const w = "oui";
+
+        $(col11).append(
+            "<div class='comment-container' style='padding: 0; width: 100%;'>" +
+            "<input type='text' class='commentInput' id='2commentModifyId"+commentId+"' style='padding: 0; !important; width: 100%;' placeholder='댓글을 입력은 Enter 입니다.' value='"+commenttt+"' aria-label='' aria-describedby='button-addon2' onKeyUp='if(window.event.keyCode==13){cmtModifyMethod(" + commentId + ","+ projectId + ","+ calendarId +",\"" + w +"\")}'/>" +
+            "</div>"
+        );
+    }
+
+    function cmtModifyMethod(commentId, projectId, calendarId, isNew){
+        var commentVal
+        if(isNew == 'non') {
+            commentVal = document.getElementById("commentModifyId"+commentId).value;
+        } else {
+            commentVal = document.getElementById("2commentModifyId"+commentId).value;
+        }
+
         commentData = {"projectId" : projectId,
             "calendarId" : calendarId,
             "commentId" : commentId,
@@ -1360,13 +1399,24 @@
             type: "POST",
             data: commentData,
             success: function () {
-                console.log("성공 후  코드를 입력해 주세요");
-                var cmtId = document.getElementById("tmptmp"+commentId);
-                cmtId.style.display = "block";
+                if(isNew == 'non') {
+                    var cmtId = document.getElementById("tmptmp"+commentId);
+                    cmtId.style.display = "block";
 
-                var commentModifyIdTag = document.getElementById("commentModifyId"+commentId);
-                commentModifyIdTag.style.display = "none";
+                    var commentModifyIdTag = document.getElementById("commentModifyId"+commentId);
+                    commentModifyIdTag.style.display = "none";
 
+                    $("#cmtcmt"+commentId).text(commentVal);
+                } else {
+                    var cmtId2 = document.getElementById("2tmptmp"+commentId);
+                    cmtId2.style.display = "block";
+
+                    var commentModifyIdTag2 = document.getElementById("2commentModifyId"+commentId);
+                    commentModifyIdTag2.style.display = "none";
+
+                    $("#2cmtcmt"+commentId).text(commentVal);
+
+                }
             },
             error: function (request, status, error) {
                 console.log("통신 실패");
@@ -1374,101 +1424,88 @@
             }
         });
 
-
     }
 
 
 </script>
 
-
-
-<script>
-    $('#modifyAddressInputId').on("input", function() {
-        var val = $('#modifyAddressInputId').val().trim();
-        console.log("값 : " + val.trim());
-
-        if(val == ""){
-            console.log("Empty String");
-            // document.getElementById("mapImage").style.visibility='hidden';
-            document.getElementById("mapImage").remove();
-
-        } else {
-            getPlace();
-        }
-
-        function getPlace(){
-            console.log("getPlace메서드")
-            const input = document.getElementById("modifyAddressInputId");
-            const options = {
-                //add options here if you want more customizations
-            };
-            const autocomplete = new google.maps.places.Autocomplete(input, options);
-
-        }
-
-    });
-    window.addEventListener('load', getPlace);
-</script>
 
 
 <!--            google map api          -->
 <script>
-        $('#addressInputId').on("input", function() {
-            var val = $('#addressInputId').val().trim();
-            console.log("값 : " + val.trim() );
-
-            if(val == ""){
-                console.log("Empty String");
-                // document.getElementById("mapImage").style.visibility='hidden';
-                document.getElementById("mapImage").remove();
-
-            } else {
-                getPlace();
-            }
-
-
-
+    $('#addressInputId').on("input", function() {
+        var val = $('#addressInputId').val().trim();
+        // console.log("입력하고 있는 값 : " + val.trim() );
+        if(val == ""){
+            console.log("Empty String. its gonna be removed");
+            document.getElementById("imgDiv").style.display = "none";
+        }
     });
-    window.addEventListener('load', getPlace);
 
-    function getPlace() {
-        console.log("getPlace method ")
-        const input = document.getElementById("addressInputId");
-        const options = {
-            //add options here if you want more customizations
-        };
-        const autocomplete = new google.maps.places.Autocomplete(input, options);
+    $('#modifyAddressInputId').on("input", function() {
+        var val = $('#modifyAddressInputId').val().trim();
+        // console.log("입력하고 있는 값 : " + val.trim() );
 
+        if(val == ""){
+            console.log("Modify Empty String.");
+            document.getElementById("modifyImgDiv").style.display = "none";
+        }
+    });
+
+
+    $(document).ready(function() {
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('addressInputId'));
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var selectedPlace = autocomplete.getPlace();
+
+            var selectedAddress = selectedPlace.formatted_address;
+            console.log('클릭 주소 :', selectedAddress);
+            if(selectedAddress != "undefined") {
+                getLngLat(selectedAddress, 'register');
+            } else {
+                console.log('언디파인드')
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('modifyAddressInputId'));
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var selectedPlace = autocomplete.getPlace();
+
+            var selectedAddress = selectedPlace.formatted_address;
+            console.log('클릭 주소 :', selectedAddress);
+            if(selectedAddress != "undefined") {
+                getLngLat(selectedAddress, 'modify');
+            } else {
+                console.log('언디파인드')
+            }
+        });
+    });
+
+
+    function enterAddress(isNew){ //엔터 누룰시 동작되는 메서드
+        var inputAddress;
+        if(isNew == 'register') {
+            inputAddress = document.getElementById('addressInputId').value;
+        } else if(isNew == 'modify') {
+            inputAddress = document.getElementById('modifyAddressInputId').value;
+        }
+
+        console.log("엔터 주소 : " + inputAddress);
+        getLngLat(inputAddress, isNew);
     }
 
-    function codeAddress(temp) {
-        console.log("temp : " + temp);
-        var imgTag = document.createElement('img');
-        imgTag.id = "mapImage";
-        imgTag.name = "mapImage"
-        imgTag.src = "";
-        imgTag.alt = "static img";
-        imgTag.style = "visibility: hidden";
-
-        if(temp == 'register') {
-            document.getElementById("imgDiv").append(imgTag);
-        } else {
-            document.getElementById("modifyImgDiv").append(imgTag);
-        }
+    function getLngLat(rawAddress, isNew){
+        console.log("가공되지 않은 주소 : " + rawAddress);
 
         var geocoder;
         var map;
         geocoder = new google.maps.Geocoder();
 
-        var address;
-        if(temp == 'register') {
-            address = document.getElementById('addressInputId').value;
-        } else {
-            address = document.getElementById('modifyAddressInputId').value;
-        }
-
-        console.log("주소 : " + address);
-        geocoder.geocode({'address': address}, function (results, status) {
+        geocoder.geocode({'address': rawAddress}, function (results, status) {
 
 
             if (status == 'OK') {
@@ -1489,54 +1526,26 @@
 
                 const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
-                // Set the image source to the constructed URL
-                const mapImage = document.getElementById('mapImage');
-                mapImage.src = imageUrl;
-                document.getElementById("mapImage").style.visibility = 'visible';
+                if(isNew == 'register') {
+                    document.getElementById("mapImagee").src = imageUrl;
+                    document.getElementById('imgDiv').style.display = 'block';
+                } else if(isNew == 'modify') {
+                    document.getElementById("mapImageeM").src = imageUrl;
+                    document.getElementById('modifyImgDiv').style.display = 'block';
+                }
 
-                var ads = addressLogic(latitude, longitude);
-                console.log(addressLogic(latitude, longitude))
-                console.log("ads : " + ads);
-
+                // var ads = addressLogic(latitude, longitude);
+                // console.log(addressLogic(latitude, longitude))
+                // console.log("ads : " + ads);
 
             } else {
-                console.log("this is an !ERROR!" + status);
-                alert('Geocode was not successful for the following reason: ' + status);
+                console.log("!ERROR! : " + status);
             }
         });
     }
-
-
-    function addressLogic(latitude, longitude) {//return Address from latitude and longitude method
-        const geocoder = new google.maps.Geocoder();
-        const latlng = {
-            lat: parseFloat(latitude),
-            lng: parseFloat(longitude),
-        };
-
-        var address;
-
-        geocoder
-            .geocode({location: latlng})
-            .then((response) => {
-                console.log("헬로우 : " + response.results[0].formatted_address);
-                tmp = response.results[0].formatted_address
-                console.log("tmp : " + tmp)
-
-                if (response.results[0]) {
-                    address = response.results[0].formatted_address;
-                    getAddress(address);
-                } else {
-                    return "ERROR";
-                }
-            })
-    }
-
-    function getAddress(address) { // (4) should log the address
-        console.log("Finally : " + address);
-        document.getElementById("addressInputId").value = address
-    }
 </script>
+
+
 
 
 <!--            댓글          -->
@@ -1579,7 +1588,8 @@
                             <span class="thumbnail size40 radius16" style="background-image: url(/img/penguin.jpg)"></span>
                         </div>
 
-                        <div class="col-11">
+                        <div class="col-11" id="11col${data.commentId}">
+                        <div id="2tmptmp${data.commentId}">
                             <div style="display: flex; justify-content: space-between">
 
                                 <div style="display: flex; flex-direction: row">
@@ -1593,7 +1603,7 @@
 
                                     <div class="" style="margin-right: 5px"><!--수정-->
                                         <a class="bi bi-pencil-square" type="button" style="color: #AAAAAA;" href="#"
-                                           onclick="methodd()"></a>
+                                           onclick="modifyCalComment2(${data.commentId}, ${data.projectIdId}, ${data.calendarId})"></a>
                                     </div>
                                     <div class=""><!--삭제-->
                                         <a class="bi bi-trash3" type="button" style="color: #AAAAAA;" href="#"
@@ -1602,8 +1612,7 @@
                                 </div>
                             </div>
 
-                            <div style="padding-top: 8px; font-size: 15px;">
-                                 ${commentInput.value}
+                            <div id="2cmtcmt${data.commentId}" style="padding-top: 8px; font-size: 15px;">${commentInput.value}</div>
                             </div>
 
                         </div>
@@ -1639,7 +1648,7 @@
 
 
     function method() {
-        alert("Hello World");
+        alert("새로운 댓글에 동작되는 메서드 입니다.");
     }
 
     function deleteCalComment(commentId, projectId, calendarId ) {
