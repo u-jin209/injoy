@@ -50,7 +50,7 @@
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-        <div th:replace="~{/project/projectHome :: homeContent(${project},${boardList},${taskList}, ${memberList}, ${logIn}, ${allList})}"></div>
+        <div th:replace="~{/project/projectHome :: homeContent(${project},${taskList}, ${memberList}, ${logIn}, ${allList})}"></div>
     </div>
     <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="1">
         <div th:insert="~{/project/taskPage :: taskContent(${project}, ${memberList}, ${taskList}, ${logIn})}"></div>

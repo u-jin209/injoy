@@ -37,6 +37,7 @@ section::-webkit-scrollbar{
     position: relative;
     height: 30px;
     box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
 .none-title h4{
@@ -327,7 +328,7 @@ section::-webkit-scrollbar{
 
 .section-number {
     position: relative;
-    margin: 1px 0 0 1px;
+    margin: 7px 0 0 1px;
     color: #999;
     font-size: 17px;
     font-weight: 700;

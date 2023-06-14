@@ -65,6 +65,7 @@ header {
     background-color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, .04);
     cursor: pointer;
+    height: 120px;
 }
 
 .tool_ul {
