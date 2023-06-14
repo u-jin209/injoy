@@ -137,6 +137,8 @@ $(function () {
                 $('#file').attr('class', 'boardFile');
                 previewsContainer = document.querySelector('.previews');
                 handleFileSelection(previewsContainer);
+                $('#file-label').css('display', 'block')
+                $('#writeBox-modal-footer').css('justify-content', 'space-between')
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
                 console.log("task");
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
@@ -144,9 +146,13 @@ $(function () {
                 previewsContainer = document.querySelector('.task-previews');
                 handleFileSelection(previewsContainer);
                 $('.writeBox-requestBtn').trigger("click").addClass('active');
+                $('#file-label').css('display', 'block')
+                $('#writeBox-modal-footer').css('justify-content', 'space-between')
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
                 console.log("schedule");
                 $('.submitWriteBtn').attr('id', 'scheduleWriteBtn');
+                $('#file-label').css('display', 'none')
+                $('#writeBox-modal-footer').css('justify-content', 'end')
             }
         }
 
@@ -336,11 +342,10 @@ $(function () {
             // document.getElementById("mapImage").style.visibility='hidden';
             document.getElementById("mapImage").remove();
         } else {
-            getPlace();
+            getWriteBoxPlace();
         }
 
-        function getPlace() {
-            console.log("getPlace method ")
+        function getWriteBoxPlace() {
             const input = document.getElementById("writeBox-schedulePlace");
             const options = {
                 //add options here if you want more customizations
@@ -352,7 +357,6 @@ $(function () {
     });
 
     window.addEventListener('load', function(event){
-        console.log("getPlace method ")
         const input = document.getElementById("writeBox-schedulePlace");
         const options = {
             //add options here if you want more customizations
