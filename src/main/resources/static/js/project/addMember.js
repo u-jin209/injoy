@@ -327,7 +327,7 @@ function inviteMemberList(){
                                 "<div class='card mb-3' style='max-width: 540px; height: 100%;'>"+
                                     "<div class='row'>"+
                                         "<div class='col-md-4'>"+
-                                            "<img  class='member' id='userImg"+item.userId+"' src='"+item.profilePhoto+"' >"+
+                                            "<img  class='member' id='userImg"+item.userId+"'  onerror=\"src='/img/moru.jpg'\"   src='"+item.profilePhoto+"' >"+
                                         "</div>"+
                                         "<div class='col-md-8'>"+
                                             "<div class='card-body'>"+
