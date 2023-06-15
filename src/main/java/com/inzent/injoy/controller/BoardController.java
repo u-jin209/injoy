@@ -73,7 +73,7 @@ public class BoardController {
                         UUID uuid = UUID.randomUUID();
                         String[] uuids = uuid.toString().split("-");
                         String uniqueName = uuids[0];
-                        File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
+                        File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), uniqueName + fileExtension);
                         file.transferTo(saveFile);
                         String[] filePath = String.valueOf(saveFile).split("web");
                         String path = s3Upload.upload(saveFile,"uploadFile/");
