@@ -24,13 +24,15 @@ import java.util.*;
 public class TaskController {
     @Value("${part.upload.path}")
     private String FileDirPath;
+    private final S3Uploader s3Upload;
     private UserService userService;
     private TaskService taskService;
     private FolderService folderService;
     private TaskFileService taskFileService;
     private FileService fileService;
 
-    public TaskController(UserService userService, TaskService taskService, FolderService folderService, TaskFileService taskFileService, FileService fileService) {
+    public TaskController(S3Uploader s3Upload, UserService userService, TaskService taskService, FolderService folderService, TaskFileService taskFileService, FileService fileService) {
+        this.s3Upload = s3Upload;
         this.userService = userService;
         this.taskService = taskService;
         this.folderService = folderService;
@@ -90,8 +92,8 @@ public class TaskController {
                         File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                         file.transferTo(saveFile);
                         String[] filePath = String.valueOf(saveFile).split("web");
-
-                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                        String path = s3Upload.upload(saveFile,"uploadFile/");
+                        fileDTO.setFileRealPath(path);
                         fileDTO.setUniqueName(uniqueName);
                         fileDTO.setFileExtension(fileExtension);
                     }
@@ -166,8 +168,8 @@ public class TaskController {
                         File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                         file.transferTo(saveFile);
                         String[] filePath = String.valueOf(saveFile).split("web");
-
-                        fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                        String path = s3Upload.upload(saveFile,"uploadFile/");
+                        fileDTO.setFileRealPath(path);
                         fileDTO.setUniqueName(uniqueName);
                         fileDTO.setFileExtension(fileExtension);
                     }
@@ -266,8 +268,8 @@ public class TaskController {
                     File saveFile = new File(request.getServletContext().getRealPath(FileDirPath), "uploadFile/" + uniqueName + fileExtension);
                     file.transferTo(saveFile);
                     String[] filePath = String.valueOf(saveFile).split("web");
-
-                    fileDTO.setFileRealPath(FileDirPath + "uploadFile/");
+                    String path = s3Upload.upload(saveFile,"uploadFile/");
+                    fileDTO.setFileRealPath(path);
                     fileDTO.setUniqueName(uniqueName);
                     fileDTO.setFileExtension(fileExtension);
                 }

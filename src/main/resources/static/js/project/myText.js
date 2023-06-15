@@ -291,7 +291,7 @@ function TaskTextImg(taskId, projectId) {
                         preview.addEventListener('click', function () {
                             downloadTaskImg(response[i].fileId);
                         });
-                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                        preview.src = response[i].fileRealPath;
 
 
                         previewsContainer.append(preview);
@@ -427,7 +427,7 @@ function BoardTextImg(boardId, projectId) {
                         preview.addEventListener('click', function () {
                             downloadTaskImg(response[i].fileId);
                         });
-                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                        preview.src = response[i].fileRealPath;
 
 
                         previewsContainer.append(preview);
