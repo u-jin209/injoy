@@ -287,11 +287,11 @@ function deleteClick(){
                                     "fileArr" : fileArr
                                 },
                                 success: () => {
-
+                                    printFolder(root.innerText)
                                 }
                             })
                         }
-                        printFolder(root.innerText)
+
                     }
                 })
             }
