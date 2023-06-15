@@ -1,9 +1,11 @@
 .allFile-header{
+    position: fixed;
     padding: 30px 20px;
-    position: relative;
+    background-color: #FFFFFF;
+    width: inherit;
     min-width: 750px;
-    height: 80px;
-    z-index: 12;
+    height: 130px;
+    z-index: 20;
 }
 .allFile-title{
     font-size: 23px;
