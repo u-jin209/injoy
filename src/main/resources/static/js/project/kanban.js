@@ -155,6 +155,16 @@ $(function () {
 
     })
 
+    $('.kanbanToolBtn').click(function () {
+        console.log('click')
+        let nowSetUp = $(this).parent().find('#kanban-setUp')
+        if (nowSetUp.css('display') === 'block') {
+            nowSetUp.css('display', 'none')
+        } else {
+            nowSetUp.css('display', 'block')
+        }
+    })
+
     $('.kanban-addStartDate').attr('min', new Date().toISOString().split("T")[0])
     $('.kanban-addEndDate').attr('min', new Date().toISOString().split("T")[0])
 
@@ -1031,7 +1041,7 @@ function kanbanTaskImg(taskId, projectId) {
                             preview.addEventListener('click', function () {
                                 downloadTaskImg(response[i].fileId);
                             });
-                            preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                            preview.src = response[i].fileRealPath
 
 
                             previewsContainer.append(preview);

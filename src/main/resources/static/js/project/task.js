@@ -1372,7 +1372,7 @@ function TaskPageImg(taskId, projectId) {
                         preview.addEventListener('click', function () {
                             downloadTaskImg(response[i].fileId);
                         });
-                        preview.src = response[i].fileRealPath + response[i].uniqueName + response[i].fileExtension;
+                        preview.src = response[i].fileRealPath;
 
 
                         previewsContainer.append(preview);
