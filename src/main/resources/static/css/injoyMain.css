@@ -663,6 +663,23 @@ input.minusBtn{
     border-radius: 0;
     !important;
 }
+.btn-upload {
+    width: 150px;
+    height: 30px;
+    background-color: #FFB30D ;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.btn-upload:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+}
 
 .btn:active, .btn:focus { border: none !important; box-shadow: none !important; }
 

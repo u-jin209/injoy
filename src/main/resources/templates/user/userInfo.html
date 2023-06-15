@@ -131,10 +131,16 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin: 5px;justify-content: center;">
-                                        <input style="  text-align-last: center;" type="file" id="profilePhoto"
+
+                                        <label for="profilePhoto">
+                                            <div class="btn-upload">파일 업로드하기</div>
+                                        </label>
+                                        <input      style=" display: none; text-align-last: center;" type="file" id="profilePhoto"
                                                name="file"
                                                accept="image/*"
+
                                                onchange="toBase64(event);"/>
+
 
                                     </div>
                                     <div class="row contentText"> 상태</div>
