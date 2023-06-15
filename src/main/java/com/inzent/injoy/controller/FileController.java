@@ -90,7 +90,7 @@ public class FileController {
 
 
         FileDTO fileDTO = new FileDTO();
-        fileDTO.setFileSize(roundedValue + "MB");
+        fileDTO.setFileSize(roundedValue + "KB");
         fileDTO.setProjectId(projectId);
         fileDTO.setUserId(logIn.getUserDTO().getId());
         fileDTO.setFileName(fileRealName.substring(0, fileRealName.lastIndexOf(".")));
