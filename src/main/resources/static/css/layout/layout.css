@@ -1,6 +1,13 @@
 .sidebar{
     /*padding-right: 0 !important;*/
     padding-left: 0 !important;
+    width: 240px;
+    min-width: 200px;
+    top: 40px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    float: left;
 }
 
 /*.content{*/
