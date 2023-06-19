@@ -244,8 +244,8 @@ function memberList(value) {
                             "<img class='member'   src='"+ item.profilePhoto +"' , onerror=this.src='/img/moru.jpg'>" +
                             "</div>" +
                             "<div class='col-md-8'>" +
-                            "<div class='card-body' style='text-align: left'>" +
-                            "<i class='fa-solid fa-crown' id='crown' style='color: #ffb30d; display: none' ></i>"+
+                            "<div class='card-body'  style='text-align: left'>" +
+                            "<i class='fa-solid fa-crown' id='crown' style='color: #ffb30d;display: none ' ></i>"+
                             "<h5 class='card-title'>" + item.name + "</h5>" +
                             "<p class='card-text'>" + item.username + "</p>" +
                             "</div>" +
@@ -254,7 +254,7 @@ function memberList(value) {
                             "</div>"
                         );
 
-                        if(item.authority == "MANAGER" ){
+                        if(item.authority === "MANAGER" ){
                             const crown = document.getElementById("crown")
                             crown.style.display = "unset"
 

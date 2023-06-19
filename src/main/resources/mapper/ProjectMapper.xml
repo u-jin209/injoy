@@ -22,6 +22,14 @@
         where p."projectId"=#{projectId}
 
     </select>
+    <select id="selectDomain" parameterType="hashmap" resultType="ProjectDTO">
+        SELECT * FROM injoy.project p
+        left join (select * from injoy."bookMark" where "userId" = #{userId}) b
+        on p."projectId" = b."projectId"
+        where p."domain"=#{domain}
+
+    </select>
+
 
     <select id="bookMarkProject" parameterType="int" resultType="ProjectDTO">
         SELECT * FROM injoy."project" P

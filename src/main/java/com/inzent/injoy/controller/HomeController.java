@@ -93,6 +93,41 @@ public class HomeController {
 
     }
 
+    @GetMapping("/{domain}")
+    public String showProjectDomain(Model model , @PathVariable String domain, @AuthenticationPrincipal UserCustomDetails login) {
+
+        Map<String, Object> domainMap = new HashMap<>();
+        domainMap.put("userId", login.getUserDTO().getId());
+        domainMap.put("domain" , domain);
+
+        int projectId = projectService.selectDomain(domainMap).getProjectId();
+
+
+
+        List<TaskDTO> taskList = taskService.selectAll(projectId);
+        model.addAttribute("taskList", taskList);
+        List<TaskDTO> allList = taskService.viewAll(projectId);
+        model.addAttribute("allList", allList);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", login.getUserDTO().getId());
+        map.put("projectId" , projectId);
+
+
+//      <  addMember에 들어가는 파라미터값들  >
+        model.addAttribute("project", projectService.selectProject(map));
+        model.addAttribute("memberList", memberService.selectMember(projectId));
+        model.addAttribute("waitList", memberService.selectWaitMember(projectId));
+        model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
+
+        model.addAttribute("organList" ,organService.selectAll());
+
+        model.addAttribute("logIn" , memberService.authority(map));
+//      < /addMember에 들어가는 파라미터값들  >
+
+        return "project/mainProject";
+
+    }
 
 
     @GetMapping("/user")

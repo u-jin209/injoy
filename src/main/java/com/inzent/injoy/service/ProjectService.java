@@ -33,6 +33,11 @@ public class ProjectService {
 
         return session.selectOne(NAMESPACE + ".selectProject", map);
     }
+    public ProjectDTO selectDomain(Map<String,Object> map){
+
+
+        return session.selectOne(NAMESPACE + ".selectDomain", map);
+    }
     public List<ProjectDTO> bookMarkProject(int id){
 
 
