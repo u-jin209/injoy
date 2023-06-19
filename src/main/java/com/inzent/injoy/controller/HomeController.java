@@ -82,6 +82,7 @@ public class HomeController {
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(map));
         model.addAttribute("memberList", memberService.selectMember(projectId));
+        System.out.println("----------------------------"+memberService.selectMember(projectId)+"--------------------------------------");
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
         model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 

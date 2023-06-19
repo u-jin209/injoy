@@ -232,14 +232,16 @@ header {
 .sidebar_ul {
     list-style-type: none;
     background-color: #001542;
-    width: 8.8%;
+    /*width: 8.8%;*/
+    /*width: 200px;*/
+    width: 100%;
     padding: 0;
-    margin:0;
-    top:40px;
-    position: fixed;
+    margin: 0;
+    /*top: 40px;*/
+    /*position: fixed;*/
     height: 100%;
     overflow: auto;
-    float: left;
+    /*float: left;*/
 
 }
 
