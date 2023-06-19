@@ -16,15 +16,22 @@
 <!--    소켓통신-->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        .main_div{
+            display: flex;
+            flex-direction: row;
+        }
+
+    </style>
 </head>
 <body>
 <th:block th:replace="~{/fragment/header :: headFragment}"></th:block>
 <div class="container-fluid" style="padding: 0">
-    <div class="row" style="margin: 0">
-        <div class="col-1 sidebar">
+    <div class="main_div" style="margin: 0">
+        <div class=" sidebar">
             <div th:replace="~{/fragment/sideBar :: sideBarFragment}"></div>
         </div>
-        <div class="col-11 content" style="padding-left: 10px!important; padding-right: 0">
+        <div class=" content" style="padding-left: 240px!important; padding-right: 0;min-width: 1508px;width: 100%">
             <div layout:fragment="content">
 
             </div>
