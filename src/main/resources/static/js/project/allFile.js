@@ -91,6 +91,8 @@ function printAllFile(){
                     "<td class='h-none'></td>" +
                     "<td class='h-none'></td>" +
                     "<td class='h-none'></td>" +
+                    "<td class='h-none'></td>" +
+                    "<td class='h-none'></td>" +
                     "</tr>"
                 )
             }
