@@ -2,7 +2,7 @@
     margin: 0 0 15px 0;
 }
 
-#homeBody::-webkit-scrollbar{
+#homeContent::-webkit-scrollbar{
     display:none;
 }
 

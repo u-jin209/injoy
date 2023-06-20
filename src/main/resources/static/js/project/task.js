@@ -317,7 +317,7 @@ function all() {
         } else {
             $('.priority_ul').css('display', 'none');
             priority_ul.css('display', 'block')
-            priority_ul.find('.priorityBtn-task').click(function (e) {
+            priority_ul.find('.priorityBtn').click(function (e) {
                 // 프로세스 값 변경 ajax
                 let formData = {
                     taskId: taskId,
@@ -709,7 +709,7 @@ function all() {
                         "                                            <ul class=\"button_priority\"\n" +
                         "                                                style=\"position: absolute; transform: none; top: 25px; left: 65px; width: 80px; text-align: start\">\n" +
                         "                                                <li class=\"mb-1 px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn-task\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"red\"\n" +
@@ -721,7 +721,7 @@ function all() {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn-task\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"orange\"\n" +
@@ -733,7 +733,7 @@ function all() {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn-task\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"green\"\n" +
@@ -744,7 +744,7 @@ function all() {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn-task\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"dark-violet\"\n" +
@@ -756,7 +756,7 @@ function all() {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\" px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn-task\">\n" +
+                        "                                                    <button class=\"priorityBtn\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"gray\"\n" +
@@ -778,7 +778,7 @@ function all() {
 
                 })
 
-                $('#task-update-priority').find('.priorityBtn-task').click(function () {
+                $('#task-update-priority').find('.priorityBtn').click(function () {
                     let btnTag = $(this).html()
 
                     $('#task-update-priority').css('display', 'none')
