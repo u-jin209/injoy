@@ -11,7 +11,11 @@
     font-size: 23px;
     font-weight: bold;
 }
-
+.allFile-total{
+    margin-bottom: 20px;
+    z-index: 1;
+    position: relative;
+}
 .allFile-content-area{
     padding: 30px 20px;
 }

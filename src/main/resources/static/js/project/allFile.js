@@ -11,6 +11,8 @@ function printAllFile(){
 
         },
         success: function (result) {
+            const text = "전체 "+result.length
+            $('#allFile-total').text(text);
 
             if (result.length >= 1) {
 
@@ -81,6 +83,16 @@ function printAllFile(){
 
 
                 })
+            }else{
+                $('#listBody').append(
+                    "<tr class='folder-tr' id='emptyFolder'>" +
+                    "<td class='h-none text-center' ></td>" +
+                    "<td class='h-none text-center '>폴더가 비어있습니다</td>" +
+                    "<td class='h-none'></td>" +
+                    "<td class='h-none'></td>" +
+                    "<td class='h-none'></td>" +
+                    "</tr>"
+                )
             }
         }
 
