@@ -4,7 +4,7 @@
 
 <div th:fragment="taskContent(project, memberList, taskList, login)">
 <div class="container-fluid">
-    <div class="row">
+    <div class="row search-task-area">
         <input class="projectIdInput" type="hidden" name="projectId" th:value="${project?.projectId}"
                th:if="${project?.projectId} ne null"/>
         <div class="col" id="task-search-input-area">
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div id="task-search-end" class="col" style="padding-top: 10px; display: none"><a style="color:blue;">검색종료</a></div>
-        <div class="col text-end">
+        <div class="col text-end addButton-task-area">
             <button class="addButton btnFade btnBlue" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                 업무 추가
             </button>
@@ -151,7 +151,7 @@
                                                 <ul class="button_priority"
                                                     style="position: absolute; transform: none; top: 25px; left: 0; width: 80px; text-align: start">
                                                     <li class="mb-1 px-2">
-                                                        <button class="priorityBtn">
+                                                        <button class="priorityBtn-task">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                                  height="15"
                                                                  fill="red"
@@ -163,7 +163,7 @@
                                                         </button>
                                                     </li>
                                                     <li class="mb-1  px-2">
-                                                        <button class="priorityBtn">
+                                                        <button class="priorityBtn-task">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                                  height="15"
                                                                  fill="orange"
@@ -175,7 +175,7 @@
                                                         </button>
                                                     </li>
                                                     <li class="mb-1  px-2">
-                                                        <button class="priorityBtn">
+                                                        <button class="priorityBtn-task">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                                  height="15"
                                                                  fill="green"
@@ -186,7 +186,7 @@
                                                         </button>
                                                     </li>
                                                     <li class="mb-1  px-2">
-                                                        <button class="priorityBtn">
+                                                        <button class="priorityBtn-task">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                                  height="15"
                                                                  fill="dark-violet"
@@ -198,7 +198,7 @@
                                                         </button>
                                                     </li>
                                                     <li class=" px-2">
-                                                        <button class="priorityBtn">
+                                                        <button class="priorityBtn-task">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                                  height="15"
                                                                  fill="gray"
@@ -302,7 +302,7 @@
         <tbody id="searchTbody" class="searchTbody">
         <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
-            <td class="titleTd">
+            <td class="titleTd" data-label="업무명">
                 <span class="titleTask-view" th:text="${task.taskTitle}"></span>
                 <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
                     <input class="col form-control taskTitle" type="text" th:value="${task.taskTitle}"
@@ -311,7 +311,7 @@
                        aria-controls="offcanvasWithBothOptions" >상세보기</a>
                 </div>
             </td>
-            <td class="processTd" id="processTd" style="position: relative;">
+            <td class="processTd" id="processTd" style="position: relative;" data-label="상태">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
                 <div class="btn_ul" id="btn_ul" style=" display: none;">
                     <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: 10%">
@@ -334,7 +334,7 @@
                 </div>
             </td>
 
-            <td class="priorityTd" style="position: relative;">
+            <td class="priorityTd" style="position: relative;" data-label="우선순위">
                 <div style="display: flex; justify-content: center; align-items: center">
                     <div class="table-priority" th:text="${task.priority}" th:if="${task.priority ne '없음'}"></div>
                 </div>
@@ -342,7 +342,7 @@
                 <div class="priority_ul" id="priority_ul" style="display: none">
                     <ul class="button_priority" style="position: absolute; transform: none; top: 50px; left: 20%;">
                         <li class="mb-1">
-                            <button class="priorityBtn">
+                            <button class="priorityBtn-task">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="red"
                                      class="bi bi-exclamation-octagon-fill" viewBox="0 0 16 16">
                                     <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -351,7 +351,7 @@
                             </button>
                         </li>
                         <li class="mb-1">
-                            <button class="priorityBtn">
+                            <button class="priorityBtn-task">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="orange"
                                      class="bi bi-arrow-up" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -361,7 +361,7 @@
                             </button>
                         </li>
                         <li class="mb-1">
-                            <button class="priorityBtn">
+                            <button class="priorityBtn-task">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="green"
                                      class="bi bi-dash" viewBox="0 0 16 16">
                                     <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
@@ -370,7 +370,7 @@
                             </button>
                         </li>
                         <li class="mb-1">
-                            <button class="priorityBtn">
+                            <button class="priorityBtn-task">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="dark-violet"
                                      class="bi bi-arrow-down" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -380,7 +380,7 @@
                             </button>
                         </li>
                         <li>
-                            <button class="priorityBtn">
+                            <button class="priorityBtn-task">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="gray"
                                      class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -391,7 +391,7 @@
                     </ul>
                 </div>
             </td>
-            <td class="progressTd" style="position: relative;">
+            <td class="progressTd" style="position: relative;" data-label="진척도">
                 <div class="progress-item" th:if="${task.progress ne 0}">
                     <span class="progress-bar">
                         <span th:style="${'width :'+task.progress+'%'}"></span>
@@ -513,19 +513,19 @@
             <!--                    </div>-->
             <!--                </div>-->
             <!--            </td>-->
-            <td class="startDate p-0">
+            <td class="startDate p-0" data-label="시작일">
                 <input id="startDate" data-placeholder="-" required aria-required="true" type="date"
                        th:value="${#dates.format(task.startDate, 'yyyy-MM-dd')}" style="text-align: center"/>
             </td>
-            <td class="endDate p-0">
+            <td class="endDate p-0" data-label="마감일">
                 <input id="endDate" data-placeholder="-" required aria-required="true" type="date"
                        th:value="${#dates.format(task.closingDate, 'yyyy-MM-dd')}"
                        th:min="${#dates.format(task.startDate, 'yyyy-MM-dd')}" style="text-align: center"/>
             </td>
-            <td th:text="${task.name}"></td>
-            <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#dates.format(task.mdfDate, 'yyyy-MM-dd')}"></td>
-            <td><span id="taskId" th:text="${task.taskId}"></span></td>
+            <td th:text="${task.name}" data-label="작성자"></td>
+            <td th:text="${#dates.format(task.crtDate, 'yyyy-MM-dd')}" data-label="등록일"></td>
+            <td th:text="${#dates.format(task.mdfDate, 'yyyy-MM-dd')}" data-label="수정일"></td>
+            <td data-label="업무번호"><span id="taskId" th:text="${task.taskId}"></span></td>
         </tr>
         </tbody>
     </table>
@@ -688,7 +688,7 @@
                                         <ul class="button_priority"
                                             style="position: absolute; transform: none; top: 25px; left: 0; width: 80px; text-align: start">
                                             <li class="mb-1 px-2">
-                                                <button class="priorityBtn">
+                                                <button class="priorityBtn-task">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                          height="15"
                                                          fill="red"
@@ -700,7 +700,7 @@
                                                 </button>
                                             </li>
                                             <li class="mb-1  px-2">
-                                                <button class="priorityBtn">
+                                                <button class="priorityBtn-task">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                          height="15"
                                                          fill="orange"
@@ -712,7 +712,7 @@
                                                 </button>
                                             </li>
                                             <li class="mb-1  px-2">
-                                                <button class="priorityBtn">
+                                                <button class="priorityBtn-task">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                          height="15"
                                                          fill="green"
@@ -723,7 +723,7 @@
                                                 </button>
                                             </li>
                                             <li class="mb-1  px-2">
-                                                <button class="priorityBtn">
+                                                <button class="priorityBtn-task">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                          height="15"
                                                          fill="dark-violet"
@@ -735,7 +735,7 @@
                                                 </button>
                                             </li>
                                             <li class=" px-2">
-                                                <button class="priorityBtn">
+                                                <button class="priorityBtn-task">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15"
                                                          height="15"
                                                          fill="gray"
