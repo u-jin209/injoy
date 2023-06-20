@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="sideBarFragment">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
 
-</head>
-<body class="sidevar_body">
+
+<div class="sidevar_body" th:fragment="sideBarFragment">
 <ul class="sidebar_ul">
     <li class="sidebar_li"><img class="logo" src="/img/injoy.png" alt="injoyImg"/></li>
     <li class="sidebar_li">
@@ -309,5 +305,5 @@
 
 
 </script>
-</body>
+</div>
 </html>

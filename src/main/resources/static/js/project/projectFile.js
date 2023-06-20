@@ -1,6 +1,6 @@
 Dropzone.autoDiscover = false;
-const urlParams = new URL(location.href);
-const projectId = urlParams.pathname.split('/')[2];
+var urlParams = new URL(location.href);
+var projectId = urlParams.pathname.split('/')[2];
 
 document.getElementById("addFileBtn").onclick =function (){
 
@@ -290,6 +290,8 @@ function deleteClick(){
                                     printFolder(root.innerText)
                                 }
                             })
+                        }else{
+                            printFolder(root.innerText)
                         }
 
                     }

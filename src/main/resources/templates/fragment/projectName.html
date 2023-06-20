@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="projectNamefragment(project,logIn,organList)">
-<head>
+       >
 
 
-</head>
-<body>
-<div class="container-fluid">
+<div class="container-fluid" th:fragment="projectNamefragment(project,logIn,organList)" >
     <div class="row mt-3 mb-3" style="padding: 0 20px">
         <div class="col-3">
             <div class="row align-items-center" style="text-align: center">
@@ -71,7 +68,7 @@
 
 
 <!-- Modal -->
-<div class="modal " id="staticBackdrop" data-bs-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -144,5 +141,5 @@
         </div>
     </div>
 </div>
-</body>
+
 </html>

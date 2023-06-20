@@ -1,27 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko"
       th:fragment="projectFileContent(project, logIn)">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <!-- alert 창-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
-    <!-- Plugin -->
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"/>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-
-    <link rel="stylesheet" href="/css/injoyMain.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-
-
-</head>
-
-<body>
-
-
-<script th:src="@{/js/project/projectFile.js}" defer></script>
 <div class="document">
 
     <div class="document-search-wrap">
@@ -223,6 +203,6 @@
     });
 
 </script>
-</body>
+
 </html>
 
