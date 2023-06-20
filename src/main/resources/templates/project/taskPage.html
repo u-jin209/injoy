@@ -302,7 +302,7 @@
         <tbody id="searchTbody" class="searchTbody">
         <tbody id="taskTableTbody" class="taskTableTbody">
         <tr class="taskTr" th:each="task : ${taskList}">
-            <td class="titleTd">
+            <td class="titleTd" data-label="업무명">
                 <span class="titleTask-view" th:text="${task.taskTitle}"></span>
                 <div class="inputTaskTitle row" style="padding-left:51px;  display: none;">
                     <input class="col form-control taskTitle" type="text" th:value="${task.taskTitle}"
@@ -311,7 +311,7 @@
                        aria-controls="offcanvasWithBothOptions" >상세보기</a>
                 </div>
             </td>
-            <td class="processTd" id="processTd" style="position: relative;">
+            <td class="processTd" id="processTd" style="position: relative;" data-label="상태">
                 <button class="btn currentBtn" th:text="${task.process}"></button>
                 <div class="btn_ul" id="btn_ul" style=" display: none;">
                     <ul class="button_process" style="position: absolute; transform: none; top: 50px; left: 10%">
@@ -334,7 +334,7 @@
                 </div>
             </td>
 
-            <td class="priorityTd" style="position: relative;">
+            <td class="priorityTd" style="position: relative;" data-label="우선순위">
                 <div style="display: flex; justify-content: center; align-items: center">
                     <div class="table-priority" th:text="${task.priority}" th:if="${task.priority ne '없음'}"></div>
                 </div>
@@ -391,7 +391,7 @@
                     </ul>
                 </div>
             </td>
-            <td class="progressTd" style="position: relative;">
+            <td class="progressTd" style="position: relative;" data-label="진척도">
                 <div class="progress-item" th:if="${task.progress ne 0}">
                     <span class="progress-bar">
                         <span th:style="${'width :'+task.progress+'%'}"></span>
