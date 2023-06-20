@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js'></script>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+<!--  <link rel="stylesheet" href="path/to/material-design-iconic-font/css/material-design-iconic-font.min.css">-->
+
+  <meta charset="UTF-8">
+    <title>오렌지를 먹은지 얼마나 오랜지</title>
+
+  <style>
+
+    .wrap-header-cart {
+      position: fixed;
+      z-index: 1100;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      right: 0;
+      background-color: rgba(0,0,0,0.0);
+      visibility: hidden;
+
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      transition: all 0.4s;
+    }
+
+    .header-cart {
+      position: fixed;
+      z-index: 1100;
+      width: 390px;
+      max-width: calc(100% - 30px);
+      height: 100vh;
+      top: 0;
+      right: -400px;
+      background-color: #fff;
+
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      -moz-transition: all 0.34s;
+      transition: all 0.4s;
+
+      box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
+      -moz-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
+      -webkit-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
+      -o-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
+      -ms-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);
+    }
+
+    .header-cart::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 9%;
+      min-height: 30px;
+    }
+
+    .show-header-cart {
+      visibility: visible;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .show-header-cart .header-cart {
+      right: 0;
+    }
+
+    /*---------------------------------------------*/
+    .header-cart-title {
+      width: 260px;
+      max-width: 100%;
+      height: 16.5%;
+      min-height: 85px;
+    }
+
+    .header-cart-content {
+      flex-grow: 1;
+      overflow: auto;
+      align-content: space-between;
+    }
+
+    .header-cart-wrapitem {
+      flex-grow: 1;
+    }
+
+    /*---------------------------------------------*/
+    .header-cart-item-img {
+      width: 60px;
+      position: relative;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+
+    .header-cart-item-img img {
+      width: 100%;
+    }
+
+    .header-cart-item-img::after {
+      content: '\e870';
+      font-family: Linearicons-Free;
+      font-size: 16px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.5);
+      color: #fff;
+      transition: all 0.3s;
+      -webkit-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      opacity: 0;
+    }
+
+    .header-cart-item-img:hover:after {
+      opacity: 1;
+    }
+
+    /*---------------------------------------------*/
+    .header-cart-item-txt {
+      width: calc(100% - 80px);
+    }
+
+    .header-cart-item-name {
+      display: block;
+      font-family: Poppins-Regular;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.3;
+    }
+
+    .header-cart-item-info {
+      display: block;
+      font-family: Poppins-Regular;
+      font-size: 14px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .header-cart-total {
+      font-family: Poppins-Regular;
+      font-size: 18px;
+      color: #222;
+      line-height: 1.3;
+    }
+
+    /*---------------------------------------------*/
+    @media (max-width: 575px) {
+      .header-cart {
+        padding: 30px;
+      }
+
+      .header-cart-title {
+        padding-bottom: 35px;
+      }
+    }
+  </style>
+
+<!--  <style>-->
+<!--    .show-header-cart {-->
+<!--      visibility: visible;-->
+<!--      background-color: rgba(0,0,0,0.6);-->
+<!--    }-->
+
+<!--    .show-header-cart .header-cart {-->
+<!--      right: 0;-->
+<!--    }-->
+
+<!--    .wrap-header-cart {-->
+<!--      position: fixed;-->
+<!--      z-index: 1100;-->
+<!--      width: 100%;-->
+<!--      height: 100vh;-->
+<!--      top: 0;-->
+<!--      right: 0;-->
+<!--      background-color: rgba(0,0,0,0.0);-->
+<!--      visibility: hidden;-->
+
+<!--      -webkit-transition: all 0.4s;-->
+<!--      -o-transition: all 0.4s;-->
+<!--      -moz-transition: all 0.4s;-->
+<!--      transition: all 0.4s;-->
+<!--    }-->
+
+<!--    .header-cart {-->
+<!--      position: fixed;-->
+<!--      z-index: 1100;-->
+<!--      width: 390px;-->
+<!--      max-width: calc(100% - 30px);-->
+<!--      height: 100vh;-->
+<!--      top: 0;-->
+<!--      right: -400px;-->
+<!--      background-color: #fff;-->
+
+<!--      -webkit-transition: all 0.4s;-->
+<!--      -o-transition: all 0.4s;-->
+<!--      -moz-transition: all 0.34s;-->
+<!--      transition: all 0.4s;-->
+
+<!--      box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);-->
+<!--      -moz-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);-->
+<!--      -webkit-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);-->
+<!--      -o-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);-->
+<!--      -ms-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.18);-->
+<!--    }-->
+
+<!--    .header-cart::after {-->
+<!--      content: "";-->
+<!--      display: block;-->
+<!--      width: 100%;-->
+<!--      height: 9%;-->
+<!--      min-height: 30px;-->
+<!--    }-->
+
+<!--    .show-header-cart {-->
+<!--      visibility: visible;-->
+<!--      background-color: rgba(0,0,0,0.6);-->
+<!--    }-->
+
+<!--    .show-header-cart .header-cart {-->
+<!--      right: 0;-->
+<!--    }-->
+<!--  </style>-->
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          $(function () {
+            var request = $.ajax({
+              url : "/logic", //url새롭게 넣어주기
+              method : "GET",
+              dataType : "json"
+            });
+
+
+            request.done(function (data) {
+              console.log(data); // log 로 데이터 찍어주기.
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                // month, week, day 선택바
+                headerToolbar: {
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                selectable: true, //캘린더에서 선택가능 여부
+                // dateClick: function (info) { //하루만 클립하면 작동되는 메서드.
+                //   alert('clicked ' + info.dateStr);
+                // },
+
+                select: function (info) {
+                  alert('selected ' + info.startStr + ' to ' + info.endStr);
+
+                },
+
+
+                events : data,
+
+                eventClick:function(event) {
+                  // alert("이벤트가 발생됩니다. 여러분 이거 다 거짓말인거 아시죠~");
+                  $('.js-panel-cart').addClass('show-header-cart');
+
+                }
+
+              });
+
+              calendar.render();
+
+            });
+
+          });
+
+
+        });//END
+
+
+        $('.js-hide-cart').on('click',function(){
+          $('.js-panel-cart').removeClass('show-header-cart');
+        });
+
+    </script>
+
+
+
+</head>
+<body>
+<div id="calendar"></div>
+
+
+<div class="wrap-header-cart js-panel-cart">
+  <div class="s-full js-hide-cart"></div>
+
+  <div class="header-cart flex-col-l p-l-65 p-r-25">
+    <div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					여기에 내용을 넣어주세용~
+				</span>
+
+<!--      <div class="trans-04 js-hide-cart">-->
+      <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+        <i class="zmdi zmdi-close"></i>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
