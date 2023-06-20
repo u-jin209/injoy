@@ -224,4 +224,14 @@ ul {
     color: #555;
 }
 
+@media screen and (max-width: 990px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .kanbanBoard {
+        margin-bottom: 10px;
+    }
+}
 

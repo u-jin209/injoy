@@ -313,7 +313,7 @@ $(function () {
                         "                                            <ul class=\"button_priority\"\n" +
                         "                                                style=\"position: absolute; transform: none; top: 25px; left: 65px; width: 80px; text-align: start\">\n" +
                         "                                                <li class=\"mb-1 px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                    <button class=\"priorityBtn-kanban\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"red\"\n" +
@@ -325,7 +325,7 @@ $(function () {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                    <button class=\"priorityBtn-kanban\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"orange\"\n" +
@@ -337,7 +337,7 @@ $(function () {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                    <button class=\"priorityBtn-kanban\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"green\"\n" +
@@ -348,7 +348,7 @@ $(function () {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\"mb-1  px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                    <button class=\"priorityBtn-kanban\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"dark-violet\"\n" +
@@ -360,7 +360,7 @@ $(function () {
                         "                                                    </button>\n" +
                         "                                                </li>\n" +
                         "                                                <li class=\" px-2\">\n" +
-                        "                                                    <button class=\"priorityBtn\">\n" +
+                        "                                                    <button class=\"priorityBtn-kanban\">\n" +
                         "                                                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\"\n" +
                         "                                                             height=\"15\"\n" +
                         "                                                             fill=\"gray\"\n" +
@@ -382,7 +382,7 @@ $(function () {
 
                 })
 
-                $('#kanban-update-priority').find('.priorityBtn').click(function () {
+                $('#kanban-update-priority').find('.priorityBtn-kanban').click(function () {
                     let btnTag = $(this).html()
                     console.log(btnTag)
                     $('#kanban-update-priority').css('display', 'none')

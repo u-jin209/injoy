@@ -186,7 +186,7 @@ td {
     color: black !important;
 }
 
-.priorityBtn {
+.priorityBtn, .priorityBtn-task, .priorityBtn-kanban {
     border : none !important;
     background-color: white !important;
     font-size: 15px!important;
@@ -920,4 +920,62 @@ input[type='date']:valid::before {
     width: 100%;
     min-height: 200px;
     border: none;
+}
+
+/* mobile only */
+@media screen and (max-width: 990px) {
+    #taskTable table col {
+        width: 100% !important;
+    }
+    #taskTable table thead {
+        display: none;
+    }
+    #taskTable table tbody tr {
+        border-bottom: 3px solid #efefef;
+    }
+    #taskTable table tbody tr td {
+        width: 100%;
+        display: flex;
+        margin-bottom: 2px;
+        padding: 5px !important;
+        border: none !important;
+        font-size: 14px;
+        line-height: 28px;
+    }
+    #taskTable table tbody tr td:first-child,
+    #taskTable table tbody tr th:first-child {
+        padding-top: 16px;
+    }
+    #taskTable table tbody tr td:last-child,
+    #taskTable table tbody tr th:last-child {
+        padding-bottom: 15px;
+    }
+    #taskTable table tbody tr td:before {
+        display: inline-block;
+        margin-right: 12px;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100px;
+        flex: 0 0 100px;
+        font-weight: 700;
+        content: attr(data-label);
+        line-height: 28px;
+        height: 28px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    #startDate, #endDate{
+        text-align: start !important;
+        height: 28px !important;
+        width: auto !important;
+        padding: 0;
+    }
+    .button_progress, .button_priority, .button_process{
+        top: 35px !important;
+        left: 9% !important;
+    }
+    input[type='date']::before {
+        content: attr(data-placeholder);
+        text-align: start !important;
+        width: 100%;
+    }
 }
