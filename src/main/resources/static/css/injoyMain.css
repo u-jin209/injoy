@@ -240,6 +240,7 @@ header {
     /*position: fixed;*/
     height: 100%;
     overflow: auto;
+    overflow-x: hidden;
     /*float: left;*/
 
 }

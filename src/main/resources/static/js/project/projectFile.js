@@ -67,17 +67,34 @@ function addFolder() {
         "folderName": folderName,
         "projectId": projectId
     }
+    const existFolderName = document.getElementById("existFolderName" );
+    console.log( " $('#existFolderName').display(); " +existFolderName.style.display)
 
-    $.ajax({
-        type: 'GET',
-        url: "/folder/insert",
-        data: data,
-        success: function (result) {
-            $(".btn-close").click();
-            document.getElementById("folderName").value=''
-            printFolder(folderRoot);
-        }
-    })
+    if (folderName !="" && existFolderName.style.display != "inline-block"){
+        $.ajax({
+            type: 'GET',
+            url: "/folder/insert",
+            data: data,
+            success: function (result) {
+                $(".btn-close").click();
+                document.getElementById("folderName").value=''
+                printFolder(folderRoot);
+            }
+        })
+    }else if(existFolderName.style.display != "inline-block"){
+        Swal.fire({
+            title: "이름을 입력해 주세요 !",
+            icon: 'warning',
+            confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+    }else if(folderName !=""){
+        Swal.fire({
+            title: "이름을 변경해 주세요 !",
+            icon: 'warning',
+            confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+    }
+
 }
 
 function printFolder(folderRoot) {
