@@ -186,7 +186,7 @@ td {
     color: black !important;
 }
 
-.priorityBtn {
+.priorityBtn, .priorityBtn-task, .priorityBtn-kanban {
     border : none !important;
     background-color: white !important;
     font-size: 15px!important;
