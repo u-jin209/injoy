@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
-<div layout:fragment="content" >
+<div layout:fragment="content">
 <th:block th:replace="~{fragment/projectName :: projectNamefragment(${project},${logIn},${organList})}"></th:block>
 <ul class="nav nav-underline mb-4" id="myTab" role="tablist" style="border-bottom: 1px inset">
     <li class="nav-item">
@@ -56,6 +56,11 @@
         <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
 
     </div>
+    <input id="main-request" type="hidden" th:value="${#lists.size(taskList.?[process == '요청'])}"/>
+    <input id="main-progress" type="hidden" th:value="${#lists.size(taskList.?[process == '진행'])}"/>
+    <input id="main-feedback" type="hidden" th:value="${#lists.size(taskList.?[process == '피드백'])}"/>
+    <input id="main-finish" type="hidden" th:value="${#lists.size(taskList.?[process == '완료'])}"/>
+    <input id="main-hold" type="hidden" th:value="${#lists.size(taskList.?[process == '보류'])}"/>
 </div>
 </div>
 </html>

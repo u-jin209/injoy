@@ -601,7 +601,7 @@ function all() {
             priority_ul.find('button').click(function (e) {
 
                 const element = document.getElementsByClassName('task-priority-value')[0];
-                element.innerHTML = ($(this).context.innerHTML)
+                element.innerHTML = ($(this)[0].innerHTML)
 
                 $('.taskPage-addPriority').css('display', 'none')
                 $('.prioritySpan-add-taskPage').css('display', 'block')

@@ -59,7 +59,7 @@ $(function () {
             priority_ul.find('.priorityBtn').click(function (e) {
                 console.log('click')
                 const element = document.getElementsByClassName('writeBox-priority-value')[0];
-                element.innerHTML = ($(this).context.innerHTML)
+                element.innerHTML = ($(this)[0].innerHTML)
 
                 $('.addPriority-writeBox').css('display', 'none')
                 $('.prioritySpan-writeBox').css('display', 'block')

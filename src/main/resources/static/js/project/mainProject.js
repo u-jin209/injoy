@@ -40,6 +40,36 @@ $(function () {
             projectHomeScript.src = '/js/project/projectHome.js';
             projectHomeScript.defer = true;
             document.body.appendChild(projectHomeScript);
+
+            let request_value = $('#main-request').val();
+            let progress_value = $('#main-progress').val();
+            let feedback_value = $('#main-feedback').val();
+            let finish_value = $('#main-finish').val();
+            let hold_value = $('#main-hold').val();
+
+            const data = {
+                datasets: [{
+                    data: [request_value, progress_value, feedback_value, finish_value, hold_value],
+                    backgroundColor: [
+                        '#00b2ff',
+                        '#00b01c',
+                        '#fd7900',
+                        '#402a9d',
+                        '#777777'
+                    ],
+                    hoverOffset: 2
+                }]
+            };
+
+            const config = {
+                type: 'doughnut',
+                data: data,
+            };
+
+            new Chart(
+                document.getElementById('taskChart'),
+                config
+            );
         })
     })
 

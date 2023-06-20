@@ -204,7 +204,7 @@ $(function () {
             priority_ul.find('button').click(function (e) {
 
                 const element = document.getElementsByClassName('kanban-priority-value')[0];
-                element.innerHTML = ($(this).context.innerHTML)
+                element.innerHTML = ($(this)[0].innerHTML)
 
                 $('.addPriority').css('display', 'none')
                 $('.prioritySpan').css('display', 'block')
