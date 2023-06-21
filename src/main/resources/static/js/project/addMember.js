@@ -2,10 +2,13 @@
 
 $(document).ready(function () {
     const authority = document.getElementById("authority")
-    if( localStorage.getItem('selectedTab') == "home-tab" && authority == "MANAGER" ){
+    console.log("eeeeeeeeee authority : " + authority)
+    if( localStorage.getItem('selectedTab') == "home-tab"  ){
 
+        if( authority.innerText == "MANAGER" ){
+            alertWaitList();
+        }
 
-        alertWaitList();
     }
 
 
