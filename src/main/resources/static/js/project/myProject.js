@@ -253,11 +253,14 @@ function memberList(value) {
                             "</div>" +
                             "</div>"
                         );
+                        const crown = document.getElementById("crown")
 
                         if(item.authority === "MANAGER" ){
-                            const crown = document.getElementById("crown")
+
                             crown.style.display = "unset"
 
+                        }else{
+                            crown.style.display = 'none'
                         }
 
                     });
