@@ -513,7 +513,7 @@ function showCalendarText(result) {
     $('.myText-calendar-period-area').text(start+', '+ sTime +' - ' + end+', '+ eTime)
     //작성일
     $('.myText-postDate').text(date)
-    if (result.calAddress == null) {
+    if (result.calAddress == null || result.calAddress === '') {
         $('.post-calendar-place').css('display', 'none')
     } else {
         $('.post-calendar-place').css('display', 'flex')
@@ -523,7 +523,7 @@ function showCalendarText(result) {
 
     showHomeMap(result.calAddress,  $('#myTextView'));
 
-    if (result.calContent == null) {
+    if (result.calContent == null || result.calContent === '') {
         $('.post-calendar-content').css('display', 'none')
     } else {
         $('.post-calendar-content').css('display', 'flex')
