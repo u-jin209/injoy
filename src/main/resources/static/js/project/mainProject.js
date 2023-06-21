@@ -122,13 +122,13 @@ $(function () {
 
             calendarObj.setOption('eventClick', function (event) {
                 Obj = event.event;
-                console.log("calendarId : " + Obj.id);
-                console.log("제목 : " + Obj.title);
-                console.log("시작일 : " + Obj.start);
-                console.log("끝 : " + Obj.end);
+                // console.log("calendarId : " + Obj.id);
+                // console.log("제목 : " + Obj.title);
+                // console.log("시작일 : " + Obj.start);
+                // console.log("끝 : " + Obj.end);
 
                 const projectName = document.getElementById('projectNameName').value;
-                console.log("프로젝트 이름 : " + projectName);
+                // console.log("프로젝트 이름 : " + projectName);
 
                 const projectIdId = document.getElementById('projectIdId').value;
 
@@ -139,102 +139,104 @@ $(function () {
                     "projectName": projectName,
                     "projectIdId": projectIdId,
                     "loginUserId": loginUserId
-
                 }
                 $.ajax({
                     url: "/testtt",
                     type: "POST",
                     data: dataa,
                 }).done(function (fragment) {
-                    console.log("frag: " + fragment);
-                    $("#tlqkf").replaceWith(fragment);
+                    // console.log("frag: " + fragment);
+                    $("#slideee").replaceWith(fragment);
                 });
 
                 var userId = dataa.loginUserId;
-                console.log("현재 로그인 : " + userId);
-                $.ajax({
-                    url: "/showCalComment",
-                    type: "POST",
-                    data: dataa,
-                    success: function (result) {
-                        // var ul = document.createElement('ul');
-                        var ul = document.getElementById("comment_list_ul");
-                        // ul.id = "comment_list_ul"
-                        // ul.style.cssText = "list-style:none; padding: 0;";
-
-                        // console.log($("#comment_list_div"));
-
-                        result.forEach(function (comment) {
-
-                            if (userId == comment.calComUserId) {
-                                $(ul).append(
-                                    "<li id='" + comment.calCommentId + "'>" +
-                                    "<div style='display: flex;' class='m-3'>" +
-                                    "<div class='col-1'>" +
-                                    "<span class='thumbnail size40 radius16' style='background-image: url(/img/penguin.jpg)'>" +
-                                    "</span></div>" +
-                                    "<div class='col-11'>" +
-                                    "<div style='display: flex; justify-content: space-between'>" +
-
-                                    "<div style='display: flex; flex-direction: row'>" +
-                                    "<div style='margin-right: 10px;'>" +
-                                    "<strong>" + comment.calComUsername + "</strong>" +
-                                    "</div>" +
-                                    "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>" + comment.calComRegisterDateStr + "</div>" +
-                                    "</div>" +
-
-                                    "<div id='commentDelnModi'>" +
-                                    "<div class='' style='margin-right: 5px'>" +
-                                    "<a class='bi bi-pencil-square' type='button' style='color: #AAAAAA;' onClick='method()'></a>" +
-                                    "</div>" +
-                                    "<div class=''>" +
-                                    "<a class='bi bi-trash3' type='button' style='color: #AAAAAA;' onclick='deleteCalComment(" + comment.calCommentId + "," + comment.calComProjectId + "," + comment.calComCalId + ")'></a>" +
-                                    "</div>" +
-                                    "</div>" +
-
-
-                                    "</div>" +
-
-                                    "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
-                                    "</div>" +
-                                    "</div>" +
-                                    "<hr style='color: rgb(126,125,125);'>" +
-                                    "</li>");
-                            } else {
-                                $(ul).append(
-                                    "<li id='" + comment.calCommentId + "'>" +
-                                    "<div style='display: flex;' class='m-3'>" +
-                                    "<div class='col-1'>" +
-                                    "<span class='thumbnail size40 radius16' style='background-image: url(/img/penguin.jpg)'>" +
-                                    "</span></div>" +
-                                    "<div class='col-11'>" +
-                                    "<div style='display: flex; justify-content: space-between'>" +
-
-                                    "<div style='display: flex; flex-direction: row'>" +
-                                    "<div style='margin-right: 10px;'>" +
-                                    "<strong>" + comment.calComUserId + "</strong>" +
-                                    "</div>" +
-                                    "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>" + comment.calComRegisterDateStr + "</div>" +
-                                    "</div>" +
-
-                                    "</div>" +
-
-                                    "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
-                                    "</div>" +
-                                    "</div>" +
-                                    "<hr style='color: rgb(126,125,125);'>" +
-                                    "</li>");
-                            }
-                        });
-
-                        $($("#comment_list_div")).append(ul);
-
-
-                        // console.log($("#comment_list_div"));
-                    }
-
-
-                })
+                // console.log("현재 로그인 : " + userId);
+                // $.ajax({
+                //     url: "/showCalComment",
+                //     type: "POST",
+                //     data: dataa,
+                //     success: function (result) {
+                //         // var ul = document.createElement('ul');
+                //         var ul = document.getElementById("comment_list_ul");
+                //
+                //         // ul.id = "comment_list_ul"
+                //         // ul.style.cssText = "list-style:none; padding: 0;";
+                //
+                //         // console.log($("#comment_list_div"));
+                //         //     console.log(result);
+                //             result.forEach(function (comment) {
+                //
+                //                 if (userId == comment.calComUserId) {
+                //                     $(ul).append(
+                //                         "<li id='" + comment.calCommentId + "'>" +
+                //                         "<div style='display: flex;' class='m-3'>" +
+                //                         "<div class='col-1'>" +
+                //                         "<span class='thumbnail size40 radius16' style='background-image: url("+comment.profilePhoto+")'>" +
+                //                         "</span></div>" +
+                //                         "<div class='col-11'>" +
+                //                         "<div style='display: flex; justify-content: space-between'>" +
+                //
+                //                         "<div style='display: flex; flex-direction: row'>" +
+                //                         "<div style='margin-right: 10px;'>" +
+                //                         "<strong>" + comment.calComUsername + "</strong>" +
+                //                         "</div>" +
+                //                         "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>" + comment.calComRegisterDateStr + "</div>" +
+                //                         "</div>" +
+                //
+                //                         "<div id='commentDelnModi'>" +
+                //                         "<div class='' style='margin-right: 5px'>" +
+                //                         "<a class='bi bi-pencil-square' type='button' style='color: #AAAAAA;' onClick='method()'></a>" +
+                //                         "</div>" +
+                //                         "<div class=''>" +
+                //                         "<a class='bi bi-trash3' type='button' style='color: #AAAAAA;' onclick='deleteCalComment(" + comment.calCommentId + "," + comment.calComProjectId + "," + comment.calComCalId + ")'></a>" +
+                //                         "</div>" +
+                //                         "</div>" +
+                //
+                //
+                //                         "</div>" +
+                //
+                //                         "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
+                //                         "</div>" +
+                //                         "</div>" +
+                //                         "<hr style='color: rgb(126,125,125);'>" +
+                //                         "</li>");
+                //                 } else {
+                //                     $(ul).append(
+                //                         "<li id='" + comment.calCommentId + "'>" +
+                //                         "<div style='display: flex;' class='m-3'>" +
+                //                         "<div class='col-1'>" +
+                //                         "<span class='thumbnail size40 radius16' style='background-image: url("+comment.profilePhoto+")'>" +
+                //                         "</span></div>" +
+                //                         "<div class='col-11'>" +
+                //                         "<div style='display: flex; justify-content: space-between'>" +
+                //
+                //                         "<div style='display: flex; flex-direction: row'>" +
+                //                         "<div style='margin-right: 10px;'>" +
+                //                         "<strong>" + comment.calComUsername + "</strong>" +
+                //                         "</div>" +
+                //                         "<div class='' style='font-size: 14px; padding-top: 3px; color: #AAAAAA;'>" + comment.calComRegisterDateStr + "</div>" +
+                //                         "</div>" +
+                //
+                //                         "</div>" +
+                //
+                //                         "<div style='padding-top: 8px; font-size: 15px;'>" + comment.calComContent + "</div>" +
+                //                         "</div>" +
+                //                         "</div>" +
+                //                         "<hr style='color: rgb(126,125,125);'>" +
+                //                         "</li>");
+                //                 }
+                //             });
+                //
+                //         // console.log(ul.innerHTML);
+                //
+                //
+                //         // $($("#comment_list_div")).append(ul);
+                //             // console.log($("#comment_list_div"));
+                //     }
+                //
+                //
+                //
+                // })
 
 
                 $('.js-show-schedule').addClass('show-header-cart');

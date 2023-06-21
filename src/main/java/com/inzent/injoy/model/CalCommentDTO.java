@@ -17,4 +17,6 @@ public class CalCommentDTO {
 
     private String name;
     private String profilePhoto;
+
+    private String isSame;
 }
