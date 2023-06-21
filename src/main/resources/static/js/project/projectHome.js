@@ -1264,16 +1264,16 @@ function showHomeMap(mapAddress, mapView){
     let map;
     geocoder = new google.maps.Geocoder();
     let address = mapAddress;
-    console.log("주소 : " + address);
+    // console.log("주소 : " + address);
     geocoder.geocode({'address': address}, function (results, status) {
 
 
         if (status == 'OK') {
-            console.log('this is OK');
+            // console.log('this is OK');
             // var tmp = (results[0].geometry.location).toString();
 
-            console.log("위도 : " + results[0].geometry.location.lat());
-            console.log("경도 : " + results[0].geometry.location.lng());
+            // console.log("위도 : " + results[0].geometry.location.lat());
+            // console.log("경도 : " + results[0].geometry.location.lng());
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -1289,7 +1289,7 @@ function showHomeMap(mapAddress, mapView){
             const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
             // Set the image source to the constructed URL
-            console.log(mapView.find('#mapImage'))
+            // console.log(mapView.find('#mapImage'))
             const mapImage = mapView.find('#mapImage');
             mapImage.attr('src', imageUrl)
             mapImage.css('visibility','visible')
@@ -1636,16 +1636,16 @@ function codeHomeAddress() {
     var map;
     geocoder = new google.maps.Geocoder();
     var address = document.getElementById('calAddress-home').value;
-    console.log("주소 : " + address);
+    // console.log("주소 : " + address);
     geocoder.geocode({'address': address}, function (results, status) {
 
 
         if (status == 'OK') {
-            console.log('this is OK');
+            // console.log('this is OK');
             // var tmp = (results[0].geometry.location).toString();
 
-            console.log("위도 : " + results[0].geometry.location.lat());
-            console.log("경도 : " + results[0].geometry.location.lng());
+            // console.log("위도 : " + results[0].geometry.location.lat());
+            // console.log("경도 : " + results[0].geometry.location.lng());
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -1666,8 +1666,8 @@ function codeHomeAddress() {
             document.getElementById("mapImage").style.visibility = 'visible';
 
             var ads = addressLogic(latitude, longitude);
-            console.log(addressLogic(latitude, longitude))
-            console.log("ads : " + ads);
+            // console.log(addressLogic(latitude, longitude))
+            // console.log("ads : " + ads);
 
 
         } else {
@@ -1689,7 +1689,7 @@ function addressLogic(latitude, longitude) {//return Address from latitude and l
     geocoder
         .geocode({location: latlng})
         .then((response) => {
-            console.log("헬로우 : " + response.results[0].formatted_address);
+            // console.log("헬로우 : " + response.results[0].formatted_address);
             tmp = response.results[0].formatted_address
             console.log("tmp : " + tmp)
 
@@ -1703,6 +1703,6 @@ function addressLogic(latitude, longitude) {//return Address from latitude and l
 }
 
 function getAddress(address) { // (4) should log the address
-    console.log("Finally : " + address);
+    // console.log("Finally : " + address);
     document.getElementById("calAddress-home").value = address
 }

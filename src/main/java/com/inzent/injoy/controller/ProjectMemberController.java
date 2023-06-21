@@ -96,7 +96,7 @@ public class  ProjectMemberController {
 
     @ResponseBody
     @GetMapping("searchMember")
-    public List<ProjectMemberDTO> searchMember(String keyword, int projectId){
+    public List<ProjectMemberDTO> searchMember(String keyword, Integer projectId){
 
         ProjectMemberDTO memberDTO = new ProjectMemberDTO();
         memberDTO.setKeyword(keyword);

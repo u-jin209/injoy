@@ -17,8 +17,8 @@
     </select>
 
     <insert id="insert"  parameterType="CalCommentDTO" >
-        insert into "injoy"."calComment"("calComProjectId", "calComCalId", "calComUserId","calComContent","calComRegisterDate", "calComRegisterDateStr", "calComUsername")
-        values (#{calComProjectId}, #{calComCalId}, #{calComUserId},#{calComContent}, NOW(), #{calComRegisterDateStr}, #{calComUsername})
+        insert into "injoy"."calComment"("calComProjectId", "calComCalId", "calComUserId","calComContent","calComRegisterDate", "calComRegisterDateStr", "calComUsername", "profilePhoto")
+        values (#{calComProjectId}, #{calComCalId}, #{calComUserId},#{calComContent}, NOW(), #{calComRegisterDateStr}, #{calComUsername}, #{profilePhoto})
     </insert>
 
     <delete id="delete" parameterType="int" >

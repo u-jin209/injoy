@@ -8,12 +8,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -40,12 +42,10 @@ public class CalendarController {
     public List<Map<String, Object>> monthPlan(HttpServletRequest request, Model model, @AuthenticationPrincipal UserCustomDetails logIn){
         UserDTO userDTO = logIn.getUserDTO();
         int projectId = Integer.parseInt(request.getParameter("projectId"));
-        List<CalendarDTO> list = calendarService.selectAll(projectId);//이것은 테스트 중
-
+        List<CalendarDTO> list = calendarService.selectAll(projectId);
 
         String activeStart = request.getParameter("activeStart");
-        System.out.println("activeStart = " + activeStart);
-
+//        System.out.println("activeStart = " + activeStart);
 
         JSONObject jsonObj = new JSONObject();
         JSONArray jsonArr = new JSONArray();
@@ -87,14 +87,14 @@ public class CalendarController {
         int projectId = Integer.parseInt(request.getParameter("projectIdd"));
         c.setProjectId(projectId);
         UserDTO userDTO = logIn.getUserDTO();
-        System.out.println("userDTO = " + userDTO);
+//        System.out.println("userDTO = " + userDTO);
         c.setUserId(userDTO.getId());
         c.setCalTitle(request.getParameter("scheduleTitle"));
         c.setCalContent(request.getParameter("writeScheduleContent"));
 
 
-        System.out.println("startDate = " + request.getParameter("startDate"));
-        System.out.println("endDate = " + request.getParameter("endDate"));
+//        System.out.println("startDate = " + request.getParameter("startDate"));
+//        System.out.println("endDate = " + request.getParameter("endDate"));
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
@@ -123,9 +123,9 @@ public class CalendarController {
 
         c.setCalAddress(request.getParameter("addressInputId"));
         c.setCalImgSrc(request.getParameter("mapImage"));
-        System.out.println("SRC : " + request.getParameter("mapImage"));
+//        System.out.println("SRC : " + request.getParameter("mapImage"));
 
-        System.out.println("c = " + c);
+//        System.out.println("c = " + c);
         calendarService.insert(c);
     }
 
@@ -133,11 +133,11 @@ public class CalendarController {
     @ResponseBody
     @PostMapping(value = "/deleteSchedule")
     public void deleteScheduleMethod(HttpServletRequest request) {
-        System.out.println("스케줄 삭제 메서드ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+//        System.out.println("스케줄 삭제 메서드ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
         int projectId = Integer.parseInt(request.getParameter("projectId"));
-        System.out.println("projectIdddddddddddddddddddd = " + projectId);
+//        System.out.println("projectIdddddddddddddddddddd = " + projectId);
         int scheduleId = Integer.parseInt(request.getParameter("scheduleId"));
-        System.out.println("scheduleIddddddddddddddd = " + scheduleId);
+//        System.out.println("scheduleIddddddddddddddd = " + scheduleId);
 
         CalendarDTO c = new CalendarDTO();
         c.setProjectId(projectId);
@@ -149,7 +149,6 @@ public class CalendarController {
     @ResponseBody
     @PostMapping(value = "/modifySchedule") //나중에 이름 바꿔주기       registerSchedule
     public void modifyScheduleMethod(HttpServletRequest request, @AuthenticationPrincipal UserCustomDetails logIn) throws ParseException {
-
         CalendarDTO c = new CalendarDTO();
         int projectId = Integer.parseInt(request.getParameter("projectId"));
         int calId = Integer.parseInt(request.getParameter("calId"));
@@ -160,6 +159,10 @@ public class CalendarController {
 
         String startDate = request.getParameter("modifyStartDate");
         String endDate = request.getParameter("modifyEndDate");
+
+        System.out.println("startDate = " + startDate);
+        System.out.println("endDate = " + endDate);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime start = LocalDateTime.parse(startDate, formatter);
         LocalDateTime end = LocalDateTime.parse(endDate, formatter);
@@ -174,7 +177,7 @@ public class CalendarController {
         c.setCalAddress(address);
         c.setCalImgSrc(src);
 
-        System.out.println("수정씨 = " + c);
+//        System.out.println("수정씨 = " + c);
 
         calendarService.update(c);
     }
@@ -184,33 +187,30 @@ public class CalendarController {
 
 
 
-
-
-
 //    @ResponseBody
 //    @PostMapping(value = "/testtt")
     @RequestMapping(value = "/testtt", method = RequestMethod.POST)
-    public String testtt(ModelMap model, HttpServletRequest request) {
-        System.out.println(" testtt 메서드입니다.. ");
+    public String testtt(ModelMap model, HttpServletRequest request, @AuthenticationPrincipal UserCustomDetails logIn) throws Exception {
+//        System.out.println(" testtt 메서드입니다.. ");
         String projectName = request.getParameter("projectName");
 
         String calendarId = request.getParameter("calendarId");
-        System.out.println("calendarId = " + calendarId);
+//        System.out.println("calendarId = " + calendarId);
+
+        String projectIdTmp = request.getParameter("projectIdId");
+        int projectId = Integer.parseInt(projectIdTmp);
+
 
         CalendarDTO c = calendarService.selectOne(Integer.parseInt(calendarId));
-        //        String name = calendarService.selectUserName(c.getUserId());
-        //        System.out.println("이름 : " + name);
 
-
-        System.out.println("c.getCalStart() = " + c.getCalStart());
+//        System.out.println("c.getCalStart() = " + c.getCalStart());
         Date now = c.getCalRegisterDate();
-
 
         Timestamp nowTimestamp = new Timestamp(now.getTime());
         String strReg = nowTimestamp.toString();
 
-        System.out.println(strReg);
-        String calRegister_date = strReg.substring(0, strReg.length() - 4);
+//        System.out.println(strReg);
+        String calRegister_date = strReg.substring(0, strReg.length() - 7);
 
         Date startDate = c.getCalStart();
         Timestamp startTimestamp = new Timestamp(startDate.getTime());
@@ -221,18 +221,34 @@ public class CalendarController {
         String strEnd = endTimestamp.toString();
 
 
-//            String strStart1 = c.getCalStart().toString();
-//            String strEnd = c.getCalEnd().toString();
-//            String calStart =  strStart1.substring(0, strStart1.length() - 5);
-//            String calEnd =  strEnd.substring(0, strEnd.length() - 5);
-//        System.out.println("calEnd = " + calEnd);
-//        System.out.println("calStart = " + calStart);
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String startDateStr = format.format(startDate);
         String endDateStr = format.format(endDate);
-        System.out.println("무야호구마 startDatestr = " + startDateStr);
 
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        String startDayOfWeek = sdf.format(startDate);
+        String endDayOfWeek = sdf.format(endDate);
+//        System.out.println("startDateStr = " + startDateStr);
+//        System.out.println("endDateStr = " + endDateStr);
+
+        String sDate = startDateStr.substring(0,startDateStr.length()-6);
+        String eDate = endDateStr.substring(0, endDateStr.length()-6);
+//        System.out.println("sDate = " + sDate);
+//        System.out.println("eDate = " + eDate);
+
+        String sTime = startDateStr.substring(11, 16);
+        String eTime = endDateStr.substring(11, 16);
+
+        String sDayOfWeek = startDayOfWeek.substring(0,1);
+        String eDayOfWeek = endDayOfWeek.substring(0,1);
+//        System.out.println("eDayOfWeek = " + eDayOfWeek);
+//        System.out.println("sDayOfWeek = " + sDayOfWeek);
+
+//        System.out.println("sTime = " + sTime);
+        startDateStr = sDate + " (" + sDayOfWeek + "), " + sTime;
+        endDateStr = eDate+ " (" + eDayOfWeek + "), " + eTime;
 
     //        유저닉네임 필요
             model.addAttribute("calobj", c);
@@ -240,12 +256,13 @@ public class CalendarController {
             model.addAttribute("calendarId", c.getCalendarId());
             model.addAttribute("projectName", projectName);
             model.addAttribute("writerId", c.getUserId());
-            System.out.println("이름 : " + calendarService.getUsername(c.getUserId()) );
+//            System.out.println("이름 : " + calendarService.getUsername(c.getUserId()) );
             model.addAttribute("usernamee", calendarService.getUsername(c.getUserId()));
             model.addAttribute("calTitle", c.getCalTitle());
             model.addAttribute("calContent", c.getCalContent());
             model.addAttribute("calStart", startDateStr);
             model.addAttribute("calEnd", endDateStr);
+
             model.addAttribute("calRegister_date",calRegister_date);
             model.addAttribute("calAddress", c.getCalAddress());
 //            model.addAttribute("calImgSrc",c.getCalImgSrc());
@@ -271,10 +288,37 @@ public class CalendarController {
 //            }
 //
 //            model.addAttribute("comList", comList);
+            model.addAttribute("profilePhoto", c.getProfilePhoto());
+
+            UserDTO currentUser = logIn.getUserDTO();
+            String currentProfile = currentUser.getProfilePhoto();
+            model.addAttribute("currentProfile", currentProfile);
+
+
+
+        CalendarDTO tmpC = new CalendarDTO();
+        tmpC.setProjectId(projectId);
+        tmpC.setCalendarId(Integer.parseInt(calendarId));
+
+        List<CalCommentDTO> commentList = calendarCommentService.selectAll(c);
+        int currentUserId = Integer.parseInt(request.getParameter("loginUserId"));
+        for(CalCommentDTO cm : commentList) {
+            if(currentUserId == cm.getCalComUserId()) {
+                cm.setIsSame("yes");
+            } else { cm.setIsSame("no");}
+        }
+
+//        System.out.println("commentList 댓글들 in testtt = " + commentList);
+
+        model.addAttribute("commentList", commentList);
+
+
+
 
 
 //            이름 바꿔주기
-            return "/project/calendar :: #tlqkf"; //경로 문제
+//            return "/project/calendar :: #tlqkf"; //경로 문제
+            return "/project/calendar :: #slideee"; //경로 문제
     }
 
 
@@ -288,6 +332,7 @@ public class CalendarController {
         String username = userDTO.getName();
         String comment = request.getParameter("comment");
 
+
         CalCommentDTO c = new CalCommentDTO();
         c.setCalComProjectId(projectId);
         c.setCalComCalId(calId);
@@ -299,10 +344,15 @@ public class CalendarController {
         c.setCalComRegisterDateStr(now);
         c.setCalComUsername(username);
 
+        String profileSrc = userDTO.getProfilePhoto();
+//        System.out.println("profileSrc = " + profileSrc);
+        c.setProfilePhoto(profileSrc);
+
+
         calendarCommentService.insert(c);
 
         CalCommentDTO comObj = calendarCommentService.selectOneComment(c);
-        System.out.println("새로 입력한 댓글입니다. : " + comObj);
+//        System.out.println("새로 입력한 댓글입니다. : " + comObj);
 
         HashMap<String, String> tmp = new HashMap<String, String>();
         tmp.put("commentId", comObj.getCalCommentId() + "");//수정하기
@@ -311,6 +361,7 @@ public class CalendarController {
         tmp.put("userId", comObj.getCalComUserId() + "");//수정하기
         tmp.put("username", calendarService.getUsername(comObj.getCalComUserId()));
         tmp.put("registerDateStr", now);
+        tmp.put("profileSrc", comObj.getProfilePhoto());
 
         return tmp;
     }
@@ -318,12 +369,10 @@ public class CalendarController {
 
 
 
-
-
     @ResponseBody
     @PostMapping(value = "/showCalComment")
     public List<CalCommentDTO> CommentListMethod(HttpServletRequest request) {
-        System.out.println("showCalComment 입니다.....");
+//        System.out.println("showCalComment 입니다.....");
         int projectIdId = Integer.parseInt(request.getParameter("projectIdId"));
         int calId = Integer.parseInt(request.getParameter("calendarId"));
 
@@ -332,11 +381,7 @@ public class CalendarController {
         c.setCalendarId(calId);
 
          List<CalCommentDTO> commentList = calendarCommentService.selectAll(c);
-
-//         나중에 삭제해 주세요
-         for(CalCommentDTO ccc : commentList) {
-             System.out.println("ccc : " + ccc);
-         }
+//        System.out.println("commentList 댓글들 = " + commentList);
 
 
         return commentList;
@@ -347,21 +392,21 @@ public class CalendarController {
     @PostMapping(value = "/deleteCalComment")
     public void deleteCommentMethod(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("commentId"));
-        System.out.println("삭제할 아이디 = " + id);
+//        System.out.println("삭제할 아이디 = " + id);
         calendarCommentService.delete(id);
     }
 
     @GetMapping("/calendar/detailCalendar")
     @ResponseBody
     public CalendarDTO detailCalendar(int calendarId) {
-        System.out.println(calendarService.selectOne(calendarId));
+//        System.out.println(calendarService.selectOne(calendarId));
         return calendarService.selectOne(calendarId);
     }
 
     @PostMapping("/calendar/write")
     @ResponseBody
     public String writeCalendar(@AuthenticationPrincipal UserCustomDetails login, CalendarDTO calendarDTO) {
-        System.out.println(calendarDTO);
+//        System.out.println(calendarDTO);
         calendarDTO.setUserId(login.getUserDTO().getId());
         if (calendarDTO.getCalTitle().isEmpty()) {
             return "error";
@@ -411,12 +456,12 @@ public class CalendarController {
     }
 
 
-
     @ResponseBody
     @PostMapping(value = "/modifyComment")
     public void modifyCommentMethod(HttpServletRequest request) {
         int commentId = Integer.parseInt(request.getParameter("commentId"));
         String comment = request.getParameter("commentVal");
+//        System.out.println("수정할 댓글 : " + comment + "-by modifyCommentMethod");
 
         CalCommentDTO c = new CalCommentDTO();
         c.setCalCommentId(commentId);
@@ -425,33 +470,6 @@ public class CalendarController {
         calendarCommentService.updateHome(c);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
