@@ -4,12 +4,13 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns="http://www.w3.org/1999/html"
-        style="width: auto;">
+        style="min-width: 1508px;">
 
 <head>
     <title>INJOY</title>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+<!--    <meta name="viewport" content="width=device-width,initial-scale=1">-->
+    <meta name="viewport" content="min-width=1508">
     <link th:href="@{/css/injoyMain.css}" rel="stylesheet"/>
     <link th:href="@{/css/layout/layout.css}" rel="stylesheet" />
     <link th:href="@{/css/project/task.css}" rel="stylesheet" />
@@ -493,8 +494,38 @@
         #tlqkf::-webkit-scrollbar {
             display: none;
         }
+        .content{
+            padding-left: 240px;
+            padding-right: 0;min-width: 1508px;
+            width: 100%;
+        }
+        /*@media screen and (max-width: 480px) {*/
+        /*    !* 480px 이하에서 적용될 스타일을 여기에 작성합니다 *!*/
+        /*    .main_div{*/
+        /*        flex-direction: column;*/
+        /*        flex-wrap: nowrap;*/
+        /*    }*/
+        /*    .sidebar{*/
+        /*        display: block;*/
+        /*        position: initial;*/
+        /*        padding-left: 0 !important;*/
+        /*        width: 240px;*/
+        /*        min-width: 200px;*/
+
+        /*        height: 100%;*/
+        /*        overflow: auto;*/
+        /*        float: none;*/
+        /*        background-color: #001542;*/
 
 
+
+        /*        height: auto;*/
+        /*    }*/
+        /*    .content{*/
+        /*        max-width: 480px;*/
+        /*        padding: 0;*/
+        /*    }*/
+        /*}*/
 
     </style>
 
@@ -506,7 +537,7 @@
         <div class=" sidebar">
             <div th:replace="~{/fragment/sideBar :: sideBarFragment}"></div>
         </div>
-        <div class=" content" style="padding-left: 240px!important; padding-right: 0;min-width: 1508px;width: 100%">
+        <div class="content">
             <div layout:fragment="content">
 
             </div>
