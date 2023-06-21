@@ -12,6 +12,7 @@
     font-weight: bold;
 }
 .allFile-total{
+    margin-top: 30px;
     margin-bottom: 20px;
     z-index: 1;
     position: relative;
