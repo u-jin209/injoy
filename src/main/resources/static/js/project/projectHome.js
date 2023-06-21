@@ -418,18 +418,30 @@ function modifyTask() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $(this).parent().css('display', 'none')
-
                 let parents = $(this).parents('.postHeader').parent()
+                parents.find('.post-content').css('pointer-events', 'none')
+
                 parents.find('.modify-task-title').attr('type', 'text')
+
                 parents.find('#post-task-title').css('display', 'none')
+                parents.find('.modify-task-content').css('display', 'block').css('pointer-events', 'auto')
 
-                parents.find('.modify-task-content').css('display', 'block')
                 parents.find('#post-task-content').css('display', 'none')
-
 
                 $(document).click(function (event) {
                     if (!$(event.target).closest(parents).length && !$(event.target).closest('.swal2-container').length) {
                         updateTask(parents);
+                    } else if ($(event.target).closest(parents).length && !$(event.target).closest(parents.find('.modify-task-title')).length && !$(event.target).closest('.modify-task-content').length) {
+                        Swal.fire({
+                            icon : 'warning',
+                            text: '업무 수정사항을 완료해주세요',
+                            width: '300px',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3064B3',
+                            cancelButtonColor: 'red',
+                            confirmButtonText: '확인',
+                            cancelButtonText: '취소',
+                        })
                     }
                 });
 
