@@ -244,7 +244,6 @@ function searchUser(projectId, logInUser) {
             data: data,
             success: function (result) {
 
-                console.log("ddddd")
 
                 if (result.length >= 1) {
 
