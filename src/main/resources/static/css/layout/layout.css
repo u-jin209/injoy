@@ -17,3 +17,8 @@
     min-width: 1508px;
     width: 100%;
 }
+
+.main_div{
+    display: flex;
+    flex-direction: row;
+}
