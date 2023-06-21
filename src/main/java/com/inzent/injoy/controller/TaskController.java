@@ -405,7 +405,12 @@ public class TaskController {
     public String deleteTask(int taskId){
         TaskDTO taskDTO = taskService.selectOne(taskId);
 
+        List<TaskFileDTO> taskFileDTO = taskFileService.selectAll(taskId);
+        for (TaskFileDTO file : taskFileDTO){
+            fileService.delete(file.getFileId());
+        }
         taskService.deleteTask(taskId);
+
         return  "redirect:/project/" + taskDTO.getProjectId();
     }
 

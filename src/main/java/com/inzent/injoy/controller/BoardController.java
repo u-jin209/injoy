@@ -102,7 +102,10 @@ public class BoardController {
     @PostMapping("deleteBoard")
     public String deleteBoard(int boardId){
         BoardDTO boardDTO = boardService.selectOne(boardId);
-
+        List<BoardFileDTO> boardFileDTO = boardFileService.selectAll(boardId);
+        for (BoardFileDTO file : boardFileDTO){
+            fileService.delete(file.getFileId());
+        }
         boardService.deleteBoard(boardId);
         return "redirect:/project/" + boardDTO.getProjectId();
 
