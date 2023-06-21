@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko" >
 
-<div th:fragment="calendarContent(project, login)">
+<div th:fragment="calendarContent(project, login)" style="padding: 0 20px">
 
     <div id='calendar'></div>
 
@@ -12,7 +12,7 @@
 
 
 <!-- Modal -->
-<div class="modal " id="addScheduleModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+<div class="modal " id="addScheduleModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true" style="z-index: 20">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -348,7 +348,7 @@
 
 <!--            수정          -->
 <div class="modal" id="modifyScheduleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modifyTaskModalLabel"
-     aria-hidden="true">
+     aria-hidden="true" style="z-index: 20">
     <div class="modal-dialog modal-dialog-centered modal-lg " style="width: 580px;">
         <div class="modal-content p-3">
             <div class="modal-header">
