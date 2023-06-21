@@ -11,7 +11,9 @@
     background-color: #001542;
 }
 
-/*.content{*/
-/*    padding-right: 0 !important;*/
-/*    padding-left: 0 !important;*/
-/*}*/
+.content{
+    padding-left: 240px;
+    padding-right: 0;
+    min-width: 1508px;
+    width: 100%;
+}
