@@ -1490,10 +1490,8 @@ function modifyCalendar() {
 
                 $('#calAddress-home').on("input", function () {
                     let val = $('#calAddress-home').val().trim();
-                    if (val == "") {
-                        console.log("Empty String");
-                        // document.getElementById("mapImage").style.visibility='hidden';
-                        document.getElementById("mapImage").remove();
+                    if (val === "") {
+                        document.getElementById("mapImage-home").remove();
                     } else {
                         getHomePlace();
                     }
@@ -1508,17 +1506,12 @@ function modifyCalendar() {
                     }
 
                 });
-
-                window.addEventListener('load', function(event){
-
-                    const input = document.getElementById("calAddress-home");
-                    const options = {
-                        //add options here if you want more customizations
-                    };
-                    const autocomplete = new google.maps.places.Autocomplete(input, options);
-
-                });
-
+                parents.find('.post-calendar-place').css('display', 'flex').css('align-items', 'start')
+                if (result.calAddress === ''){
+                    parents.find('#homeMapView').css('visibility', 'hidden')
+                } else {
+                    parents.find('#homeMapView').css('visibility', 'visible')
+                }
                 parents.find('#calAddress-home').attr('type', 'text')
                 parents.find('.calendarAddress-text-home').css('display', 'none')
 

@@ -338,7 +338,7 @@ $(function () {
     $('#writeBox-schedulePlace').on("input", function () {
         let val = $('#writeBox-schedulePlace').val().trim();
         if (val === "") {
-            document.getElementById("mapImage").remove();
+            document.getElementById("mapImage-write").remove();
         } else {
             getWriteBoxPlace();
         }
@@ -351,15 +351,6 @@ $(function () {
             const autocomplete = new google.maps.places.Autocomplete(input, options);
 
         }
-
-    });
-
-    window.addEventListener('load', function(event){
-        const input = document.getElementById("writeBox-schedulePlace");
-        const options = {
-            //add options here if you want more customizations
-        };
-        const autocomplete = new google.maps.places.Autocomplete(input, options);
 
     });
 
