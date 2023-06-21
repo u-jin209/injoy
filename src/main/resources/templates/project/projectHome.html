@@ -4,6 +4,7 @@
 
 <div id="homeBody" style="overflow-x: hidden;" th:fragment="homeContent(project, taskList, memberList, login, allList)">
 <div class="row" id="homeContent" style="padding: 0 10rem">
+<!--    <div style="display: none" th:if="${logIn.authority == 'MANAGER' }" onload = alertWaitList()></div>-->
     <section class="col-8" style="display: flex;flex-wrap: wrap; padding-right: 3rem; align-content: flex-start;">
         <div class="taskReportArea" th:style="${#lists.isEmpty(taskList)} ? 'display:none' : 'display:block'">
             <div class="detail-section reports-section">

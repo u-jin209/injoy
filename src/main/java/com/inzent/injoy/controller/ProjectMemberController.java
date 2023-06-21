@@ -120,6 +120,12 @@ public class  ProjectMemberController {
 
         return memberService.selectInviteMember(projectId);
     }
+    @ResponseBody
+    @GetMapping("selectWaitMember")
+    public List<ProjectMemberDTO> selectWaitMember(int projectId) {
+
+        return memberService.selectWaitMember(projectId);
+    }
 
 
 

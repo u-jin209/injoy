@@ -234,7 +234,7 @@ function memberList(value) {
                 result.forEach(function (item) {
 
 
-                    $(document).ready(function () {
+
 
 
                         $('#modalList').append(
@@ -244,26 +244,29 @@ function memberList(value) {
                             "<img class='member'   src='"+ item.profilePhoto +"' , onerror=this.src='/img/moru.jpg'>" +
                             "</div>" +
                             "<div class='col-md-8'>" +
-                            "<div class='card-body'  style='text-align: left'>" +
-                            "<i class='fa-solid fa-crown' id='crown' style='color: #ffb30d;display: none ' ></i>"+
+                            "<div class='card-body'   style='text-align: left'>" +
+                            "<i class='fa-solid fa-crown' id='crown"+item.id+"' style='color: #ffb30d;display: none ' ></i>"+
                             "<h5 class='card-title'>" + item.name + "</h5>" +
-                            "<p class='card-text'>" + item.username + "</p>" +
+                            "<p class='card-text'>" + item.email + "</p>" +
                             "</div>" +
                             "</div>" +
                             "</div>" +
                             "</div>"
                         );
-                        const crown = document.getElementById("crown")
 
-                        if(item.authority === "MANAGER" ){
+                    console.log("item.authority : "+  item.authority +" item.name : " +item.name)
 
-                            crown.style.display = "unset"
+                    const crown = document.getElementById("crown"+item.id)
 
-                        }else{
-                            crown.style.display = 'none'
-                        }
+                    if(item.authority == "MANAGER" ){
 
-                    });
+                        crown.style.display = "unset"
+                        console.log("MANAGER unset item.name : " +item.name)
+
+                    }else if(item.authority != "MANAGER" ){
+                        crown.style.display = 'none'
+                        console.log("none item.name : " +item.name)
+                    }
 
                 })
 
@@ -344,5 +347,6 @@ function goProject(value){
     localStorage.setItem('selectedTab','home-tab')
     localStorage.setItem('selectedPane', '#home-tab-pane')
     location.href="/project/"+value.id;
+
 }
 /*]]>*/
