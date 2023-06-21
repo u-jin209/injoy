@@ -8,6 +8,7 @@
 <div class="container" style="background-color: #ffffff"
      th:fragment="addMemberContent(project, memberList, waitList,logIn)">
 
+    <div style="display: none" th:text="${logIn.authority}" id="authority"></div>
 
     <th:block th:fragment="${project}"></th:block>
 

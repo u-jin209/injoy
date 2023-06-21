@@ -1,7 +1,10 @@
 /*<![CDATA[*/
 
 $(document).ready(function () {
-    if( localStorage.getItem('selectedTab') == "home-tab"){
+    const authority = document.getElementById("authority")
+    if( localStorage.getItem('selectedTab') == "home-tab" && authority == "MANAGER" ){
+
+
         alertWaitList();
     }
 
