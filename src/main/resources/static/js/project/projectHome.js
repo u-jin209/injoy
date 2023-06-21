@@ -1252,8 +1252,8 @@ function enterProjectChatRoom() {
 
 function showHomeMap(mapAddress, mapView){
     let imgTag = document.createElement('img');
-    imgTag.id = "mapImage";
-    imgTag.name = "mapImage"
+    imgTag.id = "mapImage-home";
+    imgTag.name = "mapImage-home"
     imgTag.src = "";
     imgTag.alt = "static img";
     imgTag.style.visibility = 'hidden'
@@ -1268,12 +1268,7 @@ function showHomeMap(mapAddress, mapView){
     geocoder.geocode({'address': address}, function (results, status) {
 
 
-        if (status == 'OK') {
-            // console.log('this is OK');
-            // var tmp = (results[0].geometry.location).toString();
-
-            // console.log("위도 : " + results[0].geometry.location.lat());
-            // console.log("경도 : " + results[0].geometry.location.lng());
+        if (status === 'OK') {
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -1288,13 +1283,9 @@ function showHomeMap(mapAddress, mapView){
 
             const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
-            // Set the image source to the constructed URL
-            // console.log(mapView.find('#mapImage'))
-            const mapImage = mapView.find('#mapImage');
+            const mapImage = mapView.find('#mapImage-home');
             mapImage.attr('src', imageUrl)
             mapImage.css('visibility','visible')
-
-
 
         } else {
             // console.log("this is an !ERROR!" + status);
@@ -1665,19 +1656,16 @@ function codeHomeAddress() {
             mapImage.src = imageUrl;
             document.getElementById("mapImage").style.visibility = 'visible';
 
-            var ads = addressLogic(latitude, longitude);
+            var ads = addressLogicHome(latitude, longitude);
             // console.log(addressLogic(latitude, longitude))
             // console.log("ads : " + ads);
 
 
-        } else {
-            console.log("this is an !ERROR!" + status);
-            alert('Geocode was not successful for the following reason: ' + status);
         }
     });
 }
 
-function addressLogic(latitude, longitude) {//return Address from latitude and longitude method
+function addressLogicHome(latitude, longitude) {//return Address from latitude and longitude method
     const geocoder = new google.maps.Geocoder();
     const latlng = {
         lat: parseFloat(latitude),
@@ -1695,14 +1683,14 @@ function addressLogic(latitude, longitude) {//return Address from latitude and l
 
             if (response.results[0]) {
                 address = response.results[0].formatted_address;
-                getAddress(address);
+                getAddressHome(address);
             } else {
                 return "ERROR";
             }
         })
 }
 
-function getAddress(address) { // (4) should log the address
+function getAddressHome(address) { // (4) should log the address
     // console.log("Finally : " + address);
     document.getElementById("calAddress-home").value = address
 }

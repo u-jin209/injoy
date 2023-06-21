@@ -337,9 +337,7 @@ $(function () {
 
     $('#writeBox-schedulePlace').on("input", function () {
         let val = $('#writeBox-schedulePlace').val().trim();
-        if (val == "") {
-            console.log("Empty String");
-            // document.getElementById("mapImage").style.visibility='hidden';
+        if (val === "") {
             document.getElementById("mapImage").remove();
         } else {
             getWriteBoxPlace();
@@ -655,11 +653,12 @@ function to_date2(date_str) {
 
 function codeWriteBoxAddress() {
     var imgTag = document.createElement('img');
-    imgTag.id = "mapImage";
-    imgTag.name = "mapImage"
+    imgTag.id = "mapImage-write";
+    imgTag.name = "mapImage-write"
     imgTag.src = "";
     imgTag.alt = "static img";
     imgTag.style = "visibility: hidden";
+    imgTag.style.width = '380px';
 
     document.getElementById("writeBox-imgDiv").append(imgTag);
 
@@ -667,16 +666,10 @@ function codeWriteBoxAddress() {
     var map;
     geocoder = new google.maps.Geocoder();
     var address = document.getElementById('writeBox-schedulePlace').value;
-    console.log("주소 : " + address);
-    geocoder.geocode({'address': address}, function (results, status) {
 
+        geocoder.geocode({'address': address}, function (results, status) {
 
-        if (status == 'OK') {
-            console.log('this is OK');
-            // var tmp = (results[0].geometry.location).toString();
-
-            console.log("위도 : " + results[0].geometry.location.lat());
-            console.log("경도 : " + results[0].geometry.location.lng());
+        if (status === 'OK') {
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -692,23 +685,18 @@ function codeWriteBoxAddress() {
             const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
             // Set the image source to the constructed URL
-            const mapImage = document.getElementById('mapImage');
+            const mapImage = document.getElementById('mapImage-write');
             mapImage.src = imageUrl;
-            document.getElementById("mapImage").style.visibility = 'visible';
+            mapImage.style.visibility = 'visible';
 
-            var ads = addressLogic(latitude, longitude);
-            console.log(addressLogic(latitude, longitude))
-            console.log("ads : " + ads);
+            var ads = addressLogicWrite(latitude, longitude);
 
 
-        } else {
-            console.log("this is an !ERROR!" + status);
-            alert('Geocode was not successful for the following reason: ' + status);
         }
     });
 }
 
-function addressLogic(latitude, longitude) {//return Address from latitude and longitude method
+function addressLogicWrite(latitude, longitude) {//return Address from latitude and longitude method
     const geocoder = new google.maps.Geocoder();
     const latlng = {
         lat: parseFloat(latitude),
@@ -720,20 +708,16 @@ function addressLogic(latitude, longitude) {//return Address from latitude and l
     geocoder
         .geocode({location: latlng})
         .then((response) => {
-            console.log("헬로우 : " + response.results[0].formatted_address);
-            tmp = response.results[0].formatted_address
-            console.log("tmp : " + tmp)
-
+            console.log(response)
             if (response.results[0]) {
                 address = response.results[0].formatted_address;
-                getAddress(address);
+                getAddressWrite(address);
             } else {
                 return "ERROR";
             }
         })
 }
 
-function getAddress(address) { // (4) should log the address
-    console.log("Finally : " + address);
-    document.getElementById("addressInputId").value = address
+function getAddressWrite(address) { // (4) should log the address
+    document.getElementById("writeBox-schedulePlace").value = address
 }
