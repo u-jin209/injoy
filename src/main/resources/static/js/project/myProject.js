@@ -74,7 +74,7 @@ function projectList(){
                                     "</div> </div></div></div> </div>"
 
                         );
-                        console.log("item.organName :" + item.organName )
+
                         if (item.bookMarkId == 0){
                             const star = document.getElementById("star"+item.projectId)
                             star.style.display = "unset"
@@ -254,18 +254,18 @@ function memberList(value) {
                             "</div>"
                         );
 
-                    console.log("item.authority : "+  item.authority +" item.name : " +item.name)
+
 
                     const crown = document.getElementById("crown"+item.id)
 
                     if(item.authority == "MANAGER" ){
 
                         crown.style.display = "unset"
-                        console.log("MANAGER unset item.name : " +item.name)
+
 
                     }else if(item.authority != "MANAGER" ){
                         crown.style.display = 'none'
-                        console.log("none item.name : " +item.name)
+
                     }
 
                 })
@@ -316,7 +316,7 @@ function bookMark(projectId, userId) {
 
 }
 function printBookMarkList() {
-    console.log("bookMarkBody load")
+
     $('.bookMarkBody').empty()
 
     $.ajax({
@@ -324,7 +324,7 @@ function printBookMarkList() {
         type: 'GET', //POST 방식으로 전달
         success: function (result) {
             if (result.length >= 1) {
-                console.log("bookMarkBody")
+
 
 
                 result.forEach(function (item) {

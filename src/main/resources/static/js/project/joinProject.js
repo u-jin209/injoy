@@ -44,7 +44,7 @@ function searchProject() {
 
     const keyword = document.getElementById('searchProject').value;
 
-    console.log("searchProject keyword : " + keyword);
+
 
     $('#searchDivMain').empty()
 
@@ -136,7 +136,7 @@ function searchInviteCode() {
 
     const keyword = document.getElementById('searchInviteCode').value;
 
-    console.log("code keyword : " + keyword);
+
     $('#searchCodeDivMain').empty()
 
     if (keyword != "") {
@@ -159,7 +159,7 @@ function searchInviteCode() {
 
 
                 if (item.length != 0) {
-                    console.log(item)
+
                     const searchDiv = document.getElementById("searchCodeResult");
                     searchDiv.style.display = "";
                     $('#searchCodeDivMain').append(
@@ -219,7 +219,6 @@ function searchInviteCode() {
 
 function enterProject(project,option) {
     var projectId = project.name;
-    console.log("sssssssss");
 
         const data = {
             "projectId": projectId
@@ -257,7 +256,7 @@ function enterProject(project,option) {
 
     function printWaitProject() {
 
-        console.log("fdfsdfweflwifohdsiugokhdsk;igesd")
+
         const data = {
             "massage": "wait"
         }
@@ -268,7 +267,7 @@ function enterProject(project,option) {
             success: function (result) {
 
 
-                console.log("result :" + result)
+
                 $('#projectContainer').empty()
 
                 if (result.length >= 1) {

@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     const authority = document.getElementById("authority")
-    console.log("eeeeeeeeee authority : " + authority)
+
     if( localStorage.getItem('selectedTab') == "home-tab"  ){
 
         if( authority.innerText == "MANAGER" ){
@@ -17,9 +17,7 @@ $(document).ready(function () {
 
 
 function alertWaitList() {
-    console.log("localStorage.getItem('selectedTab')"+localStorage.getItem('selectedTab'))
 
-    console.log("alertWaitList : start ")
     const urlParams = new URL(location.href);
     const projectId = urlParams.pathname.split('/')[2];
 
@@ -222,7 +220,7 @@ function enter(projectId, logInUser) {
 
 function searchUser(projectId, logInUser) {
 
-    console.log("logInUser : " + logInUser)
+
     const keyword = document.getElementById('searchKeyword').value;
     $('#searchDivMain').empty();
 
@@ -236,13 +234,13 @@ function searchUser(projectId, logInUser) {
 
         if (logInUser == "MANAGER") {
 
-            console.log("MANAGER")
+
             url = "/member/searchUser"
         } else {
-            console.log("sssss")
+
             url = "/member/searchMember"
         }
-        console.log("url :" + url)
+
 
         $.ajax({
             type: 'GET',
@@ -260,7 +258,7 @@ function searchUser(projectId, logInUser) {
                     result.forEach(function (item) {
 
 
-                        console.log(item.name)
+
 
 
                         $('#searchDivMain').append(
@@ -363,7 +361,7 @@ function inviteMemberList() {
             if (result.length >= 1) {
                 result.forEach(function (item) {
                     $(document).ready(function () {
-                        console.log("item : " + item.name)
+
                         const noneInvite = document.getElementById("noneInvite");
                         noneInvite.style.display = "none";
 
@@ -385,7 +383,7 @@ function inviteMemberList() {
                             "</div>" +
                             "</div>"
                         );
-                        console.log("item.profilePhoto : " + item.profilePhoto)
+
                         // 아이디 추가하기~
                         const userImg = document.getElementById("userImg" + item.userId)
                         if (item.profilePhoto == null) {

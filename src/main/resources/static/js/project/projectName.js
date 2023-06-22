@@ -109,7 +109,7 @@ function bookMark(projectId, userId) {
 
 function goAddProject(value) {
     const projectId = value.id
-    console.log("goAddProject : " + projectId)
+
     localStorage.setItem('selectedTab', 'member-tab')
     localStorage.setItem('selectedPane', '#member-tab-pane')
     location.href = "/project/" + projectId;
@@ -121,7 +121,7 @@ function outProject(value) {
 
     const userId = value.name.toString().split("/")[0]
     const projectId = value.name.toString().split("/")[1]
-    console.log("value : " +userId +"/" +projectId)
+
     const data ={
         "userId" : userId,
         "projectId" : projectId
@@ -203,12 +203,11 @@ function deleteProject(projectId) {
 
 
 function checkName(value){
-    console.log("value: "+value.name.toString())
+
 
     var name = value.value
     var organId = value.name
-    console.log("name: "+name)
-    console.log("organId :" +organId)
+
 
     if (organId  == null){
         organId =-1;

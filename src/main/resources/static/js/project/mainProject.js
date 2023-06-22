@@ -122,10 +122,6 @@ $(function () {
 
             calendarObj.setOption('eventClick', function (event) {
                 Obj = event.event;
-                // console.log("calendarId : " + Obj.id);
-                // console.log("제목 : " + Obj.title);
-                // console.log("시작일 : " + Obj.start);
-                // console.log("끝 : " + Obj.end);
 
                 const projectName = document.getElementById('projectNameName').value;
                 // console.log("프로젝트 이름 : " + projectName);

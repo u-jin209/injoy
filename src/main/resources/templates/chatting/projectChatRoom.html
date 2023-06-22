@@ -181,9 +181,6 @@
 
     }
 
-    function onError(error) {
-        console.log('Could not connect to WebSocket server.')
-    }
 
     function sendMessage(event) {
         let messageContent = textarea.value.trim();
@@ -413,7 +410,7 @@
 
     function openSlideMenu() {
         let testNum = /*[[ ${width} ]]*/ "";
-        console.log(testNum);
+
         slideMenu.style.right = slideMenu.style.right === "-330px" ? "0" : "-330px";
         overlay.style.display = "block"; // 레이어 표시
     }

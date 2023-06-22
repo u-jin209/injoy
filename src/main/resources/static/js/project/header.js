@@ -48,11 +48,6 @@ function withdrawal() {
                     }).then(() => {
                         location.href = "/logout";
                     });
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr)
-                    console.log(status)
-                    console.log(error)
                 }
             })
         }
@@ -107,11 +102,12 @@ function dropUser(){
 
         $("#userDropbox").attr('class','dropdown-menu');
 
-        console.log("ssdsss")
+
 
     } else {
         $("#userDropbox").attr('class','dropdown-menu show');
-        console.log("rtrrrr")
+
+
 
     }
 }

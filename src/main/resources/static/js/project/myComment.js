@@ -36,7 +36,7 @@ $(function (){
             $('.file-container-bmyText').html("")
 
             let boardId = $(this).find('#myText-boardId').val();
-            console.log(boardId)
+
             let formData = {
                 boardId: boardId,
             }
@@ -56,7 +56,7 @@ $(function (){
 
             let taskId = $(this).find('#myText-taskId').val();
 
-            console.log(taskId)
+
             let formData = {
                 taskId: taskId,
             }
@@ -150,7 +150,7 @@ function myText_priority(value) {
 
 function showTaskText(result, clickComment) {
 
-    console.log(result)
+
     //업무번호
     $('.myText-taskId em').text(result.taskId)
     //제목 설정
@@ -341,7 +341,7 @@ function TaskTextImg(taskId, projectId) {
 
 function showBoardText(result, clickComment) {
 
-    console.log(result)
+
     //업무번호
     $('.myText-boardId em').text(result.boardId)
     //제목 설정
@@ -587,7 +587,7 @@ function getTime(date){
 }
 function showCalendarText(result, clickComment) {
 
-    console.log(result)
+
     //업무번호
     $('.myText-calendarId em').text(result.calendarId)
     //제목 설정
@@ -720,15 +720,12 @@ function showHomeMap(mapAddress, mapView){
     let map;
     geocoder = new google.maps.Geocoder();
     let address = mapAddress;
-    console.log("주소 : " + address);
+
     geocoder.geocode({'address': address}, function (results, status) {
 
         if (status == 'OK') {
-            console.log('this is OK');
-            // var tmp = (results[0].geometry.location).toString();
 
-            console.log("위도 : " + results[0].geometry.location.lat());
-            console.log("경도 : " + results[0].geometry.location.lng());
+            // var tmp = (results[0].geometry.location).toString();
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -744,7 +741,7 @@ function showHomeMap(mapAddress, mapView){
             const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
             // Set the image source to the constructed URL
-            console.log(mapView.find('#mapImage'))
+
             const mapImage = mapView.find('#mapImage');
             mapImage.attr('src', imageUrl)
             mapImage.css('visibility','visible')

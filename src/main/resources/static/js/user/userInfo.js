@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log(":Sdmksd")
+
 
         $("#organId").select2({
             dropdownParent: $("#memberModal"),
@@ -79,7 +79,7 @@ var autoHypenPhone = function (str) {
 var phoneNum = document.getElementById('phoneNum');
 
 phoneNum.onkeyup = function () {
-    console.log(this.value);
+
     this.value = autoHypenPhone(this.value);
 }
 
@@ -185,11 +185,6 @@ function openRePasswordBox() {
                 }else {
                     rePasswordBox.style.display = "block";
                 }
-            },
-            error:function(xhr, status, error){
-                console.log(xhr)
-                console.log(status)
-                console.log(error)
             }
         })
     }
@@ -258,11 +253,6 @@ function resetPassword() {
                         })
                     }
 
-                },
-                error:function(xhr, status, error){
-                    console.log(xhr)
-                    console.log(status)
-                    console.log(error)
                 }
             })
         }

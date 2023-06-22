@@ -137,7 +137,7 @@ function  downloadFile(){
 
                     fnSleep(1000);
 
-                    console.log(element)
+
                     element.click();
 
                 });
@@ -172,7 +172,7 @@ function FileSearchEnter(value) {
     if (window.event.keyCode == 13) {
 
         searchAllFile(value.value)
-        console.log("input value :" + value.value)
+
 
     }
 }

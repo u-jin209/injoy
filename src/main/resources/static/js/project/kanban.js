@@ -37,7 +37,7 @@ function dragAndDrop() {
             }
         });
         container.addEventListener("drop", e => {
-            //console.log('drop')
+
             e.preventDefault();
             const draggable = document.querySelector(".dragging");
 
@@ -57,7 +57,7 @@ function dragAndDrop() {
             (closest, child) => {
                 const box = child.getBoundingClientRect();
                 const offset = y - box.left - box.width / 2;
-                // console.log(offset);
+
                 if (offset < 0 && offset > closest.offset) {
                     return {offset: offset, element: child};
                 } else {
@@ -114,7 +114,7 @@ $(function () {
             } else {
                 document.querySelector("body").addEventListener("click", function (e) {
                     if (e.target.className === e.currentTarget.querySelector("#kanbanAddModal").className) {
-                        console.log("correct")
+
                         $('#optionKanbanAdd').find('li').each(function () {
 
                             if ($(this).attr('class') === 'process-layer' || $(this).attr('class') === 'manager-layer') {
@@ -156,7 +156,7 @@ $(function () {
     })
 
     $('.kanbanToolBtn').click(function () {
-        console.log('click')
+
         let nowSetUp = $(this).parent().find('#kanban-setUp')
         if (nowSetUp.css('display') === 'block') {
             nowSetUp.css('display', 'none')
@@ -231,7 +231,7 @@ $(function () {
 
     document.querySelector('.kanban-rangeInput').addEventListener('input', function (event) {
         let gradient_value = 100 / event.target.attributes.max.value;
-        console.log(event.target.value)
+
         event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
     });
 
@@ -384,7 +384,7 @@ $(function () {
 
                 $('#kanban-update-priority').find('.priorityBtn').click(function () {
                     let btnTag = $(this).html()
-                    console.log(btnTag)
+
                     $('#kanban-update-priority').css('display', 'none')
                     $('.updateBtn-kanban-priority').prev().remove()
                     $('.updateBtn-kanban-priority').prev().replaceWith(btnTag);
@@ -437,7 +437,7 @@ $(function () {
 
                 document.querySelector('#kanban-rangeInput-modal').addEventListener('input', function (event) {
                     let gradient_value = 100 / event.target.attributes.max.value;
-                    console.log(event.target.value)
+
                     event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
                     $('.kanban-progress').text(event.target.value + '%')
                 });
@@ -508,8 +508,6 @@ function showKanbanDetail(result) {
     $('.modal-progress-bar').css('width', result.progress)
     $('.modal-progress-percent').text(result.progress + '%')
 
-    console.log(result.startDate)
-    console.log(result.closingDate)
     //시작일, 마감일 설정
 
     if (result.startDate == null && result.startDate === undefined) {
@@ -576,7 +574,6 @@ function kanbanUpdateTask() {
         formData.append('files', files[i]);
     }
 
-    console.log(formData)
 
     $.ajax({
         url: '/task/updateTask',
@@ -625,7 +622,6 @@ function kanbanDeleteTask() {
                     taskId: taskId,
                 }
 
-                console.log(formData)
 
                 $.ajax({
                     url: '/task/deleteTask',
@@ -714,7 +710,6 @@ function kanbanAddTask() {
         formData.append('files', files[i]);
     }
 
-    console.log(formData)
 
     $.ajax({
         url: '/task/taskPageWrite',

@@ -41,12 +41,12 @@ document.getElementById("addFileBtn").onclick =function (){
             this.on("success", function(file, response) {
                 $(".btn-close").click();// 업로드 큐 처리
                 printFolder(document.getElementById("root").innerText)
-                console.log("파일 업로드 성공: " + response);
+
                 myDropzone.destroy();
 
             });
             this.on("error", function(file, errorMessage) {
-                console.log("파일 업로드 오류: " + errorMessage);
+
             });
 
         }
@@ -68,7 +68,7 @@ function addFolder() {
         "projectId": projectId
     }
     const existFolderName = document.getElementById("existFolderName" );
-    console.log( " $('#existFolderName').display(); " +existFolderName.style.display)
+
 
     if (folderName !="" && existFolderName.style.display != "inline-block"){
         $.ajax({
@@ -376,7 +376,7 @@ function checkFolderName() {
 
 function printFile(folderRoot){
 
-    console.log("printFile folderRoot: "  +folderRoot)
+
     $.ajax({
         url: '/file/fileList', //Controller에서 요청 받을 주소
         type: 'GET', //POST 방식으로 전달
@@ -459,7 +459,7 @@ function FileSearchEnter(value) {
     if (window.event.keyCode == 13) {
 
         searchProject(value.value)
-        console.log("input value :" + value.value)
+
 
     }
 }
@@ -481,7 +481,7 @@ function searchProject(keyword) {
             data: data,
             success: function (result) {
 
-                console.log("sfdklsdhfoisdfhgoiweshoiewe")
+
                 if (result.length >= 1) {
                     $('#listBody').empty()
                     $('#listBody').append(
@@ -574,7 +574,7 @@ function  downloadFile(){
 
                     fnSleep(1000);
 
-                    console.log(element)
+
                     element.click();
 
                 });
@@ -606,7 +606,7 @@ fnSleep = function (delay){
 
 
 function movePrint(folderRoot){
-    console.log("folderRoot :" + folderRoot)
+
     $('#moveBody').empty();
 
     const urlParams = new URL(location.href);
@@ -694,7 +694,7 @@ function openMoveModal(){
     $("input:checkbox[name='checkfolder']:checked").each(function () {
         folderArr = folderArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
     })
-    console.log("move folderArr : "+ folderArr);
+
     var fileArr = "";
     $("input:checkbox[name='checkFile']:checked").each(function () {
         fileArr = fileArr + $(this).val() + ",";     // 체크된 것만 값을 뽑아서 배열에 push
@@ -725,7 +725,7 @@ function moveFile(){
     const fileArr = getCookie("fileArr");
     const folderArr = getCookie("folderArr");
 
-    console.log("folderArr not null " + folderArr.length)
+
 
     if(folderArr.length != 0){
         $.ajax({

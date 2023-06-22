@@ -39,7 +39,7 @@
     const inputs = document.querySelectorAll('input[type="text"]');
 
     inputs.forEach((input, index) => {
-        console.log(inputs);
+
         input.addEventListener('keydown', (e) => {
             // 입력된 값이 숫자인지 확인합니다.
             if (!/^\d$/.test(e.key)) {

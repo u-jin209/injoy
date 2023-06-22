@@ -1233,11 +1233,6 @@ function enterProjectChatRoom() {
                             success: function (response) {
                                 let urlWithParams = response.url + '?chatRoomId=' + response.chatRoomId+'&projectName='+projectName;
                                 let newWindow = window.open(urlWithParams, '_blank', 'top=' + response.top + ',left=' + response.left + ',width=' + response.width + ',height=' + response.height);
-                            },
-                            error:function(xhr, status, error){
-                                console.log(xhr)
-                                console.log(status)
-                                console.log(error)
                             }
                         })
                     }
@@ -1471,7 +1466,7 @@ function modifyCalendar() {
                 parents.find('.modify-calendar-startEnd').css('display', 'block')
                 parents.find('.calendar-period-area').css('display', 'none')
 
-                console.log(new Date($('.modify-scheduleStartDate').val()))
+
                 let fpStart = flatpickr(".modify-scheduleStartDate", {
                     enableTime: true,
                     dateFormat: "Y-m-d H:i",
@@ -1672,7 +1667,7 @@ function addressLogicHome(latitude, longitude) {//return Address from latitude a
         .then((response) => {
             // console.log("헬로우 : " + response.results[0].formatted_address);
             tmp = response.results[0].formatted_address
-            console.log("tmp : " + tmp)
+
 
             if (response.results[0]) {
                 address = response.results[0].formatted_address;

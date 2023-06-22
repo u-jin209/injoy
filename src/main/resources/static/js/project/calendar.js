@@ -29,7 +29,7 @@ $(document).ready(function() {
         if(selectedAddress != "undefined") {
             getLngLat(selectedAddress, 'register');
         } else {
-            console.log('언디파인드')
+
         }
     });
 });
@@ -41,11 +41,11 @@ $(document).ready(function() {
         var selectedPlace = autocomplete.getPlace();
 
         var selectedAddress = selectedPlace.formatted_address;
-        // console.log('클릭 주소 :', selectedAddress);
+
         if(selectedAddress != "undefined") {
             getLngLat(selectedAddress, 'modify');
         } else {
-            console.log('언디파인드')
+
         }
     });
 });
@@ -59,12 +59,12 @@ function enterAddress(isNew){ //엔터 누룰시 동작되는 메서드
         inputAddress = document.getElementById('modifyAddressInputId').value;
     }
 
-    // console.log("엔터 주소 : " + inputAddress);
+
     getLngLat(inputAddress, isNew);
 }
 
 function getLngLat(rawAddress, isNew){
-    // console.log("가공되지 않은 주소 : " + rawAddress);
+
 
     var geocoder;
     var map;
@@ -74,9 +74,6 @@ function getLngLat(rawAddress, isNew){
 
 
         if (status == 'OK') {
-            // console.log('this is OK');
-            // console.log("위도 : " + results[0].geometry.location.lat());
-            // console.log("경도 : " + results[0].geometry.location.lng());
 
             const apiKey = 'AIzaSyABN0ndYhxNu4zHlvEfKi_r42aSUMeVUaI';
 
@@ -104,15 +101,14 @@ function getLngLat(rawAddress, isNew){
             // console.log("ads : " + ads);
 
         } else {
-            console.log("!ERROR! : " + status);
+
         }
     });
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 function showDelnMod(writerId) {
     currentId = document.getElementById("logInnn").value;
-    // console.log("writerId : " + writerId);
-    // console.log("currentId : " + currentId);
+
     if(currentId != writerId){
         document.getElementById("modScheduleLi").style.display ='none';
         document.getElementById("delScheduleLi").style.display ='none';
@@ -133,10 +129,6 @@ function deleteScheduleMethod(projectId, scheduleId){
         data: data,
         success: function () {
             location.reload();
-        },
-        error: function (request, status, error) {
-            console.log("통신 실패");
-            console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
         }
     });
 
@@ -159,8 +151,7 @@ function openModifySchedule() {
 
     startDateStr = startDate.toString();
     endDateStr = endDate.toString();
-    // console.log("시작 : " + startDateStr);
-    // console.log("끝 : " + endDateStr);
+
 
     var startSub = startDate.substring(0,11);
     var endSub = endDate.substring(0,11);
@@ -216,7 +207,7 @@ function modifyCalComment(commentId, projectId, calendarId){
 }
 
 function modifyCalComment2(commentId, projectId, calendarId){
-    console.log("modifyCalComment2 메서드");
+
     var cmtId = document.getElementById("2tmptmp"+commentId);
     cmtId.style.display = "none";
 
@@ -225,7 +216,7 @@ function modifyCalComment2(commentId, projectId, calendarId){
     commenttt =  commment.innerText;
 
     const w = "oui";
-    console.log(commentId  + " "  +  projectId + " " + calendarId + " ");
+
     $(col11).append(
         "<div class='comment-container' style='padding: 0; width: 100%;'>" +
         "<input type='text' class='commentInput' id='2commentModifyId"+commentId+"' style='padding: 0; !important; width: 100%;' placeholder='댓글을 입력은 Enter 입니다.' value='"+commenttt+"' aria-label='' aria-describedby='button-addon2' onKeyUp='if(window.event.keyCode==13){cmtModifyMethod(" + commentId + ","+ projectId + ","+ calendarId +",\"" + w +"\")}'/>" +
@@ -234,13 +225,13 @@ function modifyCalComment2(commentId, projectId, calendarId){
 }
 
 function cmtModifyMethod(commentId, projectId, calendarId, isNew){
-    console.log("cmtModifyMethod가 실행됨" + commentId + " " + projectId + " " +  calendarId + " " +  isNew);
+
     var commentVal
     if(isNew == 'non') {
         commentVal = document.getElementById("commentModifyId"+commentId).value;
     } else {
         commentVal = document.getElementById("2commentModifyId"+commentId).value;
-        console.log("commentVallll" + commentVal);
+
     }
 
     commentData = {"projectId" : projectId,
@@ -275,10 +266,6 @@ function cmtModifyMethod(commentId, projectId, calendarId, isNew){
                 $("#2cmtcmt"+commentId).text(commentVal);
 
             }
-        },
-        error: function (request, status, error) {
-            console.log("통신 실패");
-            console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
         }
     });
 
@@ -314,10 +301,6 @@ function sendComment() {
                 newComment.id = data.commentId;
                 newComment.classList.add("comment-li")
 
-                console.log(data.username);
-                console.log(data.calComProjectId);
-                console.log(data.calComCalId);
-                console.log(data.registerDateStr);
 
 
                 newComment.innerHTML = `
@@ -373,10 +356,6 @@ function sendComment() {
             }
 
 
-        },
-        error: function (request, status, error) {
-            console.log("통신 실패");
-            console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
         }
     });
 
@@ -385,9 +364,7 @@ function sendComment() {
 
 
 function deleteCalComment(commentId, projectId, calendarId ) {
-    // console.log("댓글 번호 : " + commentId);
-    // console.log("플젝 번호 : " + projectId)
-    // console.log("일정 번호구마 : " + calendarId)
+
     let data = {"commentId": commentId,
         "projectIdId" : projectId,
         "calendarId" : calendarId
@@ -398,11 +375,6 @@ function deleteCalComment(commentId, projectId, calendarId ) {
         data: data,
         success: function (data) {
             document.getElementById(commentId).remove();
-        },
-        error: function (request, status, error) {
-            console.log("통신 실패");
-            console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
-
         }
     });
 }
@@ -535,11 +507,6 @@ $(function () {
                 data: form1,
                 success: function (data) {
                     location.reload();
-                },
-                error: function (request, status, error) {
-                    console.log("통신 실패");
-                    console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
-
                 }
             });
     });
@@ -571,11 +538,6 @@ $(function () {
             data: form2,
             success: function (data) {
                 location.reload();
-            },
-            error: function (request, status, error) {
-                console.log("통신 실패");
-                console.log("code:" + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
-
             }
         });
     });

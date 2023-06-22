@@ -575,7 +575,7 @@ function all() {
             } else {
                 document.querySelector("body").addEventListener("click", function (e) {
                     if (e.target.className === e.currentTarget.querySelector("#addTaskModal").className) {
-                        console.log("correct")
+
                         $('#taskPage-AddUl').find('li').each(function () {
 
                             if ($(this).attr('class') === 'process-layer' || $(this).attr('class') === 'manager-layer') {
@@ -1196,7 +1196,7 @@ function taskPageDeleteTask() {
                     taskId: taskId,
                 }
 
-                console.log(formData)
+
 
                 $.ajax({
                     url: '/task/deleteTask',

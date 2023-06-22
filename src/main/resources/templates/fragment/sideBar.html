@@ -114,8 +114,7 @@
     const logInConversation = document.getElementById('logInConversation').value;
     const memberBody = document.getElementById("memberBody");
 
-    console.log(logInConversation+'ddddddddddddddddddddddddddddddddddd')
-    $(document).ready(function () {
+     $(document).ready(function () {
         if (typeof SockJS !== 'undefined') {
 
             var socket = new SockJS('/ws-stomp');
@@ -153,9 +152,6 @@
             }))
     }
 
-    function onError(error) {
-        console.log('Could not connect to WebSocket server.')
-    }
 
     function onMessageReceived(payload) {
         let json = payload.body;
@@ -212,14 +208,14 @@
 
 
     function printBookMarkList() {
-        console.log("bookMarkBody load")
+
         $('.bookMarkBody').empty()
 
         $.ajax({
             url: '/project/bookmarkList', //Controller에서 요청 받을 주소
             type: 'GET', //POST 방식으로 전달
             success: function (result) {
-                console.log("bookmarkList bookmarkList bookmarkList")
+
                 if (result.length >= 1) {
 
 
@@ -242,7 +238,7 @@
 
 
     function printMemberList(projectId,logInUsers) {
-        console.log("memberBody load")
+
 
         // $('.memberBody').empty()
 
@@ -255,7 +251,7 @@
                     memberBody.removeChild(memberBody.firstChild);
                 }
                 if (result.length >= 1) {
-                    console.log("memberBody >>>>>>>>>>" + result);
+
 
 
                     result.forEach(function (item) {

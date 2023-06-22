@@ -57,7 +57,7 @@ $(function () {
         if (priority_ul.css('display') === 'none') {
             priority_ul.css('display', 'block')
             priority_ul.find('.priorityBtn').click(function (e) {
-                console.log('click')
+
                 const element = document.getElementsByClassName('writeBox-priority-value')[0];
                 element.innerHTML = ($(this)[0].innerHTML)
 
@@ -82,7 +82,7 @@ $(function () {
     //진척도 값
     document.querySelector('.writeBox-rangeInput').addEventListener('input', function (event) {
         let gradient_value = 100 / event.target.attributes.max.value;
-        console.log(event.target.value)
+
         event.target.style.background = 'linear-gradient(to right, #FFE283 0%, #FFE283 ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) ' + gradient_value * event.target.value + '%, rgb(236, 236, 236) 100%)';
         $('.writeBox-progress-txt').text($(this).val() + '%')
     });
@@ -132,7 +132,7 @@ $(function () {
             activeTab.find('a').trigger('click');
 
             if (activeTab.attr('id') === 'boardWrite-tab') {
-                console.log("board");
+
                 $('.submitWriteBtn').attr('id', 'boardWriteBtn');
                 $('#file').attr('class', 'boardFile');
                 previewsContainer = document.querySelector('.previews');
@@ -140,7 +140,7 @@ $(function () {
                 $('#file-label').css('display', 'block')
                 $('#writeBox-modal-footer').css('justify-content', 'space-between')
             } else if (activeTab.attr('id') === 'taskWrite-tab') {
-                console.log("task");
+
                 $('.submitWriteBtn').attr('id', 'taskWriteBtn');
                 $('#file').attr('class', 'taskFile');
                 previewsContainer = document.querySelector('.task-previews');
@@ -149,7 +149,7 @@ $(function () {
                 $('#file-label').css('display', 'block')
                 $('#writeBox-modal-footer').css('justify-content', 'space-between')
             } else if (activeTab.attr('id') === 'scheduleWrite-tab') {
-                console.log("schedule");
+
                 $('.submitWriteBtn').attr('id', 'scheduleWriteBtn');
                 $('#file-label').css('display', 'none')
                 $('#writeBox-modal-footer').css('justify-content', 'end')
@@ -247,7 +247,7 @@ $(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    console.log(response);
+
                     if (response === "success") {
                         location.reload(); // 성공적인 응답을 받은 경우 페이지 리로드
                     } else {
@@ -278,7 +278,6 @@ $(function () {
                 formData.append('files', files[i]);
             }
 
-            console.log(formData)
 
             $.ajax({
                 url: '/task/mainWrite',
@@ -287,7 +286,7 @@ $(function () {
                 processData: false,
                 contentType: false,
                 success: ((message) => {
-                    console.log(message)
+
                     if (message === "success") {
                         location.reload()
                     } else {
@@ -319,7 +318,7 @@ $(function () {
                 processData: false,
                 contentType: false,
                 success: ((message) => {
-                    console.log(message)
+
                     if (message === "success") {
                         location.reload()
                     } else {
@@ -694,7 +693,7 @@ function addressLogicWrite(latitude, longitude) {//return Address from latitude 
     geocoder
         .geocode({location: latlng})
         .then((response) => {
-            console.log(response)
+
             if (response.results[0]) {
                 address = response.results[0].formatted_address;
                 getAddressWrite(address);
