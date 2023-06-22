@@ -441,7 +441,7 @@
                                 </div>
                                 <div class="post-taskContent">
                                     <textarea class="modify-task-content" style="display: none" th:text="${task.taskContent}"></textarea>
-                                    <span id="post-task-content" th:text="${task.taskContent}"></span>
+                                    <span id="post-task-content" th:utext="${task.taskContent}"></span>
                                 </div>
                                 <div class="img-container-task">
                                 </div>
@@ -546,7 +546,7 @@
                         <div class="post-container">
                             <div class="post-board-content">
                                 <textarea class="modify-board-content" th:text="${task.bContent}" style="display: none"></textarea>
-                                <div id="post-board-content" th:text="${task.bContent}"></div>
+                                <div id="post-board-content" th:utext="${task.bContent}"></div>
                             </div>
                             <div class="img-container-board">
                             </div>
@@ -686,8 +686,8 @@
                                             </svg>
                                         </div>
                                         <div class="create-content">
-                                            <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none; width: 100%; min-height: 200px; border: none;"></textarea>
-                                            <div id="post-calendar-content" th:text="${task.calContent}"></div>
+                                            <textarea class="modify-calendar-content" th:text="${task.calContent}" style="display: none; width: 534px; min-height: 200px; border: none;"></textarea>
+                                            <div id="post-calendar-content" th:utext="${task.calContent}"></div>
                                         </div>
                                     </li>
                                 </ul>

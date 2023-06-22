@@ -309,9 +309,9 @@ $(function () {
             formData.append('calAddress', $('.writeBox-schedulePlace').val());
             formData.append('calStart', $('.writeBox-scheduleStartDate').val() ? new Date($('.writeBox-scheduleStartDate').val()) : new Date(0));
             formData.append('calEnd', $('.writeBox-scheduleEndDate').val() ? new Date($('.writeBox-scheduleEndDate').val()) : new Date(0));
-            formData.append('calImgSrc', $('#writeBox-imgDiv #mapImage').attr('src'));
+            formData.append('calImgSrc', $('#writeBox-imgDiv #mapImage-write').attr('src'));
 
-
+            console.log($('#writeBox-imgDiv #mapImage-write').attr('src'))
             $.ajax({
                 url: '/calendar/write',
                 data: formData,

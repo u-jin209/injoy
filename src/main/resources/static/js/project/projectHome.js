@@ -464,11 +464,11 @@ function updateTask(parents) {
 
         if (result.isConfirmed) {
             let taskId = parents.find('#taskId-post').val()
-
+            let contents = parents.find('.modify-task-content').val().replace(/(\n|\r\n)/g, "<br>")
             let formData = {
                 taskId: taskId,
                 taskTitle: parents.find('.modify-task-title').val(),
-                taskContent: parents.find('.modify-task-content').val()
+                taskContent: contents
             }
 
             $.ajax({
@@ -480,11 +480,11 @@ function updateTask(parents) {
                 }
             })
         } else {
-            parents.find('.modify-task-title').attr('type', 'hidden')
-            parents.find('#post-task-title').css('display', 'block')
-
-            parents.find('.modify-task-content').css('display', 'none')
-            parents.find('#post-task-content').css('display', 'block')
+            // parents.find('.modify-task-title').attr('type', 'hidden')
+            // parents.find('#post-task-title').css('display', 'block')
+            //
+            // parents.find('.modify-task-content').css('display', 'none')
+            // parents.find('#post-task-content').css('display', 'block')
         }
 
     })
@@ -535,11 +535,11 @@ function updateBoard(parents) {
     }).then((result) => {
         if (result.isConfirmed) {
             let boardId = parents.find('#boardId').val()
-
+            let contents = parents.find('.modify-board-content').val().replace(/(\n|\r\n)/g, "<br>")
             let formData = {
                 boardId: boardId,
                 bTitle: parents.find('.modify-board-title').val(),
-                bContent: parents.find('.modify-board-content').val()
+                bContent: contents
             }
 
             $.ajax({
@@ -550,14 +550,7 @@ function updateBoard(parents) {
                     location.reload()
                 }
             })
-        } else {
-            parents.find('.modify-board-title').attr('type', 'hidden')
-            parents.find('#post-board-title').css('display', 'block')
-
-            parents.find('.modify-board-content').css('display', 'none')
-            parents.find('#post-board-content').css('display', 'block')
         }
-
     })
 }
 
@@ -1546,14 +1539,15 @@ function updateCalendar(parents) {
 
         if (result.isConfirmed) {
             let calendarId = parents.find('#calendarId-home').val()
-
+            let contents = parents.find('.modify-calendar-content').val().replace(/(\n|\r\n)/g, "<br>")
             let formData = {
                 calendarId: calendarId,
                 calStart : new Date(parents.find('.modify-scheduleStartDate').val()),
                 calEnd : new Date(parents.find('.modify-scheduleEndDate').val()),
                 calTitle: parents.find('.modify-calendar-title').val(),
-                calContent: parents.find('.modify-calendar-content').val(),
-                calAddress : parents.find('#calAddress-home').val()
+                calContent: contents,
+                calAddress : parents.find('#calAddress-home').val(),
+                calImgSrc : $('#homeMapView #mapImage-home').attr('src')
             }
 
             $.ajax({
@@ -1564,14 +1558,7 @@ function updateCalendar(parents) {
                     location.reload()
                 }
             })
-        } else {
-            parents.find('.modify-task-title').attr('type', 'hidden')
-            parents.find('#post-task-title').css('display', 'block')
-
-            parents.find('.modify-task-content').css('display', 'none')
-            parents.find('#post-task-content').css('display', 'block')
         }
-
     })
 }
 
@@ -1608,8 +1595,8 @@ function deleteCalendar() {
 
 function codeHomeAddress() {
     var imgTag = document.createElement('img');
-    imgTag.id = "mapImage";
-    imgTag.name = "mapImage"
+    imgTag.id = "mapImage-home";
+    imgTag.name = "mapImage-home"
     imgTag.src = "";
     imgTag.alt = "static img";
     imgTag.style = "visibility: hidden";
@@ -1645,9 +1632,9 @@ function codeHomeAddress() {
             const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?${mapCenter}&${mapZoom}&size=646x220&${mapMarkers}&key=${apiKey}`;
 
             // Set the image source to the constructed URL
-            const mapImage = document.getElementById('mapImage');
+            const mapImage = document.getElementById('mapImage-home');
             mapImage.src = imageUrl;
-            document.getElementById("mapImage").style.visibility = 'visible';
+            document.getElementById("mapImage-home").style.visibility = 'visible';
 
             var ads = addressLogicHome(latitude, longitude);
             // console.log(addressLogic(latitude, longitude))

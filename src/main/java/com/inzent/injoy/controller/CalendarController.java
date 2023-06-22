@@ -441,6 +441,7 @@ public class CalendarController {
         calendar.setCalStart(calendarDTO.getCalStart());
         calendar.setCalEnd(calendarDTO.getCalEnd());
         calendar.setCalAddress(calendarDTO.getCalAddress());
+        calendar.setCalImgSrc(calendarDTO.getCalImgSrc());
         calendarService.updateHome(calendar);
 
         return "redirect:/project/" + calendar.getProjectId();
