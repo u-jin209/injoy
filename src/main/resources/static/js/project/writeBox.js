@@ -344,14 +344,9 @@ $(function () {
         }
 
         function getWriteBoxPlace() {
-            const input = document.getElementById("writeBox-schedulePlace");
-            const options = {
-                //add options here if you want more customizations
-            };
-            const autocomplete = new google.maps.places.Autocomplete(input, options);
-
+            const autoComplete = new google.maps.places.Autocomplete( document.getElementById("writeBox-schedulePlace"))
+            $('.pac-container').css('z-index', '1400');
         }
-
     });
 
     let fpStart = flatpickr(".writeBox-scheduleStartDate", {
