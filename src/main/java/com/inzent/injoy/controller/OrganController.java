@@ -25,7 +25,7 @@ public class OrganController {
     @GetMapping("insert")
     public JsonObject insert(String organName){
 
-        System.out.println("organName : " +organName);
+
 
         OrganDTO organDTO = new OrganDTO();
         organDTO.setOrganName(organName);
@@ -36,7 +36,7 @@ public class OrganController {
         JsonObject object = new JsonObject();
         object.addProperty("organId",last.getOrganId());
         object.addProperty("organName",last.getOrganName());
-        System.out.println("object : " +object);
+
         return  object;
     }
 

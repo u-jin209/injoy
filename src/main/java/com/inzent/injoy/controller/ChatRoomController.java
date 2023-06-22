@@ -42,7 +42,7 @@ public class ChatRoomController {
         List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatRoomId);
         boolean flag = false;
         for (ChatRoomUserDTO chatRoomUserDTO : chatRoomUserList) {
-            System.out.println(chatRoomUserDTO.getUsername()+"    "+logIn.getUsername());
+
             if (chatRoomUserDTO.getUsername().equals(logIn.getUsername())) {
                 flag = true;
                 break;

@@ -160,9 +160,6 @@ public class CalendarController {
         String startDate = request.getParameter("modifyStartDate");
         String endDate = request.getParameter("modifyEndDate");
 
-        System.out.println("startDate = " + startDate);
-        System.out.println("endDate = " + endDate);
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime start = LocalDateTime.parse(startDate, formatter);
         LocalDateTime end = LocalDateTime.parse(endDate, formatter);

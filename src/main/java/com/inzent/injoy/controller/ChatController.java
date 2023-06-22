@@ -48,7 +48,6 @@ public class ChatController {
             chatRoomUserDTO.setUsername(userDTO.getUsername());
             chatRoomUserDTO.setName(userDTO.getName());
             chatRoomUserDTO.setProfilePhoto(userDTO.getProfilePhoto());
-            System.out.println("chatRoomUserDTO = " + chatRoomUserDTO);
             chatRoomUserService.insert(chatRoomUserDTO);
             List<ChatRoomUserDTO> chatRoomUserList = chatRoomUserService.selectChatRoomUserByChatRoomId(chatDTO.getChatRoomId());
             message.put("chatRoomUserList", chatRoomUserList);

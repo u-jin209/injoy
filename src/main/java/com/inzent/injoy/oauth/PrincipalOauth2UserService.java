@@ -36,9 +36,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
 
 		// code를 통해 구성한 정보
-		System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration());
+		//System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration());
 		// token을 통해 응답받은 회원정보
-		System.out.println("oAuth2User : " + oAuth2User);
+		//System.out.println("oAuth2User : " + oAuth2User);
 	
 		return processOAuth2User(userRequest, oAuth2User);
 	}
@@ -67,10 +67,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
 		LocalDateTime now = LocalDateTime.now();
 		OAuth2UserInfo oAuth2UserInfo = null;
-		System.out.println(userRequest);
-		System.out.println(userRequest.getClientRegistration().getRegistrationId());
+		//System.out.println(userRequest);
+		//System.out.println(userRequest.getClientRegistration().getRegistrationId());
 		if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-			System.out.println("구글 로그인 요청");
+			//System.out.println("구글 로그인 요청");
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 		}
 //		else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
@@ -78,11 +78,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //			System.out.println(oAuth2User.getAttributes());
 //		}
 		else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
-			System.out.println("네이버 로그인 요청");
-			System.out.println(oAuth2User.getAttributes());
+			//System.out.println("네이버 로그인 요청");
+			//System.out.println(oAuth2User.getAttributes());
 			oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
 		} else {
-			System.out.println("구글과 네이버만 지원");
+			//System.out.println("구글과 네이버만 지원");
 		}
 
 		Optional<UserDTO> userOptional = findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());

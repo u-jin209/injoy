@@ -57,7 +57,7 @@ public class ProjectService {
 
     public ProjectDTO searchInviteCode(Map<String, Object> map) {
 
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ session = " + session.selectList(NAMESPACE+".searchInviteCode",map));
+        //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ session = " + session.selectList(NAMESPACE+".searchInviteCode",map));
         return session.selectOne(NAMESPACE+".searchInviteCode",map);
     }
 

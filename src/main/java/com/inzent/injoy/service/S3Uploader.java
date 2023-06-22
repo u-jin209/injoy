@@ -70,9 +70,9 @@ public class S3Uploader {
 
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
-            System.out.println("파일이 삭제되었습니다.");
+            //System.out.println("파일이 삭제되었습니다.");
         }else {
-            System.out.println("파일이 삭제되지 않았습니다.");
+            //System.out.println("파일이 삭제되지 않았습니다.");
         }
     }
 
@@ -92,7 +92,7 @@ public class S3Uploader {
 
         String storedFileUrl = null;
 
-        System.out.println("uploadFile/"+f.getUniqueName() + f.getFileExtension());
+        //System.out.println("uploadFile/"+f.getUniqueName() + f.getFileExtension());
 
         try {
             storedFileUrl = java.net.URLDecoder.decode("uploadFile/"+f.getUniqueName() + f.getFileExtension(), StandardCharsets.UTF_8.name());
@@ -104,9 +104,9 @@ public class S3Uploader {
         S3ObjectInputStream objectInputStream = o.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(objectInputStream);
 
-        System.out.println(storedFileUrl);
+        //System.out.println(storedFileUrl);
 //        String fileName = URLEncoder.encode(storedFileUrl, "UTF-8").replaceAll("\\+", "%20");
-        System.out.println("!$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$fileName = " + storedFileUrl);
+        //System.out.println("!$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$fileName = " + storedFileUrl);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.parseMediaType(o.getObjectMetadata().getContentType()));
         httpHeaders.setContentLength(o.getObjectMetadata().getContentLength());

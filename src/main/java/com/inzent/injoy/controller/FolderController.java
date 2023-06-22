@@ -60,8 +60,7 @@ public class FolderController {
     @ResponseBody
     @GetMapping("update")
     public String update(String root, String folder ) {
-        System.out.println("root = " + root);
-        System.out.println("folder = " + folder);
+
         Map<String, Object> map = new HashMap<>();
 
         for (String num : folder.split(",")) {
@@ -81,7 +80,7 @@ public class FolderController {
         map.put("folderRoot",folderRoot);
         map.put("projectId", projectId);
 
-        System.out.println("folderService.selectAll(map) : "+ folderService.selectAll(map));
+        //System.out.println("folderService.selectAll(map) : "+ folderService.selectAll(map));
 
         return  folderService.selectAll(map);
     }

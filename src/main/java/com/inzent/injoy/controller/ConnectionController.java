@@ -33,7 +33,7 @@ public class ConnectionController {
             userService.updateConversation(userDTO);
         }
         String loginConversation = userService.findConversation(userDTO.getId());
-        System.out.println("loginConversation = " + loginConversation);
+
         headerAccessor.getSessionAttributes().put("id", userDTO.getId());
         if (loginConversation.equals("available")) {
             logInUsers.add(userDTO.getId());
@@ -49,7 +49,7 @@ public class ConnectionController {
             userService.updateConversation(userDTO);
         }
         String loginConversation = userService.findConversation(userDTO.getId());
-        System.out.println("loginConversation = " + loginConversation);
+
         headerAccessor.getSessionAttributes().put("id", userDTO.getId());
         if (loginConversation.equals("available")) {
             logInUsers.add(userDTO.getId());

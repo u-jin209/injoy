@@ -74,19 +74,14 @@ public class FileController {
 
         }
 
-        System.out.println("projectId +: " + projectId);
-        System.out.println("folderRoot +: " + folderRoot);
-        System.out.println("folderName +: " + folderName);
         FolderDTO folder = folderService.selectFolder(map);
         int folderId = folder.getFolderId();
 
         String fileRealName = file.getOriginalFilename();
 
         BigDecimal roundedValue = new BigDecimal(file.getSize() / 1024.0).setScale(2, RoundingMode.HALF_UP);
-        System.out.println("filegetSize roundedValue : " + roundedValue);
 
 
-        System.out.println("fileRealName : " + fileRealName);
 
 
         FileDTO fileDTO = new FileDTO();
@@ -113,7 +108,6 @@ public class FileController {
 
             String path = s3Upload.upload(saveFile, "uploadFile");
 
-            System.out.println("filePath = " + path.substring(path.lastIndexOf("/%2F") + 4));
 
 
             fileDTO.setFileRealPath(path);
@@ -222,8 +216,7 @@ public class FileController {
     @GetMapping("update")
     public String update(String root, String file, Integer projectId) {
 
-        System.out.println("root = " + root);
-        System.out.println("file = " + file);
+
 
 
         Map<String, Object> map = new HashMap<>();
@@ -239,7 +232,7 @@ public class FileController {
                 map.put("root", root);
             }
 
-            System.out.println("Fileupdate map = " + map);
+
             fileService.update(map);
         }
         return "redirect:/project/myProject";
@@ -277,10 +270,10 @@ public class FileController {
 
             fileList.add(fileService.selectOne(Integer.parseInt(id)));
 
-            System.out.println("fileService.selectOne(Integer.parseInt(id) : " + fileService.selectOne(Integer.parseInt(id)));
+
         }
 
-        System.out.println("fileList = " + fileList);
+
 
 
 
@@ -296,7 +289,7 @@ public class FileController {
         String savePath = System.getProperty("user.home") + "\\Downloads\\";
 //        String file = java.net.URLDecoder.decode(amazonS3Client.getUrl(bucket, "uploadFile/" + f.getUniqueName() + f.getFileExtension()).toString(), StandardCharsets.UTF_8.name());
 
-        System.out.println("savePath = " + savePath);
+
 
 //        Path filePath = Paths.get(f.getFileRealPath());
 //        Path filePath = Paths.get(new URI(f.getFileRealPath()));

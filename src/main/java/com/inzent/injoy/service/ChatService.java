@@ -29,7 +29,7 @@ public class ChatService {
 
     public List<ChatDTO> selectChat(String chatRoomId,int userId) {
         Timestamp time = findEnterTime(userId);
-        System.out.println("time = " + time);;
+        //System.out.println("time = " + time);;
         Map<String, Object> params = new HashMap<>();
         params.put("time", time);
         params.put("chatRoomId", chatRoomId);
@@ -37,7 +37,7 @@ public class ChatService {
     }
 
     public Timestamp findEnterTime(int userId){
-        System.out.println("session.selectOne(NAMESPACE+\".findEnterTime\",userId) = " + session.selectOne(NAMESPACE+".findEnterTime",userId));
+        //System.out.println("session.selectOne(NAMESPACE+\".findEnterTime\",userId) = " + session.selectOne(NAMESPACE+".findEnterTime",userId));
         return session.selectOne(NAMESPACE+".findEnterTime",userId);
     }
     public void insert(ChatDTO chatDTO){

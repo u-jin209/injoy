@@ -49,7 +49,7 @@ public class CalendarService {
 
 
     public void update(CalendarDTO c) {
-        System.out.println("만약 = " + c);
+
         session.update(NAMESPACE + ".update", c);
     }
 }

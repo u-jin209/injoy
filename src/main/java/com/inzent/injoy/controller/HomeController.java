@@ -82,7 +82,7 @@ public class HomeController {
 //      <  addMember에 들어가는 파라미터값들  >
         model.addAttribute("project", projectService.selectProject(map));
         model.addAttribute("memberList", memberService.selectMember(projectId));
-        System.out.println("----------------------------"+memberService.selectMember(projectId)+"--------------------------------------");
+        //System.out.println("----------------------------"+memberService.selectMember(projectId)+"--------------------------------------");
         model.addAttribute("waitList", memberService.selectWaitMember(projectId));
         model.addAttribute("inviteList", memberService.selectInviteMember(projectId));
 
@@ -147,13 +147,13 @@ public class HomeController {
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal UserCustomDetails principal) {
-        System.out.println("Principal : " + principal);
-        System.out.println("OAuth2 : "+principal.getUserDTO().getProvider());
+        //System.out.println("Principal : " + principal);
+        //System.out.println("OAuth2 : "+principal.getUserDTO().getProvider());
         // iterator 순차 출력 해보기
         Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
         while (iter.hasNext()) {
             GrantedAuthority auth = iter.next();
-            System.out.println(auth.getAuthority());
+
         }
         return "유저 페이지입니다.";
     }

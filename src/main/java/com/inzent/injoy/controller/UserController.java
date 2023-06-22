@@ -136,9 +136,9 @@ public class UserController {
     @GetMapping("reMail")
     public String reMail(HttpServletRequest req, Model model) throws Exception {
         String email = req.getParameter("email");
-        System.out.println("email = " + email);
+        //System.out.println("email = " + email);
         String code = emailVerifyService.sendSimpleMessage(email);
-        System.out.println("code = " + code);
+        //System.out.println("code = " + code);
         model.addAttribute("email", email);
         model.addAttribute("code", code);
         model.addAttribute("script", "<script>swal.fire({text:'이메일로 인증번호를 발송했습니다.',confirmButtonText:'확인',confirmButtonColor:'#3085d6'})</script>");
@@ -156,7 +156,7 @@ public class UserController {
     @PostMapping("passwordFind")
     public String passwordFind(@RequestParam String email, Model model) throws Exception {
         UserDTO userDTO = userService.findByUsername(email);
-        System.out.println(userDTO);
+        //System.out.println(userDTO);
         if (userDTO != null) {
             String newPwd = passwordFindService.sendSimpleMessage(email);
             userService.updatePassword(userDTO, newPwd);
@@ -191,7 +191,7 @@ public class UserController {
                              HttpServletRequest request) throws IOException {
 
 
-        System.out.println("!######################################################################profilePhoto : "+ profilePhoto);
+        //System.out.println("!######################################################################profilePhoto : "+ profilePhoto);
 
         UserDTO origin = login.getUserDTO();
         origin.setName(userDTO.getName());
@@ -202,7 +202,7 @@ public class UserController {
 
         String fileRealName = profilePhoto.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
 
-        System.out.println("fileRealName : "+ fileRealName);
+        //System.out.println("fileRealName : "+ fileRealName);
         if (fileRealName.length() !=0){
             //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
