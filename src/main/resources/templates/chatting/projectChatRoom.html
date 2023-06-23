@@ -181,6 +181,10 @@
 
     }
 
+    function onError(error) {
+        console.log('Could not connect to WebSocket server.')
+    }
+
 
     function sendMessage(event) {
         let messageContent = textarea.value.trim();
