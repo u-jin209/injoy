@@ -1,7 +1,5 @@
 package com.inzent.injoy.controller;
-import com.google.cloud.translate.Translate;
-import com.google.cloud.translate.TranslateOptions;
-import com.google.cloud.translate.Translation;
+import com.google.cloud.translate.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,15 +55,22 @@ public class TranslationController {
 
         // Translate text from English to Spanish
         String text = rawText;
+        Detection detection = translate.detect(text);
+
+        // Get the detected language
+        String detectedLanguage = detection.getLanguage();
 //        Translation translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("en"),
 //                Translate.TranslateOption.targetLanguage("ko"));
         Translation translation = null;
         if (Objects.equals(value, "en")){
-            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("ko"),
+            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage(detectedLanguage),
                     Translate.TranslateOption.targetLanguage("en"));
         } else if (Objects.equals(value, "ko")){
-            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("en"),
+            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage(detectedLanguage),
                     Translate.TranslateOption.targetLanguage("ko"));
+        } else if (Objects.equals(value, "ar")){
+            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage(detectedLanguage),
+                    Translate.TranslateOption.targetLanguage("ar"));
         }
 
 //        System.out.println("Source text: " + translation.getOriginalText());
