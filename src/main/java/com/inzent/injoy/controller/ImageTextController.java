@@ -1,5 +1,9 @@
 package com.inzent.injoy.controller;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+import jakarta.servlet.http.HttpServletRequest;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +15,16 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 public class ImageTextController {
@@ -45,4 +57,6 @@ public class ImageTextController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("텍스트 추출 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
+
+
 }
