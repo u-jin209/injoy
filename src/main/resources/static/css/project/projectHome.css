@@ -515,6 +515,7 @@ ul, li, span{
 
 .comment-thumbnail {
     width: 40px;
+    margin-top: 5px;
 }
 
 .comment-container.on {
@@ -673,3 +674,19 @@ ul, li, span{
     object-fit: cover;
 }
 
+select option[value=""][disabled] {
+    display: none;
+}
+
+#translation-home{
+    width: 100px;
+    display: flex;
+    justify-content: end;
+}
+
+.comment-text-area{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    padding-left: 10px;
+}

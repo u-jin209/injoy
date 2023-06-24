@@ -40,6 +40,39 @@ $(document).ready(function () {
     boardImg()
     TaskImg()
 
+
+    $('.commentInput').each(function () {
+        const speech = new webkitSpeechRecognition;
+
+        $(this).parent().find("#home-comment-recStart").click(() => {
+            console.log('rec start')
+            speech.start();
+            $(this).parent().find("#home-comment-recStart").css('display','none')
+            $(this).parent().find('#home-comment-recStop').css('display', 'block')
+        });
+
+        $(this).parent().find("#home-comment-recStop").click(() => {
+            speech.stop();
+            $(this).parent().find("#home-comment-recStop").css('display','none')
+            $(this).parent().find('#home-comment-recStart').css('display', 'block')
+            speech.addEventListener("result", (event) => {
+                console.log(event);
+                const {transcript} = event["results"][0][0];
+                console.log(transcript);
+                $(this).parent().find('.commentInput').val(transcript)
+            });
+        });
+    })
+
+    if (!("webkitSpeechRecognition") in window) {
+        alert("Connect in Chrome Browser");
+    } else {
+
+
+
+
+
+    }
 })
 
 function set_priority() {
@@ -695,6 +728,11 @@ function limitBComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].bComment + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                                     "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -728,6 +766,12 @@ function limitBComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].bComment + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
+
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                                     "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -904,6 +948,12 @@ function limitTComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
+
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                                     "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -937,6 +987,12 @@ function limitTComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].tComment + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
+
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                                     "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -1337,6 +1393,12 @@ function limitCComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].calComContent + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
+
                                     "                                        </div>\n" +
                                     "                                    </div>\n" +
                                     "                                </div>\n" +
@@ -1368,6 +1430,12 @@ function limitCComment() {
                                     "                                    <div class=\"comment-content\">\n" +
                                     "                                        <div class=\"comment-text-area\">\n" +
                                     "                                            <div class=\"js-remark-text comment-text\">" + result[i].calComContent + "</div>\n" +
+                                    "                                             <select id='translation-home' class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">\n" +
+                                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                                    "                                                   <option value=\"1\">English</option>\n" +
+                                    "                                                   <option value=\"2\">korean</option>\n" +
+                                    "                                            </select>\n" +
+
                                     "                                        </div>\n" +
                                     "                                    </div>\n" +
                                     "                                </div>\n" +
