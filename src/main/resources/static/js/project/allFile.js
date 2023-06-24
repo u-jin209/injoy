@@ -1,4 +1,5 @@
 
+
 window.onload = function (){
     printAllFile()
 }
@@ -129,10 +130,11 @@ function  downloadFile(){
 
                     let element = document.createElement('a');
 
+
                     element.setAttribute('id','downFile')
                     element.setAttribute('href', response.fileRealPath);
-                    element.setAttribute('download', response.fileName + response.fileExtension);
-
+                    element.download= response.fileName + response.fileExtension;
+                    element.setAttribute("target","_self")
                     document.body.appendChild(element);
 
                     fnSleep(1000);

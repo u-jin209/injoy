@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<text>
+  "음성 인식 api/lib를 통한 음성을 Text로 변형, 제 2가공으로 처리하는 프로그램을 작성"<br>
+  "Voice > Text > another Languagee"
+</text>
+<br>
+<button id="rcdStart" >Record</button>
+<button id="rcdStop">Stop</button>
+<input type="text" id="resultList" value="undefined" size="80"/>
+
+
+<h1>Speech synthesizer</h1>
+
+<p>
+  Enter some text in the input below and press return to hear it. change voices
+  using the dropdown menu.
+</p>
+
+<form>
+  <input type="text" class="txt" />
+  <div>
+    <label for="rate">Rate</label
+    ><input type="range" min="0.5" max="2" value="1" step="0.1" id="rate" />
+    <div class="rate-value">1</div>
+    <div class="clearfix"></div>
+  </div>
+  <div>
+    <label for="pitch">Pitch</label
+    ><input type="range" min="0" max="2" value="1" step="0.1" id="pitch" />
+    <div class="pitch-value">1</div>
+    <div class="clearfix"></div>
+  </div>
+  <select></select>
+</form>
+
+</body>
+
+<script>
+  if(!("webkitSpeechRecognition") in window){
+    alert("Connect in Chrome Browser");
+  }else{
+    const speech = new webkitSpeechRecognition;
+
+    document.getElementById("rcdStart").addEventListener("click",()=>{
+      speech.start();
+    });
+    document.getElementById("rcdStop").addEventListener("click",()=>{
+      speech.stop();
+    });
+
+    speech.addEventListener("result", (event)=>{
+      console.log(event);
+      const { transcript } = event["results"][0][0];
+      console.log(transcript);
+      resultListView(transcript);
+    });
+
+    function resultListView(transcript){
+      document.getElementById("resultList").value = transcript;
+    }
+
+  }
+  const synth = window.speechSynthesis;
+
+  const inputForm = document.querySelector("form");
+  const inputTxt = document.querySelector(".txt");
+  const voiceSelect = document.querySelector("select");
+
+  const pitch = document.querySelector("#pitch");
+  const pitchValue = document.querySelector(".pitch-value");
+  const rate = document.querySelector("#rate");
+  const rateValue = document.querySelector(".rate-value");
+
+  let voices = [];
+
+  function populateVoiceList() {
+    voices = synth.getVoices();
+
+    for (const voice of voices) {
+      const option = document.createElement("option");
+      option.textContent = `${voice.name} (${voice.lang})`;
+
+      if (voice.default) {
+        option.textContent += " — DEFAULT";
+      }
+
+      option.setAttribute("data-lang", voice.lang);
+      option.setAttribute("data-name", voice.name);
+      voiceSelect.appendChild(option);
+    }
+  }
+  populateVoiceList();
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+  inputForm.onsubmit = (event) => {
+    event.preventDefault();
+
+    const utterThis = new SpeechSynthesisUtterance(inputTxt.value);
+    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    for (const voice of voices) {
+      if (voice.name === selectedOption) {
+        utterThis.voice = voice;
+      }
+    }
+    utterThis.pitch = pitch.value;
+    utterThis.rate = rate.value;
+    synth.speak(utterThis);
+
+    utterThis.onpause = (event) => {
+      const char = event.utterance.text.charAt(event.charIndex);
+      console.log(
+              `Speech paused at character ${event.charIndex} of "${event.utterance.text}", which is "${char}".`
+      );
+    };
+    inputTxt.blur();
+  }
+
+  pitch.onchange = () => {
+    pitchValue.textContent = pitch.value;
+  };
+
+  rate.onchange = () => {
+    rateValue.textContent = rate.value;
+  };
+
+</script>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>이미지 텍스트 추출</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<h1>이미지 텍스트 추출</h1>
+
+<input type="file" id="imageFile" accept="image/*">
+<button id="extractButton">텍스트 추출</button>
+
+<div id="resultContainer"></div>
+
+<script>
+  $(document).ready(function() {
+    // "텍스트 추출" 버튼 클릭 이벤트 처리
+    $("#extractButton").click(function() {
+      // 이미지 파일 선택 여부 확인
+      var fileInput = document.getElementById("imageFile");
+      if (fileInput.files.length === 0) {
+        alert("이미지 파일을 선택하세요.");
+        return;
+      }
+
+      // FormData 생성
+      var formData = new FormData();
+      formData.append("image", fileInput.files[0]);
+
+      // 텍스트 추출 요청
+      $.ajax({
+        url: "/extract-text",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          // 추출된 텍스트를 결과 컨테이너에 표시
+          $("#resultContainer").text(response);
+        },
+        error: function(xhr, status, error) {
+          alert("텍스트 추출 중 오류가 발생했습니다: " + error);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

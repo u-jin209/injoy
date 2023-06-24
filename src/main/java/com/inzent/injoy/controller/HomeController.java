@@ -57,10 +57,10 @@ public class HomeController {
         response.sendRedirect("/project/myProject");
     }
 
-    @GetMapping("/imgTest")
+    @GetMapping("/translation")
     public String imgTest(Model model){
 
-        return "user/imgTest";
+        return "translation/translateMain";
     }
 
 
