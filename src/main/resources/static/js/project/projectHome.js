@@ -1038,7 +1038,7 @@ function limitTComment() {
                             commentWriterMenu.hide();
                         }
                     });
-                    $('.show-comment').each(function () {
+                    $('.comment-content').each(function () {
                         let selectElement = $(this).find('#translation-home');
                         selectElement.on('change', function () {
                             let selectedValue = selectElement.val();
@@ -1063,6 +1063,7 @@ function limitTComment() {
                             });
                         });
                     });
+
 
                 }
             })
@@ -1505,8 +1506,8 @@ function limitCComment() {
                             commentWriterMenu.hide();
                         }
                     });
-                    $('#commentGroup-calendar').each(function () {
-                        let selectElement = $(this).find('.comment-li').find('#translation-home');
+                    $('.comment-content').each(function () {
+                        let selectElement = $(this).find('#translation-home');
                         selectElement.on('change', function () {
                             let selectedValue = selectElement.val();
                             console.log(selectedValue);
