@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <title>Document</title>
 </head>
 <body>
@@ -14,6 +16,7 @@
 <br>
 <button id="rcdStart" >Record</button>
 <button id="rcdStop">Stop</button>
+
 <input type="text" id="resultList" value="undefined" size="80"/>
 
 
@@ -24,8 +27,9 @@
   using the dropdown menu.
 </p>
 
-<form>
-  <input type="text" class="txt" />
+<form id="speechForm">
+  <input type="text" class="txt" id="speakingTextInput"/>
+  <button>듣기</button>
   <div>
     <label for="rate">Rate</label
     ><input type="range" min="0.5" max="2" value="1" step="0.1" id="rate" />
@@ -38,7 +42,8 @@
     <div class="pitch-value">1</div>
     <div class="clearfix"></div>
   </div>
-  <select></select>
+  <select ></select>
+
 </form>
 
 </body>
@@ -54,7 +59,39 @@
     });
     document.getElementById("rcdStop").addEventListener("click",()=>{
       speech.stop();
+      method(document.getElementById("resultList").value);
+      console.log("결과 : " + document.getElementById("resultList").value);
+
+
+
+
     });
+
+    function method(text) {
+      var dataaa = { "text" : text};
+      console.log("dataaa : " + dataaa.text);
+      $.ajax({
+        url: "/translateText",
+        type: "POST",
+        data: dataaa,
+        success: function(response) {
+            console.log("결과 : " + response.resultText);
+            let resultInput =  document.getElementById('speakingTextInput')
+            resultInput.value = response.resultText;
+          const selectElement = document.querySelector("select");
+          const targetOption = document.querySelector('option[data-lang="en-US"]');
+          targetOption.selected = true;
+
+
+
+
+
+        },
+        error: function(xhr, status, error) {
+          alert("텍스트 추출 중 오류가 발생했습니다: " + error + " " + xhr + " " + status);
+        }
+      });
+    }
 
     speech.addEventListener("result", (event)=>{
       console.log(event);
@@ -65,6 +102,7 @@
 
     function resultListView(transcript){
       document.getElementById("resultList").value = transcript;
+      console.log("transcript : " + transcript);
     }
 
   }
