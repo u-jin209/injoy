@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      th:fragment="projectVoiceContent(project, logIn,taskList)">
+
+
+<div class="document">
+    <div class="voice-wrap">
+
+        <button class="btn btn-green" style="display: inline-block;margin-bottom: 20px"
+                data-bs-toggle="modal" data-bs-target="#voiceModal">음성추가</button>
+
+    </div>
+
+
+    <div class="accordion" id="VoiceAccordion">
+
+    </div>
+
+
+
+
+
+</div>
+
+
+<!-- voice Modal -->
+<div class="modal fade" id="voiceModal" tabindex="-1" aria-labelledby="voiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="voiceModalLabel"> 음성 추가 </h1>
+                <button type="button" class="btn-close" id="voiceModalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row contentText" style="margin-left: auto"> 제목 </div>
+                <div class="row" style="margin-top: 20px">
+
+                    <div class="col">
+
+                        <select class="form-select" id="voiceTitle" name="voiceTitle">
+
+                            <option th:each=" task : ${taskList}"
+                                    th:value="${task.taskTitle}"
+                                    th:text="${task.taskTitle}"></option>
+
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row contentText" style="margin-left: auto;margin-top: 20px"> 녹음하기 </div>
+                <div class="row" style="margin-top: 20px">
+
+                    <div class="col">
+                        <input type="text" class="form-control" style="background: none;" id="resultList"
+                               placeholder="녹음결과"/>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 20px;">
+
+                    <div class="col" style="text-align: center">
+                        <button id="rcdStart" class="btn" ><i class="fa-solid fa-lg fa-microphone " id="startIcon"></i></button>
+
+                        <button id="rcdStop" class="btn "><i class="fa-solid fa-square"></i></button>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-orange" onclick="addVoice()"> 추가 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,9 @@
+.voice-wrap{
+    padding: 10px 10px 5px 30px;
+    margin-bottom: 0;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: end;
+    -webkit-box-align: center;
+    align-items: center;
+}

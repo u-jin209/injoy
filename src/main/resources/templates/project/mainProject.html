@@ -30,6 +30,10 @@
            aria-controls="file-tab-pane" aria-selected="false">파일</a>
     </li>
     <li class="nav-item" role="presentation">
+        <a class="nav-link mainNav" id="voice-tab" data-bs-toggle="tab" data-bs-target="#voice-tab-pane"
+           aria-controls="voice-tab-pane" aria-selected="false">음성</a>
+    </li>
+    <li class="nav-item" role="presentation">
         <a class="nav-link mainNav" id="member-tab" data-bs-toggle="tab" data-bs-target="#member-tab-pane"
            aria-controls="member-tab-pane" aria-selected="false" th:text="${logIn.authority.equals('MANAGER') ? '멤버관리': '참여멤버'}">멤버관리</a>
     </li>
@@ -52,7 +56,10 @@
     <div class="tab-pane" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="4">
         <div th:replace="~{/project/projectFile :: projectFileContent(${project},${logIn})}"></div>
     </div>
-    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="5">
+    <div class="tab-pane" id="voice-tab-pane" role="tabpanel" aria-labelledby="voice-tab" tabindex="5">
+        <div th:replace="~{/translation/voice :: projectVoiceContent(${project},${logIn},${taskList})}"></div>
+    </div>
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="6">
         <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
 
     </div>
