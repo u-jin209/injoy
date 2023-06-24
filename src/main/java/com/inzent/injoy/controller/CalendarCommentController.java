@@ -41,6 +41,7 @@ public class CalendarCommentController {
         calCommentDTO.setCalComRegisterDateStr(now);
 
         calCommentDTO.setCalComUsername(username);
+        calCommentDTO.setProfilePhoto(userDTO.getProfilePhoto());
 
         calendarCommentService.insert(calCommentDTO);
 

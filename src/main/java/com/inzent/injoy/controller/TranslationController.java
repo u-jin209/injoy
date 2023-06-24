@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 import com.google.cloud.translate.Translate;
@@ -46,6 +47,7 @@ public class TranslationController {
         Map<String,Object> map = new HashMap<>();
         String rawText = request.getParameter("text");
         System.out.println("rawText = " + rawText);
+        String value = request.getParameter("lan");
 
         // Set your API key
         String apiKey = "AIzaSyDgXh3i1wbaAO9vIWwICMORiey17ulb_bw";
@@ -57,11 +59,17 @@ public class TranslationController {
         String text = rawText;
 //        Translation translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("en"),
 //                Translate.TranslateOption.targetLanguage("ko"));
-        Translation translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("ko"),
-                Translate.TranslateOption.targetLanguage("en"));
+        Translation translation = null;
+        if (Objects.equals(value, "en")){
+            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("ko"),
+                    Translate.TranslateOption.targetLanguage("en"));
+        } else if (Objects.equals(value, "ko")){
+            translation = translate.translate(text, Translate.TranslateOption.sourceLanguage("en"),
+                    Translate.TranslateOption.targetLanguage("ko"));
+        }
 
 //        System.out.println("Source text: " + translation.getOriginalText());
-        System.out.println("번역 Translated text: " + translation.getTranslatedText());
+        System.out.println("번역 Translated text: " + Objects.requireNonNull(translation).getTranslatedText());
 
         String resultText = translation.getTranslatedText();
         map.put("resultText", resultText);
