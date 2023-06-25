@@ -250,7 +250,13 @@ function showTaskText(result, clickComment) {
                             "                                    </div>\n" +
                             "                                    <div class=\"comment-content\">\n" +
                             "                                        <div class=\"comment-text-area\">\n" +
-                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
+                            "                                            <div class=\"js-remark-text comment-text-myComment\">" + comment[i].tComment + "</div>\n" +
+                            "                                             <select id='translation-myComment' class=\"form-select form-select-sm translation-myComment\" aria-label=\".form-select-sm example\" >\n" +
+                            "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                            "                                                   <option value=\"en\">English</option>\n" +
+                            "                                                   <option value=\"ko\">korean</option>\n" +
+                            "                                                   <option value=\"ar\">Aramaic</option>\n" +
+                            "                                            </select>\n" +
                             "                                        </div>\n" +
                             "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                             "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -278,6 +284,35 @@ function showTaskText(result, clickComment) {
                 if (commentText === clickComment) {
                     $(this).css('border', '3px solid red');
                 }
+            });
+            $('.show-comment-myComment').each(function () {
+                let commentContainer = $(this).find('.comment-container');
+                let selectElement = commentContainer.find('.translation-myComment');
+                selectElement.on('change', function () {
+                    let selectedValue = $(this).val();
+                    console.log(selectedValue);
+                    let commentText = $(this).siblings('.comment-text-myComment');
+                    let text = commentText.text();
+                    let formData = {
+                        "text": text,
+                        "lan": selectedValue
+                    };
+                    $.ajax({
+                        url: "/translateText",
+                        type: "POST",
+                        data: formData,
+                        success: function (response) {
+                            console.log("결과 : " + response.resultText);
+                            commentText.text(response.resultText);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: '선택한 언어와 현재 언어가 일치합니다.'
+                            })
+                        }
+                    });
+                });
             });
         }
     })
@@ -393,7 +428,13 @@ function showBoardText(result, clickComment) {
                             "                                    </div>\n" +
                             "                                    <div class=\"comment-content\">\n" +
                             "                                        <div class=\"comment-text-area\">\n" +
-                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].bComment + "</div>\n" +
+                            "                                            <div class=\"js-remark-text comment-text-myComment\">" + comment[i].bComment + "</div>\n" +
+                            "                                             <select id='translation-myComment' class=\"form-select form-select-sm translation-myComment\" aria-label=\".form-select-sm example\" >\n" +
+                            "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                            "                                                   <option value=\"en\">English</option>\n" +
+                            "                                                   <option value=\"ko\">korean</option>\n" +
+                            "                                                   <option value=\"ar\">Aramaic</option>\n" +
+                            "                                            </select>\n" +
                             "                                        </div>\n" +
                             "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                             "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -423,6 +464,36 @@ function showBoardText(result, clickComment) {
                 if (commentText === clickComment) {
                     $(this).css('border', '3px solid red');
                 }
+            });
+
+            $('.show-comment-myComment').each(function () {
+                let commentContainer = $(this).find('.comment-container');
+                let selectElement = commentContainer.find('.translation-myComment');
+                selectElement.on('change', function () {
+                    let selectedValue = $(this).val();
+                    console.log(selectedValue);
+                    let commentText = $(this).siblings('.comment-text-myComment');
+                    let text = commentText.text();
+                    let formData = {
+                        "text": text,
+                        "lan": selectedValue
+                    };
+                    $.ajax({
+                        url: "/translateText",
+                        type: "POST",
+                        data: formData,
+                        success: function (response) {
+                            console.log("결과 : " + response.resultText);
+                            commentText.text(response.resultText);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: '선택한 언어와 현재 언어가 일치합니다.'
+                            })
+                        }
+                    });
+                });
             });
 
         }
@@ -669,7 +740,13 @@ function showCalendarText(result, clickComment) {
                     "                                    </div>\n" +
                     "                                    <div class=\"comment-content\">\n" +
                     "                                        <div class=\"comment-text-area\">\n" +
-                    "                                            <div class=\"js-remark-text comment-text\">" + comment[i].calComContent + "</div>\n" +
+                    "                                            <div class=\"js-remark-text comment-text-myComment\">" + comment[i].calComContent + "</div>\n" +
+                    "                                             <select id='translation-myComment' class=\"form-select form-select-sm translation-myComment\" aria-label=\".form-select-sm example\" >\n" +
+                    "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                    "                                                   <option value=\"en\">English</option>\n" +
+                    "                                                   <option value=\"ko\">korean</option>\n" +
+                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
+                    "                                            </select>\n" +
                     "                                        </div>\n" +
                     "                                    </div>\n" +
                     "                                </div>\n" +
@@ -699,6 +776,36 @@ function showCalendarText(result, clickComment) {
                 if (commentText === clickComment) {
                     $(this).css('border', '3px solid red');
                 }
+            });
+
+            $('.show-comment-myComment').each(function () {
+                let commentContainer = $(this).find('.comment-container');
+                let selectElement = commentContainer.find('.translation-myComment');
+                selectElement.on('change', function () {
+                    let selectedValue = $(this).val();
+                    console.log(selectedValue);
+                    let commentText = $(this).siblings('.comment-text-myComment');
+                    let text = commentText.text();
+                    let formData = {
+                        "text": text,
+                        "lan": selectedValue
+                    };
+                    $.ajax({
+                        url: "/translateText",
+                        type: "POST",
+                        data: formData,
+                        success: function (response) {
+                            console.log("결과 : " + response.resultText);
+                            commentText.text(response.resultText);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: '선택한 언어와 현재 언어가 일치합니다.'
+                            })
+                        }
+                    });
+                });
             });
         }
     })

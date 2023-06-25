@@ -1133,7 +1133,6 @@ function showTaskDetail(result) {
                             "                                                   <option value=\"ko\">korean</option>\n" +
                             "                                                   <option value=\"ar\">Aramaic</option>\n" +
                             "                                            </select>\n" +
-
                             "                                        </div>\n" +
                             "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                             "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
