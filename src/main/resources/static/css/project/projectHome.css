@@ -678,7 +678,7 @@ select option[value=""][disabled] {
     display: none;
 }
 
-#translation-home{
+#translation-home, #translation-task, #translation-myText, #translation-myComment{
     width: 100px;
     display: flex;
     justify-content: end;

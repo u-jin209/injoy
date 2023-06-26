@@ -724,6 +724,7 @@ function limitBComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
@@ -762,8 +763,8 @@ function limitBComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
-
                                     "                                        </div>\n" +
                                     "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                                     "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -812,7 +813,10 @@ function limitBComment() {
                                     commentText.text(response.resultText);
                                 },
                                 error: function (xhr, status, error) {
-                                    alert("텍스트 추출 중 오류가 발생했습니다: " + error + " " + xhr + " " + status);
+                                    Swal.fire({
+                                        icon : 'warning',
+                                        text : '선택한 언어와 현재 언어가 일치합니다.'
+                                    })
                                 }
                             });
                         });
@@ -970,6 +974,7 @@ function limitTComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
 
                                     "                                        </div>\n" +
@@ -1009,6 +1014,7 @@ function limitTComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
 
                                     "                                        </div>\n" +
@@ -1038,7 +1044,7 @@ function limitTComment() {
                             commentWriterMenu.hide();
                         }
                     });
-                    $('.show-comment').each(function () {
+                    $('.comment-content').each(function () {
                         let selectElement = $(this).find('#translation-home');
                         selectElement.on('change', function () {
                             let selectedValue = selectElement.val();
@@ -1058,11 +1064,15 @@ function limitTComment() {
                                     commentText.text(response.resultText);
                                 },
                                 error: function (xhr, status, error) {
-                                    alert("텍스트 추출 중 오류가 발생했습니다: " + error + " " + xhr + " " + status);
+                                    Swal.fire({
+                                        icon : 'warning',
+                                        text:'선택한 언어와 현재 언어가 일치합니다.'
+                                    })
                                 }
                             });
                         });
                     });
+
 
                 }
             })
@@ -1441,6 +1451,7 @@ function limitCComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
 
                                     "                                        </div>\n" +
@@ -1478,6 +1489,7 @@ function limitCComment() {
                                     "                                                   <option value='' disabled selected>번역하기</option>\n" +
                                     "                                                   <option value=\"en\">English</option>\n" +
                                     "                                                   <option value=\"ko\">korean</option>\n" +
+                                    "                                                   <option value=\"ar\">Aramaic</option>\n" +
                                     "                                            </select>\n" +
 
                                     "                                        </div>\n" +
@@ -1505,8 +1517,8 @@ function limitCComment() {
                             commentWriterMenu.hide();
                         }
                     });
-                    $('#commentGroup-calendar').each(function () {
-                        let selectElement = $(this).find('.comment-li').find('#translation-home');
+                    $('.comment-content').each(function () {
+                        let selectElement = $(this).find('#translation-home');
                         selectElement.on('change', function () {
                             let selectedValue = selectElement.val();
                             console.log(selectedValue);
@@ -1525,7 +1537,10 @@ function limitCComment() {
                                     commentText.text(response.resultText);
                                 },
                                 error: function (xhr, status, error) {
-                                    alert("텍스트 추출 중 오류가 발생했습니다: " + error + " " + xhr + " " + status);
+                                    Swal.fire({
+                                        icon : 'warning',
+                                        text:'선택한 언어와 현재 언어가 일치합니다.'
+                                    })
                                 }
                             });
                         });

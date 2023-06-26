@@ -15,6 +15,29 @@ $(document).ready(function () {
 
     });
 
+    $('#task-commentInput').each(function () {
+        const speech = new webkitSpeechRecognition;
+
+        $(this).parent().find("#task-comment-recStart").click(() => {
+            console.log('rec start')
+            speech.start();
+            $(this).parent().find("#task-comment-recStart").css('display','none')
+            $(this).parent().find('#task-comment-recStop').css('display', 'block')
+        });
+
+        $(this).parent().find("#task-comment-recStop").click(() => {
+            speech.stop();
+            $(this).parent().find("#task-comment-recStop").css('display','none')
+            $(this).parent().find('#task-comment-recStart').css('display', 'block')
+            speech.addEventListener("result", (event) => {
+                console.log(event);
+                const {transcript} = event["results"][0][0];
+                console.log(transcript);
+                $(this).parent().find('.commentInput').val(transcript)
+            });
+        });
+    })
+
 
 })
 
@@ -1064,7 +1087,13 @@ function showTaskDetail(result) {
                             "                                    </div>\n" +
                             "                                    <div class=\"comment-content\">\n" +
                             "                                        <div class=\"comment-text-area\">\n" +
-                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
+                            "                                            <div class=\"js-remark-text comment-text-task\">" + comment[i].tComment + "</div>\n" +
+                            "                                             <select id='translation-task' class=\"form-select form-select-sm translation-task\" aria-label=\".form-select-sm example\" >\n" +
+                            "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                            "                                                   <option value=\"en\">English</option>\n" +
+                            "                                                   <option value=\"ko\">korean</option>\n" +
+                            "                                                   <option value=\"ar\">Aramaic</option>\n" +
+                            "                                            </select>\n" +
                             "                                        </div>\n" +
                             "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                             "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -1097,7 +1126,13 @@ function showTaskDetail(result) {
                             "                                    </div>\n" +
                             "                                    <div class=\"comment-content\">\n" +
                             "                                        <div class=\"comment-text-area\">\n" +
-                            "                                            <div class=\"js-remark-text comment-text\">" + comment[i].tComment + "</div>\n" +
+                            "                                            <div class=\"js-remark-text comment-text-task\">" + comment[i].tComment + "</div>\n" +
+                            "                                             <select id='translation-task' class=\"form-select form-select-sm translation-task\" aria-label=\".form-select-sm example\" >\n" +
+                            "                                                   <option value='' disabled selected>번역하기</option>\n" +
+                            "                                                   <option value=\"en\">English</option>\n" +
+                            "                                                   <option value=\"ko\">korean</option>\n" +
+                            "                                                   <option value=\"ar\">Aramaic</option>\n" +
+                            "                                            </select>\n" +
                             "                                        </div>\n" +
                             "                                        <ul class=\"js-remark-upload-file upload-document-group\"></ul>\n" +
                             "                                        <ul class=\"js-remark-upload-img comment-upload-img\"></ul>\n" +
@@ -1124,6 +1159,38 @@ function showTaskDetail(result) {
                     commentWriterMenu.hide();
                 }
             });
+            $('.show-comment-task').each(function () {
+                let commentContainer = $(this).find('.comment-container');
+                let selectElement = commentContainer.find('.translation-task');
+                selectElement.on('change', function () {
+                    let selectedValue = $(this).val();
+                    console.log(selectedValue);
+                    let commentText = $(this).siblings('.comment-text-task');
+                    let text = commentText.text();
+                    let formData = {
+                        "text": text,
+                        "lan": selectedValue
+                    };
+                    $.ajax({
+                        url: "/translateText",
+                        type: "POST",
+                        data: formData,
+                        success: function (response) {
+                            console.log("결과 : " + response.resultText);
+                            commentText.text(response.resultText);
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: '선택한 언어와 현재 언어가 일치합니다.'
+                            })
+                        }
+                    });
+                });
+            });
+
+
+
         }
     })
     TaskPageImg(result.taskId, result.projectId)
