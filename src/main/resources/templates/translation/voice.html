@@ -7,12 +7,15 @@
     <div class="voice-wrap">
 
         <button class="btn btn-green" style="display: inline-block;margin-bottom: 20px"
-                data-bs-toggle="modal" data-bs-target="#voiceModal">음성추가</button>
+                data-bs-toggle="modal" data-bs-target="#voiceModal"  th:unless="${#lists.isEmpty(taskList)}" >음성추가</button>
+
+        <button class="btn btn-green" style="display: inline-block;margin-bottom: 20px"
+                th:if="${#lists.isEmpty(taskList)}" onclick="emptyTask()" >음성추가</button>
 
     </div>
 
 
-    <div class="accordion" id="VoiceAccordion">
+    <div class="accordion" id="VoiceAccordion" style="overflow: hidden">
 
     </div>
 
@@ -32,7 +35,7 @@
                 <button type="button" class="btn-close" id="voiceModalClose" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row contentText" style="margin-left: auto"> 제목 </div>
+                <div class="row contentText" style="margin-left: auto"> 업무 </div>
                 <div class="row" style="margin-top: 20px">
 
                     <div class="col">
@@ -52,7 +55,7 @@
 
                     <div class="col">
                         <input type="text" class="form-control" style="background: none;" id="resultList"
-                               placeholder="녹음결과"/>
+                               placeholder="피드백내용"/>
                     </div>
 
                 </div>
@@ -70,7 +73,7 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-orange" onclick="addVoice()"> 추가 </button>
+                <button type="button" class="btn btn-orange"  th:onclick="addVoice()"> 추가 </button>
             </div>
         </div>
     </div>

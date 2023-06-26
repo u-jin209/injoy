@@ -31,33 +31,68 @@ if (!("webkitSpeechRecognition") in window) {
 
 }
 
+function emptyTask(){
+    Swal.fire({
+        title: "작성된 업무가 없습니다",
+        icon: "warning"
+    })
+}
+
+
 function addVoice() {
 
-    const voiceTitle = document.getElementById("voiceTitle").value.toString()
-    const resultList = document.getElementById("resultList").value.toString()
-
-    console.log("voiceTitle  : " + voiceTitle)
-    console.log("resultList  : " + resultList)
+    if(taskList.length !=0 ){
+        const voiceTitle = document.getElementById("voiceTitle").value.toString()
+        const resultList = document.getElementById("resultList").value.toString()
 
 
-    const urlParams = new URL(location.href);
-    const projectId = urlParams.pathname.split('/')[2];
+        const urlParams = new URL(location.href);
+        const projectId = urlParams.pathname.split('/')[2];
 
-    const data = {
-        "voiceTitle": voiceTitle,
-        "voiceText": resultList,
-        "projectId": projectId
-    }
-    $.ajax({
-        type: 'GET',
-        url: "/voice/insert",
-        data: data,
-        success: function (result) {
-            $("#voiceModalClose").click();
-            printVoiceList()
+        const data = {
+            "voiceTitle": voiceTitle,
+            "voiceText": resultList,
+            "projectId": projectId
+        }
+
+        if (voiceTitle != "" && resultList !="") {
+            $.ajax({
+                type: 'GET',
+                url: "/voice/insert",
+                data: data,
+                success: function (result) {
+                    $("#voiceModalClose").click();
+                    printVoiceList()
+
+                }
+            })
+
+        }else if(voiceTitle == ""){
+            Swal.fire({
+                title: "선택된 업무가 없습니다",
+                icon: "warning"
+            })
+
+        }else if(resultList == ""){
+            Swal.fire({
+                title: "피드백 내용이 없습니다",
+                icon: "warning"
+            })
 
         }
-    })
+
+
+
+
+    }else{
+        Swal.fire({
+            title : "등록된 업무가 없습니다!",
+            text :"업무 추가후 시도해 주세요",
+            icon : "warning",
+
+        })
+    }
+
 }
 function deleteVoice(value){
     const voiceId = value.name
@@ -101,23 +136,39 @@ function printVoiceList() {
 
 
                     $('#VoiceAccordion').append(
-                      "  <div class='accordion-item'>"+
-                            "<h2 class='accordion-header'>"+
-                                "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse'"+
-                                        "data-bs-target='#collapse"+item.voiceId+"' aria-expanded='false' aria-controls='collapse"+item.voiceId+"'>"+ item.voiceTitle+" 피드백" +"</button>"+
-                            "</h2>"+
-                            "<div id='collapse"+item.voiceId+"' class='accordion-collapse collapse ' data-bs-parent='#VoiceAccordion'>"+
+                        "  <div class='accordion-item'>" +
+                        "<h2 class='accordion-header'>" +
+                        "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse'" +
+                        "data-bs-target='#collapse" + item.voiceId + "' aria-expanded='false' aria-controls='collapse" + item.voiceId + "'>" + item.voiceTitle + " 피드백" + "</button>" +
+                        "</h2>" +
+                        "<div id='collapse" + item.voiceId + "' class='accordion-collapse collapse ' data-bs-parent='#VoiceAccordion'>" +
                         " <div class='accordion-body'>" +
-                        "<div class='row'><text>"+ item.voiceText +"</text></div>" +
-                                    "<div class='row' style='justify-content: end'><button type=\"button\" class=\"btn btn-orange\" style='width: 60px;' name='"+item.voiceId+"' onclick=\"deleteVoice(this)\"> 삭제 </button></div>"+
-                                "</div>"+
-                            "</div>"+
+                        " <div class=\"row contentText\" style=\"margin-left: auto;margin-top: 20px\"> 피드백 내용 </div>"+
+                        "<div class='row'><i style='margin-top: 20px' class=\"fa-solid fa-volume-high fa-lg\" id='feedBack" + item.voiceId + "' name='" + item.voiceText +"'></i></text></div>" +
+                        " <div class=\"row contentText\" style=\"margin-left: auto;margin-top: 20px\"> 피드백 번역 </div>"+
+                        "<div class='row'><div class='col-md-3'>"+
+                        " <select id='translation" + item.voiceId + "'  style='margin-top: 20px'  class=\"form-select form-select-sm\" aria-label=\".form-select-sm example\">" +
+                        "                                                   <option value='' disabled selected>번역하기</option>" +
+                        "                                                   <option value=\"1\">English</option>" +
+                        "                                                   <option value=\"2\">korean</option>" +
+                        "                                            </select></div></div>" +
+                        "<div class='row'><text style='margin-top: 20px'>" + item.voiceText + "</text></div>" +
+                        "<div class='row' style='justify-content: end'><button type=\"button\" class=\"btn btn-orange\" style='width: 60px;' name='" + item.voiceId + "' onclick=\"deleteVoice(this)\"> 삭제 </button></div>" +
+                        "</div>" +
+                        "</div>" +
                         "</div>"
                     )
 
 
                 })
+            }else{
+                $('#VoiceAccordion').append(
+                    "<div class='row' style='justify-content: center;margin-top: 100px'><img src='/img/warning.png' style='width:180px '/></div>"+
+                    "  <div class='row contentText' style='justify-content: center'> 비어있습니다 피드백을 남겨 주세요 </div>"
+                )
+
             }
+
         }
     })
 }
