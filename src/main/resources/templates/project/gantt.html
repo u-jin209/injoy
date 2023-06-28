@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<div th:fragment="ganttContent(project, taskList)">
+  <div class="container-fluid">
+    <div id="gantt-container" style="width: 1640px; height: 100vh"></div>
+  </div>
+  <script>
+    gantt.init('gantt-container')
+    let today = new Date()
+    gantt.parse({
+      data : [
+              {id: 1, text: '11111', start_date: today, duration : 8}
+              ]
+    })
+  </script>
+</div>

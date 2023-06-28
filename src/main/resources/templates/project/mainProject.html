@@ -18,6 +18,10 @@
            aria-controls="task-tab-pane" aria-selected="false">업무</a>
     </li>
     <li class="nav-item" role="presentation">
+        <a class="nav-link mainNav" id="gantt-tab" data-bs-toggle="tab" data-bs-target="#gantt-tab-pane"
+           aria-controls="gantt-tab-pane" aria-selected="false">간트차트</a>
+    </li>
+    <li class="nav-item" role="presentation">
         <a class="nav-link mainNav" id="kanban-tab" data-bs-toggle="tab" data-bs-target="#kanban-tab-pane"
            aria-controls="kanban-tab-pane" aria-selected="false">칸반보드</a>
     </li>
@@ -46,20 +50,23 @@
     <div class="tab-pane" id="task-tab-pane" role="tabpanel" aria-labelledby="task-tab" tabindex="1">
         <div th:replace="~{/project/taskPage :: taskContent(${project}, ${memberList}, ${taskList}, ${logIn})}"></div>
     </div>
-    <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="2">
+    <div class="tab-pane" id="gantt-tab-pane" role="tabpanel" aria-labelledby="gantt-tab" tabindex="2">
+        <div th:replace="~{/project/gantt :: ganttContent(${project}, ${taskList})}"></div>
+    </div>
+    <div class="tab-pane" id="kanban-tab-pane" role="tabpanel" aria-labelledby="kanban-tab" tabindex="3">
         <div th:replace="~{/project/kanban :: kanbanContent(${project}, ${taskList})}"></div>
     </div>
-    <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="3">
+    <div class="tab-pane" id="schedule-tab-pane" role="tabpanel" aria-labelledby="schedule-tab" tabindex="4">
         <div th:replace="~{/project/calendar :: calendarContent(${project}, ${logIn})}"></div>
 
     </div>
-    <div class="tab-pane" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="4">
+    <div class="tab-pane" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="5">
         <div th:replace="~{/project/projectFile :: projectFileContent(${project},${logIn})}"></div>
     </div>
-    <div class="tab-pane" id="voice-tab-pane" role="tabpanel" aria-labelledby="voice-tab" tabindex="5">
+    <div class="tab-pane" id="voice-tab-pane" role="tabpanel" aria-labelledby="voice-tab" tabindex="6">
         <div th:replace="~{/translation/voice :: projectVoiceContent(${project},${logIn},${taskList})}"></div>
     </div>
-    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="6">
+    <div class="tab-pane" id="member-tab-pane" role="tabpanel" aria-labelledby="member-tab" tabindex="7">
         <div th:replace="~{/project/addMember :: addMemberContent(${project}, ${memberList}, ${waitList},${logIn})}" ></div>
 
     </div>
