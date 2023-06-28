@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <div th:fragment="ganttContent(project, taskList)">
     <div class="container-fluid">
-        <div id="gantt-container" style="width: 1640px; height: 100vh"></div>
+        <div id="gantt-container" style="width: 1640px; height: 70vh"></div>
     </div>
     <script th:inline="javascript">
 
@@ -97,7 +97,45 @@
 
         });
 
+        gantt.attachEvent("onAfterTaskUpdate", function (id, item) {
+            // 작업이 수정될 때마다 호출되는 콜백 함수입니다.
+            // 여기에서 데이터베이스 변경 작업을 수행할 수 있습니다.
+            updateTaskInDatabase(id, item);
+        });
 
+
+        function updateTaskInDatabase(id, item){
+            console.log("id : "+ id)
+            console.log("itemend_date : "+ item.end_date)
+            console.log("item start_date: "+ item.start_date)
+
+
+            let formData = {
+                taskId: id,
+                startDate:  new Date(item.start_date).getFullYear()+"-"+(new Date(item.start_date).getMonth()+1)+"-" +new Date(item.start_date).getDate()
+            }
+            $.ajax({
+                url: '/task/updateStartDate',
+                type: 'post',
+                data: formData,
+                success: () => {
+
+                }
+            })
+            $.ajax({
+                url: '/task/updateEndDate',
+                type: 'post',
+                data: {
+                    taskId: id,
+                    endDate:  new Date(item.end_date).getFullYear()+"-"+(new Date(item.end_date).getMonth()+1) +"-" +new Date(item.end_date).getDate()
+                },
+                success: () => {
+
+                }
+            })
+
+
+        }
 
 
         gantt.init('gantt-container')
