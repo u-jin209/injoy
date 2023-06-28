@@ -28,12 +28,41 @@
 
             taskArray.push(jsonObject);
         }
+        gantt.attachEvent("onAfterTaskAdd", function(id, item) {
 
-        gantt.init('gantt-container')
-        let today = new Date()
-        gantt.parse({
-            data: taskArray
-        })
+            // 작업이 생성된 후에 실행할 코드
+            let description = item.text; // 작업 설명 가져오기
+            let startDate = item.start_date; // 시작 날짜 가져오기
+            let endDate = item.start_date; // 마감 날짜 가져오기
+
+            // 작업 데이터 전송
+            let data = {
+                taskTitle: description,
+                startDate: new Date(startDate),
+                process : '요청',
+                projectId : [[${project.projectId}]],
+                closingDate : new Date(endDate),
+                crtDate : new Date(),
+            };
+
+            console.log(data)
+            $.ajax({
+                url: '/task/taskPageWrite',
+                data: data,
+                type: 'post',
+                success: ((message) => {
+                    if (message === "success") {
+                        location.reload()
+                    } else {
+                        Swal.fire({
+                            "icon": "warning",
+                            "title": "업무 제목을 입력하세요"
+                        })
+                    }
+                })
+            })
+        });
+
 
         function colorChange(process) {
             if (process === '요청') {
@@ -48,6 +77,34 @@
                 return 'rgba(119,119,119)';
             }
         }
+
+        gantt.attachEvent("onAfterTaskDelete", function(taskId, task){
+            // 작업이 삭제된 후에 실행할 코드
+            let deletedTaskId = taskId; // 삭제된 작업의 ID 가져오기
+
+            let data = {
+                taskId: deletedTaskId,
+            };
+
+            $.ajax({
+                url: '/task/deleteTask',
+                type: 'post',
+                data: data,
+                success: () => {
+                    location.reload()
+                }
+            })
+
+        });
+
+
+
+
+        gantt.init('gantt-container')
+        let today = new Date()
+        gantt.parse({
+            data: taskArray
+        })
 
     </script>
 </div>
